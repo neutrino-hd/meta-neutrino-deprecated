@@ -9,3 +9,4 @@
  	AM_CONDITIONAL([ENABLE_]NAME, test x"$enable_[]Name" = xyes)
  	dnl
  	m4_popdef([NAME])dnl
+

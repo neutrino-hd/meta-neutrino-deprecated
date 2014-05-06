@@ -18,6 +18,11 @@ IMAGE_INSTALL += " \
 	e2fsprogs-tune2fs \
 	djmount \
 	autofs \
+	ushare \
+	udpxy \
+	xupnpd \
+	fbshot \
+	opkg \
 "
 
 # Tripledragon Kernel is too old for udev

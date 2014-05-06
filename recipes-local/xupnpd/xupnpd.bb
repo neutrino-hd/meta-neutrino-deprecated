@@ -8,11 +8,8 @@ DEPENDS += "lua5.2"
 SRCREV = "392"
 SRC_URI = "\
 	svn://tsdemuxer.googlecode.com/svn/trunk;protocol=http;module=xupnpd \
-	file://0001-ui-add-Neutrino-MP-config-controls.patch \
 	file://0002-ui_restart-fix-xupnpd-install-path.patch \
 	file://xupnpd.init \
-	file://xupnpd.lua \
-	file://xupnpd_neutrino-mp.lua \
 "
 
 PV = "0.0+svn${SRCREV}"
