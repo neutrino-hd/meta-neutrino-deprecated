@@ -1,0 +1,55 @@
+From 53d3d9e0059f30c249c9de617921e49e81bf8432 Mon Sep 17 00:00:00 2001
+From: Markus Volk <f_l_k@gmx.net>
+Date: Mon, 7 Apr 2014 18:28:31 +0200
+Subject: [PATCH 211/211] configure_fix
+Thanks to graugans at projekt-magpie for this Solution
+Signed-off-by: Markus Volk <f_l_k@gmx.net>
+---
+
+diff --git a/configure.ac b/configure.ac
+index 5367400..1e169e4 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -64,20 +64,20 @@ fi
+ 
+ TUXBOX_APPS_LIB_PKGCONFIG_CHECK(ID3TAG,libid3tag)
+ if test x"$ID3TAG_EXISTS" != xyes; then
+-	TUXBOX_APPS_LIB_PKGCONFIG(ID3TAG,id3tag)
++	TUXBOX_APPS_LIB_PKGCONFIG_CHECK(ID3TAG,id3tag)
+ fi
+ 
+ TUXBOX_APPS_LIB_PKGCONFIG_CHECK(MAD,libmad)
+ if test x"$MAD_EXISTS" != xyes; then
+-	TUXBOX_APPS_LIB_PKGCONFIG(MAD,mad)
++	TUXBOX_APPS_LIB_PKGCONFIG_CHECK(MAD,mad)
+ fi
+ 
+ TUXBOX_APPS_LIB_PKGCONFIG_CHECK(OGG,ogg)
+ if test -z "$OGG_CFLAGS" ; then
+-	TUXBOX_APPS_LIB_PKGCONFIG(OGG,ogg)
++	TUXBOX_APPS_LIB_PKGCONFIG_CHECK(OGG,ogg)
+ fi
+ else
+-TUXBOX_APPS_LIB_PKGCONFIG(SWRESAMPLE,libswresample)
++TUXBOX_APPS_LIB_PKGCONFIG_CHECK(SWRESAMPLE,libswresample)
+ fi
+ 
+ if test "$BOXTYPE" = "tripledragon"; then
+@@ -91,10 +91,10 @@ TUXBOX_APPS_LIB_CONFIG(CURL,curl-config)
+ TUXBOX_APPS_LIB_CONFIG(FREETYPE,freetype-config)
+ 
+ TUXBOX_APPS_LIB_PKGCONFIG(PNG,libpng)
+-TUXBOX_APPS_LIB_PKGCONFIG(AVFORMAT,libavformat)
+-TUXBOX_APPS_LIB_PKGCONFIG(AVCODEC,libavcodec)
+-TUXBOX_APPS_LIB_PKGCONFIG(AVUTIL,libavutil)
+-TUXBOX_APPS_LIB_PKGCONFIG(BLURAY,libbluray)
++TUXBOX_APPS_LIB_PKGCONFIG_CHECK(AVFORMAT,libavformat)
++TUXBOX_APPS_LIB_PKGCONFIG_CHECK(AVCODEC,libavcodec)
++TUXBOX_APPS_LIB_PKGCONFIG_CHECK(AVUTIL,libavutil)
++TUXBOX_APPS_LIB_PKGCONFIG_CHECK(BLURAY,libbluray)
+ 
+ #TUXBOX_APPS_LIB_PKGCONFIG(CONFIGFILE,tuxbox-configfile)
+ #TUXBOX_APPS_LIB_PKGCONFIG(CONNECTION,tuxbox-connection)
+-- 
+1.8.5.2
+

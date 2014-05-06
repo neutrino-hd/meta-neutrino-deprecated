@@ -1,0 +1,14 @@
+libpng somewhen seems to have dropped the implicit include of zlib.h
+
+diff --git a/fbshot.c b/fbshot.c
+index 17edc42..d1ec98c 100644
+--- a/fbshot.c
++++ b/fbshot.c
+@@ -46,6 +46,7 @@
+ 
+ #include <sys/vt.h>
+ #include <png.h>
++#include <zlib.h>
+ #include <linux/fb.h> 
+ 
+ #define DEFAULT_FB      "/dev/fb0"

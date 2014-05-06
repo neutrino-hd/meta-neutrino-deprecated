@@ -1,0 +1,52 @@
+--- a/scripts/ushare	2007-12-09 14:03:36.000000000 +0100
++++ b/scripts/ushare	2013-12-02 00:15:58.792775726 +0100
+@@ -27,7 +27,7 @@
+ [ -x $DAEMON ] || exit 0
+ 
+ # Get lsb functions
+-. /lib/lsb/init-functions
++#. /lib/lsb/init-functions
+ . /etc/default/rcS
+ 
+ [ -f /etc/default/ushare ] && . /etc/default/ushare
+@@ -46,27 +46,23 @@
+ 
+ case "$1" in
+   start)
+-    log_daemon_msg "Starting $DESC: $NAME"
++    echo "Starting $DESC: $NAME"
+     if ! $(check_shares); then
+-      log_warning_msg "No shares avalaible ..."
+-      log_end_msg 0
++      echo "No shares avalaible ..."
+     else
+       checkpid
+       start-stop-daemon --start --quiet --background --oknodo \
+         --make-pidfile --pidfile $PIDFILE \
+         --exec $DAEMON -- $USHARE_OPTIONS
+-      log_end_msg $?
+     fi
+   ;;
+   stop)
+-    log_daemon_msg "Stopping $DESC: $NAME"
++    echo "Stopping $DESC: $NAME"
+     start-stop-daemon --stop --signal 2 --quiet --oknodo --pidfile $PIDFILE
+-    log_end_msg $?
+   ;;
+   reload|force-reload)
+-    log_daemon_msg "Reloading $DESC: $NAME"
++    echo "Reloading $DESC: $NAME"
+     start-stop-daemon --stop --signal 1 --quiet --oknodo --pidfile $PIDFILE --exec $DAEMON
+-    log_end_msg $?
+   ;;
+   restart)
+     $0 stop
+@@ -74,7 +70,7 @@
+   ;;
+   *)
+     N=/etc/init.d/$NAME
+-    log_success_msg "Usage: $N {start|stop|restart|reload|force-reload}"
++    echo "Usage: $N {start|stop|restart|reload|force-reload}"
+     exit 1
+   ;;
+ esac

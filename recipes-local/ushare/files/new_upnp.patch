@@ -1,0 +1,52 @@
+diff --git a/src/ushare.c b/src/ushare.c
+index 231409b..3a94fd7 100644
+--- a/src/ushare.c
++++ b/src/ushare.c
+@@ -28,6 +28,8 @@
+ #include <errno.h>
+ #include <getopt.h>
+ 
++#include <arpa/inet.h>
++
+ #if (defined(BSD) || defined(__FreeBSD__) || defined(__APPLE__))
+ #include <sys/socket.h>
+ #include <sys/sysctl.h>
+@@ -182,13 +184,23 @@ ushare_signal_exit (void)
+   pthread_mutex_unlock (&ut->termination_mutex);
+ }
+ 
++static const void *get_address_ptr(struct sockaddr *sa)
++{
++  switch (sa->sa_family) {
++  case AF_INET:
++    return &(((struct sockaddr_in*)sa)->sin_addr);
++  case AF_INET6:
++    return &(((struct sockaddr_in6*)sa)->sin6_addr);
++  }
++  return NULL;
++}
++
+ static void
+ handle_action_request (struct Upnp_Action_Request *request)
+ {
+   struct service_t *service;
+   struct service_action_t *action;
+   char val[256];
+-  uint32_t ip;
+ 
+   if (!request || !ut)
+     return;
+@@ -199,10 +211,9 @@ handle_action_request (struct Upnp_Action_Request *request)
+   if (strcmp (request->DevUDN + 5, ut->udn))
+     return;
+ 
+-  ip = request->CtrlPtIPAddr.s_addr;
+-  ip = ntohl (ip);
+-  sprintf (val, "%d.%d.%d.%d",
+-           (ip >> 24) & 0xFF, (ip >> 16) & 0xFF, (ip >> 8) & 0xFF, ip & 0xFF);
++  inet_ntop(request->CtrlPtIPAddr.ss_family,
++      get_address_ptr((struct sockaddr *)&request->CtrlPtIPAddr), val,
++      sizeof(val));
+ 
+   if (ut->verbose)
+   {
