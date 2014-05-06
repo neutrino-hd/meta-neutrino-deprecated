@@ -54,7 +54,6 @@ case $1 in
 		;;
 	start_neutrino)
 		start_neutrino &
-		echo "nameserver 192.168.2.1" > /etc/resolv.conf
 		;;
 	stop)
 		start-stop-daemon -K -q -s TERM -p /var/run/neutrino.pid -x neutrino || exit 0
