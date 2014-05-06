@@ -48,7 +48,6 @@ SRC_URI = " \
 	file://COPYING.GPL \
 	file://0001-configure_fix.patch \
 	file://0002-Y_Tools_Screenshot.yhtm_adjust-hardcoded-path-for-yo.patch \
-	file://0003-user_menu.cpp-add-missing-lua-ifdef.patch \
 "
 
 S = "${WORKDIR}/git"
