@@ -1,7 +1,7 @@
 SUMMARY = "Neutrino HD"
 DESCRIPTION = "CST Neutrino HD for Coolstream Settop Boxes (nevis)."
 HOMEPAGE = "http://git.coolstreamtech.de"
-MAINTAINER = "Johnny Walker"
+MAINTAINER = "flk"
 SECTION = "libs"
 LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://${WORKDIR}/COPYING.GPL;md5=751419260aa954499f7abaabaa882bbe \
@@ -30,6 +30,7 @@ DEPENDS += " \
 	cs-drivers \
 "
 
+
 RDEPENDS_${PN} += " \
 	tzdata \
 	luaposix \
@@ -39,9 +40,9 @@ RCONFLICTS_${PN} = "neutrino-hd2"
 
 SRCREV = "${AUTOREV}"
 PV = "2.13+git${SRCPV}"
-
+PR = "r1"
 SRC_URI = " \
-	git://coolstreamtech.de/cst-public-gui-neutrino.git;protocol=git;branch=next-cc \
+	git://coolstreamtech.de/cst-public-gui-neutrino.git;protocol=git;branch=cst-next \
 	file://neutrino.init \
 	file://timezone.xml \
 	file://custom-poweroff.init \
@@ -58,7 +59,7 @@ INITSCRIPT_PACKAGES   = "${PN}"
 INITSCRIPT_NAME_${PN} = "neutrino"
 INITSCRIPT_PARAMS_${PN} = "start 99 5 . stop 20 0 1 2 3 4 6 ."
 
-include neutrino-cst.inc
+include neutrino-hd.inc
 
 do_configure_prepend() {
 	INSTALL="`which install` -p"
