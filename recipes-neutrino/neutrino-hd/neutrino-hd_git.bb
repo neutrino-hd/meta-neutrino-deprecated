@@ -7,10 +7,7 @@ LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://${WORKDIR}/COPYING.GPL;md5=751419260aa954499f7abaabaa882bbe \
 "
 
-PREFERRED_PROVIDER_virtual/stb-hal-libs ?= "libstb-hal"
-
 DEPENDS += " \
-	virtual/stb-hal-libs \
 	curl \
 	libmad \
 	freetype \
@@ -40,7 +37,6 @@ RCONFLICTS_${PN} = "neutrino-hd2"
 
 SRCREV = "${AUTOREV}"
 PV = "2.13+git${SRCPV}"
-PR = "r1"
 SRC_URI = " \
 	git://coolstreamtech.de/cst-public-gui-neutrino.git;protocol=git;branch=cst-next \
 	file://neutrino.init \
