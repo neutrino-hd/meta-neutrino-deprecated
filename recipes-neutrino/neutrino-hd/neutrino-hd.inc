@@ -16,7 +16,6 @@ EXTRA_OECONF = " \
 	--enable-lua \
 	--enable-upnp \
 	--enable-flac \
-	--enable-tremor \
 	--with-boxtype=coolstream \
 	--with-boxmodel=nevis \
 "
