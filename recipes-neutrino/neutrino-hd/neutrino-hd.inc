@@ -10,12 +10,13 @@ CPPFLAGS = "${N_CPPFLAGS}"
 EXTRA_OECONF = " \
 	--enable-maintainer-mode \
 	--enable-pip \
-	--enable-lua \
 	--with-target=native \
 	--enable-silent-rules \
 	--enable-mdev \
+	--enable-lua \
 	--enable-upnp \
 	--enable-flac \
+	--enable-tremor \
 	--with-boxtype=coolstream \
 	--with-boxmodel=nevis \
 "
