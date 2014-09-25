@@ -1,16 +1,18 @@
-From 53d3d9e0059f30c249c9de617921e49e81bf8432 Mon Sep 17 00:00:00 2001
+From 07da08b17de25701586289d7a0f7eed72f4cc794 Mon Sep 17 00:00:00 2001
 From: Markus Volk <f_l_k@gmx.net>
-Date: Mon, 7 Apr 2014 18:28:31 +0200
-Subject: [PATCH 211/211] configure_fix
-Thanks to graugans at projekt-magpie for this Solution
+Date: Thu, 25 Sep 2014 12:42:08 +0200
+Subject: [PATCH 644/644] configure_fix
+
 Signed-off-by: Markus Volk <f_l_k@gmx.net>
 ---
+ configure.ac | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
 diff --git a/configure.ac b/configure.ac
-index 5367400..1e169e4 100644
+index d113ada..9af8f1a 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -64,20 +64,20 @@ fi
+@@ -65,20 +65,20 @@ fi
  
  TUXBOX_APPS_LIB_PKGCONFIG_CHECK(ID3TAG,libid3tag)
  if test x"$ID3TAG_EXISTS" != xyes; then
@@ -35,7 +37,7 @@ index 5367400..1e169e4 100644
  fi
  
  if test "$BOXTYPE" = "tripledragon"; then
-@@ -91,10 +91,10 @@ TUXBOX_APPS_LIB_CONFIG(CURL,curl-config)
+@@ -92,10 +92,10 @@ TUXBOX_APPS_LIB_CONFIG(CURL,curl-config)
  TUXBOX_APPS_LIB_CONFIG(FREETYPE,freetype-config)
  
  TUXBOX_APPS_LIB_PKGCONFIG(PNG,libpng)
@@ -47,9 +49,9 @@ index 5367400..1e169e4 100644
 +TUXBOX_APPS_LIB_PKGCONFIG_CHECK(AVCODEC,libavcodec)
 +TUXBOX_APPS_LIB_PKGCONFIG_CHECK(AVUTIL,libavutil)
 +TUXBOX_APPS_LIB_PKGCONFIG_CHECK(BLURAY,libbluray)
+ TUXBOX_APPS_LIB_PKGCONFIG(SIGC,sigc++-2.0)
  
  #TUXBOX_APPS_LIB_PKGCONFIG(CONFIGFILE,tuxbox-configfile)
- #TUXBOX_APPS_LIB_PKGCONFIG(CONNECTION,tuxbox-connection)
 -- 
-1.8.5.2
+2.0.0.rc2
 
