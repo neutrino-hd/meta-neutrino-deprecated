@@ -7,6 +7,7 @@ LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://${WORKDIR}/COPYING.GPL;md5=751419260aa954499f7abaabaa882bbe \
 "
 
+
 DEPENDS += " \
 	curl \
 	libmad \
@@ -36,7 +37,7 @@ RDEPENDS_${PN} += " \
 RCONFLICTS_${PN} = "neutrino-hd2"
 
 SRCREV = "${AUTOREV}"
-PV = "2.13+git${SRCPV}"
+PV = "2.14+git${SRCPV}"
 SRC_URI = " \
 	git://coolstreamtech.de/cst-public-gui-neutrino.git;protocol=git;branch=cst-next \
 	file://neutrino.init \
@@ -45,6 +46,7 @@ SRC_URI = " \
 	file://COPYING.GPL \
 	file://0001-configure_fix.patch \
 	file://0002-Y_Tools_Screenshot.yhtm_adjust-hardcoded-path-for-yo.patch \
+	file://0003-workaround-wiped-out-resolv.conf-at-boot.patch \
 "
 
 S = "${WORKDIR}/git"
@@ -85,9 +87,10 @@ do_install_prepend () {
 
 # compatibility with binaries hand-built with --prefix=
 do_install_append() {
-	install -d ${D}/share/
+	install -d ${D}/share/ ${D}/etc/rc5.d
 	ln -s ../usr/share/tuxbox ${D}/share/
 	ln -s ../usr/share/fonts  ${D}/share/
+	ln -s ../init.d/setdns ${D}${sysconfdir}/rc5.d/S10setdns
 }
 
 FILES_${PN} += "\
