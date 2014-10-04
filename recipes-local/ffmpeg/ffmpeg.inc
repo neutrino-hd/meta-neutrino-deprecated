@@ -6,7 +6,7 @@ LICENSE_FLAGS = "commercial"
 
 ARM_INSTRUCTION_SET = "arm"
 
-DEPENDS = "zlib libogg libvorbis libtheora yasm-native"
+DEPENDS = "zlib libogg libvorbis libtheora yasm-native libxml2"
 DEPENDS_append_coolstream = " libbluray"
 
 INC_PR = "r8"
@@ -82,6 +82,7 @@ EXTRA_OECONF_append_coolstream = " \
 	--enable-decoder=pgssub \
 	--enable-decoder=mp3 \
 	--enable-decoder=flac \
+	--enable-decoder=hds \
 	--enable-decoder=vorbis \
 	--enable-decoder=aac \
 	--enable-decoder=mjpeg \
