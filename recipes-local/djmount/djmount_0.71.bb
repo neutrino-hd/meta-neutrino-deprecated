@@ -1,6 +1,6 @@
 DESCRIPTION = "mount UPnP server content as a linux filesystem"
 HOMEPAGE = "http://djmount.sourceforge.net/"
-LICENSE = "GPL"
+LICENSE = "GPLv2+"
 LIC_FILES_CHKSUM = "file://COPYING;md5=eb723b61539feef013de476e68b5c50a"
 HOMEPAGE = "http://djmount.sourceforge.net/"
 DEPENDS = "libupnp fuse"

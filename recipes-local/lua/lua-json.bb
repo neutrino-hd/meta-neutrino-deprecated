@@ -1,6 +1,6 @@
 DESCRIPTION = "Lua json Parser"
-LICENSE = "GPL"
-LIC_FILES_CHKSUM = "file://plugins/ard_mediathek/ard_mediathek.lua;beginline=1;endline=20;md5=cc9f2ac0e48626fcc38baccfc9344558"
+LICENSE = "CC-BY-3.0"
+LIC_FILES_CHKSUM = "file://share/lua/5.2/json.lua;beginline=1;endline=15;md5=4467853ca00b8168ae59f69f6177a64f"
 HOMEPAGE = "http://git.coolstreamtech.de/"
 DEPENDS="lua5.2"
 SRCREV = "${AUTOREV}"

@@ -19,7 +19,7 @@
  # Directories to be shared (space or CSV list).
  # Ex: USHARE_DIR=/dir1,/dir2
 -USHARE_DIR=
-+USHARE_DIR=/media/sdb1
++USHARE_DIR=/media/sda1
  
  # Use to override what happens when iconv fails to parse a file name.
  # The default uShare behaviour is to not add the entry in the media list

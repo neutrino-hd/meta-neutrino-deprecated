@@ -1,34 +1,49 @@
 SUMMARY = "Neutrino HD"
-DESCRIPTION = "CST Neutrino HD for Coolstream Settop Boxes (nevis)."
+DESCRIPTION = "CST Neutrino HD for Coolstream Settop Boxes."
 HOMEPAGE = "http://git.coolstreamtech.de"
-MAINTAINER = "flk"
 SECTION = "libs"
 LICENSE = "GPLv2"
-LIC_FILES_CHKSUM = "file://${WORKDIR}/COPYING.GPL;md5=751419260aa954499f7abaabaa882bbe \
-"
+LIC_FILES_CHKSUM = "file://${WORKDIR}/COPYING.GPL;md5=751419260aa954499f7abaabaa882bbe"
 
-DEPENDS += " \
+DEPENDS_coolstream-hd1 = " \
+	libungif \
 	virtual/stb-hal-libs \
 	curl \
 	libmad \
 	freetype \
+	libbluray \
 	libid3tag \
-	libungif \
 	libpng \
 	jpeg \
 	libdvbsi++ \
 	ffmpeg \
 	flac \
-	libogg \
 	libsigc++ \
-	boost \
-	libvorbis \
 	openthreads \
 	lua5.2 \
 	luaposix \
-	cs-drivers \
+	virtual/kernel \
 "
-
+DEPENDS_coolstream-hd2 = " \
+	libiconv \
+	giflib \
+	virtual/stb-hal-libs \
+	curl \
+	libmad \
+	freetype \
+	libbluray \
+	libid3tag \
+	libpng \
+	jpeg \
+	libdvbsi++ \
+	ffmpeg \
+	flac \
+	libsigc++ \
+	openthreads \
+	lua5.2 \
+	luaposix \
+	virtual/kernel \
+"
 
 RDEPENDS_${PN} += " \
 	tzdata \
@@ -38,7 +53,7 @@ RDEPENDS_${PN} += " \
 RCONFLICTS_${PN} = "neutrino-hd2"
 
 SRCREV = "${AUTOREV}"
-PV = "2.14+git${SRCPV}"
+PV = "2.15+git${SRCPV}"
 SRC_URI = " \
 	git://coolstreamtech.de/cst-public-gui-neutrino.git;protocol=git;branch=cst-next \
 	file://neutrino.init \
@@ -80,7 +95,7 @@ do_install_prepend () {
 	install -d ${D}/var/tuxbox/config/
 	install -d ${D}/var/tuxbox/plugins/
 	echo "version=1200`date +%Y%m%d%H%M`"    > ${D}/.version 
-	echo "creator=${MAINTAINER}"             >> ${D}/.version 
+	echo "creator=${CREATOR}"             >> ${D}/.version 
 	echo "imagename=Neutrino-HD"             >> ${D}/.version 
 	echo "homepage=${HOMEPAGE}"              >> ${D}/.version 
 	update-rc.d -r ${D} custom-poweroff start 89 0 .

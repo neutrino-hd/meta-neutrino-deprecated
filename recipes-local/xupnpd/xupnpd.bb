@@ -11,7 +11,6 @@ SRC_URI = "\
 	file://0002-ui_restart-fix-xupnpd-install-path.patch \
 	file://xupnpd.init \
 	file://xupnpd.lua \
-	file://xupnpd_neutrino-mp.lua \
 "
 
 PV = "0.0+svn${SRCREV}"
@@ -36,8 +35,6 @@ do_install () {
 	install -d -m 0644 ${D}/usr/share/xupnpd/config ${D}/usr/share/xupnpd/playlists
 	install -D -m 0755 ${WORKDIR}/xupnpd.init ${D}${sysconfdir}/init.d/xupnpd
 	install -D -m 0755 ${S}/xupnpd ${D}${bindir}/xupnpd
-	cp -r ${S}/plugins	${D}/usr/share/xupnpd/
-	cp ${WORKDIR}/xupnpd_neutrino-mp.lua ${D}/usr/share/xupnpd/plugins/
 	cp -r ${S}/profiles	${D}/usr/share/xupnpd/
 	cp -r ${S}/ui		${D}/usr/share/xupnpd/
 	cp -r ${S}/www		${D}/usr/share/xupnpd/

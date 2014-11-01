@@ -19,6 +19,6 @@ FILES_${PN} = "\
     /media/sda1/logos \
 "
 
-SRC_URI[md5sum] = "f12e653d11359d266e4aee56044fd5e5"
-SRC_URI[sha256sum] = "db767eba1def0ec9daa478f1787fd05a8a3ff221dd886f8cd8bcfe4c0510ee19"
+SRC_URI[md5sum] = "412f95c9c7d23c1cbbebe3b70c0fdf1a"
+SRC_URI[sha256sum] = "9f6688afffd91514c5fc54f925048f2f6b0408a3e3a9aed6fb963fc6bfa4d2f4"
 

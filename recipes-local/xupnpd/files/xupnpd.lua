@@ -101,8 +101,8 @@ feeds=
 --    { 'gametrailers',   'ps3',                   'GT - PS3' },
 --    { 'giantbomb',      'all',                  'GiantBomb - All' },
 --    { 'dreambox',       'http://192.168.0.1:8001/','Dreambox1' },
-   { 'neutrinomp',       'localhost', 'Neutrino' },
---   { 'coolstream',       '172.16.1.10', 'NEO' },
+--   { 'neutrinomp',       'localhost', 'Neutrino' },
+   { 'coolstream',       'localhost', 'ZEE2' },
 }
 
 -- log ident, pid file end www root

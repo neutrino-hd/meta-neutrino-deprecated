@@ -7,7 +7,6 @@ LICENSE_FLAGS = "commercial"
 ARM_INSTRUCTION_SET = "arm"
 
 DEPENDS = "zlib libogg libvorbis libtheora yasm-native libxml2"
-DEPENDS_append_coolstream = " libbluray"
 
 INC_PR = "r8"
 
@@ -18,7 +17,7 @@ B = "${S}/build.${HOST_SYS}.${TARGET_SYS}"
 FULL_OPTIMIZATION_armv7a = "-fexpensive-optimizations -fomit-frame-pointer -O4 -ffast-math"
 BUILD_OPTIMIZATION = "${FULL_OPTIMIZATION}"
 
-EXTRA_FFCONF_armv7a = "--cpu=cortex-a8"
+EXTRA_FFCONF_armv7a = "--cpu=cortex-a9"
 EXTRA_FFCONF ?= ""
 
 #PACKAGECONFIG ??= "bzip2 x264 ${@base_contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}"
@@ -61,7 +60,7 @@ EXTRA_OECONF_append_raspberrypi = " \
 	--arch=arm \
 	--cpu=armv6 \
 "
-EXTRA_OECONF_append_coolstream = " \
+EXTRA_OECONF_append_coolstream-hd1 = " \
 	--disable-runtime-cpudetect \
 	--arch=arm \
 	--cpu=armv6 \
@@ -106,7 +105,6 @@ EXTRA_OECONF_append_coolstream = " \
 	--enable-demuxer=ac3 \
 	--enable-demuxer=avi \
 	--enable-demuxer=mov \
-	--enable-demuxer=hds \
 	--enable-demuxer=vc1 \
 	--enable-demuxer=mpegts \
 	--enable-demuxer=mpegtsraw \
@@ -126,6 +124,7 @@ EXTRA_OECONF_append_coolstream = " \
 	--enable-demuxer=ogg \
 	--enable-demuxer=flac \
 	--enable-demuxer=srt \
+	--enable-demuxer=hds \
 	--disable-encoders \
 	--disable-muxers \
 	--disable-filters \
@@ -138,14 +137,97 @@ EXTRA_OECONF_append_coolstream = " \
 	--enable-protocol=rtmpte \
 	--enable-protocol=mmsh \
 	--enable-protocol=mmst \
-	--enable-protocol=bluray \
 	--enable-bsfs \
 	--disable-devices \
 	--enable-swresample \
 	--disable-postproc \
 	--disable-swscale \
-	--enable-libbluray \
 "
+
+EXTRA_OECONF_append_coolstream-hd2 = " \
+	--disable-runtime-cpudetect \
+	--arch=arm \
+	--cpu=cortex-a9 \
+	--disable-neon \
+	--enable-vfp \
+	--disable-libtheora \
+	--disable-libvorbis \
+	--disable-decoders \
+	--enable-decoder=dca \
+	--enable-decoder=dvdsub \
+	--enable-decoder=dvbsub \
+	--enable-decoder=text \
+	--enable-decoder=srt \
+	--enable-decoder=subrip \
+	--enable-decoder=subviewer \
+	--enable-decoder=subviewer1 \
+	--enable-decoder=xsub \
+	--enable-decoder=pgssub \
+	--enable-decoder=mp3 \
+	--enable-decoder=flac \
+	--enable-decoder=vorbis \
+	--enable-decoder=aac \
+	--enable-decoder=mjpeg \
+	--enable-decoder=pcm_s16le \
+	--enable-decoder=pcm_s16le_planar \
+	--disable-parsers \
+	--enable-parser=aac \
+	--enable-parser=aac_latm \
+	--enable-parser=ac3 \
+	--enable-parser=dca \
+	--enable-parser=mpeg4video \
+	--enable-parser=mpegvideo \
+	--enable-parser=mpegaudio \
+	--enable-parser=h264 \
+	--enable-parser=vc1 \
+	--enable-parser=dvdsub \
+	--enable-parser=dvbsub \
+	--enable-parser=flac \
+	--enable-parser=vorbis \
+	--disable-demuxers \
+	--enable-demuxer=aac \
+	--enable-demuxer=ac3 \
+	--enable-demuxer=avi \
+	--enable-demuxer=mov \
+	--enable-demuxer=vc1 \
+	--enable-demuxer=mpegts \
+	--enable-demuxer=mpegtsraw \
+	--enable-demuxer=mpegps \
+	--enable-demuxer=mpegvideo \
+	--enable-demuxer=wav \
+	--enable-demuxer=pcm_s16be \
+	--enable-demuxer=mp3 \
+	--enable-demuxer=pcm_s16le \
+	--enable-demuxer=matroska \
+	--enable-demuxer=flv \
+	--enable-demuxer=rm \
+	--enable-demuxer=rtsp \
+	--enable-demuxer=hls \
+	--enable-demuxer=dts \
+	--enable-demuxer=wav \
+	--enable-demuxer=ogg \
+	--enable-demuxer=flac \
+	--enable-demuxer=srt \
+	--enable-demuxer=hds \
+	--disable-encoders \
+	--disable-muxers \
+	--disable-filters \
+	--disable-protocols \
+	--enable-protocol=file \
+	--enable-protocol=http \
+	--enable-protocol=rtmp \
+	--enable-protocol=rtmpe \
+	--enable-protocol=rtmps \
+	--enable-protocol=rtmpte \
+	--enable-protocol=mmsh \
+	--enable-protocol=mmst \
+	--enable-bsfs \
+	--disable-devices \
+	--enable-swresample \
+	--disable-postproc \
+	--disable-swscale \
+"
+
 # strip down ffmpeg for tripledragon: most of it is not useful here.
 # --arch=ppc4xx seems to still have a problem with the assembler...
 EXTRA_OECONF_append_tripledragon = " \

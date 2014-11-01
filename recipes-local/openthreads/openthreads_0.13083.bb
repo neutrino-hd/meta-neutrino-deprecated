@@ -1,7 +1,7 @@
 SUMMARY = "OpenThreads is a cross platform, object orientated threading library."
 DESCRIPTION = "OpenThreads is a cross platform, object orientated threading library."
 SECTION = "libs"
-LICENSE = "OSGPL"
+LICENSE = "LGPL-2.1"
 LIC_FILES_CHKSUM = "file://COPYING.txt;md5=9226151d58bcdf987ed14e7dc8cedcbc \
 "
 DEPENDS = ""

@@ -16,20 +16,21 @@ IMAGE_INSTALL += " \
 	e2fsprogs-mke2fs \
 	e2fsprogs-e2fsck \
 	e2fsprogs-tune2fs \
-	djmount \
-	autofs \
-	ushare \
 	udpxy \
 	xupnpd \
 	fbshot \
 	opkg \
+	autofs \
 "
 
 # Tripledragon Kernel is too old for udev
 IMAGE_INSTALL += "${@'udev-extraconf' if MACHINE != 'tripledragon' else ''}"
 
-# Include modules in rootfs, but not on coolstream, where
+# Include modules in rootfs, but not on hd1, where
 # flash is small...
-IMAGE_INSTALL += "${@'kernel-modules' if MACHINE != 'coolstream' else ''}"
+IMAGE_INSTALL += "${@'kernel-modules' if MACHINE != 'coolstream-hd1' else ''}"
+
+# we must not compile autofs for hd2
+IMAGE_INSTALL += "${@'autofs' if MACHINE != 'coolstream-hd2' else ''}"
 
 EXTRAOPKGCONFIG = "neutrino-feed-config"

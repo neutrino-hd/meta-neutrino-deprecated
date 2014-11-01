@@ -1,0 +1,26 @@
+From 35bd692d0b4a884aaa48d0532fbb44b89ff7d342 Mon Sep 17 00:00:00 2001
+From: Markus Volk <f_l_k@gmx.net>
+Date: Mon, 6 Oct 2014 17:00:02 +0200
+Subject: [PATCH] libkmod-internal.h:uclibc-comes-without-secure_getenv
+
+Signed-off-by: Markus Volk <f_l_k@gmx.net>
+---
+ libkmod/libkmod-internal.h |  2 ++
+ 1 files changed, 2 insertions(+), 0 deletion(-)
+
+diff --git a/libkmod/libkmod-internal.h b/libkmod/libkmod-internal.h
+index 0180124..f41a3c9 100644
+--- a/libkmod/libkmod-internal.h
++++ b/libkmod/libkmod-internal.h
+@@ -39,6 +43,8 @@ static _always_inline_ _printf_format_(2, 3) void
+ #ifndef HAVE_SECURE_GETENV
+ #  ifdef HAVE___SECURE_GETENV
+ #    define secure_getenv __secure_getenv
++#  elif defined __UCLIBC__
++#    define secure_getenv getenv
+ #  else
+ #    warning neither secure_getenv nor __secure_getenv is available
+ #    define secure_getenv getenv
+-- 
+2.0.0.rc2
+
