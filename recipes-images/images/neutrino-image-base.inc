@@ -20,7 +20,6 @@ IMAGE_INSTALL += " \
 	xupnpd \
 	fbshot \
 	opkg \
-	autofs \
 "
 
 # Tripledragon Kernel is too old for udev
