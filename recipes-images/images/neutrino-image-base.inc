@@ -13,6 +13,7 @@ IMAGE_INSTALL += " \
 	strace \
 	procps \
 	image-config \
+	virtual/stb-hal-libs \
 	e2fsprogs-mke2fs \
 	e2fsprogs-e2fsck \
 	e2fsprogs-tune2fs \
