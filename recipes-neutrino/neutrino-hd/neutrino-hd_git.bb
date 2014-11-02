@@ -22,7 +22,6 @@ DEPENDS_coolstream-hd1 = " \
 	openthreads \
 	lua5.2 \
 	luaposix \
-	virtual/kernel \
 "
 DEPENDS_coolstream-hd2 = " \
 	libiconv \
@@ -42,7 +41,6 @@ DEPENDS_coolstream-hd2 = " \
 	openthreads \
 	lua5.2 \
 	luaposix \
-	virtual/kernel \
 "
 
 RDEPENDS_${PN} += " \
