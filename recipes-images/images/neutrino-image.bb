@@ -7,4 +7,5 @@ IMAGE_INSTALL += " \
 	neutrino-hd \
 	neutrino-hd-plugin-ard \
 	neutrino-hd-plugin-xupnpd \
+	neutrino-hd-plugin-netzkino \
 	"
