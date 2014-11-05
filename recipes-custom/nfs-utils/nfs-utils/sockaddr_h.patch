@@ -1,0 +1,11 @@
+--- a/support/include/sockaddr.h	2013-11-05 21:41:27.000000000 +0100
++++ b/support/include/sockaddr.h	2014-11-05 16:24:16.044602651 +0100
+@@ -20,6 +20,8 @@
+ #ifndef NFS_UTILS_SOCKADDR_H
+ #define NFS_UTILS_SOCKADDR_H
+ 
++#define NULL 0
++
+ #ifdef HAVE_CONFIG_H
+ #include <config.h>
+ #endif
