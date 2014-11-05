@@ -25,6 +25,7 @@ DEPENDS_append += " \
 	luaposix \
 "
 DEPENDS_coolstream-hd2 += " \
+	libiconv \
 "
 
 RDEPENDS_${PN} += " \
