@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://share/lua/5.2/json.lua;beginline=1;endline=15;md5=446
 HOMEPAGE = "http://git.coolstreamtech.de/"
 DEPENDS="lua5.2"
 SRCREV = "${AUTOREV}"
-PV = "0.0+git${SRCPV}"
+PV = "0.1"
 
 
 SRC_URI = "git://coolstreamtech.de/cst-public-plugins-scripts-lua.git \

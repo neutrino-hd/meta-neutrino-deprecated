@@ -5,7 +5,7 @@ HOMEPAGE = "http://git.coolstreamtech.de/"
 DEPENDS = "lua5.2"
 RDEPENDS_${PN} = "lua-json"
 SRCREV = "${AUTOREV}"
-PV = "0.0+git${SRCPV}"
+PV = "0.1"
 
 
 SRC_URI = "git://coolstreamtech.de/cst-public-plugins-scripts-lua.git \

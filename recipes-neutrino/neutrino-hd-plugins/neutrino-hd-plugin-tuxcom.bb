@@ -7,7 +7,7 @@ HOMEPAGE = "https://gitorious.org/neutrino-hd/neutrino-hd-plugins"
 SRCREV = "${AUTOREV}"
 PV = "0.2+git${SRCPV}"
 # does not work like that?
-# PV_nhd-plugin-tuxcom = "1.17+git${SRCPV}"
+# PV_nhd-plugin-tuxcom = "1.17"
 
 SRC_URI = "git://gitorious.org/neutrino-hd/neutrino-hd-plugins.git \
 "

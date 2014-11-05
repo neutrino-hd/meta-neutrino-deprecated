@@ -1,7 +1,7 @@
 require ffmpeg.inc
 
 SRCREV = "${AUTOREV}"
-PV = "2.3.3+git${SRCPV}"
+PV = "2.3.3"
 SRC_URI = "git://coolstreamtech.de/cst-public-libraries-ffmpeg.git;protocol=git;branch=ffmpeg-2.3.3"
 
 LIC_FILES_CHKSUM = " \
