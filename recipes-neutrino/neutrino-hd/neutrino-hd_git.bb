@@ -5,7 +5,7 @@ SECTION = "libs"
 LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://${WORKDIR}/COPYING.GPL;md5=751419260aa954499f7abaabaa882bbe"
 
-DEPENDS = " \
+DEPENDS_append += " \
 	giflib \
 	virtual/stb-hal-libs \
 	curl \
@@ -35,7 +35,7 @@ RDEPENDS_${PN} += " \
 RCONFLICTS_${PN} = "neutrino-hd2"
 
 SRCREV = "${AUTOREV}"
-PV = "2.15+git${SRCPV}"
+PV = "2.15"
 SRC_URI = " \
 	git://coolstreamtech.de/cst-public-gui-neutrino.git;protocol=git;branch=cst-next \
 	file://neutrino.init \
