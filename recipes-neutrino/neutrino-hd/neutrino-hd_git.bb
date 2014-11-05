@@ -5,26 +5,7 @@ SECTION = "libs"
 LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://${WORKDIR}/COPYING.GPL;md5=751419260aa954499f7abaabaa882bbe"
 
-DEPENDS_coolstream-hd1 = " \
-	libungif \
-	virtual/stb-hal-libs \
-	curl \
-	libmad \
-	freetype \
-	libbluray \
-	libid3tag \
-	libpng \
-	jpeg \
-	libdvbsi++ \
-	ffmpeg \
-	flac \
-	libsigc++ \
-	openthreads \
-	lua5.2 \
-	luaposix \
-"
-DEPENDS_coolstream-hd2 = " \
-	libiconv \
+DEPENDS = " \
 	giflib \
 	virtual/stb-hal-libs \
 	curl \
@@ -37,10 +18,13 @@ DEPENDS_coolstream-hd2 = " \
 	libdvbsi++ \
 	ffmpeg \
 	flac \
+	tremor \
 	libsigc++ \
 	openthreads \
 	lua5.2 \
 	luaposix \
+"
+DEPENDS_coolstream-hd2 += " \
 "
 
 RDEPENDS_${PN} += " \
