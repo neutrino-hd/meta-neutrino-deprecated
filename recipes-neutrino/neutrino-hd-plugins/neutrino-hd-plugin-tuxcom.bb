@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://tuxcom/tuxcom.c;beginline=10;endline=24;md5=8cfd78763
 HOMEPAGE = "https://gitorious.org/neutrino-hd/neutrino-hd-plugins"
 
 SRCREV = "${AUTOREV}"
-PV = "0.2+git${SRCPV}"
+PV = "1.17"
 # does not work like that?
 # PV_nhd-plugin-tuxcom = "1.17"
 

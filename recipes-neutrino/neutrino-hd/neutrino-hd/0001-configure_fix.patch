@@ -1,17 +1,26 @@
-From 07da08b17de25701586289d7a0f7eed72f4cc794 Mon Sep 17 00:00:00 2001
+From d5199dda19802d6743b86b92ade06743f7062e12 Mon Sep 17 00:00:00 2001
 From: Markus Volk <f_l_k@gmx.net>
-Date: Thu, 25 Sep 2014 12:42:08 +0200
-Subject: [PATCH 644/644] configure_fix
+Date: Wed, 5 Nov 2014 18:22:57 +0100
+Subject: [PATCH 787/787] configure_fix
 
 Signed-off-by: Markus Volk <f_l_k@gmx.net>
 ---
- configure.ac | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ configure.ac | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
 diff --git a/configure.ac b/configure.ac
-index d113ada..9af8f1a 100644
+index dd67254..775f458 100644
 --- a/configure.ac
 +++ b/configure.ac
+@@ -54,7 +54,7 @@ if test "$TREMOR_STATIC" = "yes"; then
+ fi
+ 
+ if test "$TREMOR" = "yes"; then
+-	TUXBOX_APPS_LIB_PKGCONFIG(VORBISIDEC,vorbisidec)
++	TUXBOX_APPS_LIB_PKGCONFIG_CHECK(VORBISIDEC,vorbisidec)
+ 	AC_DEFINE(USE_TREMOR,1,use libvorbisidec/tremor library)
+ fi
+ 
 @@ -65,20 +65,20 @@ fi
  
  TUXBOX_APPS_LIB_PKGCONFIG_CHECK(ID3TAG,libid3tag)
