@@ -6,8 +6,6 @@ PR = "r1"
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 INHIBIT_DEFAULT_DEPS = "1"
 
-FEEDNAMEPREFIX ?= "nhd"
-#FEEDURIPREFIX ?= "INVALID"
 
 do_compile() {
 	mkdir -p ${S}/${sysconfdir}/opkg/
@@ -28,7 +26,7 @@ do_compile() {
 
 	ipkgarchs="${ALL_MULTILIB_PACKAGE_ARCHS}"
 	for arch in $ipkgarchs; do
-		FNAME="${FEEDNAMEPREFIX}-$arch"
+		FNAME="$arch"
 		if [ -n "${IPK_FEED_SERVER}" ]; then
 			URI="${IPK_FEED_SERVER}/$arch"
 			# if there are no packages for this arch, don't put it into the feed.
