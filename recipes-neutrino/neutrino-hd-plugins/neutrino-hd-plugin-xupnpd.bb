@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://plugins/ard_mediathek/ard_mediathek.lua;beginline=1;e
 HOMEPAGE = "http://git.coolstreamtech.de/"
 RDEPENDS_${PN} = "xupnpd"
 SRCREV = "${AUTOREV}"
-PV = "0.1"
+PV = "0.1+${SRCPV}"
 
 
 SRC_URI = "git://coolstreamtech.de/cst-public-plugins-scripts-lua.git \

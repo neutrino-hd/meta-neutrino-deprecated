@@ -36,7 +36,7 @@ RDEPENDS_${PN} += " \
 RCONFLICTS_${PN} = "neutrino-hd2"
 
 SRCREV = "${AUTOREV}"
-PV = "2.15"
+PV = "2.15+${SRCPV}"
 SRC_URI = " \
 	git://coolstreamtech.de/cst-public-gui-neutrino.git;protocol=git;branch=cst-next \
 	file://neutrino.init \
