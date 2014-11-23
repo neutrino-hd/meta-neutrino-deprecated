@@ -5,9 +5,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d8045f3b8f929c1cb29a1e3fd737b499"
 
 DEPENDS = "mm-common"
 
-SRC_URI = "ftp://ftp.gnome.org/pub/GNOME/sources/libsigc++/2.2/libsigc++-${PV}.tar.xz;name=archive"
-SRC_URI[archive.md5sum] = "815d0c6d61601f51bbcaeef6826606b0"
-SRC_URI[archive.sha256sum] = "9834045f74f56752c2c6b3cdc195c30ab8314ad22dc8e626d6f67f940f1e4957"
+SRC_URI = "ftp://ftp.gnome.org/pub/GNOME/sources/libsigc++/2.4/libsigc++-${PV}.tar.xz;name=archive"
+SRC_URI[archive.md5sum] = "c6cd2259f5ef973e4c8178d0abbdbfa7"
+SRC_URI[archive.sha256sum] = "7593d5fa9187bbad7c6868dce375ce3079a805f3f1e74236143bceb15a37cd30"
 
 
 S = "${WORKDIR}/libsigc++-${PV}"
@@ -21,7 +21,7 @@ FILES_${PN}-doc += "${datadir}/devhelp"
 
 do_install_append() {
     ln -s ./sigc++-2.0/sigc++ ${D}${includedir}
-    cp ${S}/sigc++config.h ${D}${includedir}
+    cp ${WORKDIR}/build/sigc++config.h ${D}${includedir}
 }
 
 BBCLASSEXTEND = "native"

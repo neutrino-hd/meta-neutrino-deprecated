@@ -11,6 +11,9 @@ DEPENDS_append += " \
 	curl \
 	libmad \
 	freetype \
+	freetype-native \
+	openssl \
+	gettext \
 	libbluray \
 	libid3tag \
 	libpng \
@@ -37,15 +40,19 @@ RCONFLICTS_${PN} = "neutrino-hd2"
 
 SRCREV = "${AUTOREV}"
 PV = "2.15+${SRCPV}"
+PR = "1"
 SRC_URI = " \
 	git://coolstreamtech.de/cst-public-gui-neutrino.git;protocol=git;branch=cst-next \
 	file://neutrino.init \
 	file://timezone.xml \
 	file://custom-poweroff.init \
+	file://pre-wlan0.sh \
+	file://post-wlan0.sh \
 	file://COPYING.GPL \
 	file://0001-configure_fix.patch \
 	file://0002-Y_Tools_Screenshot.yhtm_adjust-hardcoded-path-for-yo.patch \
 	file://0003-workaround-wiped-out-resolv.conf-at-boot.patch \
+	file://0004-don-t-include-version.h.patch \
 "
 
 S = "${WORKDIR}/git"
@@ -70,9 +77,11 @@ do_compile () {
 
 
 do_install_prepend () {
-	install -d ${D}/${sysconfdir}/init.d
+	install -d ${D}/${sysconfdir}/init.d ${D}/${sysconfdir}/network
 	install -m 755 ${WORKDIR}/neutrino.init ${D}/${sysconfdir}/init.d/neutrino
 	install -m 755 ${WORKDIR}/custom-poweroff.init ${D}/${sysconfdir}/init.d/custom-poweroff
+	install -m 755 ${WORKDIR}/pre-wlan0.sh ${D}${sysconfdir}/network/
+	install -m 755 ${WORKDIR}/post-wlan0.sh ${D}${sysconfdir}/network/
 	install -m 644 ${WORKDIR}/timezone.xml ${D}/${sysconfdir}/timezone.xml
 	install -d ${D}/var/cache
 	install -d ${D}/var/tuxbox/config/
@@ -86,7 +95,7 @@ do_install_prepend () {
 
 # compatibility with binaries hand-built with --prefix=
 do_install_append() {
-	install -d ${D}/share/ ${D}/etc/rc5.d
+	install -d ${D}/share/ ${D}/etc/rc5.d 
 	ln -s ../usr/share/tuxbox ${D}/share/
 	ln -s ../usr/share/fonts  ${D}/share/
 	ln -s ../init.d/setdns ${D}${sysconfdir}/rc5.d/S10setdns

@@ -22,17 +22,21 @@ SRC_URI[md5sum] = "2cc6cc25cdc4cd447a8b0a9662907635"
 SRC_URI[sha256sum] = "4cceeed1f9ddfeeffe5e4027fad696ea732af4dd90c28b2cfe9a3bb31787903b"
 
 
-
 inherit autotools 
 
+do_configure() {
+	ln -s ${S}/* ${WORKDIR}/build/
+}
 
 do_compile() {
 	 oe_runmake  'PLATTFORM=${@d.getVar('MACHINE',1).upper()}'
 }
 
+
+
 do_install () {
-	install -D -m 0755 ${S}/fbshot ${D}${bindir}/fbshot
+	install -D -m 0755 ${WORKDIR}/build/fbshot ${D}${bindir}/fbshot
 }
 
 
-#FILES_${PN}-dbg += "/bin/fbshot/.debug"
+FILES_${PN}-dbg += "/bin/fbshot/.debug"

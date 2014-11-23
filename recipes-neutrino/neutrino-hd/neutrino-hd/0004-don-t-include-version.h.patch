@@ -1,0 +1,28 @@
+From 9240bdecf3cc34b6e298ab35e004cda575d33595 Mon Sep 17 00:00:00 2001
+From: Markus Volk <f_l_k@gmx.net>
+Date: Sun, 23 Nov 2014 15:03:36 +0100
+Subject: [PATCH 837/837] =?UTF-8?q?don=C2=B4t=20include=20version.h?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Signed-off-by: Markus Volk <f_l_k@gmx.net>
+---
+ src/gui/imageinfo.cpp | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/src/gui/imageinfo.cpp b/src/gui/imageinfo.cpp
+index 43ceb32..5ded854 100644
+--- a/src/gui/imageinfo.cpp
++++ b/src/gui/imageinfo.cpp
+@@ -38,7 +38,6 @@
+ #include <string>
+ #include <daemonc/remotecontrol.h>
+ #include <system/flashtool.h>
+-#include "version.h"
+ #include <gui/buildinfo.h>
+ #define LICENSEDIR DATADIR "/neutrino/license/"
+ 
+-- 
+2.0.0.rc2
+
