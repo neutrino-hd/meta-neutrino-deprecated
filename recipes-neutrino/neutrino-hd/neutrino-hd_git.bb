@@ -40,7 +40,7 @@ RCONFLICTS_${PN} = "neutrino-hd2"
 
 SRCREV = "${AUTOREV}"
 PV = "2.15+${SRCPV}"
-PR = "1"
+PR = "2"
 SRC_URI = " \
 	git://coolstreamtech.de/cst-public-gui-neutrino.git;protocol=git;branch=cst-next \
 	file://neutrino.init \
@@ -52,7 +52,6 @@ SRC_URI = " \
 	file://0001-configure_fix.patch \
 	file://0002-Y_Tools_Screenshot.yhtm_adjust-hardcoded-path-for-yo.patch \
 	file://0003-workaround-wiped-out-resolv.conf-at-boot.patch \
-	file://0004-don-t-include-version.h.patch \
 "
 
 S = "${WORKDIR}/git"
@@ -68,6 +67,7 @@ include neutrino-hd.inc
 do_configure_prepend() {
 	INSTALL="`which install` -p"
 	export INSTALL
+	ln -s ${WORKDIR}/build/src/gui/version.h ${S}/src/gui/
 }
 
 do_compile () {
