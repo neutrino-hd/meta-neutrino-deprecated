@@ -15,6 +15,7 @@ PR = "r2"
 
 # autoreconf doesn't work well while reconfiguring included libreplace
 do_configure () {
+       ln -s ${S}/* ${WORKDIR}/build/
        gnu-configize
        oe_runconf
 }
