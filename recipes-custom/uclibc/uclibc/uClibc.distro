@@ -180,6 +180,7 @@ WARNINGS="-Wall"
 # DOMULTI is not set
 # UCLIBC_MJN3_ONLY is not set
 LDSO_GNU_HASH_SUPPORT=y
+UCLIBC_HAS_BACKTRACE=y
 
 # math stuff for perl
 DO_C99_MATH=y
