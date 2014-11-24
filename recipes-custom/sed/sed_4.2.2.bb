@@ -1,3 +1,4 @@
+COMPATIBLE_MACHINE = "coolstream-hd2"
 SUMMARY = "Stream EDitor (text filtering utility)"
 HOMEPAGE = "http://www.gnu.org/software/sed/"
 LICENSE = "GPLv3+"

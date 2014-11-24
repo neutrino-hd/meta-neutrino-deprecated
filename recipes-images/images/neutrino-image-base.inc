@@ -31,6 +31,6 @@ IMAGE_INSTALL += "${@'udev-extraconf' if MACHINE != 'tripledragon' else ''}"
 IMAGE_INSTALL += "${@'kernel-modules' if MACHINE != 'coolstream-hd1' else ''}"
 
 # we must not compile autofs for hd2
-IMAGE_INSTALL += "${@'autofs' if MACHINE != 'coolstream-hd2' else ''}"
+#IMAGE_INSTALL += "${@'autofs' if MACHINE != 'coolstream-hd2' else ''}"
 
 EXTRAOPKGCONFIG = "neutrino-feed-config"
