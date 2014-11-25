@@ -67,7 +67,7 @@ include neutrino-hd.inc
 do_configure_prepend() {
 	INSTALL="`which install` -p"
 	export INSTALL
-	ln -s ${WORKDIR}/build/src/gui/version.h ${S}/src/gui/
+	ln -sf ${WORKDIR}/build/src/gui/version.h ${S}/src/gui/
 }
 
 do_compile () {

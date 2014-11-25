@@ -37,8 +37,8 @@ S = "${WORKDIR}/samba-${PV}/source3"
 
 # very ugly, but compiles for now
 do_configure_prepend () {
-	ln -s ${S}/* ${WORKDIR}/build/
-	ln -s ${WORKDIR}/samba-${PV}/* ${WORKDIR}
+	ln -sf ${S}/* ${WORKDIR}/build/
+	ln -sf ${WORKDIR}/samba-${PV}/* ${WORKDIR}
 }
 
 EXTRA_OECONF += "\
