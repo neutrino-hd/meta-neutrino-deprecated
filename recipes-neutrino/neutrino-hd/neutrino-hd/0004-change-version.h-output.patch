@@ -1,18 +1,18 @@
-From a11eec57fbe26db6b4a83af79a158ba484187485 Mon Sep 17 00:00:00 2001
+From 8d6f7804b534df7845b40a589ced180e76057489 Mon Sep 17 00:00:00 2001
 From: TheDuke
-Date: Wed, 3 Dec 2014 09:32:11 +0100
-Subject: [PATCH 847/847] change version.h output
+Date: Wed, 3 Dec 2014 12:36:53 +0100
+Subject: [PATCH 847/847] change-version.h-output
 
 Signed-off-by: Markus Volk <f_l_k@gmx.net>
 ---
- src/gui/Makefile.am | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ src/gui/Makefile.am | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/src/gui/Makefile.am b/src/gui/Makefile.am
-index 8b78680..4cf93fe 100644
+index 8b78680..b9ef44a 100644
 --- a/src/gui/Makefile.am
 +++ b/src/gui/Makefile.am
-@@ -6,7 +6,7 @@ version.h:
+@@ -6,9 +6,11 @@ version.h:
  	echo '#define BUILT_DATE "'`date`'"' > $@
  	@if test -d $(top_srcdir)/.git ; then \
  		pushd $(top_srcdir) ; \
@@ -20,7 +20,10 @@ index 8b78680..4cf93fe 100644
 +		GITDESCRIBE=$$(git log --pretty=format:'%d %h %ad' --date=short -1 || echo 'VCS failed') ; \
  		popd ; \
  		echo '#define VCS "'$${GITDESCRIBE}'"' >> $@ ; \
++		sed -i "s| (HEAD, origin/||" $@ ; \
++		sed -i "s|)||" $@ ; \
  	fi
+ noinst_HEADERS = version.h
+ .PHONY: version.h
 -- 
 2.0.0.rc2
-
