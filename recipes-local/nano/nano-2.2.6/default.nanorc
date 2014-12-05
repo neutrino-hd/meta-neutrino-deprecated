@@ -1,0 +1,54 @@
+##
+## Highlighter-Definition Standardeinstellung für Nano
+## Konzipiert für Terminals mit weißer Schrift auf schwarzem Hintergrund
+##
+## Version 2008-02-04.1
+##
+## Verbesserungsvorschläge bitte im Forum
+## http://forum.ubuntuusers.de/topic/149459/
+##
+
+# mögliche Vordergrundfarben:
+#@brightblack  brightred      brightgreen  brightyellow
+#@brightblue   brightmagenta  brightcyan   brightwhite
+#
+# mögliche Hinter- und Vordergrundfarben:
+#@(black)      red            green        yellow
+#@blue         magenta        cyan         white
+
+
+## Dateien, die sonst nicht erfasst werden
+syntax "default"
+
+## Zahlen
+# Dec
+icolor green "[-+]?\b([0-9]+)u?l?\b"
+icolor green "[-+]?\b[0-9]+\.(\B|[0-9]*(e[-+]?[0-9]+)?[fl]?\b)"
+# Hex
+#icolor magenta "[-+]?\b0x[0-9a-f]+u?l?\b"
+
+# Datum
+icolor brightblue "\b[12][0-9]{3}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])\b"
+icolor brightblue "\b(0?[1-9]|[12][0-9]|3[01])[-/](0?[1-9]|1[012])[-/]([1-9][0-9]{1,3}|[0-9]{2})\b"
+icolor brightblue "\b(0?[1-9]|[12][0-9]|3[01])\.((0?[1-9]|1[012])\.(\B|([1-9][0-9]{1,3}|[0-9]{2})\b)| ?(Januar|Februar|März|April|Mai|Ju[nl]i|August|September|Oktober|November|Dezember)( [1-9][0-9]{1,3}| [0-9]{2})?\b)"
+
+# Klammern und : =
+color brightgreen "[]|(){}<=>:[]"
+
+# Uhrzeit
+icolor cyan "\b([01]?[0-9]|2[0-4])(:[0-5][0-9]){1,2}( ?[ap](m|\.m\.)| Uhr)?\b"
+
+# "Strings" und 'Strings'
+color brightyellow ""(\\.|[^\"])*""
+# (that's why it's deactivated)
+# color yellow "'(\\.|[^\'])*'"
+
+# Kommentare
+color brightblack "([[:space:]]|^)#.*$"
+# color brightblack "([[:space:]]|^);.*$"
+
+# Email-Adressen
+icolor brightred "\b[-a-z0-9_!#$%&'*+/?^`{|}~.]+@([-a-z0-9]+\.)+[-a-z0-9]+\b"
+
+# URLs
+color brightmagenta "\b(https?|ftp)://[-a-zA-Z0-9./?=&%_]+"
