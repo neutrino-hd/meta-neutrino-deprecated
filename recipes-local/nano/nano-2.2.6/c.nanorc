@@ -1,0 +1,82 @@
+##
+## Highlighter-Definition für C/C++-Quelltexte in Nano
+## Konzipiert für Terminals mit weißer Schrift auf schwarzem Hintergrund
+##
+## Version 2008-02-04.1
+##
+## Verbesserungsvorschläge bitte im Forum
+## http://forum.ubuntuusers.de/topic/149459/
+##
+
+# mögliche Vordergrundfarben:
+#@brightblack  brightred      brightgreen  brightyellow
+#@brightblue   brightmagenta  brightcyan   brightwhite
+#
+# mögliche Hinter- und Vordergrundfarben:
+#@(black)      red            green        yellow
+#@blue         magenta        cyan         white
+
+syntax "c" "\.(h|c(pp)?)$"
+
+# __SPEZIELLE__VARIABLENNAMEN
+color brightyellow "\b[_A-Z0-9]{2,}\b"
+
+# Variablentypen
+color cyan "\b(auto|bool|char|const|double|float|int|long|mutable|register|short|signed|static|unsigned|void|volatile|uchar|uint|int8_t|int16_t|int32_t|int64_t|uint8_t|uint16_t|uint32_t|uint64_t|wchar_t)\b"
+color yellow "\bNULL\b"
+
+# Schlüsselwörter
+color brightmagenta "\b(asm|break|case|catch|class|const_cast|continue|default|delete|do|dynamic_cast|else|enum|explicit|export|extern|false|friend|for|goto|if|inline|namespace|new|operator|private|protected|public|qobject_cast|reinterpret_cast|return|sizeof|static_cast|struct|switch|template|this|throw|true|try|typedef|typeid|type_info|typename|union|using|virtual|while)\b"
+color brightmagenta "\b(and|and_eq|bad_cast|bad_typeid|bitand|bitor|compl|not|not_eq|or|or_eq|xor|xor_eq|except|finally|xalloc)\b"
+color brightwhite,blue "\bmain\b"
+
+# +-*/%~
+color green "[-+*/%~]"
+
+# Zahlen
+# Oct
+color brightred "[-+]?\b0[0-7]+u?l?\b"
+# Ganzzahlen und Dezimalzahlen mit Punkt
+icolor red "[-+]?\b(0|[1-9][0-9]*(e[-+]?[0-9]+)?)(f?|u?l?)\b"
+icolor red "[-+]?\.[0-9]+(e[-+]?[0-9]+)?(f?|u?l?)\b" "[-+]?\b[0-9]+\.(\B|[0-9]*(e[-+]?[0-9]+)?(f?|u?l?))"
+# Hex
+icolor magenta "[-+]?\b0x[0-9a-f]+u?l?\b"
+
+# Klammern, Vergleichsoperatoren
+color green "[]{}()<>!=&|[]"
+
+# Zeiger
+color brightcyan "[*&]\b" "\b[*&]"
+color brightcyan "->"
+
+# Semikolon und Komma
+color brightblue "[,;]"
+
+# ::
+color cyan "\b::\b"
+
+# "Strings" und 'Strings'
+color brightcyan ""(\\.|[^\"])*""
+color brightgreen "'(\\.|[^\'])*'"
+
+# Escape-Codes, Format-Tags
+color brightblue "\\[abfnrtv\'"?]"
+color yellow "%[-+ #0]?([0-9]+|\*)?(\.[0-9]+|\*)?[hlL]?[cdieEfgGosuxXpn%]"
+
+# include-Dateien <Datei> und "Datei"
+color magenta "^[[:space:]]*#[[:space:]]*include[[:space:]]+<.+>"
+color brightmagenta "^[[:space:]]*#[[:space:]]*include[[:space:]]+".+""
+
+# Präprozessor-Direktiven
+color brightred "^[[:space:]]*#[[:space:]]*((el)?if[[:space:]]*(!?defined)?|else|endif|ifn?def)([[:space:]]|$)"
+color red "^[[:space:]]*#[[:space:]]*(define|error|include|pragma|undef)([[:space:]]|$)"
+
+# Kommentare
+color brightblack "([[:space:]]|^)//.*$" start="/\*" end="\*/"
+
+# FIXME, TODO, etc.
+color brightyellow,red "\b(BUG|FIXME|IMPORTANT|WARNING)\b:?"
+color brightwhite,yellow "\b(BUGFIX|HACK|NOTE|TODO)\b:?"
+
+# Leerzeichen am Zeilenende
+color ,blue "[[:space:]]+$"
