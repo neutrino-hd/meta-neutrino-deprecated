@@ -1,3 +1,7 @@
+FILESEXTRAPATHS_prepend := "${THISDIR}/base-files:"
+
+SRC_URI += "file://profile"
+
 BASEFILESISSUEINSTALL = "do_custom_baseissueinstall"
 
 do_custom_baseissueinstall() {
