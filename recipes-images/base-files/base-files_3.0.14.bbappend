@@ -35,3 +35,11 @@ do_install_append () {
 	install -d ${D}${sysconfdir}/init.d
 	install -m 755 ${S}/cam ${D}${sysconfdir}/init.d/cam
 }
+
+# links to get better compatibility for precompiled binaries on the nevis platform
+do_install_append_coolstream-hd1 () {
+	install -d ${D}${base_libdir} ${D}${libdir}
+	ln -s ./libcrypto.so.1.0.0 ${D}${base_libdir}/libcrypto.so.0.9.8
+	ln -s ./libssl.so.1.0.0 ${D}${libdir}/libssl.so.0.9.8
+}
+
