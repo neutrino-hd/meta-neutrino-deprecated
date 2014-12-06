@@ -2,6 +2,7 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/base-files:"
 
 SRC_URI += "file://profile \
 	    file://inputrc \
+	    file://cam \
 "
 
 BASEFILESISSUEINSTALL = "do_custom_baseissueinstall"
@@ -28,4 +29,9 @@ do_custom_baseissueinstall() {
 	printf "\\\n \\\l\n"							>> ${D}${sysconfdir}/issue
 	echo >> ${D}${sysconfdir}/issue
 	echo >> ${D}${sysconfdir}/issue.net
+}
+
+do_install_append () {
+	install -d ${D}${sysconfdir}/init.d
+	install -m 755 ${S}/cam ${D}${sysconfdir}/init.d/cam
 }
