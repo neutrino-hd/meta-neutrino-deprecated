@@ -1,6 +1,8 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/base-files:"
 
-SRC_URI += "file://profile"
+SRC_URI += "file://profile \
+	    file://inputrc \
+"
 
 BASEFILESISSUEINSTALL = "do_custom_baseissueinstall"
 
