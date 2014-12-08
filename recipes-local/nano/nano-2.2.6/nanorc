@@ -238,6 +238,9 @@ include "/usr/share/nano/js.nanorc"
 ## TeX
 include "/usr/share/nano/tex.nanorc"
 
+## Lua
+include "/usr/share/nano/lua.nanorc"
+
 ## MoinMoin-Wiki (wiki.ubuntuusers.de etc.)
 include "/usr/share/nano/moinmoin.nanorc"
 
