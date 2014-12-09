@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://tuxcom/tuxcom.c;beginline=10;endline=24;md5=8cfd78763
 HOMEPAGE = "https://gitorious.org/neutrino-hd/neutrino-hd-plugins"
 
 SRCREV = "${AUTOREV}"
-PV = "1.17+${SRCPV}"
+PV = "1.17"
 # does not work like that?
 # PV_nhd-plugin-tuxcom = "1.17"
 
@@ -24,9 +24,9 @@ EXTRA_OECONF += " \
 	--with-boxtype=coolstream \
 "
 
-N_CFLAGS = "-Wall -W -Wshadow -g -O2 -funsigned-char"
+N_CFLAGS = "-Wall -W -Wshadow -g -O2 -funsigned-char -I${STAGING_INCDIR}/freetype2"
 N_CXXFLAGS = "${N_CFLAGS}"
-N_LDFLAGS += "-Wl,-rpath-link,${STAGING_DIR_HOST}${libdir}"
+N_LDFLAGS += "-Wl,-rpath-link,${STAGING_DIR_HOST}${libdir},-lfreetype"
 
 PLUGINS_TO_BUILD = "tuxcom"
 
