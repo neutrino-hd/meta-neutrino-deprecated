@@ -16,7 +16,7 @@ if [ "$HOME" = "/home/root" ]; then
 fi
 if [ "$PS1" ]; then
 # works for bash and ash (no other shells known to be in use here)
-   PS1="\[\$? \$(if [[ \$? == 0 ]]; then echo \" \033[0;32m\];)\"; else echo \" \033[0;31m\];(\"; fi)\[\033[00m\]  \t \d \[\e[1;30m\][\[\e[1;34m\]\u@\H\[\e[1;30m\]:\[\e[0;37m\]${SSH_TTY} \[\e[0;32m\]+${SHLVL}\[\e[1;30m\]] \[\e[0;36m\] \w\[\e[0;30m\] \n($SHLVL:\!)\$ "
+   PS1="\[\$? \$(if [[ \$? == 0 ]]; then echo \" \033[0;32m\];)\"; else echo \" \033[0;31m\];(\"; fi)\[\033[00m\]  \t \d \[\e[1;30m\][\[\e[1;34m\]\u@\H\[\e[1;30m\]:\[\e[0;37m\]${SSH_TTY} \[\e[0;32m\]+${SHLVL}\[\e[1;30m\]] \[\e[0;36m\] \w\[\e[00m\] \n($SHLVL:\!)\$ "
 
 fi
 
