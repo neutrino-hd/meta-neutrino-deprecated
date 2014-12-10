@@ -1,5 +1,5 @@
---- plugins/xupnpd_youtube.lua  (revision 400)
-+++ plugins/xupnpd_youtube.lua  (working copy)
+--- git/xupnpd/xupnpd_youtube.lua  (revision 400)
++++ git/xupnpd/xupnpd_youtube.lua  (working copy)
 @@ -189,11 +189,24 @@
  
      return urls[18]
