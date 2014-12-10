@@ -8,6 +8,7 @@ PV = "0.1+${SRCPV}"
 
 
 SRC_URI = "git://coolstreamtech.de/cst-public-plugins-scripts-lua.git \
+	   file://0001-xupnpd_youtube_fix.patch \
 "
 
 S = "${WORKDIR}/git"
