@@ -50,6 +50,7 @@ SRC_URI = " \
 	file://0002-Y_Tools_Screenshot.yhtm_adjust-hardcoded-path-for-yo.patch \
 	file://0003-workaround-wiped-out-resolv.conf-at-boot.patch \
 	file://0004-change-version.h-output.patch \
+	file://0005-0005-xupnpd_youtube_fix.patch \
 "
 
 S = "${WORKDIR}/git"
