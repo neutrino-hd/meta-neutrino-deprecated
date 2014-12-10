@@ -1,3 +1,2 @@
-
-DEPENDS_coolstream-hd2 = "zlib"
-
+DEPENDS_coolstream = "zlib openssl"
+CURLGNUTLS_coolstream = "--with-gnutls --with-ssl"
