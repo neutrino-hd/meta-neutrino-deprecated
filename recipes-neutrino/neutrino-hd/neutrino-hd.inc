@@ -15,7 +15,6 @@ CPPFLAGS = "${N_CPPFLAGS}"
 EXTRA_OECONF = " \
 	--enable-maintainer-mode \
 	--enable-pip \
-	--with-target=native \
 	--enable-silent-rules \
 	--enable-mdev \
 	--enable-lua \
