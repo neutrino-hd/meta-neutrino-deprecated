@@ -36,5 +36,5 @@ IMAGE_INSTALL += "${@'kernel-modules mc tmux nano' if MACHINE != 'coolstream-hd1
 
 EXTRAOPKGCONFIG = "neutrino-feed-config"
 
-IMAGE_INSTALL += "${@'mc tmux nano samba nfs-utils cifs-utils mtd-utils' if IMAGETYPE != 'flashimage' else ''}"
+IMAGE_INSTALL += "${@'mc tmux nano samba nfs-utils cifs-utils mtd-utils man man-pages tmux-doc' if IMAGETYPE != 'flashimage' else ''}"
 
