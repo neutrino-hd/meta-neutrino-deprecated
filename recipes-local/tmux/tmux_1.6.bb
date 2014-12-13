@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://tmux.c;startline=3;endline=17;md5=f36d9c9e6c1c24996a8
 DEPENDS = "ncurses libevent sed-native"
 
 SRC_URI = "${SOURCEFORGE_MIRROR}/tmux/${P}.tar.gz \
-	   file://tmux-mc \
+	   file://tmux.sh \
 	   file://tmux.conf \	
 "
 
@@ -23,6 +23,6 @@ do_configure_prepend () {
 
 do_install_append () {
 	install -d ${D}/${bindir} ${D}${sysconfdir}/
-	install -m 755 ${WORKDIR}/tmux-mc ${D}/${bindir}/
+	install -m 755 ${WORKDIR}/tmux.sh ${D}/${bindir}/
 	install -m 644 ${WORKDIR}/tmux.conf ${D}${sysconfdir}/
 }
