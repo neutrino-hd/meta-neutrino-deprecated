@@ -29,7 +29,7 @@ IMAGE_INSTALL += "${@'udev-extraconf' if MACHINE != 'tripledragon' else ''}"
 
 # Include modules in rootfs, but not on hd1, where
 # flash is small...
-IMAGE_INSTALL += "${@'kernel-modules mc tmux nano' if MACHINE != 'coolstream-hd1' else ''}"
+IMAGE_INSTALL += "${@'kernel-modules' if MACHINE != 'coolstream-hd1' else ''}"
 
 # we must not compile autofs for hd2
 #IMAGE_INSTALL += "${@'autofs' if MACHINE != 'coolstream-hd2' else ''}"
