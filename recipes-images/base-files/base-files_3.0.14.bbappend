@@ -3,6 +3,8 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/base-files:"
 SRC_URI += "file://profile \
 	    file://inputrc \
 	    file://cam \
+	    file://local.sh \
+	    file://create_var.sh \
 "
 
 BASEFILESISSUEINSTALL = "do_custom_baseissueinstall"
@@ -31,9 +33,19 @@ do_custom_baseissueinstall() {
 	echo >> ${D}${sysconfdir}/issue.net
 }
 
-do_install_append () {
+do_install_prepend_coolstream-hd2 () {
+	install -d ${D}${sysconfdir}/init.d ${D}${localstatedir}/etc/opkg ${D}${localstatedir}/lib/opkg
+	install -m 755 ${S}/cam ${D}${localstatedir}/etc/S99cam
+	install -m 755 ${S}/local.sh ${D}${sysconfdir}/init.d/local.sh
+	install -m 755 ${S}/create_var.sh ${D}${sysconfdir}/init.d/create_var.sh
+	update-rc.d -r ${D} local.sh start 90 S .
+	update-rc.d -r ${D} create_var.sh start 10 S .
+}
+
+do_install_prepend_coolstream-hd1 () {
 	install -d ${D}${sysconfdir}/init.d
 	install -m 755 ${S}/cam ${D}${sysconfdir}/init.d/cam
+	update-rc.d -r ${D} cam start 99 S .
 }
 
 # links to get better compatibility for precompiled binaries on the nevis platform
