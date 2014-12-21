@@ -5,8 +5,8 @@ PATH=/bin:/usr/bin:/sbin:/usr/sbin
 #mount -t proc proc /proc
 
 # Create console and null devices if they don't exist.
-[ -e /dev/console ] || mknod -m 644 /dev/console c 5 1
-[ -e /dev/null ] || mknod -m 666 /dev/null  c 1 3
+#[ -e /dev/console ] || mknod -m 644 /dev/console c 5 1
+#[ -e /dev/null ] || mknod -m 666 /dev/null  c 1 3
 
 #mount -t tmpfs tmpfs /tmp
 #mount -t sysfs sys /sys
@@ -74,14 +74,6 @@ else
 			/bin/cp /var_init/tuxbox/config/encoding.conf /var/tuxbox/config/encoding.conf
 			/bin/cp /var_init/tuxbox/config/providermap.xml /var/tuxbox/config/providermap.xml
                 fi
-                if [ ! -d /var/etc/opkg ]; then
-                	/bin/cp -a /var_init/etc/opkg /var/etc
-                	/bin/cp -a /var_init/lib/opkg /var/lib
-                fi
-                if [ ! -d /var/etc/dropbear ]; then
-			/bin/mkdir /var/etc/dropbear
-			/bin/touch /var/etc/.dropbear
-			
-                fi
+
         fi
 fi
