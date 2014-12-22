@@ -1,5 +1,0 @@
-#!/bin/sh 
-tmux new-session -d 'mc'
-tmux split-window -v 'top'
-tmux split-window -h 
-tmux -2 attach-session -d 
