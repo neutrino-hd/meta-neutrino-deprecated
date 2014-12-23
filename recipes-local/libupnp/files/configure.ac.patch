@@ -1,0 +1,15 @@
+--- a/configure.ac	2014-12-23 11:41:25.111073327 +0100
++++ b/configure.ac	2014-12-23 11:41:39.662415120 +0100
+@@ -714,8 +714,8 @@
+ #
+ # Files copied for windows compilation.
+ #
+-echo "configure: copying \"autoconfig.h\"          to \"build/inc/autoconfig.h\""
+-cp autoconfig.h build/inc/autoconfig.h
+-echo "configure: copying \"upnp/inc/upnpconfig.h\" to \"build/inc/upnpconfig.h\""
+-cp upnp/inc/upnpconfig.h build/inc/upnpconfig.h
++#echo "configure: copying \"autoconfig.h\"          to \"build/inc/autoconfig.h\""
++#cp autoconfig.h build/inc/autoconfig.h
++#echo "configure: copying \"upnp/inc/upnpconfig.h\" to \"build/inc/upnpconfig.h\""
++#cp upnp/inc/upnpconfig.h build/inc/upnpconfig.h
+ 
