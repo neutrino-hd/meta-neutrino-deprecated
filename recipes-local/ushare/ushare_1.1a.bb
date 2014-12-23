@@ -12,7 +12,7 @@ SRC_URI = "http://ushare.geexbox.org/releases/ushare-${PV}.tar.bz2 \
 INITSCRIPT_NAME = "ushare"
 INITSCRIPT_PARAMS = "defaults"
 
-inherit autotools
+inherit autotools gettext
 
 EXTRA_OEMAKE += 'STRIP=""'
 
@@ -20,13 +20,16 @@ EXTRA_OEMAKE += 'STRIP=""'
 # the configure script is hand-crafted, it rejects some of the usual
 # configure arguments
 do_configure () {
-	${S}/configure \
+	ln -sf ${S}/* ${WORKDIR}/build/
+	${WORKDIR}/build/configure \
 		    --prefix=${prefix} \
 		    --bindir=${bindir} \
 		    --sysconfdir=${sysconfdir} \
 		    --cross-compile \
-		    --disable-nls \
+		    --disable-nls
+	ln -sf ${WORKDIR}/build/config.* ${S}
 }
+
 
 do_install_append () {
 	update-rc.d -r ${D} ushare start 99 S .
