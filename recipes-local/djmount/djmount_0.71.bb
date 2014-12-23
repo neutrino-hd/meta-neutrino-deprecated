@@ -3,13 +3,13 @@ HOMEPAGE = "http://djmount.sourceforge.net/"
 LICENSE = "GPLv2+"
 LIC_FILES_CHKSUM = "file://COPYING;md5=eb723b61539feef013de476e68b5c50a"
 HOMEPAGE = "http://djmount.sourceforge.net/"
-DEPENDS = "libupnp fuse"
+DEPENDS = "libupnp fuse gettext-native"
 RDEPENDS_${PN} = "fuse"
 PR = "2"
 INITSCRIPT_NAME = "djmount"
 INITSCRIPT_PARAMS = "defaults"
 
-inherit autotools update-rc.d
+inherit autotools update-rc.d pkgconfig
 
 EXTRA_OECONF = "--with-external-libupnp"
 
