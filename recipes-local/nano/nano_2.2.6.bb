@@ -14,5 +14,5 @@ do_install(){
 	install -d ${D}/${datadir}/nano ${D}/${sysconfdir} ${D}/${bindir}
 	install -m 644 ${WORKDIR}/*.nanorc ${D}${datadir}/nano/
 	install -m 644 ${WORKDIR}/nanorc ${D}${sysconfdir}/
-	install -m 755 ${WORKDIR}/build/src/nano ${D}${bindir}/
+	install -m 755 ${S}/src/nano ${D}${bindir}/
 }
