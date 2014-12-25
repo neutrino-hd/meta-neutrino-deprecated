@@ -6,7 +6,7 @@ DEPENDS = "libupnp"
 
 SRC_URI = "http://ushare.geexbox.org/releases/ushare-${PV}.tar.bz2 \
 	   file://new_upnp.patch \
-	   file://ushare_conf.patch \
+	   file://ushare*.conf \
 	   file://init.patch"
 
 INITSCRIPT_NAME = "ushare"
@@ -28,7 +28,13 @@ do_configure () {
 		    --disable-nls \
 }
 
-do_install_append () {
+do_install_append_coolstream-hd1 () {
+	install -m 755 ${WORKDIR}/ushare-${IMAGETYPE}.conf ${D}${sysconfdir}/ushare.conf
+	update-rc.d -r ${D} ushare start 99 S .
+}
+
+do_install_append_coolstream-hd2 () {
+	install -m 755 ${WORKDIR}/ushare-flashimage.conf ${D}${sysconfdir}/ushare.conf
 	update-rc.d -r ${D} ushare start 99 S .
 }
 
