@@ -25,7 +25,8 @@ do_configure () {
 		    --bindir=${bindir} \
 		    --sysconfdir=${sysconfdir} \
 		    --cross-compile \
-		    --disable-nls \
+		    --disable-nls
+	sed -i "s|Coolstream|${MACHINE}|" ${WORKDIR}/ushare*.conf
 }
 
 do_install_append_coolstream-hd1 () {
