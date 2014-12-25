@@ -20,14 +20,15 @@ EXTRA_OEMAKE += 'STRIP=""'
 # the configure script is hand-crafted, it rejects some of the usual
 # configure arguments
 do_configure () {
-	ln -sf ${S}/* ${WORKDIR}/build/
+	cp -rf ${S}/* ${WORKDIR}/build/
 	${WORKDIR}/build/configure \
 		    --prefix=${prefix} \
 		    --bindir=${bindir} \
 		    --sysconfdir=${sysconfdir} \
 		    --cross-compile \
 		    --disable-nls
-	ln -sf ${WORKDIR}/build/config.* ${S}
+	cp -rf ${WORKDIR}/build/config.* ${S}
+	sed -i "s|Coolstream|${MACHINE}|" ${WORKDIR}/ushare*.conf
 }
 
 do_install_append_coolstream-hd1 () {
