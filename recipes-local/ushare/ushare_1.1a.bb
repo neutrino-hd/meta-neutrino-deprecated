@@ -30,12 +30,12 @@ do_configure () {
 
 do_install_append_coolstream-hd1 () {
 	install -m 755 ${WORKDIR}/ushare-${IMAGETYPE}.conf ${D}${sysconfdir}/ushare.conf
-	update-rc.d -r ${D} ushare start 99 S .
+	update-rc.d -r ${D} ushare start 70 2 3 4 5 .
 }
 
 do_install_append_coolstream-hd2 () {
 	install -m 755 ${WORKDIR}/ushare-flashimage.conf ${D}${sysconfdir}/ushare.conf
-	update-rc.d -r ${D} ushare start 99 S .
+	update-rc.d -r ${D} ushare start 70 2 3 4 5 .
 }
 
 SRC_URI[md5sum] = "5bbcdbf1ff85a9710fa3d4e82ccaa251"
