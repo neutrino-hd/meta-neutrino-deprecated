@@ -32,5 +32,5 @@ do_configure_prepend() {
 do_install_append () {
     install -d ${D}${sysconfdir}/init.d
     install -m 0755 ${WORKDIR}/init-${MACHINE} ${D}/etc/init.d/djmount
-    update-rc.d -r ${D} djmount start 99 S .
+    update-rc.d -r ${D} djmount start 99 2 3 4 5 .
 }
