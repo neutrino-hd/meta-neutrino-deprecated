@@ -16,8 +16,8 @@ inherit autotools update-rc.d
 INITSCRIPT_NAME = "udpxy"
 INITSCRIPT_PARAMS = "defaults"
 
-do_configure() {
-	ln -s ${S}/* ${WORKDIR}/build/
+do_configure_append () {
+	ln -sf ${S}/* ${WORKDIR}/build/
 }
 
 do_compile () {
