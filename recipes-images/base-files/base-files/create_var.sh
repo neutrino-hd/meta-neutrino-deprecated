@@ -56,6 +56,10 @@ else
                 echo try to mount /dev/mtdblock$VARBLOCK to /var
                 /bin/mount -t jffs2 /dev/mtdblock$VARBLOCK /var
         fi
+
+# Workaround: tmpfs in var cannot be mounted earlier via fstab
+mount -t tmpfs tmpfs /var/volatile/tmp
+
         if [ $? != 0 ]; then
                 echo failed to mount /var
                 /bin/rmdir /var && /bin/mv /var_init /var
