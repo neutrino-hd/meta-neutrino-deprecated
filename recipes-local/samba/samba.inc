@@ -95,6 +95,7 @@ do_install_append() {
 
 	rmdir --ignore-fail-on-non-empty ${D}${base_sbindir}
 	sed -i -e '1s,#!.*perl,#!${USRBINPATH}/env perl,' ${D}${bindir}/findsmb
+	update-rc.d -r ${D} samba start 70 2 3 4 5 .
 }
 
 
