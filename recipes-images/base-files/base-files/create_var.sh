@@ -56,20 +56,25 @@ else
                 echo try to mount /dev/mtdblock$VARBLOCK to /var
                 /bin/mount -t jffs2 /dev/mtdblock$VARBLOCK /var
         fi
-
-# Workaround: tmpfs in var cannot be mounted earlier via fstab
-mount -t tmpfs tmpfs /var/volatile/tmp
-
         if [ $? != 0 ]; then
                 echo failed to mount /var
                 /bin/rmdir /var && /bin/mv /var_init /var
         else
-                if [ ! -d /var/tuxbox ]; then
+# Workaround: tmpfs in var cannot be mounted earlier via fstab
+		mount -t tmpfs tmpfs /var/volatile/tmp
+
+# Workaround: move /etc/network/interfaces to /var
+		if [ ! -h /etc/network/interfaces ]; then
+			if [ -f /var/etc/network/interfaces ]; then
+				ln -sf /var/etc/network/interfaces /etc/network/interfaces
+			else
+				mv -f /etc/network/interfaces /var/etc/network/interfaces
+				ln -sf /var/etc/network/interfaces /etc/network/interfaces
+			fi
+		fi
+		if [ ! -d /var/tuxbox ]; then
                         /bin/cp -a /var_init/* /var/
 			/bin/rm -f /var_init/etc/.newimage
-                fi
-                if [ ! -f /var/etc/network/interfaces ]; then
-                        /bin/cp -a /var_init/etc /var/
                 fi
                 if [ -f /var_init/etc/.newimage ]; then
 			/bin/rm /var_init/etc/.newimage
@@ -78,6 +83,5 @@ mount -t tmpfs tmpfs /var/volatile/tmp
 			/bin/cp /var_init/tuxbox/config/encoding.conf /var/tuxbox/config/encoding.conf
 			/bin/cp /var_init/tuxbox/config/providermap.xml /var/tuxbox/config/providermap.xml
                 fi
-
         fi
 fi
