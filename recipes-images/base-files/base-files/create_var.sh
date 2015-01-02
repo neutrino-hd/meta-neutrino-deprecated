@@ -44,6 +44,7 @@ else
 	if [ -f /var_init/etc/.reset ]; then
                 echo Factory reset, erasing var /dev/$VARDEV
 		/bin/rm /var_init/etc/.reset
+		mv -f /var/etc/network/interfaces /etc/network/interfaces
                 /usr/sbin/flash_eraseall /dev/$VARDEV
 	fi
 
