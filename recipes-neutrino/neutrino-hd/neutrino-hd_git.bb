@@ -15,7 +15,7 @@ DEPENDS_append += " \
 	libbluray \
 	libid3tag \
 	libpng \
-	jpeg \
+	libjpeg-turbo \
 	libdvbsi++ \
 	ffmpeg \
 	flac \
