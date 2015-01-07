@@ -17,6 +17,7 @@ IMAGE_INSTALL += " \
 	e2fsprogs-mke2fs \
 	e2fsprogs-e2fsck \
 	e2fsprogs-tune2fs \
+	vsftpd \
 	udpxy \
 	xupnpd \
 	fbshot \
