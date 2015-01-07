@@ -2,10 +2,10 @@ DESCRIPTION = "xupnpd - eXtensible UPnP agent"
 HOMEPAGE = "http://xupnpd.org"
 
 LICENSE = "GPLv2"
-LIC_FILES_CHKSUM = "file://../LICENSE;md5=751419260aa954499f7abaabaa882bbe"
+LIC_FILES_CHKSUM = "file://../LICENSE;md5=2672bb5ef7251128740dfd3a80fe6698"
 
 DEPENDS += "lua5.2"
-SRCREV = "392"
+SRCREV = "400"
 SRC_URI = "\
 	svn://tsdemuxer.googlecode.com/svn/trunk;protocol=http;module=xupnpd \
 	file://0002-ui_restart-fix-xupnpd-install-path.patch \
