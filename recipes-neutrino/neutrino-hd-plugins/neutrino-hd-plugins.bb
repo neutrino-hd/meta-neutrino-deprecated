@@ -1,9 +1,9 @@
 DESCRIPTION = "tuxbox plugins, ported to neutrino-hd"
 LICENSE = "GPLv2+"
 LIC_FILES_CHKSUM = "file://tuxcom/tuxcom.c;beginline=10;endline=24;md5=8cfd78763de33face1d26b11904e84d5"
-DEPENDS = "freetype"
+DEPENDS = "freetype ffmpeg zlib libxml2 virtual/libiconv"
 SRCREV = "${AUTOREV}"
-PV = "1"
+PV = "2"
 
 SRC_URI = "git://github.com/MarkusVolk/neutrino-hd-plugins.git \
 "
@@ -33,9 +33,7 @@ do_install () {
 	for i in ${PLUGIN_INSTALL}; do
 		oe_runmake install SUBDIRS="$i" DESTDIR=${D}
 	done
-}
-
-			
+}			
 
 FILES_${PN}-dbg += "/var/tuxbox/plugins/.debug"
 
