@@ -8,6 +8,8 @@ PV = "2"
 SRC_URI = "git://github.com/MarkusVolk/neutrino-hd-plugins.git \
 "
 
+PLUGIN_INSTALL = "msgbox"
+
 S = "${WORKDIR}/git"
 
 inherit autotools pkgconfig
