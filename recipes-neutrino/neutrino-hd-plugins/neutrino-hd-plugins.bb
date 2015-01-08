@@ -3,12 +3,12 @@ LICENSE = "GPLv2+"
 LIC_FILES_CHKSUM = "file://tuxcom/tuxcom.c;beginline=10;endline=24;md5=8cfd78763de33face1d26b11904e84d5"
 DEPENDS = "freetype ffmpeg zlib libxml2 virtual/libiconv"
 SRCREV = "${AUTOREV}"
-PV = "2"
+PV = "3"
 
 SRC_URI = "git://github.com/MarkusVolk/neutrino-hd-plugins.git \
 "
 
-PLUGIN_INSTALL = "msgbox"
+PLUGIN_INSTALL ?= "msgbox"
 
 S = "${WORKDIR}/git"
 
