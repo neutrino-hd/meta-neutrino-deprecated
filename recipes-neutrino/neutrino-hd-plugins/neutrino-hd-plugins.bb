@@ -1,7 +1,7 @@
 DESCRIPTION = "tuxbox plugins, ported to neutrino-hd"
 LICENSE = "GPLv2+"
 LIC_FILES_CHKSUM = "file://tuxcom/tuxcom.c;beginline=10;endline=24;md5=8cfd78763de33face1d26b11904e84d5"
-DEPENDS = "freetype ffmpeg zlib libxml2 virtual/libiconv"
+DEPENDS = "freetype ffmpeg zlib libxml2 virtual/libiconv openssl"
 SRCREV = "${AUTOREV}"
 PV = "6"
 
