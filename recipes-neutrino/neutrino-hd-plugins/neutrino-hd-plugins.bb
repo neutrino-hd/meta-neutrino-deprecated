@@ -26,12 +26,12 @@ N_LDFLAGS += "-Wl,-rpath-link,${STAGING_DIR_HOST}${libdir},-lfreetype"
 
 do_compile () {
 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
-	oe_runmake CFLAGS="${N_CFLAGS}" CXXFLAGS="${N_CXXFLAGS}" LDFLAGS="${N_LDFLAGS}" SUBDIRS="msgbox ${PLUGIN_INSTALL}"
+	oe_runmake CFLAGS="${N_CFLAGS}" CXXFLAGS="${N_CXXFLAGS}" LDFLAGS="${N_LDFLAGS}" SUBDIR="msgbox ${PLUGIN_INSTALL}"
 }
 
 do_install () {
 	for i in msgbox ${PLUGIN_INSTALL}; do
-		oe_runmake install SUBDIRS="$i" DESTDIR=${D}
+		oe_runmake install SUBDIR="$i" DESTDIR=${D}
 	done
 }			
 
