@@ -3,12 +3,10 @@ LICENSE = "GPLv2+"
 LIC_FILES_CHKSUM = "file://tuxcom/tuxcom.c;beginline=10;endline=24;md5=8cfd78763de33face1d26b11904e84d5"
 DEPENDS = "freetype ffmpeg zlib libxml2 virtual/libiconv"
 SRCREV = "${AUTOREV}"
-PV = "2"
+PV = "6"
 
 SRC_URI = "git://github.com/MarkusVolk/neutrino-hd-plugins.git \
 "
-
-PLUGIN_INSTALL ?= "msgbox"
 
 S = "${WORKDIR}/git"
 
@@ -28,11 +26,11 @@ N_LDFLAGS += "-Wl,-rpath-link,${STAGING_DIR_HOST}${libdir},-lfreetype"
 
 do_compile () {
 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
-	oe_runmake CFLAGS="${N_CFLAGS}" CXXFLAGS="${N_CXXFLAGS}" LDFLAGS="${N_LDFLAGS}" SUBDIRS="${PLUGIN_INSTALL}"
+	oe_runmake CFLAGS="${N_CFLAGS}" CXXFLAGS="${N_CXXFLAGS}" LDFLAGS="${N_LDFLAGS}" SUBDIRS="msgbox ${PLUGIN_INSTALL}"
 }
 
 do_install () {
-	for i in ${PLUGIN_INSTALL}; do
+	for i in msgbox ${PLUGIN_INSTALL}; do
 		oe_runmake install SUBDIRS="$i" DESTDIR=${D}
 	done
 }			
