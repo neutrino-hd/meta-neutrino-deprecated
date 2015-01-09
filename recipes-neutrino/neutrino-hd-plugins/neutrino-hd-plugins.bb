@@ -22,7 +22,7 @@ EXTRA_OECONF += " \
 
 N_CFLAGS = "-Wall -W -Wshadow -g -O2 -funsigned-char -I${STAGING_INCDIR}/freetype2"
 N_CXXFLAGS = "${N_CFLAGS}"
-N_LDFLAGS += "-Wl,-rpath-link,${STAGING_DIR_HOST}${libdir},-lfreetype"
+N_LDFLAGS += "-Wl,-rpath-link,${STAGING_DIR_HOST}${libdir},-lfreetype -lcrypto -lssl"
 
 do_compile () {
 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
