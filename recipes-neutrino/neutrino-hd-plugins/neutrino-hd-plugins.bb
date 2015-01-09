@@ -1,7 +1,7 @@
 DESCRIPTION = "tuxbox plugins, ported to neutrino-hd"
 LICENSE = "GPLv2+"
 LIC_FILES_CHKSUM = "file://tuxcom/tuxcom.c;beginline=10;endline=24;md5=8cfd78763de33face1d26b11904e84d5"
-DEPENDS = "freetype ffmpeg zlib libxml2 virtual/libiconv"
+DEPENDS = "freetype ffmpeg zlib libxml2 virtual/libiconv openssl"
 SRCREV = "${AUTOREV}"
 PV = "6"
 
@@ -22,7 +22,7 @@ EXTRA_OECONF += " \
 
 N_CFLAGS = "-Wall -W -Wshadow -g -O2 -funsigned-char -I${STAGING_INCDIR}/freetype2"
 N_CXXFLAGS = "${N_CFLAGS}"
-N_LDFLAGS += "-Wl,-rpath-link,${STAGING_DIR_HOST}${libdir},-lfreetype"
+N_LDFLAGS += "-Wl,-rpath-link,${STAGING_DIR_HOST}${libdir},-lfreetype -lcrypto -lssl"
 
 do_compile () {
 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
