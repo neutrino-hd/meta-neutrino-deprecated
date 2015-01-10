@@ -36,6 +36,9 @@ else
         if [ ! -d /var_init ]; then
                 echo Rename /var to /var_init
                 /bin/mv /var /var_init
+		if [ ! -h /etc/network/interfaces ]; then
+			cp /etc/network/interfaces /var_init/etc/network/
+		fi
         fi
         if [ ! -d /var ]; then     
                 /bin/mkdir /var
@@ -44,7 +47,6 @@ else
 	if [ -f /var_init/etc/.reset ]; then
                 echo Factory reset, erasing var /dev/$VARDEV
 		/bin/rm /var_init/etc/.reset
-		mv -f /var/etc/network/interfaces /etc/network/interfaces
                 /usr/sbin/flash_eraseall /dev/$VARDEV
 	fi
 
@@ -63,22 +65,26 @@ else
         else
 # Workaround: tmpfs in var cannot be mounted earlier via fstab
 		mount -t tmpfs tmpfs /var/volatile/tmp
-
-# Workaround: move /etc/network/interfaces to /var
-		if [ ! -h /etc/network/interfaces ]; then
-			if [ -f /var/etc/network/interfaces ]; then
-				ln -sf /var/etc/network/interfaces /etc/network/interfaces
-			else
-				mv -f /etc/network/interfaces /var/etc/network/interfaces
-				ln -sf /var/etc/network/interfaces /etc/network/interfaces
-			fi
-		fi
+# Move /etc/network/interfaces to /var/etc/network/interfaces
+                if [ ! -h /etc/network/interfaces ]; then
+			rm /etc/network/interfaces
+                        if [ -e /var/etc/network/interfaces ]; then
+                                ln -sf /var/etc/network/interfaces /etc/network/interfaces
+				if [ /var/etc/network/interfaces -nt /var_init/etc/network/interfaces ]; then
+					cp -a /var/etc/network/interfaces /var_init/etc/network/
+				fi
+                        else
+                                cp /var_init/etc/network/interfaces /var/etc/network/interfaces
+                                ln -sf /var/etc/network/interfaces /etc/network/interfaces
+                        fi
+                fi
 # Keep ´/var/lib/opkg` in sync
                 if [ /var/lib/opkg/status -nt /var_init/lib/opkg/status ]; then
-                        cp -rf /var/lib/opkg /var_init/lib/
+                        cp -a /var/lib/opkg /var_init/lib/
                 else
-                        cp -rf /var_init/lib/opkg /var/lib/
+                        cp -a /var_init/lib/opkg /var/lib/
                 fi
+# Copy var_init to var, if partition is empty
 		if [ ! -d /var/tuxbox ]; then
                         /bin/cp -a /var_init/* /var/
 			/bin/rm -f /var_init/etc/.newimage
