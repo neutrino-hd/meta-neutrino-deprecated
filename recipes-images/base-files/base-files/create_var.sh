@@ -73,6 +73,12 @@ else
 				ln -sf /var/etc/network/interfaces /etc/network/interfaces
 			fi
 		fi
+# Keep ´/var/lib/opkg` in sync
+                if [ /var/lib/opkg/status -nt /var_init/lib/opkg/status ]; then
+                        cp -rf /var/lib/opkg /var_init/lib/
+                else
+                        cp -rf /var_init/lib/opkg /var/lib/
+                fi
 		if [ ! -d /var/tuxbox ]; then
                         /bin/cp -a /var_init/* /var/
 			/bin/rm -f /var_init/etc/.newimage
