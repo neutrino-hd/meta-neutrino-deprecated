@@ -39,3 +39,10 @@ EXTRAOPKGCONFIG = "neutrino-feed-config"
 
 IMAGE_INSTALL += "${@'mc tmux nano samba nfs-utils cifs-utils mtd-utils man man-pages tmux-doc vim diffutils ushare djmount openssh' if IMAGETYPE != 'flashimage' else ''}"
 
+# Set root password here
+
+inherit extrausers
+     
+EXTRA_USERS_PARAMS = "\
+	              useradd -P root root; \
+"
