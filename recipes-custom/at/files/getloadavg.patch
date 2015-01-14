@@ -1,0 +1,26 @@
+--- a/getloadavg.c	2014-08-10 13:56:37.000000000 +0200
++++ b/getloadavg.c	2015-01-10 19:36:50.382846024 +0100
+#needed, because we don´t have emacs for arm
+@@ -69,10 +69,10 @@ Boston, MA  02110-1301  USA */
+ #include <config.h>
+ #endif
+ 
+-#include "lisp.h"
+-#include "sysfile.h" /* for encapsulated open, close, read, write */
++/*#include "lisp.h"
++#include "sysfile.h"  for encapsulated open, close, read, write */
+ 
+-#ifndef HAVE_GETLOADAVG
++/*#ifndef HAVE_GETLOADAVG
+ 
+ /* The existing Emacs configuration files define a macro called
+    LOAD_AVE_CVT, which accepts a value of type LOAD_AVE_TYPE, and
+@@ -574,7 +574,7 @@ getloadavg (double loadavg[], int nelem)
+   double load_ave[3];
+   int fd, count;
+ 
+-  fd = open (LINUX_LDAV_FILE, O_RDONLY);
++/*  fd = open (LINUX_LDAV_FILE, O_RDONLY);
+   if (fd == -1)
+     return -1;
+   count = read (fd, ldavgbuf, 40);

@@ -1,0 +1,11 @@
+--- a/ip/ipnetns.c	2015-01-10 23:16:40.043023663 +0100
++++ b/ip/ipnetns.c	2015-01-10 23:18:43.049882003 +0100
+@@ -43,7 +43,7 @@
+ #endif
+ 
+ #ifndef HAVE_SETNS
+-static int setns(int fd, int nstype)
++int setns(int fd, int nstype)
+ {
+ #ifdef __NR_setns
+ 	return syscall(__NR_setns, fd, nstype);

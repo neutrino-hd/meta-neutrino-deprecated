@@ -1,0 +1,15 @@
+--- a/plugins/sudoers/match.c	2015-01-14 11:48:59.423585780 +0100
++++ b/plugins/sudoers/match.c	2015-01-14 11:39:08.799593917 +0100
+@@ -933,10 +933,10 @@
+ bool
+ netgr_matches(const char *netgr, const char *lhost, const char *shost, const char *user)
+ {
+-#ifdef HAVE_INNETGR
++//#ifdef HAVE_INNETGR
+     static char *domain;
+     static int initialized;
+-#endif
++//#endif
+     bool rc = false;
+     debug_decl(netgr_matches, SUDO_DEBUG_MATCH)
+ 
