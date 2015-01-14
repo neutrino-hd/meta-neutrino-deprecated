@@ -1,3 +1,4 @@
+Compatible_TCLIBC = "uclibc"
 
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
