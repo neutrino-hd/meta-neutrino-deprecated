@@ -19,17 +19,22 @@ PATH=/bin:/usr/bin:/sbin:/usr/sbin
 #mount -a
 
 # do not mount or update var, if network is up at this point, ie nfs boot
-ETH0_LINK_STATUS=`ip link show eth0 up`
-if [ "x$ETH0_LINK_STATUS" != "x" ]; then
-exit
-fi
+# the solution from original cst script is not working with iproute2 here.
+# changed for better compatibility
+cat /sys/class/net/eth0/operstate | grep -qi "unknown" && exit
 
 if [ -f /var/etc/.factory ]; then
 exit
 fi
 
+# check if we are using gnu coreutils
+if [ -e /usr/bin/cut.coreutils ]; then
+# coreutils "cut" counts from 1
+VARDEV=`grep -i var /proc/mtd | cut -f 1 -s -d :`
+else
+# busybox "cut" counts from 0
 VARDEV=`grep -i var /proc/mtd | cut -f 0 -s -d :`
-
+fi
 if [ -z $VARDEV ]; then
         echo no var partition found
 else
