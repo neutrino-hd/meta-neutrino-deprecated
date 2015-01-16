@@ -35,12 +35,6 @@ SRC_URI[sha256sum] = "4f5a171a8d902c6b4f822ed875c51eb8339196d9ccf0ecd7f6521c966b
 
 S = "${WORKDIR}/samba-${PV}/source3"
 
-# very ugly, but compiles for now
-do_configure_prepend () {
-	ln -sf ${S}/* ${WORKDIR}/build/
-	ln -sf ${WORKDIR}/samba-${PV}/* ${WORKDIR}
-}
-
 EXTRA_OECONF += "\
 	ac_cv_path_PYTHON=/not/exist \
 	ac_cv_path_PYTHON_CONFIG=/not/exist \
