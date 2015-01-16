@@ -69,7 +69,7 @@ else
                 /bin/rmdir /var && /bin/mv /var_init /var
         else
 # Workaround: tmpfs in var cannot be mounted earlier via fstab
-		mount -t tmpfs tmpfs /var/volatile/tmp
+		mount -t tmpfs tmpfs /var/volatile
 # Move /etc/network/interfaces to /var/etc/network/interfaces
                 if [ ! -h /etc/network/interfaces ]; then
 			rm /etc/network/interfaces
