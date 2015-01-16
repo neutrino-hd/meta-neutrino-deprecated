@@ -16,6 +16,10 @@ inherit autotools update-rc.d
 INITSCRIPT_NAME = "udpxy"
 INITSCRIPT_PARAMS = "defaults"
 
+do_configure_append () {
+	ln -sf ${S}/* ${WORKDIR}/build/
+}
+
 do_compile () {
 	oe_runmake rdebug
 }
@@ -24,8 +28,8 @@ do_install(){
 	install -d ${D}/${bindir}
 	install -m 755 -D ${WORKDIR}/${PN}.init ${D}${sysconfdir}/init.d/${PN}
 	install -m 644 -D ${WORKDIR}/${PN}.default ${D}${sysconfdir}/default/${PN}
-	install -m 755 ${S}/udpxy ${D}/${bindir}/
-	install -m 755 ${S}/udpxrec ${D}/${bindir}/
+	install -m 755 ${WORKDIR}/build/udpxy ${D}/${bindir}/
+	install -m 755 ${WORKDIR}/build/udpxrec ${D}/${bindir}/
 }
 
 SRC_URI[md5sum] = "0c953f7dd80329c1a062997afb9b6744"
