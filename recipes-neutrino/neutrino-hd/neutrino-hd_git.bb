@@ -34,6 +34,7 @@ DEPENDS_coolstream-hd2 += " \
 RDEPENDS_${PN} += " \
 	tzdata \
 	luaposix \
+	virtual/stb-hal-libs \
 "
 
 RCONFLICTS_${PN} = "neutrino-hd2"

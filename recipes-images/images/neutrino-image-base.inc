@@ -15,6 +15,8 @@ EXTRA_USERS_PARAMS = "\
 IMAGE_INSTALL += " \
     packagegroup-custom-needed \
 "
+# don´t install kernel-modules for tiny images
+IMAGE_INSTALL += "${@'kernel-modules' if IMAGETYPE != 'tiny' else ''}"
 
 EXTRAOPKGCONFIG = "neutrino-feed-config"
 
