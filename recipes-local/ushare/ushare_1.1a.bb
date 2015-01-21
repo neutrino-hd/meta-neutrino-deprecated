@@ -32,12 +32,12 @@ do_configure () {
 }
 
 do_install_append_coolstream-hd1 () {
-	install -m 755 ${WORKDIR}/ushare-${IMAGETYPE}.conf ${D}${sysconfdir}/ushare.conf
+	install -m 755 ${WORKDIR}/ushare-${DISTRO}.conf ${D}${sysconfdir}/ushare.conf
 	update-rc.d -r ${D} ushare start 70 2 3 4 5 .
 }
 
 do_install_append_coolstream-hd2 () {
-	install -m 755 ${WORKDIR}/ushare-flashimage.conf ${D}${sysconfdir}/ushare.conf
+	install -m 755 ${WORKDIR}/ushare-${DISTRO}.conf ${D}${sysconfdir}/ushare.conf
 	update-rc.d -r ${D} ushare start 70 2 3 4 5 .
 }
 
