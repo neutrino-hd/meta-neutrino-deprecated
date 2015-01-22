@@ -11,9 +11,7 @@ PACKAGES = "\
 
 RDEPENDS_packagegroup-custom-needed = "\
 	virtual/stb-hal-libs \
-	image-config \
-        cifs-utils \
-	djmount \	
+	image-config \	
 	e2fsprogs-mke2fs \
 	e2fsprogs-e2fsck \
 	e2fsprogs-tune2fs \
@@ -21,7 +19,6 @@ RDEPENDS_packagegroup-custom-needed = "\
 	opkg \
 	procps \
 	udpxy \
-	ushare \
 	vsftpd \
 	xupnpd \
 	"

@@ -1,4 +1,4 @@
-COMPATIBLE_MACHINE = "coolstream-hd2"
+#COMPATIBLE_MACHINE = "coolstream-hd2"
 include udev.inc
 
 PR = "r1"

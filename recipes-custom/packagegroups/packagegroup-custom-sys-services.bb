@@ -20,6 +20,7 @@ RDEPENDS_packagegroup-custom-sys-services = "\
     cronie \
     dbus \
     dbus-glib \
+    djmount \
     python-dbus \
     gzip \
     less \
@@ -36,5 +37,6 @@ RDEPENDS_packagegroup-custom-sys-services = "\
     sysfsutils \
     tcp-wrappers \
     tzdata \
+    ushare \
     "
 

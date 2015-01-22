@@ -1,4 +1,4 @@
-COMPATIBLE_MACHINE = "coolstream-hd2"
+#COMPATIBLE_MACHINE = "coolstream-hd2"
 SUMMARY = "Extra machine specific configuration files"
 DESCRIPTION = "Extra machine specific configuration files for udev, specifically blacklist information."
 LICENSE = "GPLv2"

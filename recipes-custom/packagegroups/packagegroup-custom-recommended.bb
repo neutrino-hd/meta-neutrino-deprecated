@@ -15,6 +15,7 @@ PACKAGES = "\
 
 
 RDEPENDS_packagegroup-custom-recommended = "\
+    cifs-utils \
     djmount \
     libevent \
     nfs-utils \
