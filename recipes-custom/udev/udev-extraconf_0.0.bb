@@ -15,7 +15,7 @@ SRC_URI = "file://mount.blacklist \
 
 do_install () {
 	install -d ${D}${sysconfdir}/udev/
-	install -m 0644 ${WORKDIR}/mount.blacklist     ${D}${sysconfdir}/udev/
+	install -m 0644 ${WORKDIR}/mount.blacklist ${D}${sysconfdir}/udev/
 }
 
 do_install_append() {
@@ -25,6 +25,10 @@ do_install_append() {
 	update-rc.d -r ${D} aa_media-tmpfs.sh start 03 S .
 	# needs to run after S03udev -> zz_udev...
 	update-rc.d -r ${D} zz_udev-blockdev.sh start 03 S .
+}
+
+do_install_prepend_coolstream-hd1 () {
+	sed -i '5a ${@'/dev/sda' if DISTRO != 'coolstream-hd1_flash' else '#/dev/sda'}' ${WORKDIR}/mount.blacklist
 }
 
 FILES_${PN} += " \
