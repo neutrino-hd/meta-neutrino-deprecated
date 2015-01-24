@@ -17,7 +17,6 @@ RDEPENDS_packagegroup-custom-full = " \
     packagegroup-custom-libs \
     packagegroup-custom-utils \
     packagegroup-custom-extended \
-    packagegroup-custom-dev-utils \
     packagegroup-custom-multiuser \
     packagegroup-custom-sys-services \
 "

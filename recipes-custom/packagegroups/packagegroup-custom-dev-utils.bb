@@ -16,6 +16,12 @@ RDEPENDS_packagegroup-custom-dev-utils = "\
     make \
     patch \
     mtd-utils \
+    automake \
+    autoconf \
+    cmake \
+    gcc \
+    gdb \
+    strace \
     "
 
 
