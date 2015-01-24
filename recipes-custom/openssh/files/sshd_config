@@ -37,6 +37,7 @@ Protocol 2
 
 # Authentication:
 
+Banner /etc/ssh/sshd_banner
 #LoginGraceTime 2m
 PermitRootLogin yes
 #StrictModes yes
