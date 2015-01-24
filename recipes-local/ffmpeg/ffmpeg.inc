@@ -163,6 +163,7 @@ EXTRA_OECONF_append_coolstream-hd2 = " \
 	--enable-decoder=subviewer1 \
 	--enable-decoder=xsub \
 	--enable-decoder=pgssub \
+	--enable-decoder=movtext \
 	--enable-decoder=mp3 \
 	--enable-decoder=flac \
 	--enable-decoder=vorbis \
