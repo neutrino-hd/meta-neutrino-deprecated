@@ -14,6 +14,7 @@ SRC_URI = "https://security.appspot.com/downloads/vsftpd-${PV}.tar.gz \
            file://vsftpd.conf \
            file://vsftpd.user_list \
            file://vsftpd.ftpusers \
+	   file://vsftpd_banner \
            file://change-secure_chroot_dir.patch \
            file://volatiles.99_vsftpd \
            file://vsftpd.service \
@@ -59,6 +60,8 @@ do_install() {
     oe_runmake 'DESTDIR=${D}' install
     install -d ${D}${sysconfdir}
     install -m 600 ${WORKDIR}/vsftpd.conf ${D}${sysconfdir}/vsftpd.conf
+    sed -i "s|yocto|${MACHINE}|" ${WORKDIR}/vsftpd_banner
+    install -m 600 ${WORKDIR}/vsftpd_banner ${D}${sysconfdir}/vsftpd_banner
     install -d ${D}${sysconfdir}/init.d/
     install -m 755 ${WORKDIR}/init ${D}${sysconfdir}/init.d/vsftpd
     install -d ${D}/${sysconfdir}/default/volatiles

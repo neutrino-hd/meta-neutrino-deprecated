@@ -9,6 +9,7 @@ SRC_URI += "file://sshd_config \
 EXTRA_OECONF_append_libc-uclibc=" --with-pam"
 
 do_install_append () {
+	sed -i "s|yocto|${MACHINE}|" ${WORKDIR}/sshd_banner
 	install -m 0644 ${WORKDIR}/sshd_banner ${D}${sysconfdir}/ssh/sshd_banner
 }
 
