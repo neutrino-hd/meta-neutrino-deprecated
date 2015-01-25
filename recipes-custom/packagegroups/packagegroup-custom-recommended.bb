@@ -24,5 +24,6 @@ RDEPENDS_packagegroup-custom-recommended = "\
     rpcbind \
     ushare \
     samba \
+    util-linux-blkid \
     "
 

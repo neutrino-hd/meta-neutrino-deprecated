@@ -38,5 +38,6 @@ RDEPENDS_packagegroup-custom-sys-services = "\
     tcp-wrappers \
     tzdata \
     ushare \
+    wpa-supplicant \
     "
 
