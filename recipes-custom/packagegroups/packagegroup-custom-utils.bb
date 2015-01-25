@@ -45,6 +45,7 @@ RDEPENDS_packagegroup-custom-utils = "\
     time \
     tmux \
     util-linux \
+    util-linux-blkid \
     vim \
     zlib \
     "
