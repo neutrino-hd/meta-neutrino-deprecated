@@ -1,6 +1,6 @@
 #COMPATIBLE_MACHINE = "coolstream-hd1"
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
-DEPENDS_append = "update-rc.d-native"
+DEPENDS_append = "update-rc.d-native util-linux-blkid"
 
 #PRINC := "${@int(PRINC) + 1}"
 
