@@ -27,14 +27,23 @@ DEPENDS_append += " \
 	lua5.2 \
 	luaposix \
 "
+
 DEPENDS_coolstream-hd2 += " \
 	libiconv \
+	virtual/stb-hal-libs \
 "
 
 RDEPENDS_${PN} += " \
 	tzdata \
 	luaposix \
-	virtual/stb-hal-libs \
+"
+
+RDEPENDS_${PN}_coolstream-hd1 += " \
+	cs-drivers-hd1 \
+"
+
+RDEPENDS_${PN}_coolstream-hd2 += " \
+	cs-drivers-hd2 \
 "
 
 RCONFLICTS_${PN} = "neutrino-hd2"
@@ -81,6 +90,7 @@ do_compile () {
 
 
 do_install_prepend () {
+# change numer to force rebuild "2"
 	install -d ${D}/${sysconfdir}/init.d ${D}${sysconfdir}/network ${D}${datadir}/tuxbox/neutrino/themes
 	install -m 755 ${WORKDIR}/neutrino.init ${D}${sysconfdir}/init.d/neutrino
 	install -m 755 ${WORKDIR}/custom-poweroff.init ${D}${sysconfdir}/init.d/custom-poweroff
