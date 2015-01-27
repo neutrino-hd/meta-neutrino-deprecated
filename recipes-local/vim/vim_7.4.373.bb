@@ -21,7 +21,6 @@ inherit autotools-brokensep
 
 # vim configure.in contains functions which got 'dropped' by autotools.bbclass
 do_configure () {
-#
     rm -f auto/*
     touch auto/config.mk
     aclocal
