@@ -3,9 +3,9 @@ SECTION = "console/utils"
 DEPENDS = "ncurses gettext-native"
 # vimdiff doesn't like busybox diff
 RSUGGESTS_${PN} = "diffutils"
-LICENSE_PATH += "${THISDIR}/files"
+LICENSE_PATH += "${THISDIR}/files:"
 LICENSE = "vim"
-LIC_FILES_CHKSUM = "file://vim;md5=89d47e7cb4cef37a3c24b379470c96bf"
+LIC_FILES_CHKSUM = "file://../runtime/doc/uganda.txt;md5=b779e18be6ed77facc770691c967b8f8"
 SRC_URI = "hg://vim.googlecode.com/hg/;protocol=https;module=vim \
            file://disable_acl_header_check.patch;patchdir=.. \
            file://vim-add-knob-whether-elf.h-are-checked.patch;patchdir=.. \
@@ -21,6 +21,7 @@ inherit autotools-brokensep
 
 # vim configure.in contains functions which got 'dropped' by autotools.bbclass
 do_configure () {
+#
     rm -f auto/*
     touch auto/config.mk
     aclocal
