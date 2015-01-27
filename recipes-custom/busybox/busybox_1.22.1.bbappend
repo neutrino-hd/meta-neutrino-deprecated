@@ -1,7 +1,5 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
-#PRINC := "${@int(PRINC) + 2}"
-
 SRC_URI += " \
 	file://neutrino-busybox.cfg \
 	file://telnetd.busybox \

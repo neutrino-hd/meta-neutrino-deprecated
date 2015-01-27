@@ -1,3 +1,1 @@
-Compatible_TCLIBC = "uclibc"
-
-RDEPENDS_${PN}_coolstream-hd2 += "base-files libiconv"
+RDEPENDS_${PN}_libc-uclibc += "base-files libiconv"

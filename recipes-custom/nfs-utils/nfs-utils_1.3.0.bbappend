@@ -1,5 +1,3 @@
-Compatible_TCLIBC = "uclibc"
-
 FILESEXTRAPATHS_prepend := "${THISDIR}/nfs-utils:"
 
-SRC_URI += "file://sockaddr_h.patch"
+SRC_URI_append_libc-uclibc += "file://sockaddr_h.patch"

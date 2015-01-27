@@ -1,5 +1,3 @@
-Compatible_TCLIBC = "uclibc"
-
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
-SRC_URI += "file://net-tools-config.h"
+SRC_URI_append_libc-uclibc += "file://net-tools-config.h"

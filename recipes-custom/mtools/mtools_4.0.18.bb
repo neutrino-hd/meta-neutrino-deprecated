@@ -1,4 +1,4 @@
-Compatible_TCLIBC = "uclibc"
+Compatible_MACHINE = "coolstream-hd2"
 SUMMARY = "Utilities to access MS-DOS disks without mounting them"
 DESCRIPTION = "Mtools is a collection of utilities to access MS-DOS disks from GNU and Unix without mounting them."
 HOMEPAGE = "http://www.gnu.org/software/mtools/"
