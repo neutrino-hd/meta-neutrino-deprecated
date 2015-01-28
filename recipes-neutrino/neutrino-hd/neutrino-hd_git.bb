@@ -5,37 +5,31 @@ SECTION = "libs"
 LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://${WORKDIR}/COPYING.GPL;md5=751419260aa954499f7abaabaa882bbe"
 
-DEPENDS_append += " \
-	giflib \
-	virtual/stb-hal-libs \
+DEPENDS += " \
 	curl \
-	libmad \
-	freetype \
-	freetype-native \
-	openssl \
-	gettext \
-	libbluray \
-	libid3tag \
-	libpng \
-	libjpeg-turbo \
-	libdvbsi++ \
 	ffmpeg \
 	flac \
-	tremor \
+	freetype \
+	freetype-native \
+	gettext \
+	giflib \
+	libbluray \
+	libdvbsi++ \
+	libid3tag \
+	libjpeg-turbo \
+	libmad \
+	libpng \
 	libsigc++ \
-	openthreads \
 	lua5.2 \
 	luaposix \
-"
-
-DEPENDS_coolstream-hd2 += " \
-	libiconv \
+	openssl \
+	openthreads \
+	tremor \
 	virtual/stb-hal-libs \
 "
 
-RDEPENDS_${PN} += " \
-	tzdata \
-	luaposix \
+DEPENDS_append_coolstream-hd2 += " \
+	libiconv \
 "
 
 RDEPENDS_${PN}_coolstream-hd1 += " \
@@ -45,8 +39,10 @@ RDEPENDS_${PN}_coolstream-hd1 += " \
 RDEPENDS_${PN}_coolstream-hd2 += " \
 	cs-drivers-hd2 \
 "
-
-RCONFLICTS_${PN} = "neutrino-hd2"
+RDEPENDS_append_${PN} += " \
+	tzdata \
+	luaposix \
+"
 
 SRCREV = "${AUTOREV}"
 PV = "2.15+${SRCPV}"
@@ -97,7 +93,7 @@ do_install_prepend () {
 	install -m 755 ${WORKDIR}/pre-wlan0.sh ${D}${sysconfdir}/network/
 	install -m 755 ${WORKDIR}/post-wlan0.sh ${D}${sysconfdir}/network/
 	install -m 644 ${WORKDIR}/timezone.xml ${D}${sysconfdir}/timezone.xml
-	install -m 644 ${WORKDIR}/grey-blue.theme ${D}${datadir}/tuxbox/neutrino/themes/grey-blue.theme
+	install -m 644 ${WORKDIR}/grey-blue.theme ${D}${datadir}/tuxbox/neutrino/themes/Grey-blue.theme
 	install -d ${D}/var/cache
 	install -d ${D}/var/tuxbox/config/
 	install -d ${D}/var/tuxbox/plugins/
