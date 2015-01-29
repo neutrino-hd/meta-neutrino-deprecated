@@ -1,0 +1,23 @@
+From: Stefan Seyfried 
+Date: Wed, 26 Jan 2015 
+Subject: luaclient: fix "jump to...crosses initialization of" error
+---
+--- a/lib/luaclient/luaclient.cpp
++++ b/lib/luaclient/luaclient.cpp
+@@ -76,6 +76,7 @@
+ 	int res = -1;
+ 	const char *fun = NULL;
+ 	char *resp = NULL;
++	char result[size];
+ 
+         if (!client.Send(data, size)) {
+ 		fun = "Send failed";
+@@ -85,7 +86,6 @@
+ 		fun = "Recv (1) failed";
+ 		goto fail;
+ 	}
+-	char result[size];
+         if (!client.Recv(result, size)) {
+ 		fun = "Recv (2) failed";
+ 		goto fail;
+
