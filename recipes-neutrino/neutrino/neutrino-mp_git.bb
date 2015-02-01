@@ -1,6 +1,6 @@
-SUMMARY = "Neutrino HD"
-DESCRIPTION = "CST Neutrino HD for Coolstream Settop Boxes."
-HOMEPAGE = "http://git.coolstreamtech.de"
+SUMMARY = "Neutrino MP"
+DESCRIPTION = "Seifes Neutrino-MP for multiple Platforms."
+HOMEPAGE = "http://www.tuxbox.org"
 SECTION = "libs"
 LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://${WORKDIR}/COPYING.GPL;md5=751419260aa954499f7abaabaa882bbe"
@@ -44,23 +44,25 @@ RDEPENDS_append_${PN} += " \
 	luaposix \
 "
 
+RCONFLICTS_${PN} = "neutrino-hd"
+
 SRCREV = "${AUTOREV}"
-PV = "2.15+${SRCPV}"
-PR = "2"
+PV = "${SRCPV}"
+PR = "3"
 SRC_URI = " \
-	git://coolstreamtech.de/cst-public-gui-neutrino.git;protocol=git;branch=cst-next \
+	git://gitorious.org/neutrino-mp/neutrino-mp.git;protocol=git \
 	file://neutrino.init \
 	file://timezone.xml \
 	file://custom-poweroff.init \
-	file://pre-wlan0.sh \
-	file://post-wlan0.sh \
 	file://COPYING.GPL \
 	file://grey-blue.theme \
-	file://0001-configure_fix.patch \
+	file://0001-uncooloff.c-add-include-stdbool.h.patch \
 	file://0002-Y_Tools_Screenshot.yhtm_adjust-hardcoded-path-for-yo.patch \
 	file://0003-workaround-wiped-out-resolv.conf-at-boot.patch \
-	file://0004-luaclient_fix-jump-to...crosses-initialization-of-error.patch \
-	file://0005-change-version.h-output.patch \
+	file://hardware_caps.cpp \
+	file://hardware_caps.h \
+	file://pre-wlan0.sh \
+	file://post-wlan0.sh \
 "
 
 S = "${WORKDIR}/git"
@@ -71,9 +73,11 @@ INITSCRIPT_PACKAGES   = "${PN}"
 INITSCRIPT_NAME_${PN} = "neutrino"
 INITSCRIPT_PARAMS_${PN} = "start 99 5 . stop 20 0 1 2 3 4 6 ."
 
-include neutrino-hd.inc
+include neutrino-mp.inc
 
 do_configure_prepend() {
+	# change number to force rebuild "2"
+	cp ${WORKDIR}/hardware_caps* ${S}/lib/libcoolstream2
 	INSTALL="`which install` -p"
 	export INSTALL
 	ln -sf ${WORKDIR}/build/src/gui/version.h ${S}/src/gui/
@@ -86,7 +90,7 @@ do_compile () {
 
 
 do_install_prepend () {
-# change number to force rebuild "2"
+# change number to force rebuild "1"
 	install -d ${D}/${sysconfdir}/init.d ${D}${sysconfdir}/network ${D}${datadir}/tuxbox/neutrino/themes
 	install -m 755 ${WORKDIR}/neutrino.init ${D}${sysconfdir}/init.d/neutrino
 	install -m 755 ${WORKDIR}/custom-poweroff.init ${D}${sysconfdir}/init.d/custom-poweroff
@@ -99,7 +103,7 @@ do_install_prepend () {
 	install -d ${D}/var/tuxbox/plugins/
 	echo "version=1200`date +%Y%m%d%H%M`"    > ${D}/.version 
 	echo "creator=${CREATOR}"             >> ${D}/.version 
-	echo "imagename=Neutrino-HD"             >> ${D}/.version 
+	echo "imagename=Neutrino-MP"             >> ${D}/.version 
 	echo "homepage=${HOMEPAGE}"              >> ${D}/.version 
 	update-rc.d -r ${D} custom-poweroff start 89 0 .
 }
