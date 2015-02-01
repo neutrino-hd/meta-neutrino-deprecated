@@ -19,10 +19,5 @@ EXTRA_AUTORECONF = "--exclude=autoheader"
 FILES_${PN}-dev += "${libdir}/sigc++-*/"
 FILES_${PN}-doc += "${datadir}/devhelp"
 
-do_install_append() {
-    ln -s ./sigc++-2.0/sigc++ ${D}${includedir}
-    cp ${WORKDIR}/build/sigc++config.h ${D}${includedir}
-}
-
 BBCLASSEXTEND = "native"
 
