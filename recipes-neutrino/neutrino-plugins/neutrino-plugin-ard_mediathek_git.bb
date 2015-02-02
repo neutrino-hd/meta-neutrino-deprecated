@@ -3,7 +3,7 @@ LICENSE = "GPL-2.0"
 LIC_FILES_CHKSUM = "file://plugins/ard_mediathek/ard_mediathek.lua;beginline=1;endline=20;md5=cc9f2ac0e48626fcc38baccfc9344558"
 HOMEPAGE = "http://git.coolstreamtech.de/"
 DEPENDS = "lua5.2"
-RDEPENDS_${PN} = "lua-json"
+RDEPENDS_${PN} = "lua-json luaposix"
 SRCREV = "${AUTOREV}"
 PV = "0.1+${SRCPV}"
 
