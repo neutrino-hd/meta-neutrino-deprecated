@@ -34,6 +34,7 @@ RDEPENDS_packagegroup-custom-utils = "\
     mc-helpers-perl \
     mc-helpers-python \
     mktemp \
+    mtd-utils \
     nano \
     ncurses \
     net-tools \
