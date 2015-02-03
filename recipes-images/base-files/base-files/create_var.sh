@@ -21,7 +21,7 @@ PATH=/bin:/usr/bin:/sbin:/usr/sbin
 # do not mount or update var, if network is up at this point, ie nfs boot
 # the solution from original cst script is not working with iproute2 here.
 # changed for better compatibility
-cat /sys/class/net/eth0/operstate | grep -qi "unknown" && exit
+cat /sys/class/net/eth0/operstate | grep -qi "up" && exit
 
 if [ -f /var/etc/.factory ]; then
 exit
