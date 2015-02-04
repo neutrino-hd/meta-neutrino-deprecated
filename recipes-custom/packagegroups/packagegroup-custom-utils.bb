@@ -14,8 +14,8 @@ RDEPENDS_packagegroup-custom-utils = "\
     acl \
     attr \
     bc \
-    coreutils \
     cpio \
+    coreutils \
     e2fsprogs \
     ed \
     ethtool \
@@ -34,10 +34,6 @@ RDEPENDS_packagegroup-custom-utils = "\
     mc-helpers-perl \
     mc-helpers-python \
     mktemp \
-    mtd-utils \
-    nano \
-    ncurses \
-    net-tools \
     pax \
     popt \
     psmisc \
