@@ -7,8 +7,6 @@ DEPENDS = "openssl zlib"
 SRCREV = "${AUTOREV}"
 PV = "${SRCPV}"
 
-inherit pkgconfig
-
 SRC_URI = "git://git.ffmpeg.org/rtmpdump;protocol=git"
 
 S = "${WORKDIR}/git/librtmp"
