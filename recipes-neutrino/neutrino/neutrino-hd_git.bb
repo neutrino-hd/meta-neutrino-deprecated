@@ -61,8 +61,7 @@ SRC_URI = " \
 	file://0001-configure_fix.patch \
 	file://0002-Y_Tools_Screenshot.yhtm_adjust-hardcoded-path-for-yo.patch \
 	file://0003-workaround-wiped-out-resolv.conf-at-boot.patch \
-	file://0004-luaclient_fix-jump-to...crosses-initialization-of-error.patch \
-	file://0005-change-version.h-output.patch \
+	file://0004-change-version.h-output.patch \
 "
 
 S = "${WORKDIR}/git"
