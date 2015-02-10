@@ -31,6 +31,7 @@ PACKAGECONFIG[vpx] = "--enable-libvpx,--disable-libvpx,libvpx"
 PACKAGECONFIG[mp3lame] = "--enable-libmp3lame,--disable-libmp3lame,lame"
 PACKAGECONFIG[faac] = "--enable-libfaac,--disable-libfaac,faac"
 PACKAGECONFIG[x11] = "--enable-x11grab,--disable-x11grab,virtual/libx11 libxfixes libxext xproto"
+PACKAGECONFIG[rtmpdump] = "--enable-librtmp,--disable-librtmp,rtmpdump"
 
 EXTRA_OECONF = " \
     --disable-stripping \
