@@ -21,5 +21,8 @@ RDEPENDS_packagegroup-custom-needed = "\
 	udpxy \
 	vsftpd \
 	xupnpd \
+	tzdata \
+	tzdata-europe \
+	udev-extraconf \
 	"
 

@@ -26,22 +26,7 @@ DEPENDS += " \
 	openthreads \
 	tremor \
 	virtual/stb-hal-libs \
-"
-
-DEPENDS_append_coolstream-hd2 += " \
-	libiconv \
-"
-
-RDEPENDS_${PN}_coolstream-hd1 += " \
-	cs-drivers-hd1 \
-"
-
-RDEPENDS_${PN}_coolstream-hd2 += " \
-	cs-drivers-hd2 \
-"
-RDEPENDS_append_${PN} += " \
-	tzdata \
-	luaposix \
+	virtual/libiconv \
 "
 
 RCONFLICTS_${PN} = "neutrino-mp"

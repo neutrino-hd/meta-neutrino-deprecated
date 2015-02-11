@@ -14,7 +14,6 @@ RDEPENDS_packagegroup-custom-utils = "\
     acl \
     attr \
     bc \
-    coreutils \
     cpio \
     e2fsprogs \
     ed \
@@ -44,7 +43,6 @@ RDEPENDS_packagegroup-custom-utils = "\
     time \
     tmux \
     usbutils \
-    util-linux \
     util-linux-blkid \
     util-linux-agetty \
     vim \
