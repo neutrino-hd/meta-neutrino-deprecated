@@ -17,5 +17,6 @@ do_compile() {
 }
 
 do_install() {
+	install -d ${D}${libdir}
 	oe_runmake DESTDIR=${D} install
 }
