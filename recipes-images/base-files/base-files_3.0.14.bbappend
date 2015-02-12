@@ -49,7 +49,9 @@ do_install_prepend_coolstream-hd2 () {
 do_install_prepend_coolstream-hd1 () {
 	install -d ${D}${sysconfdir}/init.d
 	install -m 755 ${S}/cam ${D}${sysconfdir}/init.d/cam
+	install -m 755 ${S}/setdns ${D}${sysconfdir}/init.d/setdns
 	update-rc.d -r ${D} cam start 99 S .
+	update-rc.d -r ${D} setdns start 60 S .
 }
 
 # links to get better compatibility for precompiled binaries on the nevis platform

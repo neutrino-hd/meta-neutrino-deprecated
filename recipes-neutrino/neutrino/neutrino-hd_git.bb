@@ -5,6 +5,8 @@ SECTION = "libs"
 LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://${WORKDIR}/COPYING.GPL;md5=751419260aa954499f7abaabaa882bbe"
 
+inherit autotools pkgconfig update-rc.d gitpkgv
+
 DEPENDS += " \
 	curl \
 	ffmpeg \
@@ -46,13 +48,11 @@ SRC_URI = " \
 	file://grey-blue.theme \
 	file://0001-configure_fix.patch \
 	file://0002-Y_Tools_Screenshot.yhtm_adjust-hardcoded-path-for-yo.patch \
-	file://0003-workaround-wiped-out-resolv.conf-at-boot.patch \
+	file://0003-workaround-wiped-out-resolv.conf-at-boot_${MACHINE}.patch \
 	file://0004-change-version.h-output.patch \
 "
 
 S = "${WORKDIR}/git"
-
-inherit autotools pkgconfig update-rc.d gitpkgv
 
 INITSCRIPT_PACKAGES   = "${PN}"
 INITSCRIPT_NAME_${PN} = "neutrino"
@@ -73,7 +73,7 @@ do_compile () {
 
 
 do_install_prepend () {
-# change number to force rebuild "2"
+# change number to force rebuild "1"
 	install -d ${D}/${sysconfdir}/init.d ${D}${sysconfdir}/network ${D}${datadir}/tuxbox/neutrino/themes
 	install -m 755 ${WORKDIR}/neutrino.init ${D}${sysconfdir}/init.d/neutrino
 	install -m 755 ${WORKDIR}/custom-poweroff.init ${D}${sysconfdir}/init.d/custom-poweroff
@@ -96,7 +96,6 @@ do_install_append() {
 	install -d ${D}/share/ ${D}/etc/rc5.d 
 	ln -s ../usr/share/tuxbox ${D}/share/
 	ln -s ../usr/share/fonts  ${D}/share/
-	ln -s ../init.d/setdns ${D}${sysconfdir}/rc5.d/S10setdns
 }
 
 FILES_${PN} += "\

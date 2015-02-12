@@ -5,6 +5,8 @@ SECTION = "libs"
 LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://${WORKDIR}/COPYING.GPL;md5=751419260aa954499f7abaabaa882bbe"
 
+inherit autotools pkgconfig update-rc.d gitpkgv
+
 DEPENDS += " \
 	curl \
 	ffmpeg \
@@ -44,7 +46,7 @@ SRC_URI = " \
 	file://grey-blue.theme \
 	file://0001-uncooloff.c-add-include-stdbool.h.patch \
 	file://0002-Y_Tools_Screenshot.yhtm_adjust-hardcoded-path-for-yo.patch \
-	file://0003-workaround-wiped-out-resolv.conf-at-boot.patch \
+	file://0003-workaround-wiped-out-resolv.conf-at-boot_${MACHINE}.patch \
 	file://hardware_caps.cpp \
 	file://hardware_caps.h \
 	file://pre-wlan0.sh \
@@ -52,8 +54,6 @@ SRC_URI = " \
 "
 
 S = "${WORKDIR}/git"
-
-inherit autotools pkgconfig update-rc.d gitpkgv
 
 INITSCRIPT_PACKAGES   = "${PN}"
 INITSCRIPT_NAME_${PN} = "neutrino"
@@ -99,7 +99,6 @@ do_install_append() {
 	install -d ${D}/share/ ${D}/etc/rc5.d 
 	ln -s ../usr/share/tuxbox ${D}/share/
 	ln -s ../usr/share/fonts  ${D}/share/
-	ln -s ../init.d/setdns ${D}${sysconfdir}/rc5.d/S10setdns
 }
 
 FILES_${PN} += "\
