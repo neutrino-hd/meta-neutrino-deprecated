@@ -31,7 +31,6 @@ RDEPENDS_packagegroup-custom-recommended = "\
     rpcbind \
     tmux \
     ushare \
-    usbutils \
     samba \
     util-linux-blkid \
     wpa-supplicant \
