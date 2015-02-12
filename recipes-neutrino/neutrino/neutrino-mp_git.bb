@@ -32,8 +32,9 @@ DEPENDS += " \
 RCONFLICTS_${PN} = "neutrino-hd"
 
 SRCREV = "${AUTOREV}"
-PV = "${SRCPV}"
+PV = "${GITPKGVTAG}"
 PR = "3"
+
 SRC_URI = " \
 	git://gitorious.org/neutrino-mp/neutrino-mp.git;protocol=git \
 	file://neutrino.init \
@@ -52,7 +53,7 @@ SRC_URI = " \
 
 S = "${WORKDIR}/git"
 
-inherit autotools pkgconfig update-rc.d
+inherit autotools pkgconfig update-rc.d gitpkgv
 
 INITSCRIPT_PACKAGES   = "${PN}"
 INITSCRIPT_NAME_${PN} = "neutrino"

@@ -32,8 +32,9 @@ DEPENDS += " \
 RCONFLICTS_${PN} = "neutrino-mp"
 
 SRCREV = "${AUTOREV}"
-PV = "${SRCPV}"
+PV = "${GITPKGVTAG}"
 PR = "3"
+
 SRC_URI = " \
 	git://coolstreamtech.de/cst-public-gui-neutrino.git;protocol=git;branch=cst-next \
 	file://neutrino.init \
@@ -51,7 +52,7 @@ SRC_URI = " \
 
 S = "${WORKDIR}/git"
 
-inherit autotools pkgconfig update-rc.d
+inherit autotools pkgconfig update-rc.d gitpkgv
 
 INITSCRIPT_PACKAGES   = "${PN}"
 INITSCRIPT_NAME_${PN} = "neutrino"
