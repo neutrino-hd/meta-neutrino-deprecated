@@ -41,6 +41,8 @@ else
         if [ ! -d /var_init ]; then
                 echo Rename /var to /var_init
                 /bin/mv /var /var_init
+# keep mtime for opkg status
+		touch /var_init/lib/opkg/status
 		if [ ! -h /etc/network/interfaces ]; then
 			cp /etc/network/interfaces /var_init/etc/network/
 		fi
