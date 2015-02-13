@@ -4,8 +4,11 @@ LIC_FILES_CHKSUM = "file://plugins/ard_mediathek/ard_mediathek.lua;beginline=1;e
 HOMEPAGE = "http://git.coolstreamtech.de/"
 DEPENDS = "lua5.2"
 RDEPENDS_${PN} = "lua-json luaposix"
+
+inherit gitpkgv
+
 SRCREV = "${AUTOREV}"
-PV = "0.1+${SRCPV}"
+PV = "${GITPKGVTAG}"
 
 
 SRC_URI = "git://coolstreamtech.de/cst-public-plugins-scripts-lua.git \

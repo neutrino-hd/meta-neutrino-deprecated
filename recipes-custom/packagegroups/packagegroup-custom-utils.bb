@@ -14,7 +14,6 @@ RDEPENDS_packagegroup-custom-utils = "\
     acl \
     attr \
     bc \
-    coreutils \
     cpio \
     e2fsprogs \
     ed \
@@ -34,9 +33,8 @@ RDEPENDS_packagegroup-custom-utils = "\
     mc-helpers-perl \
     mc-helpers-python \
     mktemp \
+    mtd-utils \
     nano \
-    ncurses \
-    net-tools \
     pax \
     popt \
     psmisc \
@@ -44,8 +42,9 @@ RDEPENDS_packagegroup-custom-utils = "\
     tar \
     time \
     tmux \
-    util-linux \
+    usbutils \
     util-linux-blkid \
+    util-linux-agetty \
     vim \
     zlib \
     "

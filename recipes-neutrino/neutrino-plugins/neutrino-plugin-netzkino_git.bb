@@ -4,8 +4,11 @@ LIC_FILES_CHKSUM = "file://plugins/${PLUGINS_TO_BUILD}/${PLUGINS_TO_BUILD}.lua;b
 HOMEPAGE = "http://git.coolstreamtech.de/"
 DEPENDS = "lua5.2"
 RDEPENDS_${PN} = "lua-json luaposix"
+
+inherit gitpkgv
+
 SRCREV = "${AUTOREV}"
-PV = "0.1+${SRCPV}"
+PV = "${GITPKGVTAG}"
 
 
 SRC_URI = "git://coolstreamtech.de/cst-public-plugins-scripts-lua.git \

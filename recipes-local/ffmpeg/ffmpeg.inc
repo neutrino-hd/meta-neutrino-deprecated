@@ -6,7 +6,7 @@ LICENSE_FLAGS = "commercial"
 
 ARM_INSTRUCTION_SET = "arm"
 
-DEPENDS = "zlib libogg libvorbis libtheora yasm-native libxml2"
+DEPENDS = "zlib libogg libvorbis libtheora yasm-native libxml2 librtmp"
 
 INC_PR = "r8"
 
@@ -31,6 +31,7 @@ PACKAGECONFIG[vpx] = "--enable-libvpx,--disable-libvpx,libvpx"
 PACKAGECONFIG[mp3lame] = "--enable-libmp3lame,--disable-libmp3lame,lame"
 PACKAGECONFIG[faac] = "--enable-libfaac,--disable-libfaac,faac"
 PACKAGECONFIG[x11] = "--enable-x11grab,--disable-x11grab,virtual/libx11 libxfixes libxext xproto"
+PACKAGECONFIG[rtmpdump] = "--enable-librtmp,--disable-librtmp,rtmpdump"
 
 EXTRA_OECONF = " \
     --disable-stripping \
@@ -79,6 +80,7 @@ EXTRA_OECONF_append_coolstream-hd1 = " \
 	--enable-decoder=subviewer1 \
 	--enable-decoder=xsub \
 	--enable-decoder=pgssub \
+	--enable-decoder=movtext \
 	--enable-decoder=mp3 \
 	--enable-decoder=flac \
 	--enable-decoder=vorbis \
@@ -128,7 +130,21 @@ EXTRA_OECONF_append_coolstream-hd1 = " \
 	--disable-encoders \
 	--disable-muxers \
 	--disable-filters \
-	--disable-protocols \
+	--enable-librtmp \
+	--disable-protocol=data \
+	--disable-protocol=cache \
+	--disable-protocol=concat \
+	--disable-protocol=crypto \
+	--disable-protocol=ftp \
+	--disable-protocol=gopher \
+	--disable-protocol=httpproxy \
+	--disable-protocol=pipe \
+	--disable-protocol=sctp \
+	--disable-protocol=srtp \
+	--disable-protocol=subfile \
+	--disable-protocol=unix \
+	--disable-protocol=md5 \
+	--disable-protocol=hls \
 	--enable-protocol=file \
 	--enable-protocol=http \
 	--enable-protocol=rtmp \
@@ -213,7 +229,21 @@ EXTRA_OECONF_append_coolstream-hd2 = " \
 	--disable-encoders \
 	--disable-muxers \
 	--disable-filters \
-	--disable-protocols \
+	--enable-librtmp \
+	--disable-protocol=data \
+	--disable-protocol=cache \
+	--disable-protocol=concat \
+	--disable-protocol=crypto \
+	--disable-protocol=ftp \
+	--disable-protocol=gopher \
+	--disable-protocol=httpproxy \
+	--disable-protocol=pipe \
+	--disable-protocol=sctp \
+	--disable-protocol=srtp \
+	--disable-protocol=subfile \
+	--disable-protocol=unix \
+	--disable-protocol=md5 \
+	--disable-protocol=hls \
 	--enable-protocol=file \
 	--enable-protocol=http \
 	--enable-protocol=rtmp \

@@ -5,6 +5,8 @@ SECTION = "libs"
 LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://${WORKDIR}/COPYING.GPL;md5=751419260aa954499f7abaabaa882bbe"
 
+inherit autotools pkgconfig update-rc.d gitpkgv
+
 DEPENDS += " \
 	curl \
 	ffmpeg \
@@ -26,39 +28,25 @@ DEPENDS += " \
 	openthreads \
 	tremor \
 	virtual/stb-hal-libs \
-"
-
-DEPENDS_append_coolstream-hd2 += " \
-	libiconv \
-"
-
-RDEPENDS_${PN}_coolstream-hd1 += " \
-	cs-drivers-hd1 \
-"
-
-RDEPENDS_${PN}_coolstream-hd2 += " \
-	cs-drivers-hd2 \
-"
-RDEPENDS_append_${PN} += " \
-	tzdata \
-	luaposix \
+	virtual/libiconv \
 "
 
 RCONFLICTS_${PN} = "neutrino-hd"
 
 SRCREV = "${AUTOREV}"
-PV = "${SRCPV}"
+PV = "${GITPKGVTAG}"
 PR = "3"
+
 SRC_URI = " \
 	git://gitorious.org/neutrino-mp/neutrino-mp.git;protocol=git \
 	file://neutrino.init \
 	file://timezone.xml \
 	file://custom-poweroff.init \
 	file://COPYING.GPL \
-	file://grey-blue.theme \
+	file://gray-blue.theme \
 	file://0001-uncooloff.c-add-include-stdbool.h.patch \
 	file://0002-Y_Tools_Screenshot.yhtm_adjust-hardcoded-path-for-yo.patch \
-	file://0003-workaround-wiped-out-resolv.conf-at-boot.patch \
+	file://0003-workaround-wiped-out-resolv.conf-at-boot_${MACHINE}.patch \
 	file://hardware_caps.cpp \
 	file://hardware_caps.h \
 	file://pre-wlan0.sh \
@@ -66,8 +54,6 @@ SRC_URI = " \
 "
 
 S = "${WORKDIR}/git"
-
-inherit autotools pkgconfig update-rc.d
 
 INITSCRIPT_PACKAGES   = "${PN}"
 INITSCRIPT_NAME_${PN} = "neutrino"
@@ -97,7 +83,7 @@ do_install_prepend () {
 	install -m 755 ${WORKDIR}/pre-wlan0.sh ${D}${sysconfdir}/network/
 	install -m 755 ${WORKDIR}/post-wlan0.sh ${D}${sysconfdir}/network/
 	install -m 644 ${WORKDIR}/timezone.xml ${D}${sysconfdir}/timezone.xml
-	install -m 644 ${WORKDIR}/grey-blue.theme ${D}${datadir}/tuxbox/neutrino/themes/Grey-blue.theme
+	install -m 644 ${WORKDIR}/gray-blue.theme ${D}${datadir}/tuxbox/neutrino/themes/Gray-blue.theme
 	install -d ${D}/var/cache
 	install -d ${D}/var/tuxbox/config/
 	install -d ${D}/var/tuxbox/plugins/
@@ -113,7 +99,6 @@ do_install_append() {
 	install -d ${D}/share/ ${D}/etc/rc5.d 
 	ln -s ../usr/share/tuxbox ${D}/share/
 	ln -s ../usr/share/fonts  ${D}/share/
-	ln -s ../init.d/setdns ${D}${sysconfdir}/rc5.d/S10setdns
 }
 
 FILES_${PN} += "\

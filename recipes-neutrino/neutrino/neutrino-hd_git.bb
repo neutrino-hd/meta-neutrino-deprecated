@@ -5,6 +5,8 @@ SECTION = "libs"
 LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://${WORKDIR}/COPYING.GPL;md5=751419260aa954499f7abaabaa882bbe"
 
+inherit autotools pkgconfig update-rc.d gitpkgv
+
 DEPENDS += " \
 	curl \
 	ffmpeg \
@@ -26,29 +28,15 @@ DEPENDS += " \
 	openthreads \
 	tremor \
 	virtual/stb-hal-libs \
-"
-
-DEPENDS_append_coolstream-hd2 += " \
-	libiconv \
-"
-
-RDEPENDS_${PN}_coolstream-hd1 += " \
-	cs-drivers-hd1 \
-"
-
-RDEPENDS_${PN}_coolstream-hd2 += " \
-	cs-drivers-hd2 \
-"
-RDEPENDS_append_${PN} += " \
-	tzdata \
-	luaposix \
+	virtual/libiconv \
 "
 
 RCONFLICTS_${PN} = "neutrino-mp"
 
 SRCREV = "${AUTOREV}"
-PV = "${SRCPV}"
+PV = "${GITPKGVTAG}"
 PR = "3"
+
 SRC_URI = " \
 	git://coolstreamtech.de/cst-public-gui-neutrino.git;protocol=git;branch=cst-next \
 	file://neutrino.init \
@@ -57,16 +45,14 @@ SRC_URI = " \
 	file://pre-wlan0.sh \
 	file://post-wlan0.sh \
 	file://COPYING.GPL \
-	file://grey-blue.theme \
+	file://gray-blue.theme \
 	file://0001-configure_fix.patch \
 	file://0002-Y_Tools_Screenshot.yhtm_adjust-hardcoded-path-for-yo.patch \
-	file://0003-workaround-wiped-out-resolv.conf-at-boot.patch \
+	file://0003-workaround-wiped-out-resolv.conf-at-boot_${MACHINE}.patch \
 	file://0004-change-version.h-output.patch \
 "
 
 S = "${WORKDIR}/git"
-
-inherit autotools pkgconfig update-rc.d
 
 INITSCRIPT_PACKAGES   = "${PN}"
 INITSCRIPT_NAME_${PN} = "neutrino"
@@ -87,14 +73,14 @@ do_compile () {
 
 
 do_install_prepend () {
-# change number to force rebuild "2"
+# change number to force rebuild "1"
 	install -d ${D}/${sysconfdir}/init.d ${D}${sysconfdir}/network ${D}${datadir}/tuxbox/neutrino/themes
 	install -m 755 ${WORKDIR}/neutrino.init ${D}${sysconfdir}/init.d/neutrino
 	install -m 755 ${WORKDIR}/custom-poweroff.init ${D}${sysconfdir}/init.d/custom-poweroff
 	install -m 755 ${WORKDIR}/pre-wlan0.sh ${D}${sysconfdir}/network/
 	install -m 755 ${WORKDIR}/post-wlan0.sh ${D}${sysconfdir}/network/
 	install -m 644 ${WORKDIR}/timezone.xml ${D}${sysconfdir}/timezone.xml
-	install -m 644 ${WORKDIR}/grey-blue.theme ${D}${datadir}/tuxbox/neutrino/themes/Grey-blue.theme
+	install -m 644 ${WORKDIR}/gray-blue.theme ${D}${datadir}/tuxbox/neutrino/themes/Gray-blue.theme
 	install -d ${D}/var/cache
 	install -d ${D}/var/tuxbox/config/
 	install -d ${D}/var/tuxbox/plugins/
@@ -110,7 +96,6 @@ do_install_append() {
 	install -d ${D}/share/ ${D}/etc/rc5.d 
 	ln -s ../usr/share/tuxbox ${D}/share/
 	ln -s ../usr/share/fonts  ${D}/share/
-	ln -s ../init.d/setdns ${D}${sysconfdir}/rc5.d/S10setdns
 }
 
 FILES_${PN} += "\

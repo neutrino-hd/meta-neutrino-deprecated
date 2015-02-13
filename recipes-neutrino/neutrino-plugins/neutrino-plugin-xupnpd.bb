@@ -3,8 +3,11 @@ LICENSE = "GPL-2.0"
 LIC_FILES_CHKSUM = "file://plugins/ard_mediathek/ard_mediathek.lua;beginline=1;endline=20;md5=cc9f2ac0e48626fcc38baccfc9344558"
 HOMEPAGE = "http://git.coolstreamtech.de/"
 RDEPENDS_${PN} = "xupnpd curl"
+
+inherit gitpkgv
+
 SRCREV = "${AUTOREV}"
-PV = "0.1+${SRCPV}"
+PV = "${GITPKGVTAG}"
 
 
 SRC_URI = "git://coolstreamtech.de/cst-public-plugins-scripts-lua.git \

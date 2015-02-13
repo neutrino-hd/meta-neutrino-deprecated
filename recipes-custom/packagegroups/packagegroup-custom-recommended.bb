@@ -17,13 +17,22 @@ PACKAGES = "\
 RDEPENDS_packagegroup-custom-recommended = "\
     cifs-utils \
     djmount \
+    htop \
     libevent \
+    mc \
+    mc-fish \
+    mc-helpers \
+    mc-helpers-perl \
+    mc-helpers-python \
+    nano \
     nfs-utils \
     nfs-utils-client \
     openssh \
     rpcbind \
+    tmux \
     ushare \
     samba \
     util-linux-blkid \
+    wpa-supplicant \
     "
 
