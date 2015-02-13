@@ -2,30 +2,10 @@
 
 PATH=/bin:/usr/bin:/sbin:/usr/sbin
 
-#mount -t proc proc /proc
-
-# Create console and null devices if they don't exist.
-#[ -e /dev/console ] || mknod -m 644 /dev/console c 5 1
-#[ -e /dev/null ] || mknod -m 666 /dev/null  c 1 3
-
-#mount -t tmpfs tmpfs /tmp
-#mount -t sysfs sys /sys
-#mount -t tmpfs tmp /tmp
-#mkdir -p /dev/pts
-#mount -t devpts devpts /dev/pts
-#mkdir -p /dev/shm/usb
-#mount -t usbfs none /proc/bus/usb
-#mkdir -p /tmp/dev
-#mount -a
-
 # do not mount or update var, if network is up at this point, ie nfs boot
 # the solution from original cst script is not working with iproute2 here.
 # changed for better compatibility
 cat /sys/class/net/eth0/operstate | grep -qi "up" && exit
-
-if [ -f /var/etc/.factory ]; then
-exit
-fi
 
 # check if we are using gnu coreutils
 if [ -e /usr/bin/cut.coreutils ]; then
@@ -41,60 +21,54 @@ else
         if [ ! -d /var_init ]; then
                 echo Rename /var to /var_init
                 /bin/mv /var /var_init
-# keep mtime for opkg status
-		touch /var_init/lib/opkg/status
 		if [ ! -h /etc/network/interfaces ]; then
 			cp /etc/network/interfaces /var_init/etc/network/
 		fi
         fi
-        if [ ! -d /var ]; then     
+        if [ ! -d /var ]; then
                 /bin/mkdir /var
         fi
 
+# Factory reset
 	if [ -f /var_init/etc/.reset ]; then
-                echo Factory reset, erasing var /dev/$VARDEV
+		echo Factory reset, erasing var /dev/$VARDEV
 		/bin/rm /var_init/etc/.reset
-                /usr/sbin/flash_eraseall /dev/$VARDEV
+		/bin/cp -rf /var/lib/opkg /var_init/lib/opkg
+               	/usr/sbin/flash_eraseall /dev/$VARDEV
 	fi
 
+# Mount var
         VARBLOCK=`grep -i var /proc/mtd | cut -b 4`
-        echo try to mount /dev/mtdblock$VARBLOCK to /var
+        echo mounting /dev/mtdblock$VARBLOCK to /var
         /bin/mount -t jffs2 /dev/mtdblock$VARBLOCK /var
         if [ $? != 0 ]; then
                 echo Erasing var /dev/$VARDEV
                 /usr/sbin/flash_eraseall /dev/$VARDEV
-                echo try to mount /dev/mtdblock$VARBLOCK to /var
+                echo mounting /dev/mtdblock$VARBLOCK to /var
                 /bin/mount -t jffs2 /dev/mtdblock$VARBLOCK /var
         fi
         if [ $? != 0 ]; then
                 echo failed to mount /var
                 /bin/rmdir /var && /bin/mv /var_init /var
         else
-# Workaround: tmpfs in var cannot be mounted earlier via fstab
-		mount -t tmpfs tmpfs /var/volatile
+
 # Move /etc/network/interfaces to /var/etc/network/interfaces
-                if [ ! -h /etc/network/interfaces ]; then
-			rm /etc/network/interfaces
-                        if [ -e /var/etc/network/interfaces ]; then
-                                ln -sf /var/etc/network/interfaces /etc/network/interfaces
-				if [ /var/etc/network/interfaces -nt /var_init/etc/network/interfaces ]; then
-					cp -a /var/etc/network/interfaces /var_init/etc/network/
-				fi
-                        else
-                                cp /var_init/etc/network/interfaces /var/etc/network/interfaces
-                                ln -sf /var/etc/network/interfaces /etc/network/interfaces
-                        fi
-                fi
-# Keep ´/var/lib/opkg` in sync
-                if [ /var/lib/opkg/status -nt /var_init/lib/opkg/status ]; then
-                        cp -a /var/lib/opkg /var_init/lib/
-                else
-                        cp -a /var_init/lib/opkg /var/lib/
-                fi
+	if [ ! -h /etc/network/interfaces ]; then
+		rm /etc/network/interfaces
+		if [ -e /var/etc/network/interfaces ]; then
+			ln -sf /var/etc/network/interfaces /etc/network/interfaces
+			if [ /var/etc/network/interfaces -nt /var_init/etc/network/interfaces ]; then
+				cp -a /var/etc/network/interfaces /var_init/etc/network/
+			fi
+		else
+			cp /var_init/etc/network/interfaces /var/etc/network/interfaces
+			ln -sf /var/etc/network/interfaces /etc/network/interfaces
+			fi
+		fi
+
 # Copy var_init to var, if partition is empty
 		if [ ! -d /var/tuxbox ]; then
                         /bin/cp -a /var_init/* /var/
-			/bin/rm -f /var_init/etc/.newimage
                 fi
                 if [ -f /var_init/etc/.newimage ]; then
 			/bin/rm /var_init/etc/.newimage

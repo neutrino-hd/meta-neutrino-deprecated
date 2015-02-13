@@ -43,7 +43,7 @@ do_install_prepend_coolstream-hd2 () {
 	install -m 755 ${S}/setdns ${D}${localstatedir}${sysconfdir}/S60setdns
 	install -m 644 ${S}/fstab ${D}${sysconfdir}/fstab
 	update-rc.d -r ${D} local.sh start 90 S .
-	update-rc.d -r ${D} create_var.sh start 10 S .
+	update-rc.d -r ${D} create_var.sh start 03 S .
 }
 
 do_install_prepend_coolstream-hd1 () {
