@@ -6,7 +6,6 @@ SRC_URI += "file://profile \
 	    file://local.sh \
 	    file://create_var.sh \
 	    file://setdns \
-	    file://fstab \
 "
 
 BASEFILESISSUEINSTALL = "do_custom_baseissueinstall"
@@ -41,7 +40,6 @@ do_install_prepend_coolstream-hd2 () {
 	install -m 755 ${S}/local.sh ${D}${sysconfdir}/init.d/local.sh
 	install -m 755 ${S}/create_var.sh ${D}${sysconfdir}/init.d/create_var.sh
 	install -m 755 ${S}/setdns ${D}${localstatedir}${sysconfdir}/S60setdns
-	install -m 644 ${S}/fstab ${D}${sysconfdir}/fstab
 	update-rc.d -r ${D} local.sh start 90 S .
 	update-rc.d -r ${D} create_var.sh start 03 S .
 }
