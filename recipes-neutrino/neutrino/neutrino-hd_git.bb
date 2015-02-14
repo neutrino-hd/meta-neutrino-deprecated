@@ -52,6 +52,10 @@ SRC_URI = " \
 	file://0004-change-version.h-output.patch \
 "
 
+SRC_URI_append_coolstream-hd1 = " \
+	file://0005-remove-unneeded-mp3.jpg-files.patch;apply=yes \
+"
+
 S = "${WORKDIR}/git"
 
 INITSCRIPT_PACKAGES   = "${PN}"
