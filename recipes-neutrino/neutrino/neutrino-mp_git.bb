@@ -5,7 +5,7 @@ SECTION = "libs"
 LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://${WORKDIR}/COPYING.GPL;md5=751419260aa954499f7abaabaa882bbe"
 
-inherit autotools pkgconfig update-rc.d gitpkgv
+inherit autotools pkgconfig update-rc.d
 
 DEPENDS += " \
 	curl \
@@ -34,7 +34,7 @@ DEPENDS += " \
 RCONFLICTS_${PN} = "neutrino-hd"
 
 SRCREV = "${AUTOREV}"
-PV = "${GITPKGVTAG}"
+PV = "${SRCPV}"
 PR = "3"
 
 SRC_URI = " \
