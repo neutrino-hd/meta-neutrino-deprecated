@@ -10,18 +10,19 @@ PACKAGES = "\
     "
 
 RDEPENDS_packagegroup-custom-dev-utils = "\
+    automake \
+    autoconf \
     byacc \
+    cmake \
     diffutils \
+    gcc \
+    gdb \
+    git \
     m4 \
     make \
     patch \
-    mtd-utils \
-    automake \
-    autoconf \
-    cmake \
-    gcc \
-    gdb \
     strace \
+    valgrind \
     "
 
 

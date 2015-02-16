@@ -29,9 +29,9 @@ RDEPENDS_packagegroup-custom-recommended = "\
     nfs-utils-client \
     openssh \
     rpcbind \
+    samba \
     tmux \
     ushare \
-    samba \
     util-linux-blkid \
     wpa-supplicant \
     "
