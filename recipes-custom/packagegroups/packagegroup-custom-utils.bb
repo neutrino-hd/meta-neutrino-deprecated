@@ -29,6 +29,7 @@ RDEPENDS_packagegroup-custom-utils = "\
     man \
     man-pages \
     mktemp \
+    mtd-utils \
     pax \
     popt \
     psmisc \

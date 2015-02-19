@@ -25,7 +25,6 @@ RDEPENDS_packagegroup-custom-sys-services = "\
     less \
     libcap \
     logrotate \
-    pciutils \
     libpcre \
     sysfsutils \
     tcp-wrappers \
