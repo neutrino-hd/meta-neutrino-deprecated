@@ -30,10 +30,10 @@ do_compile() {
 		if [ -n "${IPK_FEED_SERVER}" ]; then
 			URI="${IPK_FEED_SERVER}/$arch"
 			# if there are no packages for this arch, don't put it into the feed.
-			if [ ! -d ${DEPLOY_DIR_IPK}/$arch ]; then
-				printf "#" >> $basefeedconf # comment out
+			if [ -d ${DEPLOY_DIR_IPK}/$arch ]; then
+				printf "src/gz\t$FNAME\t$URI\n" >> $basefeedconf
+			else printf "# src/gz\t$FNAME\t$URI\n" >> $basefeedconf
 			fi
-			printf "src/gz\t$FNAME\t$URI\n" >> $basefeedconf
 		else
 			printf "# src/gz\t$FNAME\thttp://your.server.name/$arch\n" >> $basefeedconf
 		fi
