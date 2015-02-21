@@ -13,3 +13,9 @@ This is on my TODO list :-)
 Anyway, have a lot of fun...
 
 	Stefan Seyfried
+
+It s nothing in here that reinvents the wheel. It is mostly a collection of dirty hacks to get things working somehow. Just to be correctly and to express, that forking and improving this layers is very welcome: 
+
+All changes that i have made to this layer are published under the BSD-2-Clause License. You should find a copy of the license in your yocto/poky/meta/files/common-licenses folder
+
+	Markus Volk
