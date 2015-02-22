@@ -16,7 +16,7 @@ SRC_URI = "\
 "
 
 PV = "0.0+svn${SRCREV}"
-PR = "r4"
+PR = "r5"
 S = "${WORKDIR}/xupnpd/src"
 
 inherit base update-rc.d
@@ -41,5 +41,4 @@ do_install () {
 	cp -r ${S}/ui		${D}/usr/share/xupnpd/
 	cp -r ${S}/www		${D}/usr/share/xupnpd/
 	cp ${S}/*.lua		${D}/usr/share/xupnpd/
-	cp ${WORKDIR}/xupnpd.lua ${D}/usr/share/xupnpd/
 }
