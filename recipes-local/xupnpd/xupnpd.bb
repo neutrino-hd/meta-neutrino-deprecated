@@ -10,7 +10,9 @@ SRC_URI = "\
 	svn://tsdemuxer.googlecode.com/svn/trunk;protocol=http;module=xupnpd \
 	file://0002-ui_restart-fix-xupnpd-install-path.patch \
 	file://xupnpd.init \
-	file://xupnpd.lua \
+	file://xupnpd-dont-bind-daemon-to-specific-ip-address.patch \
+	file://xupnpd_cst.diff \
+	file://xupnpd-fix-memleak-on-coolstream-boxes.patch \
 "
 
 PV = "0.0+svn${SRCREV}"

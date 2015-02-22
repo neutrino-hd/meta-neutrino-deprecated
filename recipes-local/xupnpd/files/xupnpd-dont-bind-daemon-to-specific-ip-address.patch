@@ -1,0 +1,18 @@
+From: [CST] Focus <focus.cst@gmail.com>
+Date: Thu, 24 Aug 2013 10:03:45 +0400
+Subject: [PATCH] xupnpd: don't bind daemon to specific ip address
+
+---
+--- src/luaxcore.cpp.org	2013-08-22 20:53:31 +0400
++++ src/luaxcore.cpp	2013-08-22 09:44:37 +0400
+@@ -113,8 +113,10 @@
+         sin.sin_addr.s_addr=INADDR_ANY;
+         sin.sin_port=htons(port);
+ 
++#if 0
+         if(strcmp(host,"*") && strcmp(host,"any"))
+             sin.sin_addr.s_addr=inet_addr(host);
++#endif
+ 
+         int fd=socket(sin.sin_family,SOCK_STREAM,0);
+         if(fd==-1)
