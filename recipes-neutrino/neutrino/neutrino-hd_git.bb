@@ -37,8 +37,7 @@ SRCREV = "${AUTOREV}"
 PV = "${SRCPV}"
 PR = "3"
 
-SRC_URI = " \
-	git://coolstreamtech.de/cst-public-gui-neutrino.git;protocol=git;branch=cst-next \
+SRC_URI = "git://git.slknet.de/git/cst-public-gui-neutrino.git;branch=cst-next \
 	file://neutrino.init \
 	file://timezone.xml \
 	file://custom-poweroff.init \
