@@ -55,6 +55,9 @@ SRC_URI_append_coolstream-hd1 = " \
 	file://0005-remove-unneeded-mp3.jpg-files.patch;apply=yes \
 "
 
+SRC_URI_append_libc-glibc = "file://0006-Makefile.am-we-don-t-need-liconv-for-glibc.patch\
+"
+
 S = "${WORKDIR}/git"
 
 INITSCRIPT_PACKAGES   = "${PN}"
