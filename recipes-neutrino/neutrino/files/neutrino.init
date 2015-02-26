@@ -1,9 +1,36 @@
 #!/bin/sh
 #
+# do nothing if neutrino crashes?
+IGNORE_ERROR=false
+
+# if neutrino crashes, just restart it or reboot the box?
+REBOOT_ON_ERROR=false
+
+# coolstream drivers in general don't recover from unclean
+# shutdown => reboot
+grep -q CoolStream /proc/cpuinfo && REBOOT_ON_ERROR=true
+
+# all those can be overridden in /etc/default/neutrino
 test -e /etc/default/neutrino && . /etc/default/neutrino
 
 MESSAGE=:
 type -p drivertool > /dev/null && MESSAGE="drivertool VFD_SET_TEXT"
+type -p spark_fp > /dev/null && MESSAGE=message
+
+message() {
+	if [ -n "$2" ]; then
+		spark_fp -T > /dev/null
+		if [ $? = 4 ]; then # 4xLED
+			STR="E$2"
+		else
+			STR="$1$2"
+		fi
+	else
+		STR="$@"
+	fi
+	echo "$0 message(): $STR"
+	echo "$STR" > /dev/vfd
+}
 
 start_neutrino() {
 	# spark: find out if we are running on HDMI or on SCART...
@@ -21,28 +48,42 @@ start_neutrino() {
 		echo "NEUTRINO_DEFAULT_SCART: ${NEUTRINO_DEFAULT_SCART:-no}"
 		echo
 	fi
-
 	QUIET=""
 	[ x$NEUTRINO_QUIET = xyes ] && QUIET=">/dev/null 2>&1"
 	# coolstream: work around driver problems
 	type -p uncoolinit > /dev/null && uncoolinit $QUIET
-	rm -f /tmp/.halt /tmp/.reboot /tmp/.timer /dev/shm/.timer
-	start-stop-daemon -S -p /var/run/neutrino.pid -m -o -x neutrino $QUIET
-	RET=$?
-	echo "Neutrino exited with exit code $RET"
-	$MESSAGE "neutrino:$RET"
-	if [ $RET = 1 ]; then
-		touch /tmp/.halt
-	fi
-	$MESSAGE "start_n ends"
-	if [ -e /tmp/.reboot ]; then # gets created by neutrino
-		$MESSAGE "rebooting..."
-		reboot
-	fi
-	if [ -e /tmp/.halt ]; then
-		$MESSAGE "shutting down..."
-		poweroff
-	fi
+	while true; do
+		rm -f /tmp/.halt /tmp/.reboot /tmp/.timer /dev/shm/.timer
+		start-stop-daemon -S -p /var/run/neutrino.pid -m -o -x neutrino $QUIET
+		RET=$?
+		echo "Neutrino exited with exit code $RET"
+		$MESSAGE "neutrino:$RET"
+		if [ $RET = 1 ]; then
+			touch /tmp/.halt
+		fi
+		# $MESSAGE "start_n ends"
+		if [ -e /tmp/.reboot ]; then # gets created by neutrino
+			$MESSAGE "rebooting..."
+			reboot
+			break
+		elif [ -e /tmp/.halt ]; then
+			$MESSAGE "shutting down..."
+			poweroff
+			break
+		else
+			$MESSAGE "ERROR" "$RET"
+		fi
+		[ $RET = 0 ] && break
+		$IGNORE_ERROR && break
+		if $REBOOT_ON_ERROR; then
+			echo "==============================================================="
+			echo "=== REBOOTING due to REBOOT_ON_ERROR=true and exit code $RET ==="
+			echo "==============================================================="
+			reboot
+			break
+		fi
+		echo "=== restarting neutrino after exit code $RET ==="
+	done
 	# this will survive the unmount of tmpfs
 	[ -e /tmp/.timer ] && cp /tmp/.timer /dev/shm/
 }
