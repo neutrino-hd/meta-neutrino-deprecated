@@ -5,6 +5,7 @@ SRC_URI += "file://profile \
 	    file://cam \
 	    file://local.sh \
 	    file://create_var.sh \
+	    file://stb_update.sh \
 	    file://setdns \
 "
 
@@ -39,9 +40,11 @@ do_install_prepend_coolstream-hd2 () {
 	install -m 755 ${S}/cam ${D}${sysconfdir}/init.d/cam
 	install -m 755 ${S}/local.sh ${D}${sysconfdir}/init.d/local.sh
 	install -m 755 ${S}/create_var.sh ${D}${sysconfdir}/init.d/create_var.sh
+	install -m 755 ${S}/stb_update.sh ${D}${sysconfdir}/init.d/stb_update.sh
 	install -m 755 ${S}/setdns ${D}${localstatedir}${sysconfdir}/S60setdns
 	update-rc.d -r ${D} local.sh start 90 S .
 	update-rc.d -r ${D} create_var.sh start 03 S .
+	update-rc.d -r ${D} stb_update.sh start 04 S .
 }
 
 do_install_prepend_coolstream-hd1 () {

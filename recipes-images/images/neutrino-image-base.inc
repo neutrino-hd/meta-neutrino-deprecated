@@ -18,6 +18,9 @@ IMAGE_INSTALL += " \
 # don´t install kernel-modules for tiny images
 IMAGE_INSTALL += "${@'kernel-modules' if IMAGETYPE != 'tiny' else ''}"
 
+# install kernel, uldr or u-boot into coolstream-hd2 image
+IMAGE_INSTALL += "${@'linux-hd2' if MACHINE != 'coolstream-hd1' else ''}"
+
 EXTRAOPKGCONFIG = "neutrino-feed-config"
 
 
