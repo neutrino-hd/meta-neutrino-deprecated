@@ -40,6 +40,5 @@ RDEPENDS_packagegroup-custom-utils = "\
     util-linux \
     util-linux-blkid \
     util-linux-agetty \
-    vim \
     zlib \
     "
