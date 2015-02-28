@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/sh 
 #
 # This is an init script for openembedded
 # Copy it to /etc/init.d/samba and type

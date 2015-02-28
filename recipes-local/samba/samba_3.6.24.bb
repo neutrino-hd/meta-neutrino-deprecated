@@ -3,8 +3,6 @@ require samba-basic.inc
 LICENSE = "GPLv3"
 LIC_FILES_CHKSUM = "file://../COPYING;md5=d32239bcb673463ab874e80d47fae504"
 
-PR = "r7"
-
 SRC_URI += "\
     file://config-h.patch \
     file://documentation.patch;patchdir=.. \
@@ -29,51 +27,41 @@ SRC_URI += "\
     file://only_export_public_symbols.patch;patchdir=.. \
     file://configure-disable-getaddrinfo-cross.patch;patchdir=.. \
     file://configure-disable-core_pattern-cross-check.patch;patchdir=.. \
+    file://configure-libunwind.patch;patchdir=.. \
 "
-SRC_URI[md5sum] = "fbb245863eeef2fffe172df779a217be"
-SRC_URI[sha256sum] = "4f5a171a8d902c6b4f822ed875c51eb8339196d9ccf0ecd7f6521c966b3514de"
+SRC_URI[md5sum] = "d98425c0c2b73e08f048d31ffc727fb0"
+SRC_URI[sha256sum] = "11d0bd04b734731970259efc6692b8e749ff671a9b56d8cc5fa98c192ab234a7"
 
 S = "${WORKDIR}/samba-${PV}/source3"
 
+PACKAGECONFIG ??= ""
+PACKAGECONFIG[libunwind] = "--enable-libunwind,--disable-libunwind,libunwind"
+
 EXTRA_OECONF += "\
-	ac_cv_path_PYTHON=/not/exist \
-	ac_cv_path_PYTHON_CONFIG=/not/exist \
-	SMB_BUILD_CC_NEGATIVE_ENUM_VALUES=yes \
-	samba_cv_CC_NEGATIVE_ENUM_VALUES=yes \
-	linux_getgrouplist_ok=no \
-	samba_cv_HAVE_BROKEN_GETGROUPS=no \
-	samba_cv_HAVE_FTRUNCATE_EXTEND=yes \
-	samba_cv_have_setresuid=yes \
-	samba_cv_have_setresgid=yes \
-	samba_cv_HAVE_WRFILE_KEYTAB=yes \
-	samba_cv_linux_getgrouplist_ok=yes \
-	"
+    ac_cv_path_PYTHON=/not/exist \
+    ac_cv_path_PYTHON_CONFIG=/not/exist \
+    SMB_BUILD_CC_NEGATIVE_ENUM_VALUES=yes \
+    samba_cv_CC_NEGATIVE_ENUM_VALUES=yes \
+    linux_getgrouplist_ok=no \
+    samba_cv_HAVE_BROKEN_GETGROUPS=no \
+    samba_cv_HAVE_FTRUNCATE_EXTEND=yes \
+    samba_cv_have_setresuid=yes \
+    samba_cv_have_setresgid=yes \
+    samba_cv_HAVE_WRFILE_KEYTAB=yes \
+    samba_cv_linux_getgrouplist_ok=yes \
+"
 
 do_configure() {
-	gnu-configize --force
-	oe_runconf
+    gnu-configize --force
+    oe_runconf
 }
 
 do_compile () {
-	base_do_compile
+    base_do_compile
 }
 
 do_install_append() {
-	rmdir "${D}${localstatedir}/lock"
-	rmdir "${D}${localstatedir}/run"
-	rmdir --ignore-fail-on-non-empty "${D}${localstatedir}"
-}
-
-pkg_postinst_${PN} () {
-	if [ "x$D" != "x" ] ; then
-		exit 1
-	fi
-
-	# create the samba user, and add user to group users
-	username='smbuser'
-	adduser --disabled-password $username
-	# FIXME: use addgroup if busybox addgroup is ready
-	sed -i -e "s/^users:.*/&${username}/g" /etc/group
-	mkdir /home/${username}/smbdata
-	chown -R smbuser:users /home/${username}/smbdata
+    rmdir "${D}${localstatedir}/lock"
+    rmdir "${D}${localstatedir}/run"
+    rmdir --ignore-fail-on-non-empty "${D}${localstatedir}"
 }
