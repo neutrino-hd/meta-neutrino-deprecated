@@ -45,6 +45,7 @@ SRC_URI = "git://git.slknet.de/git/cst-public-gui-neutrino.git;branch=cst-next \
 	file://post-wlan0.sh \
 	file://COPYING.GPL \
 	file://gray-blue.theme \
+	file://Y_Dist-GrayBlue.css \
 	file://0001-configure_fix.patch \
 	file://0002-Y_Tools_Screenshot.yhtm_adjust-hardcoded-path-for-yo.patch \
 	file://0003-workaround-wiped-out-resolv.conf-at-boot_${MACHINE}.patch \
@@ -80,16 +81,17 @@ do_compile () {
 
 do_install_prepend () {
 # change number to force rebuild "1"
-	install -d ${D}/${sysconfdir}/init.d ${D}${sysconfdir}/network ${D}${datadir}/tuxbox/neutrino/themes
+	install -d ${D}/${sysconfdir}/init.d ${D}${sysconfdir}/network ${D}${datadir}/tuxbox/neutrino/themes ${D}${localstatedir}/httpd/styles/
 	install -m 755 ${WORKDIR}/neutrino.init ${D}${sysconfdir}/init.d/neutrino
 	install -m 755 ${WORKDIR}/custom-poweroff.init ${D}${sysconfdir}/init.d/custom-poweroff
 	install -m 755 ${WORKDIR}/pre-wlan0.sh ${D}${sysconfdir}/network/
 	install -m 755 ${WORKDIR}/post-wlan0.sh ${D}${sysconfdir}/network/
 	install -m 644 ${WORKDIR}/timezone.xml ${D}${sysconfdir}/timezone.xml
 	install -m 644 ${WORKDIR}/gray-blue.theme ${D}${datadir}/tuxbox/neutrino/themes/Gray-blue.theme
+	install -m 644 ${WORKDIR}/Y_Dist-GrayBlue.css ${D}${localstatedir}/httpd/styles/Y_Dist-GrayBlue.css
 	install -d ${D}/var/cache
 	install -d ${D}/var/tuxbox/config/
-	install -d ${D}/var/tuxbox/plugins/
+	install -d ${D}/var/tuxbox/plugins/ 
 	echo "version=1200`date +%Y%m%d%H%M`"    > ${D}/.version 
 	echo "creator=${CREATOR}"             >> ${D}/.version 
 	echo "imagename=Neutrino-HD"             >> ${D}/.version 
@@ -118,6 +120,7 @@ FILES_${PN} += "\
 	/share/tuxbox \
 	/var/cache \
 	/var/tuxbox/plugins \
+	/var/httpd/styles \
 "
 
 pkg_postinst_${PN} () {
