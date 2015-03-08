@@ -38,7 +38,7 @@ PV = "${SRCPV}"
 PR = "3"
 
 SRC_URI = " \
-	git://gitorious.org/neutrino-mp/neutrino-mp.git;protocol=git \
+	git://git.slknet.de/git/neutrino-mp.git;protocol=git \
 	file://neutrino.init \
 	file://timezone.xml \
 	file://custom-poweroff.init \
@@ -82,14 +82,12 @@ do_compile () {
 
 do_install_prepend () {
 # change number to force rebuild "1"
-	install -d ${D}/${sysconfdir}/init.d ${D}${sysconfdir}/network ${D}${datadir}/tuxbox/neutrino/themes ${D}${localstatedir}/httpd/styles/
+	install -d ${D}/${sysconfdir}/init.d ${D}${sysconfdir}/network
 	install -m 755 ${WORKDIR}/neutrino.init ${D}${sysconfdir}/init.d/neutrino
 	install -m 755 ${WORKDIR}/custom-poweroff.init ${D}${sysconfdir}/init.d/custom-poweroff
 	install -m 755 ${WORKDIR}/pre-wlan0.sh ${D}${sysconfdir}/network/
 	install -m 755 ${WORKDIR}/post-wlan0.sh ${D}${sysconfdir}/network/
 	install -m 644 ${WORKDIR}/timezone.xml ${D}${sysconfdir}/timezone.xml
-	install -m 644 ${WORKDIR}/gray-blue.theme ${D}${datadir}/tuxbox/neutrino/themes/Gray-blue.theme
-	install -m 644 ${WORKDIR}/Y_Dist-GrayBlue.css ${D}${localstatedir}/httpd/styles/Y_Dist-GrayBlue.css
 	install -d ${D}/var/cache
 	install -d ${D}/var/tuxbox/config/
 	install -d ${D}/var/tuxbox/plugins/
@@ -102,9 +100,11 @@ do_install_prepend () {
 
 # compatibility with binaries hand-built with --prefix=
 do_install_append() {
-	install -d ${D}/share/ ${D}/etc/rc5.d 
-	ln -s ../usr/share/tuxbox ${D}/share/
-	ln -s ../usr/share/fonts  ${D}/share/
+	install -d ${D}/share
+	install -m 644 ${WORKDIR}/gray-blue.theme ${D}${datadir}/tuxbox/neutrino/themes/Gray-blue.theme 
+	install -m 644 ${WORKDIR}/Y_Dist-GrayBlue.css ${D}${datadir}/tuxbox/neutrino/httpd/styles/Y_Dist-GrayBlue.css
+	ln -s ${D}${datadir}/tuxbox ${D}/share/
+	ln -s ${D}${datadir}/fonts  ${D}/share/
 }
 
 FILES_${PN} += "\
