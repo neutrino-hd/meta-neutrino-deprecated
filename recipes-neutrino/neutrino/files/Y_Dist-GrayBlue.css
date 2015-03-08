@@ -138,7 +138,7 @@ hr {
 /*
 	text-shadow: 1px 1px 1px #000;
 */
-	text-shadow: 0 -1px #000025, 1px 0 #000025, 0 1px #000025, -1px 0 #000025, #000 1px 1px 1px;
+	text-shadow: 0 -1px #272525, 1px 0 #272525, 0 1px #272525, -1px 0 #272525, #000 1px 1px 1px;
 }
 .y_menu_sec_box_body {
 	background-color: #272525;
@@ -155,7 +155,7 @@ hr {
 .y_menu_sec_section {
 	background-color: #3e8bfe;
 	color: #ffffff;
-	text-shadow: 0 -1px #000025, 1px 0 #000025, 0 1px #000025, -1px 0 #000025, #000 1px 1px 1px;
+	text-shadow: 0 -1px #272525, 1px 0 #272525, 0 1px #272525, -1px 0 #272525, #000 1px 1px 1px;
 }
 
 .work_box {
@@ -167,7 +167,7 @@ hr {
 .work_box_head h2,.work_box_head_h2 {
 	background-color: #000000;
 	color: #518eea;
-	text-shadow: 0 -1px #000025, 1px 0 #000025, 0 1px #000025, -1px 0 #000025, #000 1px 1px 1px;
+	text-shadow: 0 -1px #272525, 1px 0 #272525, 0 1px #272525, -1px 0 #272525, #000 1px 1px 1px;
 }
 .work_box_body {
 	background-color: #272525;
@@ -184,7 +184,7 @@ hr {
 	color: #3e8bfe;
 }
 .y_wait_box_head h2 {
-	text-shadow: 0 -1px #000025, 1px 0 #000025, 0 1px #000025, -1px 0 #000025, #000 1px 1px 1px;
+	text-shadow: 0 -1px #272525, 1px 0 #272525, 0 1px #272525, -1px 0 #272525, #000 1px 1px 1px;
 	color: #3e8bfe;
 }
 .y_wait_box_body {
@@ -306,7 +306,7 @@ hr {
 
 #epg_info {
 	border : #999999 solid 1px;
-	background-color: #000025;
+	background-color: #272525;
 }
 #epg_time {
 }
@@ -334,14 +334,13 @@ hr {
 }
 .c
 {
-	background-color: #303030;
+	background-color: #518eea;
+	font-weight: bold;
 }
-.c a
-{
-}
+
 .cepg
 {
-	background-color: #303030;
+	background-color: #518eea;
 	border-bottom: 1px solid #272525;
 }
 .cslider_table
@@ -385,11 +384,11 @@ img#shot {
 
 /* Filemgr */
 .diag {
-	border-color: #000025;
+	border-color: #272525;
 	background-color: #272525;
 }
 .toolbar td {
-	border-color: #000025;
+	border-color: #272525;
 }
 .toolbar img {
 	border:0;
@@ -398,10 +397,10 @@ img#shot {
 	background-color: #272525;
 }
 .button {
-	border-color: #000025;
+	border-color: #272525;
 }
 .button:hover {
-	background-color: #000025;
+	background-color: #272525;
 }
 .mform {
 }
@@ -409,16 +408,16 @@ img#shot {
 .filelist a{
 }
 .box {
-	border-color: #000025;
+	border-color: #272525;
 }
 .epginfo2{
 }
 .detail_title{
-	border-color: #000025;
+	border-color: #272525;
 	background-color: #272525;
 }
 .detail_title_active{
-	border-color: #000025;
+	border-color: #272525;
 	background-color: #272525;
 }
 .detail_img {
