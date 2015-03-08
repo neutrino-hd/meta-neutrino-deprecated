@@ -44,8 +44,6 @@ SRC_URI = "git://git.slknet.de/git/cst-public-gui-neutrino.git;branch=cst-next \
 	file://pre-wlan0.sh \
 	file://post-wlan0.sh \
 	file://COPYING.GPL \
-	file://gray-blue.theme \
-	file://Y_Dist-GrayBlue.css \
 	file://0001-configure_fix.patch \
 	file://0002-Y_Tools_Screenshot.yhtm_adjust-hardcoded-path-for-yo.patch \
 	file://0003-workaround-wiped-out-resolv.conf-at-boot_${MACHINE}.patch \
@@ -100,8 +98,6 @@ do_install_prepend () {
 # compatibility with binaries hand-built with --prefix=
 do_install_append() {
 	install -d ${D}/share
-	install -m 644 ${WORKDIR}/gray-blue.theme ${D}${datadir}/tuxbox/neutrino/themes/Gray-blue.theme 
-	install -m 644 ${WORKDIR}/Y_Dist-GrayBlue.css ${D}${datadir}/tuxbox/neutrino/httpd/styles/Y_Dist-GrayBlue.css
 	ln -s ${D}${datadir}/tuxbox ${D}/share/
 	ln -s ${D}${datadir}/fonts  ${D}/share/
 }
