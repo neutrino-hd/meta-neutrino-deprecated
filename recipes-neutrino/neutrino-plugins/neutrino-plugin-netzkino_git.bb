@@ -5,13 +5,11 @@ HOMEPAGE = "http://git.coolstreamtech.de/"
 DEPENDS = "lua5.2"
 RDEPENDS_${PN} = "lua-json luaposix"
 
-inherit gitpkgv
-
 SRCREV = "${AUTOREV}"
-PV = "${GITPKGVTAG}"
+PV = "${SRCPV}"
 
 
-SRC_URI = "git://coolstreamtech.de/cst-public-plugins-scripts-lua.git \
+SRC_URI = "git://git.slknet.de/git/cst-public-plugins-scripts-lua.git \
 "
 
 S = "${WORKDIR}/git"

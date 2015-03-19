@@ -5,7 +5,7 @@ SECTION = "libs"
 LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://${WORKDIR}/COPYING.GPL;md5=751419260aa954499f7abaabaa882bbe"
 
-inherit autotools pkgconfig update-rc.d gitpkgv
+inherit autotools pkgconfig update-rc.d
 
 DEPENDS += " \
 	curl \
@@ -34,16 +34,17 @@ DEPENDS += " \
 RCONFLICTS_${PN} = "neutrino-hd"
 
 SRCREV = "${AUTOREV}"
-PV = "${GITPKGVTAG}"
+PV = "${SRCPV}"
 PR = "3"
 
 SRC_URI = " \
-	git://gitorious.org/neutrino-mp/neutrino-mp.git;protocol=git \
+	git://git.slknet.de/git/neutrino-mp.git;protocol=git \
 	file://neutrino.init \
 	file://timezone.xml \
 	file://custom-poweroff.init \
 	file://COPYING.GPL \
 	file://gray-blue.theme \
+	file://Y_Dist-GrayBlue.css \
 	file://0001-uncooloff.c-add-include-stdbool.h.patch \
 	file://0002-Y_Tools_Screenshot.yhtm_adjust-hardcoded-path-for-yo.patch \
 	file://0003-workaround-wiped-out-resolv.conf-at-boot_${MACHINE}.patch \
@@ -51,6 +52,10 @@ SRC_URI = " \
 	file://hardware_caps.h \
 	file://pre-wlan0.sh \
 	file://post-wlan0.sh \
+"
+
+
+SRC_URI_append_libc-glibc = "file://0006-Makefile.am-we-don-t-need-liconv-for-glibc.patch\
 "
 
 S = "${WORKDIR}/git"
@@ -77,13 +82,12 @@ do_compile () {
 
 do_install_prepend () {
 # change number to force rebuild "1"
-	install -d ${D}/${sysconfdir}/init.d ${D}${sysconfdir}/network ${D}${datadir}/tuxbox/neutrino/themes
+	install -d ${D}/${sysconfdir}/init.d ${D}${sysconfdir}/network
 	install -m 755 ${WORKDIR}/neutrino.init ${D}${sysconfdir}/init.d/neutrino
 	install -m 755 ${WORKDIR}/custom-poweroff.init ${D}${sysconfdir}/init.d/custom-poweroff
 	install -m 755 ${WORKDIR}/pre-wlan0.sh ${D}${sysconfdir}/network/
 	install -m 755 ${WORKDIR}/post-wlan0.sh ${D}${sysconfdir}/network/
 	install -m 644 ${WORKDIR}/timezone.xml ${D}${sysconfdir}/timezone.xml
-	install -m 644 ${WORKDIR}/gray-blue.theme ${D}${datadir}/tuxbox/neutrino/themes/Gray-blue.theme
 	install -d ${D}/var/cache
 	install -d ${D}/var/tuxbox/config/
 	install -d ${D}/var/tuxbox/plugins/
@@ -96,9 +100,11 @@ do_install_prepend () {
 
 # compatibility with binaries hand-built with --prefix=
 do_install_append() {
-	install -d ${D}/share/ ${D}/etc/rc5.d 
-	ln -s ../usr/share/tuxbox ${D}/share/
-	ln -s ../usr/share/fonts  ${D}/share/
+	install -d ${D}/share
+	install -m 644 ${WORKDIR}/gray-blue.theme ${D}${datadir}/tuxbox/neutrino/themes/Gray-blue.theme 
+	install -m 644 ${WORKDIR}/Y_Dist-GrayBlue.css ${D}${datadir}/tuxbox/neutrino/httpd/styles/Y_Dist-GrayBlue.css
+	ln -s ${D}${datadir}/tuxbox ${D}/share/
+	ln -s ${D}${datadir}/fonts  ${D}/share/
 }
 
 FILES_${PN} += "\
@@ -115,6 +121,7 @@ FILES_${PN} += "\
 	/share/tuxbox \
 	/var/cache \
 	/var/tuxbox/plugins \
+	/var/httpd/styles \
 "
 
 pkg_postinst_${PN} () {

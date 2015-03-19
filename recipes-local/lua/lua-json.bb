@@ -3,12 +3,11 @@ LICENSE = "CC-BY-3.0"
 LIC_FILES_CHKSUM = "file://share/lua/5.2/json.lua;beginline=1;endline=15;md5=4467853ca00b8168ae59f69f6177a64f"
 HOMEPAGE = "http://git.coolstreamtech.de/"
 DEPENDS="lua5.2"
+
 SRCREV = "${AUTOREV}"
-PV = "${GITPKGVTAG}"
+PV = "${SRCPV}"
 
-inherit gitpkgv
-
-SRC_URI = "git://coolstreamtech.de/cst-public-plugins-scripts-lua.git \
+SRC_URI = "git://git.slknet.de/git/cst-public-plugins-scripts-lua.git \
 "
 
 S = "${WORKDIR}/git"

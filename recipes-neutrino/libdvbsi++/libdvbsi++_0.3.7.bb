@@ -9,6 +9,7 @@ SRC_URI = " \
            http://www.saftware.de/${PN}/${P}.tar.bz2 \
            file://libdvbsi++-fix-unaligned-access-on-SuperH.patch \
            file://libdvbsi++-src-time_date_section.cpp-fix-sectionLength-check.patch \
+	   file://libdvbsi++-content_identifier_descriptor.patch \
 "
 
 SRC_URI[md5sum] = "7eb50352c06b17c499a6d51e18e99ec5"

@@ -2,7 +2,7 @@ require ffmpeg.inc
 
 SRCREV = "${AUTOREV}"
 PV = "2.3.3"
-SRC_URI = "git://coolstreamtech.de/cst-public-libraries-ffmpeg.git;protocol=git;branch=ffmpeg-2.3.3"
+SRC_URI = "git://git.slknet.de/git/cst-public-libraries-ffmpeg.git;protocol=git;branch=ffmpeg-2.3.3"
 
 LIC_FILES_CHKSUM = " \
 	file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \

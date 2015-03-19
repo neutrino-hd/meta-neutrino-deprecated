@@ -2,11 +2,10 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/base-files:"
 
 SRC_URI += "file://profile \
 	    file://inputrc \
-	    file://cam \
 	    file://local.sh \
 	    file://create_var.sh \
+	    file://stb_update.sh \
 	    file://setdns \
-	    file://fstab \
 "
 
 BASEFILESISSUEINSTALL = "do_custom_baseissueinstall"
@@ -37,20 +36,18 @@ do_custom_baseissueinstall() {
 
 do_install_prepend_coolstream-hd2 () {
 	install -d ${D}${sysconfdir}/init.d ${D}${localstatedir}${sysconfdir}/network
-	install -m 755 ${S}/cam ${D}${sysconfdir}/init.d/cam
 	install -m 755 ${S}/local.sh ${D}${sysconfdir}/init.d/local.sh
 	install -m 755 ${S}/create_var.sh ${D}${sysconfdir}/init.d/create_var.sh
+	install -m 755 ${S}/stb_update.sh ${D}${sysconfdir}/init.d/bb_stb_update.sh
 	install -m 755 ${S}/setdns ${D}${localstatedir}${sysconfdir}/S60setdns
-	install -m 644 ${S}/fstab ${D}${sysconfdir}/fstab
 	update-rc.d -r ${D} local.sh start 90 S .
 	update-rc.d -r ${D} create_var.sh start 03 S .
+	update-rc.d -r ${D} bb_stb_update.sh start 03 S .
 }
 
 do_install_prepend_coolstream-hd1 () {
 	install -d ${D}${sysconfdir}/init.d
-	install -m 755 ${S}/cam ${D}${sysconfdir}/init.d/cam
 	install -m 755 ${S}/setdns ${D}${sysconfdir}/init.d/setdns
-	update-rc.d -r ${D} cam start 99 S .
 	update-rc.d -r ${D} setdns start 60 S .
 }
 

@@ -14,6 +14,7 @@ PACKAGES = "\
     "
 
 RDEPENDS_packagegroup-custom-full = " \
+    packagegroup-custom-recommended \
     packagegroup-custom-libs \
     packagegroup-custom-utils \
     packagegroup-custom-extended \

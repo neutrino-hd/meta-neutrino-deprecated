@@ -10,11 +10,13 @@ SRC_URI = "\
 	svn://tsdemuxer.googlecode.com/svn/trunk;protocol=http;module=xupnpd \
 	file://0002-ui_restart-fix-xupnpd-install-path.patch \
 	file://xupnpd.init \
-	file://xupnpd.lua \
+	file://xupnpd-dont-bind-daemon-to-specific-ip-address.patch \
+	file://xupnpd_cst.diff \
+	file://xupnpd-fix-memleak-on-coolstream-boxes.patch \
 "
 
 PV = "0.0+svn${SRCREV}"
-PR = "r4"
+PR = "r5"
 S = "${WORKDIR}/xupnpd/src"
 
 inherit base update-rc.d
@@ -39,5 +41,4 @@ do_install () {
 	cp -r ${S}/ui		${D}/usr/share/xupnpd/
 	cp -r ${S}/www		${D}/usr/share/xupnpd/
 	cp ${S}/*.lua		${D}/usr/share/xupnpd/
-	cp ${WORKDIR}/xupnpd.lua ${D}/usr/share/xupnpd/
 }

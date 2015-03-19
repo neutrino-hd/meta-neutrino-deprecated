@@ -1,3 +1,4 @@
+Compatible_TCLIBC = "uclibc"
 SUMMARY = "Transport-Independent RPC library"
 DESCRIPTION = "Libtirpc is a port of Suns Transport-Independent RPC library to Linux"
 SECTION = "libs/network"

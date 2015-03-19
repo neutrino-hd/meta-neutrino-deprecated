@@ -18,6 +18,9 @@ IMAGE_INSTALL += " \
 # don´t install kernel-modules for tiny images
 IMAGE_INSTALL += "${@'kernel-modules' if IMAGETYPE != 'tiny' else ''}"
 
+# put kernel binary into the image
+IMAGE_INSTALL += "${@'kernel-image' if INCLUDE_KERNEL == 'yes' else ''}"
+
 EXTRAOPKGCONFIG = "neutrino-feed-config"
 
 

@@ -4,13 +4,11 @@ LIC_FILES_CHKSUM = "file://plugins/ard_mediathek/ard_mediathek.lua;beginline=1;e
 HOMEPAGE = "http://git.coolstreamtech.de/"
 RDEPENDS_${PN} = "xupnpd curl"
 
-inherit gitpkgv
-
 SRCREV = "${AUTOREV}"
-PV = "${GITPKGVTAG}"
+PV = "${SRCPV}"
 
 
-SRC_URI = "git://coolstreamtech.de/cst-public-plugins-scripts-lua.git \
+SRC_URI = "git://git.slknet.de/git/cst-public-plugins-scripts-lua.git \
 	   file://0001-xupnpd_youtube_fix.patch \
 "
 

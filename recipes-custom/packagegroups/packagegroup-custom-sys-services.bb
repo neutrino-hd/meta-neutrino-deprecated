@@ -20,24 +20,14 @@ RDEPENDS_packagegroup-custom-sys-services = "\
     cronie \
     dbus \
     dbus-glib \
-    djmount \
     python-dbus \
     gzip \
     less \
     libcap \
-    libevent \
     logrotate \
-    nfs-utils \
-    nfs-utils-client \
-    openssh \
-    pciutils \
     libpcre \
-    rpcbind \
-    samba \
     sysfsutils \
     tcp-wrappers \
-    tzdata \
-    ushare \
     wpa-supplicant \
     "
 

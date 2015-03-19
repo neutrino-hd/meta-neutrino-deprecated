@@ -1,6 +1,6 @@
 SRC_URI += "file://config-lfs.patch \
             file://quota.patch;striplevel=0 \
-            "
+"
 
 EXTRA_OECONF += "\
         --enable-nss-wrapper \
@@ -40,6 +40,7 @@ FILES_winbind = "${sbindir}/winbindd \
                  ${bindir}/wbinfo \
                  ${bindir}/ntlm_auth \
                  ${sysconfdir}/init.d/winbind \
+                 ${systemd_unitdir}/system/winbind.service \
 "
 FILES_libwinbind = "${libdir}/idmap/*.so \
                     ${libdir}/pdb \

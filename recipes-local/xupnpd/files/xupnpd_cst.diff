@@ -1,0 +1,112 @@
+--- a/xupnpd.lua	2014-05-01 16:44:16.000000000 +0200
++++ b/xupnpd.lua	2014-05-01 16:51:30.424628163 +0200
+@@ -1,13 +1,13 @@
+ cfg={}
+ 
+ -- multicast interface for SSDP exchange, 'eth0', 'br0', 'br-lan' for example
+-cfg.ssdp_interface='lo'
++cfg.ssdp_interface='any'
+ 
+ -- 'cfg.ssdp_loop' enables multicast loop (if player and server in one host)
+ cfg.ssdp_loop=1
+ 
+ -- SSDP announcement interval
+-cfg.ssdp_notify_interval=15
++cfg.ssdp_notify_interval=5
+ 
+ -- SSDP announcement age
+ cfg.ssdp_max_age=1800
+@@ -19,10 +19,10 @@
+ cfg.log_facility='local0'
+ 
+ -- 'cfg.daemon' detach server from terminal
+-cfg.daemon=false
++cfg.daemon=true
+ 
+ -- silent mode - no logs, no pid file
+-cfg.embedded=false
++cfg.embedded=true
+ 
+ -- 'cfg.debug' enables SSDP debug output to stdout (if cfg.daemon=false)
+ -- 0-off, 1-basic, 2-messages
+@@ -32,7 +32,7 @@
+ --cfg.udpxy_url='http://192.168.1.1:4022'
+ 
+ -- downstream interface for builtin multicast proxy (comment 'cfg.udpxy_url' for processing 'udp://@...' playlists)
+-cfg.mcast_interface='eth1'
++cfg.mcast_interface='eth0'
+ 
+ -- 'cfg.proxy' enables proxy for injection DLNA headers to stream
+ -- 0-off, 1-radio, 2-radio/TV
+@@ -51,16 +51,17 @@
+ cfg.dlna_subscribe_ttl=1800
+ 
+ -- group by 'group-title'
+-cfg.group=true
++cfg.group=false
+ 
+ -- sort files
+ cfg.sort_files=false
+ 
+ -- Device name
+-cfg.name='UPnP-IPTV'
++--cfg.name='UPnP-IPTV'
++cfg.name=io.popen("uname -n"):read("*l")..'-xupnpd'
+ 
+ -- static device UUID, '60bd2fb3-dabe-cb14-c766-0e319b54c29a' for example or nil
+-cfg.uuid='60bd2fb3-dabe-cb14-c766-0e319b54c29a'
++cfg.uuid=''
+ 
+ -- max url cache size
+ cfg.cache_size=8
+@@ -72,12 +73,14 @@
+ cfg.default_mime_type='mpeg'
+ 
+ -- feeds update interval (seconds, 0 - disabled)
+-cfg.feeds_update_interval=0
++cfg.feeds_update_interval=3600
+ cfg.playlists_update_interval=0
+ 
+ -- playlist (m3u file path or path with alias
+ playlist=
+ {
++    { '/media/sda1/movies', 'Local Record Files' },
++    { '/media/sda1/pic', 'Local Picture Files' },
+ --    { './playlists/mozhay.m3u', 'Mozhay.tv' },
+ --    { './localmedia', 'Local Media Files' }
+ --    { './private', 'Private Media Files', '127.0.0.1;192.168.1.1' }  -- only for 127.0.0.1 and 192.168.1.1
+@@ -86,10 +89,10 @@
+ -- feeds list (plugin, feed name, feed type)
+ feeds=
+ {
+-    { 'vimeo',          'channel/hd',           'Vimeo HD Channel' },
+-    { 'vimeo',          'channel/hdxs',         'Vimeo Xtreme sports' },
+-    { 'vimeo',          'channel/mtb',          'Vimeo MTB Channel' },
+-    { 'youtube',        'channel/top_rated',    'YouTube Top Rated' },
++--    { 'vimeo',          'channel/hd',           'Vimeo HD Channel' },
++--    { 'vimeo',          'channel/hdxs',         'Vimeo Xtreme sports' },
++--    { 'vimeo',          'channel/mtb',          'Vimeo MTB Channel' },
++--    { 'youtube',        'channel/top_rated',    'YouTube Top Rated' },
+ --    { 'youtube',        'Drift0r',              'Drift0r' },
+ --    { 'youtube',        'XboxAhoy',             'XboxAhoy' },
+ --    { 'ag',             'videos',               'AG - New' },
+@@ -97,6 +100,8 @@
+ --    { 'gametrailers',   'ps3',                   'GT - PS3' },
+ --    { 'giantbomb',      'all',                  'GiantBomb - All' },
+ --    { 'dreambox',       'http://192.168.0.1:8001/','Dreambox1' },
++    { 'coolstream',     'localhost', 'CST' },
++--    { 'coolstream',       '172.16.1.10', 'CST-Remote' },
+ }
+ 
+ -- log ident, pid file end www root
+@@ -107,8 +112,8 @@
+ cfg.tmp_path='/tmp/'
+ cfg.plugin_path='./plugins/'
+ cfg.config_path='./config/'
+-cfg.playlists_path='./playlists/'
+---cfg.feeds_path='/tmp/xupnpd-feeds/'
++cfg.playlists_path='./playlists/'
++cfg.feeds_path='/tmp/xupnpd-feeds/'
+ cfg.ui_path='./ui/'
+ cfg.drive=''                    -- reload playlists only if drive state=active/idle, example: cfg.drive='/dev/sda'
+ cfg.profiles='./profiles/'      -- device profiles feature
