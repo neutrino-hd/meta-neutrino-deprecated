@@ -43,8 +43,6 @@ SRC_URI = " \
 	file://timezone.xml \
 	file://custom-poweroff.init \
 	file://COPYING.GPL \
-	file://gray-blue.theme \
-	file://Y_Dist-GrayBlue.css \
 	file://0001-uncooloff.c-add-include-stdbool.h.patch \
 	file://0002-Y_Tools_Screenshot.yhtm_adjust-hardcoded-path-for-yo.patch \
 	file://0003-workaround-wiped-out-resolv.conf-at-boot_${MACHINE}.patch \
@@ -101,8 +99,6 @@ do_install_prepend () {
 # compatibility with binaries hand-built with --prefix=
 do_install_append() {
 	install -d ${D}/share
-	install -m 644 ${WORKDIR}/gray-blue.theme ${D}${datadir}/tuxbox/neutrino/themes/Gray-blue.theme 
-	install -m 644 ${WORKDIR}/Y_Dist-GrayBlue.css ${D}${datadir}/tuxbox/neutrino/httpd/styles/Y_Dist-GrayBlue.css
 	ln -s ${D}${datadir}/tuxbox ${D}/share/
 	ln -s ${D}${datadir}/fonts  ${D}/share/
 }
