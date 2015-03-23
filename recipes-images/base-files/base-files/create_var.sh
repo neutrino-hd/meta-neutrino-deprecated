@@ -76,6 +76,8 @@ else
 			/bin/cp /var_init/tuxbox/config/satellites.xml /var/tuxbox/config/satellites.xml
 			/bin/cp /var_init/tuxbox/config/encoding.conf /var/tuxbox/config/encoding.conf
 			/bin/cp /var_init/tuxbox/config/providermap.xml /var/tuxbox/config/providermap.xml
+			echo updating /var/lib/opkg ...
+			/bin/cp -rf /var_init/lib/opkg /var/lib/
                 fi
         fi
 fi
