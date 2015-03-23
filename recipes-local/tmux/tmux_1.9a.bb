@@ -5,7 +5,7 @@ SECTION = "console/utils"
 LICENSE = "ISC"
 LIC_FILES_CHKSUM = "file://tmux.c;startline=3;endline=17;md5=e109dd9b5e4d23291d87e1e9bc95231c"
 
-DEPENDS = "ncurses libevent sed-native"
+DEPENDS = "ncurses libevent sed"
 
 SRC_URI = "${SOURCEFORGE_MIRROR}/tmux/${P}.tar.gz \
 	   file://tmux.sh \

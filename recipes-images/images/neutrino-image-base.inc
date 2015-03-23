@@ -8,7 +8,7 @@ IMAGE_ROOTFS_SIZE = "499712"
 inherit extrausers
      
 EXTRA_USERS_PARAMS = "\
-	              useradd -P root root; \
+	              usermod -P root root; \
 "
 
 # all but not neutrino :-)

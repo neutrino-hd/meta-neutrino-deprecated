@@ -35,7 +35,7 @@ RCONFLICTS_${PN} = "neutrino-mp"
 
 SRCREV = "${AUTOREV}"
 PV = "${SRCPV}"
-PR = "3"
+PR = "4"
 
 SRC_URI = "git://git.slknet.de/git/cst-public-gui-neutrino.git;branch=cst-next \
 	file://neutrino.init \
