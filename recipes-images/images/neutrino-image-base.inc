@@ -5,11 +5,14 @@ include recipes-core/images/core-image-minimal.bb
 IMAGE_ROOTFS_SIZE = "499712"
 
 # add default password for root
-inherit extrausers
-     
-EXTRA_USERS_PARAMS = "\
-	              usermod -P root root; \
-"
+
+ROOTFS_POSTPROCESS_COMMAND += "set_root_passwd;"
+set_root_passwd() {
+   sed 's%^root:[^:]*:%root:wYNffsf6sozwE:%' \
+       < ${IMAGE_ROOTFS}/etc/shadow \
+       > ${IMAGE_ROOTFS}/etc/shadow.new;
+   mv ${IMAGE_ROOTFS}/etc/shadow.new ${IMAGE_ROOTFS}/etc/shadow ;
+}
 
 # all but not neutrino :-)
 IMAGE_INSTALL += " \
