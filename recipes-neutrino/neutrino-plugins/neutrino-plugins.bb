@@ -5,7 +5,7 @@ DEPENDS = "freetype ffmpeg zlib libxml2 virtual/libiconv openssl"
 SRCREV = "${AUTOREV}"
 PV = "6"
 
-SRC_URI = "git://github.com/MarkusVolk/neutrino-hd-plugins.git \
+SRC_URI = "git://github.com/MarkusVolk/neutrino-hd-plugins.git;branch=master;protocol=git \
 "
 
 S = "${WORKDIR}/git"
