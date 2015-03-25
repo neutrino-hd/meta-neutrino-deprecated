@@ -9,7 +9,6 @@ PV = "${SRCPV}"
 
 
 SRC_URI = "git://git.slknet.de/git/cst-public-plugins-scripts-lua.git \
-	   file://0001-xupnpd_youtube_fix.patch \
 "
 
 S = "${WORKDIR}/git"
