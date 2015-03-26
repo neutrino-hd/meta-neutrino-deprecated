@@ -46,6 +46,7 @@ SRC_URI = " \
 	file://0001-uncooloff.c-add-include-stdbool.h.patch \
 	file://0002-Y_Tools_Screenshot.yhtm_adjust-hardcoded-path-for-yo.patch \
 	file://0003-workaround-wiped-out-resolv.conf-at-boot_${MACHINE}.patch \
+	file://0007-set-image-version.patch \
 	file://hardware_caps.cpp \
 	file://hardware_caps.h \
 	file://pre-wlan0.sh \
@@ -89,7 +90,7 @@ do_install_prepend () {
 	install -d ${D}/var/cache
 	install -d ${D}/var/tuxbox/config/
 	install -d ${D}/var/tuxbox/plugins/
-	echo "version=1200`date +%Y%m%d%H%M`"    > ${D}/.version 
+	echo "version=${DISTRO_VERSION}  `date +%Y-%m-%d` `date +%H:%M`"    > ${D}/.version  
 	echo "creator=${CREATOR}"             >> ${D}/.version 
 	echo "imagename=Neutrino-MP"             >> ${D}/.version 
 	echo "homepage=${HOMEPAGE}"              >> ${D}/.version 
