@@ -6,11 +6,11 @@ PR = "r3"
 LIC_FILES_CHKSUM = "file://COPYING;md5=ae11c61b04b2917be39b11f78d71519a"
 
 SRC_URI = "${SOURCEFORGE_MIRROR}/giflib/giflib-${PV}.tar.bz2"
-SRC_URI[md5sum] = "c3262ba0a3dad31ba876fb5ba1d71a02"
-SRC_URI[sha256sum] = "606d8a366b1c625ab60d62faeca807a799a2b9e88cbdf2a02bfcdf4429bf8609"
+SRC_URI[md5sum] = "1c39333192712788c6568c78a949f13e"
+SRC_URI[sha256sum] = "391014aceb21c8b489dc7b0d0b6a917c4e32cc014ce2426d47ca376d02fe2ffc"
 
 inherit autotools lib_package
 
-PACKAGES =+ "${PN}-utils"
+PACKAGES += "${PN}-utils"
 
 FILES_${PN}-utils = "${bindir}/*"
