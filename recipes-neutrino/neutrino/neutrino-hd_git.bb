@@ -35,7 +35,7 @@ RCONFLICTS_${PN} = "neutrino-mp"
 
 SRCREV = "${AUTOREV}"
 PV = "${SRCPV}"
-PR = "3"
+PR = "4"
 
 SRC_URI = "git://git.slknet.de/git/cst-public-gui-neutrino.git;branch=cst-next \
 	file://neutrino.init \
@@ -48,6 +48,7 @@ SRC_URI = "git://git.slknet.de/git/cst-public-gui-neutrino.git;branch=cst-next \
 	file://0002-Y_Tools_Screenshot.yhtm_adjust-hardcoded-path-for-yo.patch \
 	file://0003-workaround-wiped-out-resolv.conf-at-boot_${MACHINE}.patch \
 	file://0004-change-version.h-output.patch \
+	file://0007-set-image-version.patch \
 "
 
 SRC_URI_append_coolstream-hd1 = " \
@@ -88,7 +89,7 @@ do_install_prepend () {
 	install -d ${D}/var/cache
 	install -d ${D}/var/tuxbox/config/
 	install -d ${D}/var/tuxbox/plugins/ 
-	echo "version=1200`date +%Y%m%d%H%M`"    > ${D}/.version 
+	echo "version=${DISTRO_VERSION}  `date +%Y-%m-%d` `date +%H:%M`"    > ${D}/.version 
 	echo "creator=${CREATOR}"             >> ${D}/.version 
 	echo "imagename=Neutrino-HD"             >> ${D}/.version 
 	echo "homepage=${HOMEPAGE}"              >> ${D}/.version 
