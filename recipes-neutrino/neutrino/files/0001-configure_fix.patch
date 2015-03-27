@@ -1,15 +1,15 @@
-From 87a999d57ce8e5099cf19f4107e57701ea266754 Mon Sep 17 00:00:00 2001
+From 58fe47d01f4d25a04ac044a53a0a3365032dde7a Mon Sep 17 00:00:00 2001
 From: Markus Volk <f_l_k@gmx.net>
-Date: Mon, 23 Mar 2015 13:28:52 +0100
-Subject: [PATCH 1093/1093] configure_fix
+Date: Fri, 27 Mar 2015 07:35:11 +0100
+Subject: [PATCH 0001/0001] configure_ac.patch
 
 Signed-off-by: Markus Volk <f_l_k@gmx.net>
 ---
- configure.ac | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+ configure.ac | 22 +++++++++++-----------
+ 1 file changed, 11 insertions(+), 11 deletions(-)
 
 diff --git a/configure.ac b/configure.ac
-index 97b7455..2fe9231 100644
+index 97b7455..b3d4c92 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -54,7 +54,7 @@ if test "$TREMOR_STATIC" = "yes"; then
@@ -46,11 +46,13 @@ index 97b7455..2fe9231 100644
  fi
  
  if test "$BOXTYPE" = "tripledragon"; then
-@@ -89,13 +89,13 @@ AM_CONDITIONAL(USE_TREMOR, test "$TREMOR" = "yes")
+@@ -88,14 +88,14 @@ fi
+ AM_CONDITIONAL(USE_TREMOR, test "$TREMOR" = "yes")
  
  # TUXBOX_APPS_LIB_PKGCONFIG(OPENSSL,openssl)
- TUXBOX_APPS_LIB_CONFIG(CURL,curl-config)
+-TUXBOX_APPS_LIB_CONFIG(CURL,curl-config)
 -TUXBOX_APPS_LIB_CONFIG(FREETYPE,freetype-config)
++TUXBOX_APPS_LIB_PKGCONFIG_CHECK(CURL,libcurl)
 +TUXBOX_APPS_LIB_PKGCONFIG(FREETYPE,freetype2)
  
  TUXBOX_APPS_LIB_PKGCONFIG(PNG,libpng)
