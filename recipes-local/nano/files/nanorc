@@ -88,10 +88,10 @@ set historylog
 # set nohelp
 
 ## Don't add newlines to the ends of files.
-# set nonewlines
+ set nonewlines
 
 ## Don't wrap text at all.
-# set nowrap
+ set nowrap
 
 ## Set operating directory.  nano will not read or write files outside
 ## this directory and its subdirectories.  Also, the current directory

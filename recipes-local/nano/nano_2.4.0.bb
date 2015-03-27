@@ -1,14 +1,15 @@
 include nano.inc
 
-PR = "${INC_PR}.0"
+PR = "1"
 
-SRC_URI += "file://ncursesw.includedir.patch \
-	    file://*.nanorc \
+SRC_URI += "file://*.nanorc \
 	    file://nanorc \
 "
 
-SRC_URI[md5sum] = "03233ae480689a008eb98feb1b599807"
-SRC_URI[sha256sum] = "be68e133b5e81df41873d32c517b3e5950770c00fc5f4dd23810cd635abce67a"
+inherit pkgconfig
+
+SRC_URI[md5sum] = "e5c9c6424ee2303663ae4b99ecd4b493"
+SRC_URI[sha256sum] = "5076fb502680503e648cbdcbf2077e39fba193420ae19203f0a54cb2d94a75bd"
 
 do_install(){
 	install -d ${D}/${datadir}/nano ${D}/${sysconfdir} ${D}/${bindir}
@@ -16,3 +17,4 @@ do_install(){
 	install -m 644 ${WORKDIR}/nanorc ${D}${sysconfdir}/
 	install -m 755 ${WORKDIR}/build/src/nano ${D}${bindir}/
 }
+
