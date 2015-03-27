@@ -10,6 +10,8 @@ SRC_URI = "git://github.com/MarkusVolk/neutrino-hd-plugins.git;branch=master;pro
 
 S = "${WORKDIR}/git"
 
+ALLOW_EMPTY_neutrino-plugins = "1"
+
 inherit autotools pkgconfig
 
 EXTRA_OECONF += " \
@@ -30,7 +32,7 @@ do_compile () {
 }
 
 do_install () {
-	for i in msgbox ${PLUGIN_INSTALL}; do
+	for i in ${PLUGIN_INSTALL}; do
 		oe_runmake install SUBDIRS="$i" DESTDIR=${D}
 	done
 }			
