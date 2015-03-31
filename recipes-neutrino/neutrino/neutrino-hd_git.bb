@@ -48,7 +48,6 @@ SRC_URI = "git://git.slknet.de/git/cst-public-gui-neutrino.git;branch=cst-next \
 	file://0003-workaround-wiped-out-resolv.conf-at-boot_${MACHINE}.patch \
 	file://0004-change-version.h-output.patch \
 	file://0007-set-image-version.patch \
-	file://0008-opkg_manager-add-a-list-of-packages-to-hide.patch \
 "
 
 SRC_URI_append_coolstream-hd1 = " \
