@@ -44,7 +44,6 @@ SRC_URI = " \
 	file://custom-poweroff.init \
 	file://COPYING.GPL \
 	file://0001-uncooloff.c-add-include-stdbool.h.patch \
-	file://0002-Y_Tools_Screenshot.yhtm_adjust-hardcoded-path-for-yo.patch \
 	file://0003-workaround-wiped-out-resolv.conf-at-boot_${MACHINE}.patch \
 	file://0007-set-image-version.patch \
 	file://hardware_caps.cpp \
