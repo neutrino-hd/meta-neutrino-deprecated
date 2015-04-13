@@ -5,7 +5,6 @@ SRC_URI += "file://profile \
 	    file://local.sh \
 	    file://create_var.sh \
 	    file://stb_update.sh \
-	    file://setdns \
 "
 
 BASEFILESISSUEINSTALL = "do_custom_baseissueinstall"
@@ -39,17 +38,10 @@ do_install_prepend_coolstream-hd2 () {
 	install -m 755 ${S}/local.sh ${D}${sysconfdir}/init.d/local.sh
 	install -m 755 ${S}/create_var.sh ${D}${sysconfdir}/init.d/create_var.sh
 	install -m 755 ${S}/stb_update.sh ${D}${sysconfdir}/init.d/bb_stb_update.sh
-	install -m 755 ${S}/setdns ${D}${localstatedir}${sysconfdir}/S60setdns
 	touch ${D}${localstatedir}${sysconfdir}/.newimage 
 	update-rc.d -r ${D} local.sh start 90 S .
 	update-rc.d -r ${D} create_var.sh start 03 S .
 	update-rc.d -r ${D} bb_stb_update.sh start 03 S .
-}
-
-do_install_prepend_coolstream-hd1 () {
-	install -d ${D}${sysconfdir}/init.d
-	install -m 755 ${S}/setdns ${D}${sysconfdir}/init.d/setdns
-	update-rc.d -r ${D} setdns start 60 S .
 }
 
 # links to get better compatibility for precompiled binaries on the nevis platform

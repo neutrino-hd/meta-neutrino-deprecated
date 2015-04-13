@@ -18,6 +18,7 @@ RDEPENDS_packagegroup-custom-needed = "\
 	fbshot \
 	opkg \
 	procps \
+	resolvconf \
 	udpxy \
 	vsftpd \
 	xupnpd \
