@@ -1,0 +1,21 @@
+--- a/src/tar.c	2015-04-13 07:17:56.618003146 +0200
++++ b/src/tar.c	2015-04-13 07:18:41.597708158 +0200
+@@ -1341,14 +1341,18 @@
+ static char const *const sort_mode_arg[] = {
+   "none",
+   "name",
++#if D_INO_IN_DIRENT
+   "inode",
++#endif
+   NULL
+ };
+ 
+ static int sort_mode_flag[] = {
+     SAVEDIR_SORT_NONE,
+     SAVEDIR_SORT_NAME,
++#if D_INO_IN_DIRENT
+     SAVEDIR_SORT_INODE
++#endif
+ };
+ 
+ ARGMATCH_VERIFY (sort_mode_arg, sort_mode_flag);
