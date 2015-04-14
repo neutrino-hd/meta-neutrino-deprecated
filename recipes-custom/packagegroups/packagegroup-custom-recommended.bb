@@ -15,6 +15,7 @@ PACKAGES = "\
 
 
 RDEPENDS_packagegroup-custom-recommended = "\
+    autofs \
     cifs-utils \
     djmount \
     htop \
