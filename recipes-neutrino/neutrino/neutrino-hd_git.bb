@@ -98,8 +98,8 @@ do_install_prepend () {
 # compatibility with binaries hand-built with --prefix=
 do_install_append() {
 	install -d ${D}/share
-	ln -s ${D}${datadir}/tuxbox ${D}/share/
-	ln -s ${D}${datadir}/fonts  ${D}/share/
+	ln -s ${datadir}/tuxbox ${D}/share/
+	ln -s ${datadir}/fonts  ${D}/share/
 }
 
 FILES_${PN} += "\
