@@ -1,6 +1,6 @@
-diff -aruN pugixml-1.4/Makefile.am pugixml-1.4_new/Makefile.am
---- pugixml-1.4/Makefile.am	1970-01-01 05:30:00.000000000 +0530
-+++ pugixml-1.4_new/Makefile.am	2014-08-27 19:54:52.634760315 +0530
+diff -aruN pugixml-1.6/Makefile.am pugixml-1.6_new/Makefile.am
+--- pugixml-1.6/Makefile.am	1970-01-01 05:30:00.000000000 +0530
++++ pugixml-1.6_new/Makefile.am	2014-08-27 19:54:52.634760315 +0530
 @@ -0,0 +1,29 @@
 +AM_CFLAGS = -Wundef \
 +        -Wstrict-prototypes \
@@ -31,9 +31,9 @@ diff -aruN pugixml-1.4/Makefile.am pugixml-1.4_new/Makefile.am
 +
 +#Create and Install libraries
 +lib_LTLIBRARIES = libpugixml.la
-diff -aruN pugixml-1.4/configure.ac pugixml-1.4_new/configure.ac
---- pugixml-1.4/configure.ac	1970-01-01 05:30:00.000000000 +0530
-+++ pugixml-1.4_new/configure.ac	2014-08-27 19:32:24.009129000 +0530
+diff -aruN pugixml-1.6/configure.ac pugixml-1.6_new/configure.ac
+--- pugixml-1.6/configure.ac	1970-01-01 05:30:00.000000000 +0530
++++ pugixml-1.6_new/configure.ac	2014-08-27 19:32:24.009129000 +0530
 @@ -0,0 +1,20 @@
 +AC_PREREQ(2.61)
 +AC_INIT([pugixml],

@@ -1,4 +1,3 @@
-inherit autotools gettext
 SUMMARY = "XML Parser library "
 HOMEPAGE = "https://github.com/zeux/pugixml"
 LICENSE = "MIT"
@@ -19,7 +18,7 @@ SRC_URI[sha256sum] = "473705c496d45ee6a74f73622b175dfb5dde0de372c4dc61a5acb96451
 
 S = "${WORKDIR}/${PN}-${PV}"
 
-inherit autotools pkgconfig
+inherit autotools pkgconfig gettext
 
 do_compile () {
     oe_runmake
