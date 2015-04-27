@@ -1,4 +1,5 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+DEPENDS += "libpam"
 
 SRC_URI += " \
 	file://neutrino-busybox.cfg \
