@@ -21,3 +21,4 @@ SRC_URI[sha256sum] = "19213e193e1abc5ed2de65edfb539deda1dbf6cc64dfef03e405524c9c
 
 inherit autotools lib_package pkgconfig
 
+EXTRA_OECONF = "--without-libxml2"
