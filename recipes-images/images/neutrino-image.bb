@@ -8,4 +8,5 @@ IMAGE_INSTALL += " \
 	neutrino-plugin-ard \
 	neutrino-plugin-xupnpd \
 	neutrino-plugin-netzkino \
+	neutrino-plugin-rss \
 	"
