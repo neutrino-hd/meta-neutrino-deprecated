@@ -6,7 +6,7 @@ LICENSE_FLAGS = "commercial"
 
 ARM_INSTRUCTION_SET = "arm"
 
-DEPENDS = "zlib libogg libvorbis libtheora yasm-native libxml2 librtmp"
+DEPENDS = "zlib libogg libvorbis libtheora yasm-native libroxml librtmp"
 
 INC_PR = "r8"
 
