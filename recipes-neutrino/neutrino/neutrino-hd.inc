@@ -22,6 +22,7 @@ EXTRA_OECONF = " \
 	--with-tremor \
 	--enable-giflib \
 	--enable-flac \
+	--enable-pugixml \
 	--enable-ffmpegdec \
 	--with-boxtype=coolstream \
 "
