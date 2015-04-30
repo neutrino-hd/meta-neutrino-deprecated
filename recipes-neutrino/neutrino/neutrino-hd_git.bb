@@ -46,7 +46,6 @@ SRC_URI = "git://git.slknet.de/git/cst-public-gui-neutrino.git;branch=cst-next \
 	file://COPYING.GPL \
 	file://0001-configure_fix.patch \
 	file://0003-workaround-wiped-out-resolv.conf-at-boot_${MACHINE}.patch \
-	file://0004-change-version.h-output.patch \
 	file://0007-set-image-version.patch \
 "
 
