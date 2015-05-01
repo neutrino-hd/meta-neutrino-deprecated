@@ -1,4 +1,4 @@
-DESCRIPTION = "Neutrino-HP image feed configuration"
+DESCRIPTION = "Neutrino-HD image feed configuration"
 # derived from poky-feed-config
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
