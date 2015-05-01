@@ -1,11 +1,10 @@
-DESCRIPTION = "Neutrino-HD image feed configuration"
+DESCRIPTION = "Neutrino-HP image feed configuration"
 # derived from poky-feed-config
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 PR = "r1"
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 INHIBIT_DEFAULT_DEPS = "1"
-
 
 do_compile() {
 	mkdir -p ${S}/${sysconfdir}/opkg/
@@ -30,10 +29,10 @@ do_compile() {
 		if [ -n "${IPK_FEED_SERVER}" ]; then
 			URI="${IPK_FEED_SERVER}/$arch"
 			# if there are no packages for this arch, don't put it into the feed.
-			if [ -d ${DEPLOY_DIR_IPK}/$arch ]; then
-				printf "src/gz\t$FNAME\t$URI\n" >> $basefeedconf
-			else printf "# src/gz\t$FNAME\t$URI\n" >> $basefeedconf
+			if [ ! -d ${DEPLOY_DIR_IPK}/$arch ]; then
+				printf "#" >> $basefeedconf # comment out
 			fi
+			printf "src/gz\t$FNAME\t$URI\n" >> $basefeedconf
 		else
 			printf "# src/gz\t$FNAME\thttp://your.server.name/$arch\n" >> $basefeedconf
 		fi
