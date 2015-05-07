@@ -6,7 +6,7 @@ LICENSE_FLAGS = "commercial"
 
 ARM_INSTRUCTION_SET = "arm"
 
-DEPENDS = "zlib libogg libvorbis libtheora yasm-native libroxml librtmp"
+DEPENDS = "zlib libogg libvorbis libtheora yasm-native libroxml librtmp openssl"
 
 INC_PR = "r8"
 
@@ -145,14 +145,19 @@ EXTRA_OECONF_append_coolstream-hd1 = " \
 	--disable-protocol=unix \
 	--disable-protocol=md5 \
 	--disable-protocol=hls \
+	--enable-openssl \
 	--enable-protocol=file \
 	--enable-protocol=http \
+	--enable-protocol=https \
 	--enable-protocol=rtmp \
 	--enable-protocol=rtmpe \
 	--enable-protocol=rtmps \
 	--enable-protocol=rtmpte \
 	--enable-protocol=mmsh \
 	--enable-protocol=mmst \
+	--enable-protocol=rtp \
+	--enable-protocol=tcp \
+	--enable-protocol=udp \
 	--enable-bsfs \
 	--disable-devices \
 	--enable-swresample \
