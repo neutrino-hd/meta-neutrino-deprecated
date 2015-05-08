@@ -1,0 +1,81 @@
+From: Jacek Jendrzej <crashdvb@googlemail.com>
+Date: Fri, 08 May 2015 18:00:06 +0200
+Subject: [PATCH 0002/0002] write_nameserver_into_interfaces
+
+Signed-off-by: Markus Volk <f_l_k@gmx.net>
+---
+diff --git a/lib/libnet/network_interfaces.cpp b/lib/libnet/network_interfaces.cpp
+index d110788..ab493b1 100644
+--- a/lib/libnet/network_interfaces.cpp
++++ b/lib/libnet/network_interfaces.cpp
+@@ -350,7 +350,7 @@ bool addLoopbackDevice(const std::string &name, const bool automatic_start)
+ 	return write_interface("/etc/network/interfaces", name, automatic_start, "inet", "loopback", attribute);
+ }
+ 
+-bool setStaticAttributes(const std::string &name, const bool automatic_start, const std::string &address, const std::string &netmask, const std::string &broadcast, const std::string &gateway, bool wireless)
++bool setStaticAttributes(const std::string &name, const bool automatic_start, const std::string &address, const std::string &netmask, const std::string &broadcast, const std::string &gateway, const std::string &nameserver, bool wireless)
+ {
+ 	std::map<std::string, std::string> attribute;
+ 
+@@ -368,6 +368,9 @@ bool setStaticAttributes(const std::string &name, const bool automatic_start, co
+ 	if (!gateway.empty())
+ 		attribute["gateway"] = gateway;
+ 
++	if (!nameserver.empty())
++		attribute["dns-nameservers"] = nameserver;
++
+ 	return write_interface("/etc/network/interfaces", name, automatic_start, "inet", "static", attribute);
+ }
+ 
+diff --git a/lib/libnet/network_interfaces.h b/lib/libnet/network_interfaces.h
+index 457bac3..603e884 100644
+--- a/lib/libnet/network_interfaces.h
++++ b/lib/libnet/network_interfaces.h
+@@ -28,7 +28,7 @@ bool getInetAttributes(const std::string &name, bool &automatic_start, std::stri
+ 
+ bool addLoopbackDevice(const std::string &name, const bool automatic_start);
+ 
+-bool setStaticAttributes(const std::string &name, const bool automatic_start, const std::string &address, const std::string &netmask, const std::string &broadcast, const std::string &gateway, bool wireless = false);
++bool setStaticAttributes(const std::string &name, const bool automatic_start, const std::string &address, const std::string &netmask, const std::string &broadcast, const std::string &gateway, const std::string &nameserver, bool wireless = false);
+ 
+ bool setDhcpAttributes(const std::string &name, const bool automatic_start, bool wireless = false);
+ 
+diff --git a/src/system/configure_network.cpp b/src/system/configure_network.cpp
+index ee8815d..3d86f11 100644
+--- a/src/system/configure_network.cpp
++++ b/src/system/configure_network.cpp
+@@ -124,6 +124,7 @@ void CNetworkConfig::copy_to_orig(void)
+ 	orig_ifname	     = ifname;
+ 	orig_ssid	     = ssid;
+ 	orig_key	     = key;
++	orig_nameserver	     = nameserver;
+ }
+ 
+ bool CNetworkConfig::modified_from_orig(void)
+@@ -145,6 +146,8 @@ bool CNetworkConfig::modified_from_orig(void)
+ 			printf("CNetworkConfig::modified_from_orig: inet_static changed\n");
+ 		if(orig_ifname	      != ifname)
+ 			printf("CNetworkConfig::modified_from_orig: ifname changed\n");
++		if(orig_nameserver	      != nameserver)
++			printf("CNetworkConfig::modified_from_orig: nameserver changed\n");
+ #endif
+ 	if(wireless) {
+ 		if((ssid != orig_ssid) || (key != orig_key))
+@@ -156,6 +159,7 @@ bool CNetworkConfig::modified_from_orig(void)
+ 		if ((orig_address         != address        ) ||
+ 		    (orig_netmask         != netmask        ) ||
+ 		    (orig_broadcast       != broadcast      ) ||
++		    (orig_nameserver      != nameserver     ) ||
+ 		    (orig_gateway         != gateway        ))
+ 			return 1;
+ 	}
+@@ -193,7 +197,7 @@ void CNetworkConfig::commitConfig(void)
+ 		if (inet_static)
+ 		{
+ 			addLoopbackDevice("lo", true);
+-			setStaticAttributes(ifname, automatic_start, address, netmask, broadcast, gateway, wireless);
++			setStaticAttributes(ifname, automatic_start, address, netmask, broadcast, gateway, nameserver, wireless);
+ 		}
+ 		else
+ 		{
+--

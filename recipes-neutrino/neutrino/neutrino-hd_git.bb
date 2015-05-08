@@ -46,7 +46,7 @@ SRC_URI = "git://git.slknet.de/git/cst-public-gui-neutrino.git;branch=cst-next \
 	file://post-wlan0.sh \
 	file://COPYING.GPL \
 	file://0001-configure_fix.patch \
-	file://0002-write_nameserver_into_resolvconf_base.patch \
+	file://0002-write_nameserver_into_interfaces.patch \
 	file://0007-set-image-version.patch \
 "
 
