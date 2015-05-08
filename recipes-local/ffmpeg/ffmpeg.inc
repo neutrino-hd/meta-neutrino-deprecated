@@ -34,39 +34,28 @@ PACKAGECONFIG[x11] = "--enable-x11grab,--disable-x11grab,virtual/libx11 libxfixe
 PACKAGECONFIG[rtmpdump] = "--enable-librtmp,--disable-librtmp,rtmpdump"
 
 EXTRA_OECONF = " \
-    --disable-stripping \
-    --enable-pic \
-    --enable-shared \
-    --enable-pthreads \
-    --enable-gpl \
-    --enable-avfilter \
-    \
-    --cross-prefix=${TARGET_PREFIX} \
-    --prefix=${prefix} \
-    \
-    --enable-ffserver \
-    --enable-ffplay \
-    --enable-libtheora  \
-    --enable-libvorbis \
-    --arch=${TARGET_ARCH} \
-    --target-os="linux" \
-    --enable-cross-compile \
-    --extra-cflags="${TARGET_CFLAGS} ${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS}" \
-    --extra-ldflags="${TARGET_LDFLAGS}" \
-    --sysroot="${STAGING_DIR_TARGET}" \
-    --enable-hardcoded-tables \
-    ${EXTRA_FFCONF} \
-"
-EXTRA_OECONF_append_raspberrypi = " \
-	--arch=arm \
-	--cpu=armv6 \
-"
-EXTRA_OECONF_append_coolstream-hd1 = " \
+	--disable-stripping \
+	--enable-pic \
+	--enable-shared \
+	--enable-pthreads \
+	--enable-gpl \
+	--enable-avfilter \
+	--cross-prefix=${TARGET_PREFIX} \
+	--prefix=${prefix} \
+	--enable-ffserver \
+	--enable-ffplay \
+	--enable-libtheora  \
+	--enable-libvorbis \
+	--arch=${TARGET_ARCH} \
+	--target-os="linux" \
+	--enable-cross-compile \
+	--extra-cflags="${TARGET_CFLAGS} ${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS}" \
+	--extra-ldflags="${TARGET_LDFLAGS}" \
+	--sysroot="${STAGING_DIR_TARGET}" \
+	--enable-hardcoded-tables \
 	--disable-runtime-cpudetect \
 	--arch=arm \
-	--cpu=armv6 \
 	--disable-neon \
-	--disable-vfp \
 	--disable-libtheora \
 	--disable-libvorbis \
 	--disable-decoders \
@@ -163,123 +152,18 @@ EXTRA_OECONF_append_coolstream-hd1 = " \
 	--enable-swresample \
 	--disable-postproc \
 	--disable-swscale \
+	--enable-nonfree \
+    	${EXTRA_FFCONF} \
+"
+
+EXTRA_OECONF_append_coolstream-hd1 = " \
+	--cpu=armv6 \
+	--disable-vfp \
 "
 
 EXTRA_OECONF_append_coolstream-hd2 = " \
-	--disable-runtime-cpudetect \
-	--arch=arm \
 	--cpu=cortex-a9 \
-	--disable-neon \
 	--enable-vfp \
-	--disable-libtheora \
-	--disable-libvorbis \
-	--disable-decoders \
-	--enable-decoder=dca \
-	--enable-decoder=dvdsub \
-	--enable-decoder=dvbsub \
-	--enable-decoder=text \
-	--enable-decoder=srt \
-	--enable-decoder=subrip \
-	--enable-decoder=subviewer \
-	--enable-decoder=subviewer1 \
-	--enable-decoder=xsub \
-	--enable-decoder=pgssub \
-	--enable-decoder=movtext \
-	--enable-decoder=mp3 \
-	--enable-decoder=flac \
-	--enable-decoder=vorbis \
-	--enable-decoder=aac \
-	--enable-decoder=mjpeg \
-	--enable-decoder=pcm_s16le \
-	--enable-decoder=pcm_s16le_planar \
-	--disable-parsers \
-	--enable-parser=aac \
-	--enable-parser=aac_latm \
-	--enable-parser=ac3 \
-	--enable-parser=dca \
-	--enable-parser=mpeg4video \
-	--enable-parser=mpegvideo \
-	--enable-parser=mpegaudio \
-	--enable-parser=h264 \
-	--enable-parser=vc1 \
-	--enable-parser=dvdsub \
-	--enable-parser=dvbsub \
-	--enable-parser=flac \
-	--enable-parser=vorbis \
-	--disable-demuxers \
-	--enable-demuxer=aac \
-	--enable-demuxer=ac3 \
-	--enable-demuxer=avi \
-	--enable-demuxer=mov \
-	--enable-demuxer=vc1 \
-	--enable-demuxer=mpegts \
-	--enable-demuxer=mpegtsraw \
-	--enable-demuxer=mpegps \
-	--enable-demuxer=mpegvideo \
-	--enable-demuxer=wav \
-	--enable-demuxer=pcm_s16be \
-	--enable-demuxer=mp3 \
-	--enable-demuxer=pcm_s16le \
-	--enable-demuxer=matroska \
-	--enable-demuxer=flv \
-	--enable-demuxer=rm \
-	--enable-demuxer=rtsp \
-	--enable-demuxer=hls \
-	--enable-demuxer=dts \
-	--enable-demuxer=wav \
-	--enable-demuxer=ogg \
-	--enable-demuxer=flac \
-	--enable-demuxer=srt \
-	--enable-demuxer=hds \
-	--disable-encoders \
-	--disable-muxers \
-	--disable-filters \
-	--enable-librtmp \
-	--disable-protocol=data \
-	--disable-protocol=cache \
-	--disable-protocol=concat \
-	--disable-protocol=crypto \
-	--disable-protocol=ftp \
-	--disable-protocol=gopher \
-	--disable-protocol=httpproxy \
-	--disable-protocol=pipe \
-	--disable-protocol=sctp \
-	--disable-protocol=srtp \
-	--disable-protocol=subfile \
-	--disable-protocol=unix \
-	--disable-protocol=md5 \
-	--disable-protocol=hls \
-	--enable-protocol=file \
-	--enable-protocol=http \
-	--enable-protocol=rtmp \
-	--enable-protocol=rtmpe \
-	--enable-protocol=rtmps \
-	--enable-protocol=rtmpte \
-	--enable-protocol=mmsh \
-	--enable-protocol=mmst \
-	--enable-bsfs \
-	--disable-devices \
-	--enable-swresample \
-	--disable-postproc \
-	--disable-swscale \
-"
-
-# strip down ffmpeg for tripledragon: most of it is not useful here.
-# --arch=ppc4xx seems to still have a problem with the assembler...
-EXTRA_OECONF_append_tripledragon = " \
-	--arch=ppc4xx \
-	--disable-altivec \
-	--disable-libtheora \
-	--disable-libvorbis \
-	--disable-encoders --disable-muxers \
-	--disable-decoders --disable-protocols \
-	--disable-parsers --disable-demuxers \
-	--enable-protocol=file \
-	--enable-encoder=mpeg2video --enable-muxer=mpeg2video \
-	--enable-decoder=dvbsub --enable-demuxer=mpegps \
-	--enable-parser=mjpeg --enable-demuxer=mjpeg --enable-decoder=mjpeg \
-	--disable-bsfs --disable-network \
-	--enable-dct \
 "
 
 do_configure() {
