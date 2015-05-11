@@ -3,7 +3,7 @@ HOMEPAGE = "http://tmux.sourceforge.net"
 SECTION = "console/utils"
 
 LICENSE = "ISC"
-LIC_FILES_CHKSUM = "file://tmux.c;startline=3;endline=17;md5=e109dd9b5e4d23291d87e1e9bc95231c"
+LIC_FILES_CHKSUM = "file://tmux.c;startline=3;endline=17;md5=75758f698fa88e729278d7f662bec19e"
 
 DEPENDS = "ncurses libevent sed"
 
@@ -12,8 +12,8 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/tmux/${P}.tar.gz \
 	   file://tmux.conf \	
 "
 
-SRC_URI[md5sum] = "b07601711f96f1d260b390513b509a2d"
-SRC_URI[sha256sum] = "c5e3b22b901cf109b20dab54a4a651f0471abd1f79f6039d79b250d21c2733f5"
+SRC_URI[md5sum] = "9fb6b443392c3978da5d599f1e814eaa"
+SRC_URI[sha256sum] = "795f4b4446b0ea968b9201c25e8c1ef8a6ade710ebca4657dd879c35916ad362"
 
 inherit autotools-brokensep pkgconfig
 
