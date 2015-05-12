@@ -2,12 +2,12 @@ local conf = {}
 local g = {}
 local ListeTab = {}
 
-on="ein"
-off="aus"
-u="ubouquets"
-b="bouquets"
+local on="ein"
+local off="aus"
+local u="ubouquets"
+local b="bouquets"
+local localtv_verrsion="LocalTV 0.8 (beta)"
 function __LINE__() return debug.getinfo(2, 'l').currentline end
-local json = require "json"
 
 function gethttpdata(host,link)
 
@@ -81,23 +81,6 @@ function tprint(tbl, indent)
         end
 end
 
-function tounicode(c)
-	c=tonumber(c)
-	if c > 64 then
-		c=c-64
-		return "\xC3" .. string.format('%c', c)
-	else
-		return string.format('%c', c)
-	end
-end
-
-function convHTMLentities(summary)
-	if summary ~= nil then
-		summary = summary:gsub("&#([0-9]+);",function(c) return tounicode(c) end)
-	end
-	return summary
-end
-
 function to_chid(satpos, frq, t, on, i)
 	local transport_stream_id=tonumber (t, 16);
 	local original_network_id=tonumber (on, 16);
@@ -106,7 +89,6 @@ function to_chid(satpos, frq, t, on, i)
 		string.format('%04x', transport_stream_id) .. 
 		string.format('%04x', original_network_id) .. 
 		string.format('%04x', service_id))
-
 end
 
 function printtab(t,b_name)
@@ -123,7 +105,8 @@ function printtab(t,b_name)
 					if v.attr.n == nil then
 						v.attr.n = "Nicht definiert"
 					end
-					local webtv = '\t<webtv title="' .. convHTMLentities(v.attr.n) .. '" url="http://' .. conf.ip .. ':31339/id='.. chid .. '" description="' .. convHTMLentities(b_name) .. '" />'
+					v.attr.n=v.attr.n:gsub("%&","&amp;")
+					local webtv = '\t<webtv title="' .. v.attr.n .. '" url="http://' .. conf.ip .. ':31339/id='.. chid .. '" description="' .. b_name .. '" />'
 					table.insert(BListeTab, { tv=webtv })
 				end
 			end
@@ -147,11 +130,8 @@ function make_list(value)
 		if v.tag == "Bouquet" then
 			local blt = printtab(v,v.attr.name)
 			if blt then
-				local bool = true
-				if conf.bouquet == "bouquets" then
-					bool = false
-				end
-				table.insert(ListeTab, { name=v.attr.name , bt=blt,enabled=bool})
+				v.attr.name=v.attr.name:gsub("%&","&amp;")
+				table.insert(ListeTab, { name=v.attr.name , bt=blt,enabled=conf.enabled})
 			end
 		end
 	end
@@ -167,10 +147,10 @@ function file_exists(file)
 end
 
 function is_dir(path)
-    local f = io.open(path, "r")
-    local ok, err, code = f:read(1)
-    f:close()
-    return code == 21
+	local f = io.open(path, "r")
+	local ok, err, code = f:read(1)
+	f:close()
+	return code == 21
 end
 
 function saveliste()
@@ -219,6 +199,7 @@ function saveConfig()
 		config:setString("name",conf.name)
 		config:setString("bouquet",conf.bouquet)
 		config:setString("ip",conf.ip)
+		config:setBool  ("enabled",conf.enabled)
 		config:saveConfig(get_confFile())
 		conf.changed = false
 	end
@@ -231,14 +212,14 @@ function loadConfig()
 	conf.name = config:getString("name", "BoxName")
 	conf.ip   = config:getString("ip", "192.168.178.2")
 	conf.bouquet = config:getString("bouquet", "ubouquets")
-
+	conf.enabled = config:getBool("enabled", true)
 	conf.changed = false
 end
 
 function setvar(k, v) 
-  print(k,v)
-   conf[k]=v
-  conf.changed = true
+--   	print(k,v)
+	conf[k]=v
+	conf.changed = true
 end
 
 function bool2onoff(a)
@@ -258,6 +239,10 @@ end
 
 function info(captxt,infotxt)
 	local n = neutrino()
+	if captxt == localtv_verrsion and infotxt==nil then
+		infotxt=captxt
+		captxt="Information"
+	end
 	local h = hintbox.new{caption=captxt, text=infotxt}
 	h:paint()
 	repeat
@@ -265,8 +250,8 @@ function info(captxt,infotxt)
 	until msg == RC.ok or msg == RC.home
 	h:hide()
 end
-function set_bool(k, v) 
-  local i = tonumber(k)
+function set_bool_in_liste(k, v) 
+	local i = tonumber(k)
 	if v == on then
 		ListeTab[i].enabled=true
 	else 
@@ -274,12 +259,19 @@ function set_bool(k, v)
 	end
 end
 
+function set_option(k, v)
+	if v == on then
+		conf.enabled=true
+	else 
+		conf.enabled=false
+	end
+	conf.changed = true
+end
+
 function gen_menu(table)
 	if table == nil then
 		return
 	end
-	local n = neutrino()
-	n:GetInput(50)
 	g.main:hide()
 	local m  = menu.new{name="Liste " .. conf.name .. ": ".. conf.ip, icon="icon_blue"}
 	m:addItem{type="separator"}
@@ -288,15 +280,18 @@ function gen_menu(table)
 	m:addItem{type="forwarder", name="Speichere Liste", action="saveliste",enabled=true,id="" ,directkey=RC["red"],hint_icon="hint_service",hint="Speichert die Liste unter ".. conf.path .. "/" .. conf.name .. ".xml" }
 	m:addItem{type="separatorline"}
 	for i, v in ipairs(table) do
-		m:addItem{type="chooser", action="set_bool", options={ on, off }, id=i, value=bool2onoff(v.enabled), name=v.name,hint_icon="hint_service",hint="Bouquet ".. v.name .. " speichern ? Ein/Aus"}
+		m:addItem{type="chooser", action="set_bool_in_liste", options={ on, off }, id=i, value=bool2onoff(v.enabled), name=v.name,hint_icon="hint_service",hint="Bouquet ".. v.name .. " speichern ? Ein/Aus"}
 	end
 	m:exec()
 	m:hide()
+	return MENU_RETURN.EXIT
 end
 
 function main_menu()
   	g.main = menu.new{name="LocalTV", icon="icon_red"}
 	m=g.main
+	m:addKey{directkey=RC["info"], id=localtv_verrsion, action="info"}
+
 	m:addItem{type="back"}
 	m:addItem{type="separatorline"}
 	m:addItem{type="keyboardinput", action="setvar", id="name", name="Name", value=conf.name,directkey=RC["1"],hint_icon="hint_service",hint="Name der Liste unter die gespeichert wird"}
@@ -306,8 +301,9 @@ function main_menu()
 		   enabled=true,value=conf.path,directkey=RC["4"],
 		   hint_icon="hint_service",hint="Verzeichnis wählen in dem die Liste gespeichert wird"
 		 }
+	m:addItem{type="chooser", action="set_option", options={ on, off }, id="onoff",         value=bool2onoff(conf.enabled),         directkey=RC["5"], name="Bouquets mit",hint_icon="hint_service",hint="Generiere Liste mit Option Ein/Aus"}
 	m:addItem{type="separatorline"}
-	m:addItem{type="forwarder", name="Generiere Liste", action="make_list",enabled=true,id="" ,directkey=RC["red"],hint_icon="hint_service",hint="Generiere Liste von "..conf.ip}
+	m:addItem{type="forwarder", name="Generiere Liste", action="make_list",enabled=true,id="" ,directkey=RC["red"],hint_icon="hint_service",hint="Generiere Liste" }
 	m:exec()
 	m:hide()
 end
