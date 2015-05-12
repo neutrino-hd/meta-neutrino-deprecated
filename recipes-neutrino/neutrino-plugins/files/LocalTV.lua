@@ -1,3 +1,25 @@
+--[[
+	LocalTV Plugin
+	Copyright (C) 2015,  Jacek Jendrzej 'satbaby', Janus
+
+	License: GPL
+
+	This program is free software; you can redistribute it and/or
+	modify it under the terms of the GNU General Public
+	License as published by the Free Software Foundation; either
+	version 2 of the License, or (at your option) any later version.
+
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+	General Public License for more details.
+
+	You should have received a copy of the GNU General Public
+	License along with this program; if not, write to the
+	Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
+	Boston, MA  02110-1301, USA.
+]]
+
 local conf = {}
 local g = {}
 local ListeTab = {}
@@ -6,7 +28,7 @@ local on="ein"
 local off="aus"
 local u="ubouquets"
 local b="bouquets"
-local localtv_verrsion="LocalTV 0.8 (beta)"
+local localtv_verrsion="LocalTV 0.9 (beta)"
 function __LINE__() return debug.getinfo(2, 'l').currentline end
 
 function gethttpdata(host,link)
@@ -294,14 +316,14 @@ function main_menu()
 
 	m:addItem{type="back"}
 	m:addItem{type="separatorline"}
-	m:addItem{type="keyboardinput", action="setvar", id="name", name="Name", value=conf.name,directkey=RC["1"],hint_icon="hint_service",hint="Name der Liste unter die gespeichert wird"}
-	m:addItem{type="keyboardinput", action="setvar", id="ip",   value=conf.ip, name="Box IP/Name",directkey=RC["2"],hint_icon="hint_service",hint="Box url oder IP"}
-	m:addItem{type="chooser", action="setub", options={ u, b }, id="ub", value=conf.bouquet, name="Liste aus:",directkey=RC["3"],hint_icon="hint_service",hint="Liste aus User-Bouquets oder Bouquets"}
+	m:addItem{type="keyboardinput", action="setvar", id="name", name="Name", value=conf.name,directkey=RC["1"],hint_icon="hint_service",hint="Name unter dem die Liste gespeichert wird"}
+	m:addItem{type="keyboardinput", action="setvar", id="ip",   value=conf.ip, name="Box-Adresse (IP/Name)",directkey=RC["2"],hint_icon="hint_service",hint="Box IP oder Url"}
+	m:addItem{type="chooser", action="setub", options={ u, b }, id="ub", value=conf.bouquet, name="Liste aus:",directkey=RC["3"],hint_icon="hint_service",hint="Liste aus Favoriten- oder Anbieter-Bouquets"}
 	m:addItem{ type="filebrowser", dir_mode="1", id="path", name="Verzeichnis: ", action="set_path",
 		   enabled=true,value=conf.path,directkey=RC["4"],
 		   hint_icon="hint_service",hint="Verzeichnis wählen in dem die Liste gespeichert wird"
 		 }
-	m:addItem{type="chooser", action="set_option", options={ on, off }, id="onoff",         value=bool2onoff(conf.enabled),         directkey=RC["5"], name="Bouquets mit",hint_icon="hint_service",hint="Generiere Liste mit Option Ein/Aus"}
+	m:addItem{type="chooser", action="set_option", options={ on, off }, id="onoff",         value=bool2onoff(conf.enabled),         directkey=RC["5"], name="Auswahl vorbelegen mit",hint_icon="hint_service",hint="Generiere Auswahlliste mit 'ein' oder 'aus'"}
 	m:addItem{type="separatorline"}
 	m:addItem{type="forwarder", name="Generiere Liste", action="make_list",enabled=true,id="" ,directkey=RC["red"],hint_icon="hint_service",hint="Generiere Liste" }
 	m:exec()
