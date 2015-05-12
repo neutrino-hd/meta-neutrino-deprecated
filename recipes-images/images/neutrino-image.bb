@@ -9,4 +9,5 @@ IMAGE_INSTALL += " \
 	neutrino-plugin-xupnpd \
 	neutrino-plugin-netzkino \
 	neutrino-plugin-rss \
+	neutrino-plugin-localtv \
 	"
