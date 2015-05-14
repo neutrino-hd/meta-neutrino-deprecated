@@ -23,12 +23,17 @@
 local conf = {}
 local g = {}
 local ListeTab = {}
+local n = neutrino()
+
+local fover="Generierte Bouquets ersetzen deine Favoriten"
+local fno="Favoriten nicht ändern"
+local fadd="Generierte Bouquets zu deiner Favoriten hinzufügen "
 
 local on="ein"
 local off="aus"
 local u="ubouquets"
 local b="bouquets"
-local localtv_verrsion="LocalTV 0.9 (beta)"
+local localtv_verrsion="LocalTV 0.10 (beta)"
 function __LINE__() return debug.getinfo(2, 'l').currentline end
 
 function gethttpdata(host,link)
@@ -40,13 +45,15 @@ function gethttpdata(host,link)
 	local httpreq  = "GET /" .. link .. " HTTP/1.0\r\nHost: " ..host .. "\r\n\r\n"
 	local res, err = p.getaddrinfo(host, "http", { family = p.AF_INET, socktype = p.SOCK_STREAM })
 	if not res then 
-		error(err) 
+		info("Fehler:", err)
+		return
 	end
 
 	local fd = p.socket(p.AF_INET, p.SOCK_STREAM, 0)
 	local ok, err, e = p.connect(fd, res[1])
 	if err then 
-		error(err)
+		info("Fehler:", err)
+		return
 	end
 	p.send(fd, httpreq)
 
@@ -80,27 +87,16 @@ function getdatafromurl(url)
 
 		local host,link = getDomainandLink(url)
 		data = gethttpdata(host,link)
-		nBeginn, nEnde, data = string.find(data, "^.-\r\n\r\n(.*)") -- skip header
+		if data == nil then
+			print("DEBUG ".. __LINE__())
+		else
+			nBeginn, nEnde, data = string.find(data, "^.-\r\n\r\n(.*)") -- skip header
+		end
 
 	if data == nil then
 	  	print("DEBUG ".. __LINE__())
 	end
       return data
-end
-
-function tprint(tbl, indent)
-         if not indent then indent = 0 end
-        for k, v in pairs(tbl) do
-                formatting = string.rep("       ", indent) .. k .. ": "
-                if type(v) == "table" then
-                        print(formatting)
-                        tprint(v, indent+1)
-                elseif type(v) == 'boolean' then
-                        print(formatting .. tostring(v))
-                else
-                        print(formatting .. v)
-                end
-        end
 end
 
 function to_chid(satpos, frq, t, on, i)
@@ -113,8 +109,9 @@ function to_chid(satpos, frq, t, on, i)
 		string.format('%04x', service_id))
 end
 
-function printtab(t,b_name)
+function add_channels(t,b_name)
 	local BListeTab = {}
+	local ok = false
 	if t and b_name then
 		for k, v in ipairs(t) do
 			if v.tag == "S" then
@@ -128,32 +125,39 @@ function printtab(t,b_name)
 						v.attr.n = "Nicht definiert"
 					end
 					v.attr.n=v.attr.n:gsub("%&","&amp;")
-					local webtv = '\t<webtv title="' .. v.attr.n .. '" url="http://' .. conf.ip .. ':31339/id='.. chid .. '" description="' .. b_name .. '" />'
-					table.insert(BListeTab, { tv=webtv })
+					local url='"http://' .. conf.ip .. ':31339/id='.. chid .. '"'
+					table.insert(BListeTab, { tv=url,s=v.attr.s, frq=v.attr.frq, n=v.attr.n, t=v.attr.t, on=v.attr.on, i=v.attr.i })
+					ok=true
 				end
 			end
 		end
 	end
-	return BListeTab
+	if ok then 
+		return BListeTab
+	else
+		return nil
+	end
 end
 
 function make_list(value)
-	local buxurl ="http://" .. conf.ip .. "/control/get" .. conf.bouquet .."xml"
-	print(buxurl)
-	local data = getdatafromurl(buxurl)
+	local boxurl ="http://" .. conf.ip .. "/control/get" .. conf.bouquet .."xml"
+	local data = getdatafromurl(boxurl)
+
+	if data == nil then return end -- error
+
 	local lom = require("lxp.lom")
 	local tab = lom.parse(data)
 	if tab == nil then
-		info("Fehler","List konnte nicht generiert werden.")
+		info("Fehler","Liste konnte nicht generiert werden.")
 		return
 	end
 	ListeTab = {}
 	for i, v in ipairs(tab) do
 		if v.tag == "Bouquet" then
-			local blt = printtab(v,v.attr.name)
+			local blt = add_channels(v,v.attr.name)
 			if blt then
 				v.attr.name=v.attr.name:gsub("%&","&amp;")
-				table.insert(ListeTab, { name=v.attr.name , bt=blt,enabled=conf.enabled})
+				table.insert(ListeTab, { name=v.attr.name , bt=blt, enabled=conf.enabled})
 			end
 		end
 	end
@@ -175,6 +179,58 @@ function is_dir(path)
 	return code == 21
 end
 
+function changeFav()
+	local ubouquets_xml = "/var/tuxbox/config/zapit/ubouquets.xml"
+	local force = true
+	local fileout = nil
+	if conf.fav == "add" then
+			local lines = read_ubouquets_xml(ubouquets_xml)
+			if lines then
+				fileout = io.open(ubouquets_xml, 'w+')
+				if fileout then
+					for k,v in pairs(lines) do
+						local f = string.find(v, "</zapit>")
+						if not f then
+							fileout:write(v .. "\n")
+							force = false
+						end
+					end
+				end
+			end
+	end
+	if force then
+		fileout = io.open(ubouquets_xml, 'w+')
+		if fileout == nil then return end
+		fileout:write('<?xml version="1.0" encoding="UTF-8"?>\n<zapit>\n')
+	end
+	for _, v in ipairs(ListeTab) do
+		if v.enabled then
+--			print(v.name)
+			if v.bt then  
+				fileout:write('\t<Bouquet name="' .. v.name .. '">\n')
+					for __, b in ipairs(v.bt) do
+						if conf.epg then 
+							fileout:write('\t\t<S i="' .. b.i ..'" t="' .. b.t .. '" on="' .. b.on..'" s="' ..b.s..'" frq="'.. b.frq .. '" n="'.. b.n ..'" />\n')
+						end
+ 						fileout:write('\t\t<S u=' .. b.tv..' n="' ..b.n.. '" />\n')
+				end
+				fileout:write('\t</Bouquet>\n')
+			end
+		end
+	end
+	fileout:write('</zapit>\n')
+	fileout:close()
+end
+
+function read_ubouquets_xml(file)
+ 	if not file_exists(file) then return {} end
+	lines = {}
+	for line in io.lines(file) do 
+		lines[#lines + 1] = line
+	end
+	return lines
+end
+
 function saveliste()
 	if ListeTab then
 		local filename = conf.path .. "/" .. conf.name .. ".xml"
@@ -194,18 +250,22 @@ function saveliste()
 -- 					print(v.name)
 					if v.bt then
 						for __, b in ipairs(v.bt) do
--- 							print(b.tv)
-							localtv:write(b.tv.."\n")
+							localtv:write('\t<webtv title="' .. b.n .. '" url=' .. b.tv .. ' description="' .. v.name .. '" />\n')
 						end
 					end
 				end
 			end
 			localtv:write("</webtvs>\n")
 			localtv:close()
-			info("Information", "Liste ".. conf.name .. ".xml" .. " wurde gespeichert")
+			if conf.fav ~= "no" then
+				changeFav()
+			end
+			os.execute( 'pzapit -c')
+			info("Inforation", "Liste ".. conf.name .. ".xml" .. " wurde gespeichert")
 		end
 	else
 		info("Fehler", "Verzeichnis nicht beschreibbar")
+		return
 	end
 end
 
@@ -222,6 +282,8 @@ function saveConfig()
 		config:setString("bouquet",conf.bouquet)
 		config:setString("ip",conf.ip)
 		config:setBool  ("enabled",conf.enabled)
+		config:setString("fav",conf.fav)
+		config:setBool  ("epg",conf.epg)
 		config:saveConfig(get_confFile())
 		conf.changed = false
 	end
@@ -235,11 +297,12 @@ function loadConfig()
 	conf.ip   = config:getString("ip", "192.168.178.2")
 	conf.bouquet = config:getString("bouquet", "ubouquets")
 	conf.enabled = config:getBool("enabled", true)
+	conf.fav = config:getString("fav", "no")
+	conf.epg = config:getBool("epg", false)
 	conf.changed = false
 end
 
 function setvar(k, v) 
---   	print(k,v)
 	conf[k]=v
 	conf.changed = true
 end
@@ -248,8 +311,29 @@ function bool2onoff(a)
 	if a then return on end
 	return off
 end
+
+function favoption(a)
+	if a == "on" then return fon
+	end
+	if a == "overwrite" then return fover
+	end
+	if a == "add" then return fadd
+	end
+end
 function setub(a,b)
 	conf.bouquet = b
+	conf.changed = true
+	return b
+end
+
+function setabc(a,b)
+	if b == fno then
+		conf.fav = "no"
+	elseif b == fover then
+		conf.fav = "overwrite"
+	elseif b == fadd then
+		conf.fav = "add"
+	end
 	conf.changed = true
 	return b
 end
@@ -260,7 +344,6 @@ function set_path(value)
 end
 
 function info(captxt,infotxt)
-	local n = neutrino()
 	if captxt == localtv_verrsion and infotxt==nil then
 		infotxt=captxt
 		captxt="Information"
@@ -283,9 +366,9 @@ end
 
 function set_option(k, v)
 	if v == on then
-		conf.enabled=true
+		conf[k]=true
 	else 
-		conf.enabled=false
+		conf[k]=false
 	end
 	conf.changed = true
 end
@@ -323,9 +406,11 @@ function main_menu()
 		   enabled=true,value=conf.path,directkey=RC["4"],
 		   hint_icon="hint_service",hint="Verzeichnis wählen in dem die Liste gespeichert wird"
 		 }
-	m:addItem{type="chooser", action="set_option", options={ on, off }, id="onoff",         value=bool2onoff(conf.enabled),         directkey=RC["5"], name="Auswahl vorbelegen mit",hint_icon="hint_service",hint="Generiere Auswahlliste mit 'ein' oder 'aus'"}
+	m:addItem{type="chooser", action="set_option", options={ on, off }, id="enabled", value=bool2onoff(conf.enabled),         directkey=RC["5"], name="Auswahl vorbelegen mit",hint_icon="hint_service",hint="Generiere Auswahlliste mit 'ein' oder 'aus'"}
+	m:addItem{type="chooser", action="setabc", options={ fno, fadd, fover }, id="boxub", value=favoption(conf.fav), name="",directkey=RC["6"],hint_icon="hint_service",hint="Generierete Bouquets zu deiner Favoriten hinzufügen oder die überschreiben oder nicht ändern"}
+	m:addItem{type="chooser", action="set_option", options={ on, off }, id="epg",enabled=ture,value=bool2onoff(conf.epg),         directkey=RC["7"], name="Falsche Sender Generieren",hint_icon="hint_service",hint="Falsche Sender Generieren nur in Favoriten. EPG workaround !!!"}
 	m:addItem{type="separatorline"}
-	m:addItem{type="forwarder", name="Generiere Liste", action="make_list",enabled=true,id="" ,directkey=RC["red"],hint_icon="hint_service",hint="Generiere Liste" }
+	m:addItem{type="forwarder", name="Generiere Liste", action="make_list",enabled=true,id="",directkey=RC["red"],hint_icon="hint_service",hint="Generiere Liste" }
 	m:exec()
 	m:hide()
 end
