@@ -202,7 +202,7 @@ function saveliste()
 			end
 			localtv:write("</webtvs>\n")
 			localtv:close()
-			info("Inforation", "Liste ".. conf.name .. ".xml" .. " wurde gespeichert")
+			info("Information", "Liste ".. conf.name .. ".xml" .. " wurde gespeichert")
 		end
 	else
 		info("Fehler", "Verzeichnis nicht beschreibbar")
