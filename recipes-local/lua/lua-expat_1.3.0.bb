@@ -2,7 +2,7 @@ DESCRIPTION = "lua-expat"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://doc/us/license.html;beginline=61;endline=105;md5=233d45b83cb017f713f5293cabd9f391"
 HOMEPAGE = "https://www.github.com/keplerproject"
-
+DEPENDS += "expat"
 RDEPENDS_${PN} += "lua5.2 expat"
 
 PR = "r1"
