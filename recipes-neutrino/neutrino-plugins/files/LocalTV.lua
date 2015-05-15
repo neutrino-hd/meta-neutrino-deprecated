@@ -1,6 +1,6 @@
 --[[
 	LocalTV Plugin
-	Copyright (C) 2015,  Jacek Jendrzej 'satbaby', Janus
+	Copyright (C) 2015,  Jacek Jendrzej 'satbaby', Janus, flk
 
 	License: GPL
 
@@ -25,15 +25,15 @@ local g = {}
 local ListeTab = {}
 local n = neutrino()
 
-local fover="Generierte Bouquets ersetzen deine Favoriten"
+local fover="Favoriten durch erstellte Bouquets ersetzen"
 local fno="Favoriten nicht ändern"
-local fadd="Generierte Bouquets zu deiner Favoriten hinzufügen "
+local fadd="Erstellte Bouquets zu deiner Favoritenliste hinzufügen "
 
 local on="ein"
 local off="aus"
 local u="ubouquets"
 local b="bouquets"
-local localtv_verrsion="LocalTV 0.10 (beta)"
+local localtv_verrsion="LocalTV 0.11 (beta)"
 function __LINE__() return debug.getinfo(2, 'l').currentline end
 
 function gethttpdata(host,link)
@@ -148,7 +148,7 @@ function make_list(value)
 	local lom = require("lxp.lom")
 	local tab = lom.parse(data)
 	if tab == nil then
-		info("Fehler","Liste konnte nicht generiert werden.")
+		info("Fehler","Liste konnte nicht erstellt werden.")
 		return
 	end
 	ListeTab = {}
@@ -236,7 +236,7 @@ function saveliste()
 		local filename = conf.path .. "/" .. conf.name .. ".xml"
 		if is_dir(conf.path) then
 			if file_exists(filename) then
-				local res = messagebox.exec{title=conf.name .. " ist vorhanden", text="Soll die existierende 			Datei überschrieben werden ?", buttons={ "yes", "no" } }
+				local res = messagebox.exec{title=conf.name .. " ist vorhanden", text="Die existierende 			Datei überschreiben ?", buttons={ "yes", "no" } }
 				if (res == "no") then return  end
 			end
 			local localtv = io.open(filename,'w+')
@@ -261,7 +261,7 @@ function saveliste()
 				changeFav()
 			end
 			os.execute( 'pzapit -c')
-			info("Inforation", "Liste ".. conf.name .. ".xml" .. " wurde gespeichert")
+			info("Information", "Liste ".. conf.name .. ".xml" .. " wurde gespeichert")
 		end
 	else
 		info("Fehler", "Verzeichnis nicht beschreibbar")
@@ -399,18 +399,18 @@ function main_menu()
 
 	m:addItem{type="back"}
 	m:addItem{type="separatorline"}
-	m:addItem{type="keyboardinput", action="setvar", id="name", name="Name", value=conf.name,directkey=RC["1"],hint_icon="hint_service",hint="Name unter dem die Liste gespeichert wird"}
+	m:addItem{type="keyboardinput", action="setvar", id="name", name="Name", value=conf.name,directkey=RC["1"],hint_icon="hint_service",hint="Unter welchem Namen soll die Liste gespeichert werden ?"}
 	m:addItem{type="keyboardinput", action="setvar", id="ip",   value=conf.ip, name="Box-Adresse (IP/Name)",directkey=RC["2"],hint_icon="hint_service",hint="Box IP oder Url"}
-	m:addItem{type="chooser", action="setub", options={ u, b }, id="ub", value=conf.bouquet, name="Liste aus:",directkey=RC["3"],hint_icon="hint_service",hint="Liste aus Favoriten- oder Anbieter-Bouquets"}
+	m:addItem{type="chooser", action="setub", options={ u, b }, id="ub", value=conf.bouquet, name="Liste aus:",directkey=RC["3"],hint_icon="hint_service",hint="Liste aus Favoriten- oder Anbieterbouquets"}
 	m:addItem{ type="filebrowser", dir_mode="1", id="path", name="Verzeichnis: ", action="set_path",
 		   enabled=true,value=conf.path,directkey=RC["4"],
-		   hint_icon="hint_service",hint="Verzeichnis wählen in dem die Liste gespeichert wird"
+		   hint_icon="hint_service",hint="In welchem Verzeichnis soll die Liste gespeichert werden ?"
 		 }
-	m:addItem{type="chooser", action="set_option", options={ on, off }, id="enabled", value=bool2onoff(conf.enabled),         directkey=RC["5"], name="Auswahl vorbelegen mit",hint_icon="hint_service",hint="Generiere Auswahlliste mit 'ein' oder 'aus'"}
-	m:addItem{type="chooser", action="setabc", options={ fno, fadd, fover }, id="boxub", value=favoption(conf.fav), name="",directkey=RC["6"],hint_icon="hint_service",hint="Generierete Bouquets zu deiner Favoriten hinzufügen oder die überschreiben oder nicht ändern"}
-	m:addItem{type="chooser", action="set_option", options={ on, off }, id="epg",enabled=ture,value=bool2onoff(conf.epg),         directkey=RC["7"], name="Falsche Sender Generieren",hint_icon="hint_service",hint="Falsche Sender Generieren nur in Favoriten. EPG workaround !!!"}
+	m:addItem{type="chooser", action="set_option", options={ on, off }, id="enabled", value=bool2onoff(conf.enabled),         directkey=RC["5"], name="Auswahl vorbelegen mit",hint_icon="hint_service",hint="Erstelle Auswahlliste mit 'ein' oder 'aus'"}
+	m:addItem{type="chooser", action="setabc", options={ fno, fadd, fover }, id="boxub", value=favoption(conf.fav), name="",directkey=RC["6"],hint_icon="hint_service",hint="Erstellte Bouquets zu den Favoriten hinzufügen, überschreiben oder unverändert lassen"}
+	m:addItem{type="chooser", action="set_option", options={ on, off }, id="epg",enabled=ture,value=bool2onoff(conf.epg),         directkey=RC["7"], name="Falsche Sender erstellen",hint_icon="hint_service",hint="Falsche Sender nur in der Favoritenliste erstellen. EPG workaround !!!"}
 	m:addItem{type="separatorline"}
-	m:addItem{type="forwarder", name="Generiere Liste", action="make_list",enabled=true,id="",directkey=RC["red"],hint_icon="hint_service",hint="Generiere Liste" }
+	m:addItem{type="forwarder", name="Erstelle Liste", action="make_list",enabled=true,id="",directkey=RC["red"],hint_icon="hint_service",hint="Die Liste erstellen" }
 	m:exec()
 	m:hide()
 end
