@@ -33,7 +33,7 @@ local on="ein"
 local off="aus"
 local u="ubouquets"
 local b="bouquets"
-local localtv_verrsion="LocalTV 0.11 (beta)"
+local localtv_verrsion="LocalTV 0.12 (beta)"
 function __LINE__() return debug.getinfo(2, 'l').currentline end
 
 function gethttpdata(host,link)
@@ -126,7 +126,7 @@ function add_channels(t,b_name)
 					end
 					v.attr.n=v.attr.n:gsub("%&","&amp;")
 					local url='"http://' .. conf.ip .. ':31339/id='.. chid .. '"'
-					table.insert(BListeTab, { tv=url,s=v.attr.s, frq=v.attr.frq, n=v.attr.n, t=v.attr.t, on=v.attr.on, i=v.attr.i })
+					table.insert(BListeTab, { tv=url,s=v.attr.s, frq=v.attr.frq, n=v.attr.n, t=v.attr.t, on=v.attr.on, i=v.attr.i, l=v.attr.l, un=v.attr.un })
 					ok=true
 				end
 			end
@@ -157,7 +157,7 @@ function make_list(value)
 			local blt = add_channels(v,v.attr.name)
 			if blt then
 				v.attr.name=v.attr.name:gsub("%&","&amp;")
-				table.insert(ListeTab, { name=v.attr.name , bt=blt, enabled=conf.enabled})
+				table.insert(ListeTab, { name=v.attr.name, epg=v.attr.epg, hidden=v.attr.hidden, locked=v.attr.locked ,bqID=v.attr.bqID , bt=blt, enabled=conf.enabled})
 			end
 		end
 	end
@@ -206,13 +206,37 @@ function changeFav()
 	for _, v in ipairs(ListeTab) do
 		if v.enabled then
 --			print(v.name)
-			if v.bt then  
-				fileout:write('\t<Bouquet name="' .. v.name .. '">\n')
+			if v.bt then
+				local locked = ""
+				local hidden = ""
+				local epg = ""
+				local bqID = ""
+				if v.bqID then
+					bqID=' bqID="' .. v.bqID .. '"' 
+				end
+				if v.locked then
+					locked=' locked="' .. v.locked .. '"' 
+				end
+				if v.hidden then
+					hidden=' hidden="' .. v.hidden .. '"' 
+				end
+				if v.epg then
+					epg=' epg="' .. "0"  .. '"' -- v.epg disable epg scan 
+				end
+				fileout:write('\t<Bouquet name="' .. v.name .. '"' .. bqID .. hidden .. locked .. epg ..' >\n')
 					for __, b in ipairs(v.bt) do
-						if conf.epg then 
-							fileout:write('\t\t<S i="' .. b.i ..'" t="' .. b.t .. '" on="' .. b.on..'" s="' ..b.s..'" frq="'.. b.frq .. '" n="'.. b.n ..'" />\n')
+						if conf.epg then
+						local un = ""
+						local l = ""
+						if b.l then
+							l=' l="' .. b.l .. '"' 
 						end
- 						fileout:write('\t\t<S u=' .. b.tv..' n="' ..b.n.. '" />\n')
+						if b.un then
+							un=' un="' .. b.un  .. '"'
+						end
+						fileout:write('\t\t<S i="' .. b.i ..'" t="' .. b.t .. '" on="' .. b.on..'" s="' ..b.s..'" frq="'.. b.frq .. '" n="'.. b.n .. un .. l ..'" />\n')
+					end
+ 					fileout:write('\t\t<S u=' .. b.tv..' n="' ..b.n.. '" />\n')
 				end
 				fileout:write('\t</Bouquet>\n')
 			end
@@ -250,7 +274,7 @@ function saveliste()
 -- 					print(v.name)
 					if v.bt then
 						for __, b in ipairs(v.bt) do
-							localtv:write('\t<webtv title="' .. b.n .. '" url=' .. b.tv .. ' description="' .. v.name .. '" />\n')
+							localtv:write('\t<webtv title="' .. b.n .. '" url=' .. b.tv .. ' description="' .. v.name .. '" genre="' ..conf.name  ..'" />\n')
 						end
 					end
 				end
@@ -261,7 +285,7 @@ function saveliste()
 				changeFav()
 			end
 			os.execute( 'pzapit -c')
-			info("Information", "Liste ".. conf.name .. ".xml" .. " wurde gespeichert")
+			info("Inforation", "Liste ".. conf.name .. ".xml" .. " wurde gespeichert")
 		end
 	else
 		info("Fehler", "Verzeichnis nicht beschreibbar")
@@ -320,6 +344,7 @@ function favoption(a)
 	if a == "add" then return fadd
 	end
 end
+
 function setub(a,b)
 	conf.bouquet = b
 	conf.changed = true
@@ -399,16 +424,16 @@ function main_menu()
 
 	m:addItem{type="back"}
 	m:addItem{type="separatorline"}
-	m:addItem{type="keyboardinput", action="setvar", id="name", name="Name", value=conf.name,directkey=RC["1"],hint_icon="hint_service",hint="Unter welchem Namen soll die Liste gespeichert werden ?"}
+	m:addItem{type="keyboardinput", action="setvar", id="name", name="Name", value=conf.name,directkey=RC["1"],hint_icon="hint_service",hint="Unter welchem Namen soll die Liste gespeichert werden"}
 	m:addItem{type="keyboardinput", action="setvar", id="ip",   value=conf.ip, name="Box-Adresse (IP/Name)",directkey=RC["2"],hint_icon="hint_service",hint="Box IP oder Url"}
 	m:addItem{type="chooser", action="setub", options={ u, b }, id="ub", value=conf.bouquet, name="Liste aus:",directkey=RC["3"],hint_icon="hint_service",hint="Liste aus Favoriten- oder Anbieterbouquets"}
 	m:addItem{ type="filebrowser", dir_mode="1", id="path", name="Verzeichnis: ", action="set_path",
 		   enabled=true,value=conf.path,directkey=RC["4"],
 		   hint_icon="hint_service",hint="In welchem Verzeichnis soll die Liste gespeichert werden ?"
 		 }
-	m:addItem{type="chooser", action="set_option", options={ on, off }, id="enabled", value=bool2onoff(conf.enabled),         directkey=RC["5"], name="Auswahl vorbelegen mit",hint_icon="hint_service",hint="Erstelle Auswahlliste mit 'ein' oder 'aus'"}
+	m:addItem{type="chooser", action="set_option", options={ on, off }, id="enabled", value=bool2onoff(conf.enabled), directkey=RC["5"], name="Auswahl vorbelegen mit",hint_icon="hint_service",hint="Erstelle Auswahlliste mit 'ein' oder 'aus'"}
 	m:addItem{type="chooser", action="setabc", options={ fno, fadd, fover }, id="boxub", value=favoption(conf.fav), name="",directkey=RC["6"],hint_icon="hint_service",hint="Erstellte Bouquets zu den Favoriten hinzufügen, überschreiben oder unverändert lassen"}
-	m:addItem{type="chooser", action="set_option", options={ on, off }, id="epg",enabled=ture,value=bool2onoff(conf.epg),         directkey=RC["7"], name="Falsche Sender erstellen",hint_icon="hint_service",hint="Falsche Sender nur in der Favoritenliste erstellen. EPG workaround !!!"}
+	m:addItem{type="chooser", action="set_option", options={ on, off }, id="epg",enabled=ture,value=bool2onoff(conf.epg), directkey=RC["7"], name="Falsche Sender erstellen",hint_icon="hint_service",hint="Falsche Sender nur in der Favoritenliste erstellen. EPG workaround !!!"}
 	m:addItem{type="separatorline"}
 	m:addItem{type="forwarder", name="Erstelle Liste", action="make_list",enabled=true,id="",directkey=RC["red"],hint_icon="hint_service",hint="Die Liste erstellen" }
 	m:exec()
