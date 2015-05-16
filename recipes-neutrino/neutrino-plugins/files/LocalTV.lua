@@ -285,7 +285,7 @@ function saveliste()
 				changeFav()
 			end
 			os.execute( 'pzapit -c')
-			info("Inforation", "Liste ".. conf.name .. ".xml" .. " wurde gespeichert")
+			info("Information", "Liste ".. conf.name .. ".xml" .. " wurde gespeichert")
 		end
 	else
 		info("Fehler", "Verzeichnis nicht beschreibbar")
