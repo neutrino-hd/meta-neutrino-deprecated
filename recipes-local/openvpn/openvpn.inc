@@ -14,7 +14,9 @@ S = "${WORKDIR}/openvpn-${PV}"
 
 CFLAGS += "-fno-inline"
 
-inherit autotools
+inherit autotools update-rc.d
+
+INITSCRIPT_NAME = "openvpn"
 
 do_install_append() {
 	install -d ${D}/${sysconfdir}/init.d
