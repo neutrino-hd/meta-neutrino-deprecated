@@ -23,18 +23,12 @@ do_compile() {
 	fi
 	echo "#" >> $basefeedconf
 
-	ipkgarchs="${ALL_MULTILIB_PACKAGE_ARCHS}"
+	ipkgarchs="all ${MACHINE_ARCH} ${PACKAGE_EXTRA_ARCHS}"
 	for arch in $ipkgarchs; do
 		FNAME="$arch"
 		if [ -n "${IPK_FEED_SERVER}" ]; then
 			URI="${IPK_FEED_SERVER}/$arch"
-			# if there are no packages for this arch, don't put it into the feed.
-			if [ ! -d ${DEPLOY_DIR_IPK}/$arch ]; then
-				printf "#" >> $basefeedconf # comment out
-			fi
 			printf "src/gz\t$FNAME\t$URI\n" >> $basefeedconf
-		else
-			printf "# src/gz\t$FNAME\thttp://your.server.name/$arch\n" >> $basefeedconf
 		fi
 	done
 	# TODO: handle IPK_FEED_URIS?
