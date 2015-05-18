@@ -3,7 +3,7 @@ LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://doc/us/license.html;beginline=61;endline=105;md5=233d45b83cb017f713f5293cabd9f391"
 HOMEPAGE = "https://www.github.com/keplerproject"
 DEPENDS += "expat"
-RDEPENDS_${PN} += "lua5.2 expat"
+RDEPENDS_${PN} += "lua5.2"
 
 PR = "r1"
 S = "${WORKDIR}/lua-expat-1f41c74ce686"
@@ -18,15 +18,15 @@ SRC_URI[sha256sum] = "efe74a0ff7375ee5fe459aefff723c0efd5ebba7d05de34f7ebc334147
 LUA_LIB_DIR = "${libdir}/lua/5.2"
 LUA_SHARE_DIR = "${datadir}/lua/5.2"
 
-FILES_${PN}-dbg += "${LUA_LIB_DIR}/.debug/*.so"
+
 FILES_${PN} = "${LUA_LIB_DIR}/*.so \
-				${LUA_SHARE_DIR}/lxp/*.lua "
+	       ${LUA_SHARE_DIR}/lxp/*.lua "
+
+FILES_${PN}-dbg += "${LUA_LIB_DIR}/.debug/*.so"
 
 EXTRA_OEMAKE = "LUA_V=5.2"
 
 do_install() {
 		oe_runmake install DESTDIR=${D}
-		install -d ${D}/${docdir}/${PN}-${PV}
-		install -m 0644 doc/us/* ${D}/${docdir}/${PN}-${PV}
 }
 
