@@ -1,0 +1,42 @@
+From 557509dc8074c3646b96cf0aae57f9ca410fb11b Mon Sep 17 00:00:00 2001
+From: Markus Volk <f_l_k@gmx.net>
+Date: Tue, 19 May 2015 17:57:03 +0200
+Subject: [PATCH] Makefile_fix
+
+Signed-off-by: Markus Volk <f_l_k@gmx.net>
+---
+ Makefile | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index a3debda..1f69edd 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1,4 +1,6 @@
+-PREFIX = /usr/local
++PREFIX		?= /usr
++RM		?= rm -rf
++
+ # System's lua directory (where Lua libraries are installed)
+ LUA_DIR= $(PREFIX)/share/lua/5.2
+ LUA_BIN= lua
+@@ -15,9 +17,12 @@ test:
+ 	${LUA_BIN} tests/feedparser.lua
+ 
+ install:
+-	install feedparser.lua $(LUA_DIR)/
+-	mkdir -p $(LUA_DIR)/feedparser
++	mkdir -p $(DESTDIR)$(LUA_DIR)/feedparser
+-	install feedparser/* $(LUA_DIR)/feedparser
++	install feedparser.lua $(DESTDIR)$(LUA_DIR)/
++	install feedparser/* $(DESTDIR)$(LUA_DIR)/feedparser
+ 
+ bundle:
+ 	tar --create --verbose --exclude-vcs --gzip --file=../$(NAME)-$(VERSION).tar.gz ../$(NAME)
++
++clean:
++	$(RM) $(DESTDIR)$(LUA_DIR)/feedparser.lua
++	$(RM) $(DESTDIR)$(LUA_DIR)/feedparser
+-- 
+2.1.4
+
