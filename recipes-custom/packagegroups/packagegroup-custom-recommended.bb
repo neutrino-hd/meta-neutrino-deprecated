@@ -17,7 +17,6 @@ PACKAGES = "\
 RDEPENDS_packagegroup-custom-recommended = "\
     autofs \
     cifs-utils \
-    djmount \
     htop \
     libevent \
     mc \
@@ -32,7 +31,7 @@ RDEPENDS_packagegroup-custom-recommended = "\
     rpcbind \
     samba \
     tmux \
-    ushare \
+    minidlna \
     util-linux-blkid \
     wpa-supplicant \
     "
