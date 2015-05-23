@@ -33,14 +33,6 @@ do_configure_prepend() {
 
 do_install_append() {
 	install -d ${D}${sysconfdir} ${D}${sysconfdir}/init.d/
-	install -m 644 ${WORKDIR}/minidlna.conf ${D}${sysconfdir}
+	install -m 644 ${WORKDIR}/minidlna-${DISTRO}.conf ${D}${sysconfdir}/minidlna.conf
 	install -m 755 ${WORKDIR}/init ${D}${sysconfdir}/init.d/${PN}
-}
-
-do_install_append_coolstream-hd1 () {
-	install -m 644 ${WORKDIR}/minidlna-${DISTRO}.conf ${D}${sysconfdir}/minidlna.conf
-}
-
-do_install_append_coolstream-hd2 () {
-	install -m 644 ${WORKDIR}/minidlna-${DISTRO}.conf ${D}${sysconfdir}/minidlna.conf
 }
