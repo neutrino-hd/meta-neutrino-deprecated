@@ -12,7 +12,7 @@ SRC_URI = "http://ushare.geexbox.org/releases/ushare-${PV}.tar.bz2 \
 INITSCRIPT_NAME = "ushare"
 INITSCRIPT_PARAMS = "defaults"
 
-inherit autotools gettext
+inherit autotools-brokensep gettext
 
 EXTRA_OEMAKE += 'STRIP=""'
 
@@ -20,24 +20,17 @@ EXTRA_OEMAKE += 'STRIP=""'
 # the configure script is hand-crafted, it rejects some of the usual
 # configure arguments
 do_configure () {
-	cp -rf ${S}/* ${WORKDIR}/build/
-	${WORKDIR}/build/configure \
+	${S}/configure \
 		    --prefix=${prefix} \
 		    --bindir=${bindir} \
 		    --sysconfdir=${sysconfdir} \
 		    --cross-compile \
 		    --disable-nls
-	cp -rf ${WORKDIR}/build/config.* ${S}
 	sed -i "s|Coolstream|${MACHINE}|" ${WORKDIR}/ushare*.conf
 }
 
-do_install_append_coolstream-hd1 () {
-	install -m 755 ${WORKDIR}/ushare-${DISTRO}.conf ${D}${sysconfdir}/ushare.conf
-	update-rc.d -r ${D} ushare start 70 2 3 4 5 .
-}
-
-do_install_append_coolstream-hd2 () {
-	install -m 755 ${WORKDIR}/ushare-${DISTRO}.conf ${D}${sysconfdir}/ushare.conf
+do_install_append () {
+	install -m 644 ${WORKDIR}/ushare-${DISTRO}.conf ${D}${sysconfdir}/ushare.conf
 	update-rc.d -r ${D} ushare start 70 2 3 4 5 .
 }
 
