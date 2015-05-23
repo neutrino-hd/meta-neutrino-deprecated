@@ -8,7 +8,7 @@ DEPENDS = "libexif libjpeg-turbo libid3tag flac libvorbis sqlite3 ffmpeg util-li
 PR = "r1"
 
 SRC_URI = "${SOURCEFORGE_MIRROR}/project/minidlna/minidlna/${PV}/minidlna-${PV}.tar.gz \
-		file://minidlna.conf \
+		file://minidlna*.conf \
 		file://init \
 "
 
@@ -27,8 +27,20 @@ CONFFILES_${PN} = "${sysconfdir}/minidlna.conf"
 
 INITSCRIPT_NAME = "minidlna"
 
+do_configure_prepend() {
+	sed -i "s|Coolstream|${MACHINE}|" ${WORKDIR}/minidlna*.conf
+}
+
 do_install_append() {
 	install -d ${D}${sysconfdir} ${D}${sysconfdir}/init.d/
 	install -m 644 ${WORKDIR}/minidlna.conf ${D}${sysconfdir}
 	install -m 755 ${WORKDIR}/init ${D}${sysconfdir}/init.d/${PN}
+}
+
+do_install_append_coolstream-hd1 () {
+	install -m 644 ${WORKDIR}/minidlna-${DISTRO}.conf ${D}${sysconfdir}/minidlna.conf
+}
+
+do_install_append_coolstream-hd2 () {
+	install -m 644 ${WORKDIR}/minidlna-${DISTRO}.conf ${D}${sysconfdir}/minidlna.conf
 }
