@@ -34,7 +34,7 @@ do_custom_baseissueinstall() {
 }
 
 do_install_prepend_coolstream-hd2 () {
-	install -d ${D}${sysconfdir}/init.d ${D}${localstatedir}${sysconfdir}/network
+	install -d ${D}${sysconfdir}/init.d ${D}${localstatedir}${sysconfdir}/network ${D}${localstatedir}/bin
 	install -m 755 ${S}/local.sh ${D}${sysconfdir}/init.d/local.sh
 	install -m 755 ${S}/create_var.sh ${D}${sysconfdir}/init.d/create_var.sh
 	install -m 755 ${S}/stb_update.sh ${D}${sysconfdir}/init.d/bb_stb_update.sh
