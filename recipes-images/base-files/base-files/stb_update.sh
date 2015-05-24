@@ -49,7 +49,7 @@ if [ -f /var/update/uldr.bin ]; then
 	DO_REBOOT=1
 fi
 
-if [ -f /var/update/var.bin ]; then
+if [ -f /var/update/erase_var ]; then
 	# check if we are using gnu coreutils
 	if [ -e /usr/bin/cut.coreutils ]; then
 	# coreutils "cut" counts from 1
@@ -58,13 +58,36 @@ if [ -f /var/update/var.bin ]; then
 	# busybox "cut" counts from 0
 	DEV=`grep -i var /proc/mtd | cut -f 0 -s -d :`
 	fi
-	echo cleaning var on device $DEV .....
+	echo cleaning var partition on device $DEV .....
+	cp -rf /var/lib/opkg /var_init/lib/opkg
+	touch /var_init/etc/.newimage
+	/usr/sbin/flash_eraseall /dev/$DEV
+	rm /var/update/erase_var
+	DO_REBOOT=1
+fi
+
+if [ -f /var/update/var.bin.gz ]; then
+	# unpack 
+	echo unpacking var partition
+	gunzip /var/update/var.bin.gz
+	# check if we are using gnu coreutils
+	if [ -e /usr/bin/cut.coreutils ]; then
+	# coreutils "cut" counts from 1
+	DEV=`grep -i var /proc/mtd | cut -f 1 -s -d :`
+	else
+	# busybox "cut" counts from 0
+	DEV=`grep -i var /proc/mtd | cut -f 0 -s -d :`
+	fi
+	echo writing var partition on device $DEV .....
+	cp -rf /var/lib/opkg /var_init/lib/opkg
+	touch /var_init/etc/.newimage
 	/usr/sbin/flash_eraseall /dev/$DEV && /bin/cat /var/update/var.bin > /dev/$DEV
+	rm /var/update/var.bin.gz 
 	rm /var/update/var.bin
 	DO_REBOOT=1
 fi
 
-if [ -f /var/update/env.bin ]; then
+if [ -f /var/update/erase_env ]; then
 	# check if we are using gnu coreutils
 	if [ -e /usr/bin/cut.coreutils ]; then
 	# coreutils "cut" counts from 1
@@ -74,8 +97,8 @@ if [ -f /var/update/env.bin ]; then
 	DEV=`grep -i env /proc/mtd | cut -f 0 -s -d :`
 	fi
 	echo cleaning env on device $DEV .....
-	/usr/sbin/flash_eraseall /dev/$DEV && /bin/cat /var/update/env.bin > /dev/$DEV
-	rm /var/update/env.bin
+	/usr/sbin/flash_eraseall /dev/$DEV
+	rm /var/update/erase_env
 	DO_REBOOT=1
 fi
 

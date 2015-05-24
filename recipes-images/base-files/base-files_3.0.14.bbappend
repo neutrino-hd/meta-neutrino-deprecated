@@ -34,7 +34,7 @@ do_custom_baseissueinstall() {
 }
 
 do_install_prepend_coolstream-hd2 () {
-	install -d ${D}${sysconfdir}/init.d ${D}${localstatedir}${sysconfdir}/network ${D}${localstatedir}/bin
+	install -d ${D}${sysconfdir}/init.d ${D}${localstatedir}${sysconfdir}/network ${D}${localstatedir}/bin ${D}${localstatedir}/update
 	install -m 755 ${S}/local.sh ${D}${sysconfdir}/init.d/local.sh
 	install -m 755 ${S}/create_var.sh ${D}${sysconfdir}/init.d/create_var.sh
 	install -m 755 ${S}/stb_update.sh ${D}${sysconfdir}/init.d/bb_stb_update.sh
@@ -42,6 +42,15 @@ do_install_prepend_coolstream-hd2 () {
 	update-rc.d -r ${D} local.sh start 90 S .
 	update-rc.d -r ${D} create_var.sh start 03 S .
 	update-rc.d -r ${D} bb_stb_update.sh start 03 S .
+ 	if [ ${CLEAN_VAR} == "yes" ];then
+		touch ${D}${localstatedir}/update/erase_var 
+	fi
+ 	if [ ${CLEAN_ENV} == "yes" ];then
+		touch ${D}${localstatedir}/update/erase_env 
+	fi
+	if [ -f ../../../../../conf/backup/${RESTORE_VAR} ];then
+		gzip -9c ../../../../../conf/backup/${RESTORE_VAR} > ${D}${localstatedir}/update/var.bin.gz  
+	fi
 }
 
 # links to get better compatibility for precompiled binaries on the nevis platform
