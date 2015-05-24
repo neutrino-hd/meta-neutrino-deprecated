@@ -49,6 +49,36 @@ if [ -f /var/update/uldr.bin ]; then
 	DO_REBOOT=1
 fi
 
+if [ -f /var/update/var.bin ]; then
+	# check if we are using gnu coreutils
+	if [ -e /usr/bin/cut.coreutils ]; then
+	# coreutils "cut" counts from 1
+	DEV=`grep -i var /proc/mtd | cut -f 1 -s -d :`
+	else
+	# busybox "cut" counts from 0
+	DEV=`grep -i var /proc/mtd | cut -f 0 -s -d :`
+	fi
+	echo cleaning var on device $DEV .....
+	/usr/sbin/flash_eraseall /dev/$DEV && /bin/cat /var/update/var.bin > /dev/$DEV
+	rm /var/update/var.bin
+	DO_REBOOT=1
+fi
+
+if [ -f /var/update/env.bin ]; then
+	# check if we are using gnu coreutils
+	if [ -e /usr/bin/cut.coreutils ]; then
+	# coreutils "cut" counts from 1
+	DEV=`grep -i env /proc/mtd | cut -f 1 -s -d :`
+	else
+	# busybox "cut" counts from 0
+	DEV=`grep -i env /proc/mtd | cut -f 0 -s -d :`
+	fi
+	echo cleaning env on device $DEV .....
+	/usr/sbin/flash_eraseall /dev/$DEV && /bin/cat /var/update/env.bin > /dev/$DEV
+	rm /var/update/env.bin
+	DO_REBOOT=1
+fi
+
 if [ $DO_REBOOT == 1 ]; then
 	echo Reboot...
 	sync
