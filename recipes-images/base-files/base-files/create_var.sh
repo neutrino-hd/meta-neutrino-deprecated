@@ -35,7 +35,7 @@ else
 		rm /var_init/etc/.reset
 		cp -rf /var/lib/opkg /var_init/lib/opkg
 		touch /var_init/etc/.newimage
-               	flash_erase /dev/$VARDEV 0 0
+               	/usr/sbin/flash_eraseall /dev/$VARDEV
 	fi
 
 # Mount var
@@ -44,7 +44,7 @@ else
         mount -t jffs2 /dev/mtdblock$VARBLOCK /var
         if [ $? != 0 ]; then
                 echo Erasing var /dev/$VARDEV
-                flash_erase /dev/$VARDEV 0 0
+		/usr/sbin/flash_eraseall /dev/$VARDEV
                 echo mounting /dev/mtdblock$VARBLOCK to /var
                 mount -t jffs2 /dev/mtdblock$VARBLOCK /var
         fi
