@@ -34,7 +34,7 @@ else
 		echo Factory reset, erasing var /dev/$VARDEV
 		/bin/rm /var_init/etc/.reset
 		/bin/cp -rf /var/lib/opkg /var_init/lib/opkg
-		touch /var_init/etc/.newimage
+		touch /var/init/etc/.newimage
                	/usr/sbin/flash_eraseall /dev/$VARDEV
 	fi
 
