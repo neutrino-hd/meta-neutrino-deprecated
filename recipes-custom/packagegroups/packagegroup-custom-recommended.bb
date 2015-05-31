@@ -14,7 +14,7 @@ PACKAGES = "\
     "
 
 
-RDEPENDS_packagegroup-custom-recommended = "\
+RDEPENDS_packagegroup-custom-recommended ?= "\
     autofs \
     cifs-utils \
     htop \
@@ -35,4 +35,7 @@ RDEPENDS_packagegroup-custom-recommended = "\
     util-linux-blkid \
     wpa-supplicant \
     "
+
+RDEPENDS_packagegroup-custom-recommended += "${@'' if USE_VAR == 'yes' else 'etckeeper'}"
+    
 

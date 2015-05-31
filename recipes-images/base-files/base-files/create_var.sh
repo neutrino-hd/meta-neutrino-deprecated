@@ -30,11 +30,11 @@ else
         fi
 
 # Factory reset
-	if [ -f /var_init/etc/.reset ]; then
+	if [ -f /var_init/update/.reset ]; then
 		echo Factory reset, erasing var /dev/$VARDEV
-		rm /var_init/etc/.reset
+		rm /var_init/update/.reset
 		cp -rf /var/lib/opkg /var_init/lib/opkg
-		touch /var_init/etc/.newimage
+		touch /var_init/update/.newimage
                	/usr/sbin/flash_eraseall /dev/$VARDEV
 	fi
 
@@ -71,8 +71,8 @@ else
 		if [ ! -d /var/tuxbox ]; then
                         cp -a /var_init/* /var/
                 fi
-                if [ -f /var_init/etc/.newimage ]; then
-			rm /var_init/etc/.newimage
+                if [ -f /var_init/update/.newimage ]; then
+			rm /var_init/update/.newimage
 			cp /var_init/tuxbox/config/cables.xml /var/tuxbox/config/cables.xml
 			cp /var_init/tuxbox/config/satellites.xml /var/tuxbox/config/satellites.xml
 			cp /var_init/tuxbox/config/encoding.conf /var/tuxbox/config/encoding.conf

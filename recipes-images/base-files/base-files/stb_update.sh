@@ -61,7 +61,7 @@ if [ -f /var/update/.erase_var ]; then
 	echo cleaning var partition on device $DEV .....
 	/usr/sbin/flash_eraseall /dev/$DEV
 	rm /var/update/.erase_var
-	touch /var/etc/.newimage
+	touch /var/update/.newimage
 	DO_REBOOT=1
 fi
 
@@ -80,7 +80,7 @@ if [ -f /var/update/.erase_env ]; then
 	DO_REBOOT=1
 fi
 
-if [ $DO_REBOOT == 1 ]; then
+if [ $DO_REBOOT = 1 ]; then
 	echo Reboot...
 	sync
 	sleep 2
