@@ -69,6 +69,7 @@ do_configure_prepend() {
 	INSTALL="`which install` -p"
 	export INSTALL
 	ln -sf ${WORKDIR}/build/src/gui/version.h ${S}/src/gui/
+	sed -i "s|XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX|${YT_DEV_KEY}|" ${S}/src/neutrino.cpp
 }
 
 do_compile () {
