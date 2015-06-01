@@ -72,7 +72,7 @@ do_install_prepend_coolstream-hd2 () {
 }
 
 do_install_append_coolstream-hd1 () {
-	install -d ${D}${base_libdir} ${D}${libdir} ${D}${localstatedir}/update
+	install -d ${D}${base_libdir} ${D}${libdir} ${D}${localstatedir}/update ${D}${sysconfdir}/init.d
 	# hack to get better compatibility for precompiled binaries on the nevis platform
 	ln -s ./libcrypto.so.1.0.0 ${D}${base_libdir}/libcrypto.so.0.9.8
 	ln -s ./libssl.so.1.0.0 ${D}${libdir}/libssl.so.0.9.8
