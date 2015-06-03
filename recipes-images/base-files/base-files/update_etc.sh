@@ -2,10 +2,10 @@
 
 if [ -f /var/update/.newimage ];then
 	if [ -e GIT_URL ];then
-		git config --global user.name "GIT_USER"
-		git config --global user.email "GIT_MAIL"
-		git config --global core.editor "nano"
-		git config --global http.sslverify false
+		git config --system user.name "GIT_USER"
+		git config --system user.email "GIT_MAIL"
+		git config --system core.editor "nano"
+		git config --system http.sslverify false
 		cd /etc && etckeeper init
 		git remote add origin GIT_URL
 		git fetch -a
