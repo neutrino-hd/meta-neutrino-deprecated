@@ -7,6 +7,7 @@ SRC_URI += "file://profile \
 	    file://stb_update.sh \
 	    file://create_etc.sh \
 	    file://update_etc.sh \
+	    file://syncfeeds.sh \	
 "
 
 BASEFILESISSUEINSTALL = "do_custom_baseissueinstall"
@@ -45,12 +46,16 @@ do_configure_prepend () {
 	sed -i "s|GIT_USER|${GIT_USER}|" ${WORKDIR}/create_etc.sh
 	sed -i "s|GIT_MAIL|${GIT_MAIL}|" ${WORKDIR}/create_etc.sh
 	sed -i "s|GIT_URL|${GIT_URL}|" ${WORKDIR}/create_etc.sh
+	sed -i "s|remotedir|${IPK_FEED_SERVER}|" ${WORKDIR}/syncfeeds.sh
+	sed -i "s|localdir|${DEPLOY_DIR_IPK}|" ${WORKDIR}/syncfeeds.sh
+	sed -i "s|ipaddress|${COOLIP}|" ${WORKDIR}/syncfeeds.sh
 }
 
 do_install_prepend_coolstream-hd2 () {
-	install -d ${D}${sysconfdir}/init.d  ${D}${localstatedir}/update
+	install -d ${D}${sysconfdir}/init.d  ${D}${localstatedir}/update ${D}${IPK_FEED_SERVER} ${DEPLOY_DIR_IMAGE}
 	install -m 755 ${S}/local.sh ${D}${sysconfdir}/init.d/local.sh
 	install -m 755 ${S}/stb_update.sh ${D}${sysconfdir}/init.d/bb_stb_update.sh
+	install -m 755 ${S}/syncfeeds.sh ${DEPLOY_DIR_IMAGE}/synchd2.sh
 	update-rc.d -r ${D} local.sh start 90 S .
 	update-rc.d -r ${D} bb_stb_update.sh start 03 S .
 	touch ${D}${localstatedir}/update/.newimage
@@ -72,7 +77,8 @@ do_install_prepend_coolstream-hd2 () {
 }
 
 do_install_append_coolstream-hd1 () {
-	install -d ${D}${base_libdir} ${D}${libdir} ${D}${localstatedir}/update ${D}${sysconfdir}/init.d
+	install -d ${D}${base_libdir} ${D}${libdir} ${D}${localstatedir}/update ${D}${sysconfdir}/init.d ${D}${IPK_FEED_SERVER} ${DEPLOY_DIR_IMAGE}
+	install -m 755 ${S}/syncfeeds.sh ${DEPLOY_DIR_IMAGE}/synchd1.sh
 	# hack to get better compatibility for precompiled binaries on the nevis platform
 	ln -s ./libcrypto.so.1.0.0 ${D}${base_libdir}/libcrypto.so.0.9.8
 	ln -s ./libssl.so.1.0.0 ${D}${libdir}/libssl.so.0.9.8

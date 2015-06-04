@@ -13,7 +13,7 @@ do_compile() {
 	rm -f $basefeedconf
 	touch $basefeedconf
 	if [ -n "${IPK_FEED_SERVER}" ]; then
-		echo "# URI prefix '${IPK_FEED_SERVER}'" >> $basefeedconf
+		echo "# URI prefix 'file:///${IPK_FEED_SERVER}'" >> $basefeedconf
 		echo "# is set by the IPK_FEED_SERVER variable." >> $basefeedconf
 		echo "# Architectures which had no packages available" >> $basefeedconf
 		echo "# at image creation time are commented out." >> $basefeedconf
@@ -27,7 +27,7 @@ do_compile() {
 	for arch in $ipkgarchs; do
 		FNAME="$arch"
 		if [ -n "${IPK_FEED_SERVER}" ]; then
-			URI="${IPK_FEED_SERVER}/$arch"
+			URI="file:///${IPK_FEED_SERVER}/$arch"
 			printf "src/gz\t$FNAME\t$URI\n" >> $basefeedconf
 		fi
 	done
