@@ -3,7 +3,7 @@ if [ -e GIT_URL ];then
 	exit
 else
 	cd /etc
-	if [ -e .git ];then :
+	if [ -e /etc/.git ];then :
 	else
 	git config --system user.name "GIT_USER"
 	git config --system user.email "GIT_MAIL"
