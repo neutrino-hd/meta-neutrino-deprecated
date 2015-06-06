@@ -16,5 +16,6 @@ else
 	cd /etc && git remote add -f origin GIT_URL
 	git commit -m "initial commit"
 	git push origin master
+	rm /var/update/.newimage
 fi
 
