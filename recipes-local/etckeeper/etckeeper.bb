@@ -8,6 +8,7 @@ RDEPENDS_${PN}_libc-uclibc += "git findutils cronie perl-module-file-glob uclibc
 SRC_URI = "git://github.com/joeyh/etckeeper.git;branch=master \
 	   file://etckeeper \
 	   file://etckeeper.conf \
+	   file://0001-use-systemwide-gitconfig-to-correct-commiter-name-an.patch \
 "
 
 SRC_URI[md5sum] = "439d65fc487910a30b686788b7c6fc99"
@@ -20,6 +21,10 @@ PR = "1"
 S = "${WORKDIR}/git"
 
 inherit autotools-brokensep 
+
+do_configure_prepend() {
+		sed -i "s|USER_HOME=/"$(getent passwd /"$USER/" | cut -d: -f6)/"|USER_HOME=/"$(perl -e 'print ((getpwnam(shift()))[7])' /"$USER/")/"|" ${S}/commit.d/50vcs-commit
+}	
 
 do_install_append () {
 	install -d ${D}${sysconfdir}/cron.daily/
