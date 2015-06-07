@@ -2,8 +2,7 @@
 LICENSE = "GPL-2.0"
 LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
 
-RDEPENDS_${PN}_libc-glibc += "git findutils cronie perl-module-file-glob glibc-utils"
-RDEPENDS_${PN}_libc-uclibc += "git findutils cronie perl-module-file-glob uclibc-utils"
+RDEPENDS_${PN} += "git findutils cronie perl-module-file-glob"
 
 SRC_URI = "git://github.com/joeyh/etckeeper.git;branch=master \
 	   file://etckeeper \
@@ -21,11 +20,7 @@ PR = "1"
 S = "${WORKDIR}/git"
 
 inherit autotools-brokensep 
-
-do_configure_prepend() {
-		sed -i "s|USER_HOME=/"$(getent passwd /"$USER/" | cut -d: -f6)/"|USER_HOME=/"$(perl -e 'print ((getpwnam(shift()))[7])' /"$USER/")/"|" ${S}/commit.d/50vcs-commit
-}	
-
+	
 do_install_append () {
 	install -d ${D}${sysconfdir}/cron.daily/
 	install -m755 ${WORKDIR}/etckeeper ${D}/etc/cron.daily/etckeeper
