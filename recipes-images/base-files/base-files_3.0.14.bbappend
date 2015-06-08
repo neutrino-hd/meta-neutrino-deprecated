@@ -45,7 +45,12 @@ do_configure_prepend () {
 	sed -i "s|GIT_USER|${GIT_USER}|" ${WORKDIR}/create_etc.sh
 	sed -i "s|GIT_MAIL|${GIT_MAIL}|" ${WORKDIR}/create_etc.sh
 	sed -i "s|GIT_URL|${GIT_URL}|" ${WORKDIR}/create_etc.sh
+	if [ ${DISTRO} == "coolstream-hd1_flash" ];then
+		sed -i "s|nano|vi|" ${WORKDIR}/create_etc.sh
+	fi
 }
+
+
 
 do_install_prepend_coolstream-hd2 () {
 	install -d ${D}${sysconfdir}/init.d  ${D}${localstatedir}/update
@@ -76,11 +81,9 @@ do_install_append_coolstream-hd1 () {
 	# hack to get better compatibility for precompiled binaries on the nevis platform
 	ln -s ./libcrypto.so.1.0.0 ${D}${base_libdir}/libcrypto.so.0.9.8
 	ln -s ./libssl.so.1.0.0 ${D}${libdir}/libssl.so.0.9.8
-	if [ ${IMAGETYPE} != "tiny" ];then
-		install -m 755 ${S}/update_etc.sh ${D}${sysconfdir}/init.d/update_etc.sh
-		install -m 755 ${S}/create_etc.sh ${D}${sysconfdir}/init.d/create_etc.sh
-		update-rc.d -r ${D} update_etc.sh start 20 5 .
-	fi
+	install -m 755 ${S}/update_etc.sh ${D}${sysconfdir}/init.d/update_etc.sh
+	install -m 755 ${S}/create_etc.sh ${D}${sysconfdir}/init.d/create_etc.sh
+	update-rc.d -r ${D} update_etc.sh start 20 5 .
 	touch ${D}${localstatedir}/update/.newimage
 }
 
