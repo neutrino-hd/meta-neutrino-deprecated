@@ -8,7 +8,7 @@ SRCREV = "${AUTOREV}"
 PV = "${SRCPV}"
 
 
-SRC_URI = "git://repo.or.cz/rtmpdump.git;protocol=git;branch=master"
+SRC_URI = "git://git.ffmpeg.org/rtmpdump;protocol=git"
 
 S = "${WORKDIR}/git/librtmp"
 
