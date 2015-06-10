@@ -81,9 +81,11 @@ do_install_append_coolstream-hd1 () {
 	# hack to get better compatibility for precompiled binaries on the nevis platform
 	ln -s ./libcrypto.so.1.0.0 ${D}${base_libdir}/libcrypto.so.0.9.8
 	ln -s ./libssl.so.1.0.0 ${D}${libdir}/libssl.so.0.9.8
-	install -m 755 ${S}/update_etc.sh ${D}${sysconfdir}/init.d/update_etc.sh
-	install -m 755 ${S}/create_etc.sh ${D}${sysconfdir}/init.d/create_etc.sh
-	update-rc.d -r ${D} update_etc.sh start 20 5 .
+	if [ ${IMAGETYPE} != "tiny" ];then
+		install -m 755 ${S}/update_etc.sh ${D}${sysconfdir}/init.d/update_etc.sh
+		install -m 755 ${S}/create_etc.sh ${D}${sysconfdir}/init.d/create_etc.sh
+		update-rc.d -r ${D} update_etc.sh start 20 5 .		
+	fi
 	touch ${D}${localstatedir}/update/.newimage
 }
 
