@@ -47,6 +47,7 @@ do_configure_prepend () {
 	sed -i "s|GIT_URL|${GIT_URL}|" ${WORKDIR}/create_etc.sh
 	if [ ${DISTRO} == "coolstream-hd1_flash" ];then
 		sed -i "s|nano|vi|" ${WORKDIR}/create_etc.sh
+		sed -i "s|nano|vi|" ${WORKDIR}/update_etc.sh
 	fi
 }
 
@@ -66,12 +67,11 @@ do_install_prepend_coolstream-hd2 () {
 			if [ ${CLEAN_VAR} == "yes" ];then
 				touch ${D}${localstatedir}/update/.erase_var
 			fi
-	else
+	elif [ ${USE_ETC} == "yes" ];then
 		install -m 755 ${S}/update_etc.sh ${D}${sysconfdir}/init.d/update_etc.sh
 		install -m 755 ${S}/create_etc.sh ${D}${sysconfdir}/init.d/create_etc.sh
 		update-rc.d -r ${D} update_etc.sh start 20 5 .
-	fi
- 	if [ ${CLEAN_ENV} == "yes" ];then
+ 	elif [ ${CLEAN_ENV} == "yes" ];then
 		touch ${D}${localstatedir}/update/.erase_env 
 	fi
 }
@@ -81,7 +81,7 @@ do_install_append_coolstream-hd1 () {
 	# hack to get better compatibility for precompiled binaries on the nevis platform
 	ln -s ./libcrypto.so.1.0.0 ${D}${base_libdir}/libcrypto.so.0.9.8
 	ln -s ./libssl.so.1.0.0 ${D}${libdir}/libssl.so.0.9.8
-	if [ ${IMAGETYPE} != "tiny" ];then
+	if [ ${USE_ETC} == "yes" ];then
 		install -m 755 ${S}/update_etc.sh ${D}${sysconfdir}/init.d/update_etc.sh
 		install -m 755 ${S}/create_etc.sh ${D}${sysconfdir}/init.d/create_etc.sh
 		update-rc.d -r ${D} update_etc.sh start 20 5 .		

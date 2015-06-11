@@ -1,0 +1,109 @@
+From d05837ed617bac0163a158ba1cfeca68994bc8f3 Mon Sep 17 00:00:00 2001
+From: William Johansson <radar@radhuset.org>
+Date: Wed, 16 Apr 2014 23:28:01 +0200
+Subject: [PATCH 4/4] Remove all remaining usage of Perl
+
+All parts rewritten in Bourne shell and using standard utilities.
+etckeeper can now run on e.g. embedded systems without perl.
+
+Signed-off-by: MarkusVolk <f_l_k@gmx.net>
+---
+ etckeeper                     | 15 ++++---------
+ pre-commit.d/30store-metadata | 52 +++++++++++++++----------------------------
+ 2 files changed, 22 insertions(+), 45 deletions(-)
+
+diff --git a/etckeeper b/etckeeper
+index f367e74..8d2d06c 100755
+--- a/etckeeper
++++ b/etckeeper
+@@ -120,15 +120,8 @@ if [ -z "$VCS" ]; then
+ fi
+ export VCS
+ 
+-lsscripts() {
+-	LANG=C perl -e '
+-		$dir=shift;
+-		print join "\n", grep { ! -d $_ && -x $_ }
+-			grep /^\Q$dir\/\E[-a-zA-Z0-9]+$/,
+-			glob "$dir/*";
+-	' "$1"
+-}
+-
+-for script in $(lsscripts "$ETCKEEPER_CONF_DIR/$command.d"); do
+-	"$script" "$@"
++for script in $ETCKEEPER_CONF_DIR/$command.d/*; do
++	if [ ! -d "$script" -a -x "$script" ]; then
++		"$script" "$@"
++	fi
+ done
+diff --git a/pre-commit.d/30store-metadata b/pre-commit.d/30store-metadata
+index edec06b..f6d65a6 100755
+--- a/pre-commit.d/30store-metadata
++++ b/pre-commit.d/30store-metadata
+@@ -83,45 +83,29 @@ generate_metadata() {
+  
+ 	# Store things that don't have the default user or group.
+ 	# Store all file modes, in case the user has an unusual umask.
+-	find $NOVCS \( -type f -or -type d \) -print | filter_ignore | sort | perl -ne '
+-		BEGIN { $q=chr(39) }
+-		sub uidname {
+-			my $want=shift;
+-			if (exists $uidcache{$want}) {
+-				return $uidcache{$want};
+-			}
+-			my $name=scalar getpwuid($want);
+-			return $uidcache{$want}=defined $name ? $name : $want;
+-		}
+-		sub gidname {
+-			my $want=shift;
+-			if (exists $gidcache{$want}) {
+-				return $gidcache{$want};
+-			}
+-			my $name=scalar getgrgid($want);
+-			return $gidcache{$want}=defined $name ? $name : $want;
+-		}
+-		chomp;
+-		my @stat=stat($_);
+-		my $mode = $stat[2];
+-		my $uid = $stat[4];
+-		my $gid = $stat[5];
+-		s/$q/$q"$q"$q/g; # escape single quotes
+-		s/^/$q/;
+-		s/$/$q/;
+-		if ($uid != $>) {
+-			printf "maybe chown $q%s$q %s\n", uidname($uid), $_;
+-		}
+-		if ($gid != $)) {
+-			printf "maybe chgrp $q%s$q %s\n", gidname($gid), $_;
+-		}
+-		printf "maybe chmod %04o %s\n", $mode & 07777, $_;
+-	'
++	find $NOVCS \( -type f -or -type d \) -print | filter_ignore | sort | maybe_chmod_chown
+ 
+ 	# We don't handle xattrs.
+ 	# Maybe check for getfattr/setfattr and use them if they're available?
+ }
+ 
++maybe_chmod_chown()
++{
++	euid=$(id -u)
++	egid=$(id -g)
++	while read x; do
++		stat=$(stat -c "%f:%u:%g:%a:%U:%G" $x)
++		IFS=":" read mode uid gid perm uname gname <<< "$stat"
++		if [ $uid -ne $euid ]; then
++			echo maybe chown "'$uname'" $x
++		fi
++		if [ $gid -ne $egid ]; then
++			echo maybe chgrp "'$gname'" $x
++		fi
++		echo maybe chmod 0$perm $x
++	done
++}
++
+ if [ "$VCS" = git ] || [ "$VCS" = hg ] || [ "$VCS" = bzr ] || [ "$VCS" = darcs ]; then
+ 	if [ -f .metadata ]; then
+ 		# remove obsolete .metadata file
+-- 
+2.1.4
+
