@@ -2,9 +2,7 @@
 LICENSE = "GPL-2.0"
 LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
 
-RDEPENDS_${PN}_libc-glibc += "git findutils cronie ${@'perl-module-file-glob' if DISTRO != 'coolstream-hd1_flash' else ''}"
-RDEPENDS_${PN}_libc-uclibc += "git findutils cronie perl-module-file-glob"
-
+RDEPENDS_${PN} += "git findutils cronie ${@'perl-module-file-glob' if DISTRO != 'coolstream-hd1_flash' else ''}"
 
 SRC_URI = "git://github.com/joeyh/etckeeper.git;branch=master \
 	   file://etckeeper \

@@ -71,7 +71,8 @@ do_install_prepend_coolstream-hd2 () {
 		install -m 755 ${S}/update_etc.sh ${D}${sysconfdir}/init.d/update_etc.sh
 		install -m 755 ${S}/create_etc.sh ${D}${sysconfdir}/init.d/create_etc.sh
 		update-rc.d -r ${D} update_etc.sh start 20 5 .
- 	elif [ ${CLEAN_ENV} == "yes" ];then
+	fi
+ 	if [ ${CLEAN_ENV} == "yes" ];then
 		touch ${D}${localstatedir}/update/.erase_env 
 	fi
 }
