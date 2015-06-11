@@ -16,7 +16,7 @@ RDEPENDS_packagegroup-custom-needed = "\
 	e2fsprogs-e2fsck \
 	e2fsprogs-tune2fs \
 	fbshot \
-	opkg \
+	minidlna \
 	procps \
 	resolvconf \
 	udpxy \
@@ -27,3 +27,4 @@ RDEPENDS_packagegroup-custom-needed = "\
 	udev-extraconf \
 	"
 
+RDEPENDS_packagegroup-custom-needed_append = "${@'opkg' if DISTRO != 'coolstream-hd1_flash' else ''}"
