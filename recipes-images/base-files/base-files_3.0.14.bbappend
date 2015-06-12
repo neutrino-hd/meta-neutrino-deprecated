@@ -70,7 +70,7 @@ do_install_prepend_coolstream-hd2 () {
 	elif [ ${USE_ETC} == "yes" ];then
 		install -m 755 ${S}/update_etc.sh ${D}${sysconfdir}/init.d/update_etc.sh
 		install -m 755 ${S}/create_etc.sh ${D}${sysconfdir}/init.d/create_etc.sh
-		update-rc.d -r ${D} update_etc.sh start 20 5 .
+		update-rc.d -r ${D} update_etc.sh start 08 5 .
 	fi
  	if [ ${CLEAN_ENV} == "yes" ];then
 		touch ${D}${localstatedir}/update/.erase_env 
@@ -85,7 +85,7 @@ do_install_append_coolstream-hd1 () {
 	if [ ${USE_ETC} == "yes" ];then
 		install -m 755 ${S}/update_etc.sh ${D}${sysconfdir}/init.d/update_etc.sh
 		install -m 755 ${S}/create_etc.sh ${D}${sysconfdir}/init.d/create_etc.sh
-		update-rc.d -r ${D} update_etc.sh start 20 5 .		
+		update-rc.d -r ${D} update_etc.sh start 08 5 .		
 	fi
 	touch ${D}${localstatedir}/update/.newimage
 }
