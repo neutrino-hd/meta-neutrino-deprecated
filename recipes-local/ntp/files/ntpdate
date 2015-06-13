@@ -1,6 +1,6 @@
 #!/bin/sh
 
-PATH=/sbin:/bin:/usr/bin
+PATH=/sbin:/bin:/usr/bin:/usr/sbin
 
 test -x /usr/sbin/ntpdate || exit 0
 
