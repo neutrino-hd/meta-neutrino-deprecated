@@ -27,7 +27,6 @@ RDEPENDS_packagegroup-custom-sys-services = "\
     logrotate \
     libpcre \
     ntp \
-    ntpdate \
     sysfsutils \
     tcp-wrappers \
     wpa-supplicant \
