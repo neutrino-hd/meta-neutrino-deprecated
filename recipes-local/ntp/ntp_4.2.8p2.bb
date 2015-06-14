@@ -11,6 +11,7 @@ SRC_URI = "http://www.eecis.udel.edu/~ntp/ntp_spool/ntp4/ntp-4.2/${P}.tar.gz \
 SRC_URI[md5sum] = "fa37049383316322d060ec9061ac23a9"
 SRC_URI[sha256sum] = "0d69bc0e95caad43ea04fdad410e756bae1a71e67b1c2bd799b76b55e04c9b31"
 
+INITSCRIPT_NAME = "ntpd"
 
 EXTRA_OECONF += " --with-net-snmp-config=no --without-ntpsnmpd --with-yielding-select=yes"
 
