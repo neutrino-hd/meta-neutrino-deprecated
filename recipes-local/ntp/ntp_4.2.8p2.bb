@@ -34,7 +34,7 @@ FILES_ntpdate = "${sbindir}/ntpdate ${sysconfdir}/network/if-up.d/ntpdate"
 # with wonky clocks (e.g. OpenSlug)
 RDEPENDS_${PN}-tickadj = "perl"
 RDEPENDS_${PN}-utils = "perl libevent bash"
-RDEPENDS_${PN}-bin = "perl"
+RDEPENDS_${PN}-bin = "perl perl-module-lib perl-module-version perl-module-socket perl-module-getopt-long"
 RDEPENDS_${PN} = "${PN}-tickadj libcap perl"
 
 pkg_postinst_ntpdate() {
