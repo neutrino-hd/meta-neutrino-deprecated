@@ -42,10 +42,11 @@ pkg_postinst_ntpdate() {
 if test "x$D" != "x"; then
         exit 1
 else
-        if ! grep -q -s ntpdate /var/cron/tabs/root; then
+        if ! grep -q -s ntpdate /var/spool/cron/root; then
                 echo "adding crontab"
-                test -d /var/cron/tabs || mkdir -p /var/cron/tabs
-                echo "30 * * * *    /usr/bin/ntpdate -b -s -u pool.ntp.org" >> /var/cron/tabs/root
+                test -d /var/spool/cron/root || mkdir -p /var/spool/cron/
+		(crontab -l 2>/dev/null; echo "30 * * * *    /usr/sbin/ntpdate -b -s -u 0.de.pool.ntp.org") | crontab -
+
         fi
 fi
 }
