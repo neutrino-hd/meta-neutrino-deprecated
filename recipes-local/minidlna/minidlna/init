@@ -27,14 +27,14 @@ test -f $MINIDLNA || exit 0
 
 
 case "$1" in
-start)  echo "Starting minidlna" "minidlna"
+start)  echo "Starting minidlna"
         start-stop-daemon --start --quiet --pidfile $PIDFILE --startas $MINIDLNA
         ;;
-stop)   echo "Stopping minidlna" "minidlna"
+stop)   echo "Stopping minidlna"
         start-stop-daemon --stop --quiet --pidfile $PIDFILE
         ;;
 restart|reload|force-reload)
-        echo "Restarting minidlna" "minidlna"
+        echo "Restarting minidlna"
         start-stop-daemon --stop --retry 5 --quiet --pidfile $PIDFILE
         start-stop-daemon --start --quiet --pidfile $PIDFILE --startas $MINIDLNA
         ;;
