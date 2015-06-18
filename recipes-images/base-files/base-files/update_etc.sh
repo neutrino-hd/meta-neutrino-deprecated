@@ -1,5 +1,4 @@
 #!/bin/sh
-
 if [ -f /var/update/.newimage ];then
 	if [ -e GIT_URL ];then
 		if [ ! -e /etc/gitconfig ];then
@@ -8,6 +7,7 @@ if [ -f /var/update/.newimage ];then
 			git config --system core.editor "nano"
 			git config --system http.sslverify false
 		fi
+		cd GIT_URL && git log -p -1 | grep "initial commit" && exit
 		cd /etc && etckeeper init
 		git remote add origin GIT_URL
 		git fetch -a
