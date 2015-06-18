@@ -30,27 +30,27 @@ else
         fi
 
 # Factory reset
-	if [ -f /var_init/etc/.reset ]; then
+	if [ -f /var_init/update/.reset ]; then
 		echo Factory reset, erasing var /dev/$VARDEV
-		/bin/rm /var_init/etc/.reset
-		/bin/cp -rf /var/lib/opkg /var_init/lib/opkg
-		touch /var/init/etc/.newimage
+		rm /var_init/update/.reset
+		cp -rf /var/lib/opkg /var_init/lib/opkg
+		touch /var_init/update/.newimage
                	/usr/sbin/flash_eraseall /dev/$VARDEV
 	fi
 
 # Mount var
         VARBLOCK=`grep -i var /proc/mtd | cut -b 4`
         echo mounting /dev/mtdblock$VARBLOCK to /var
-        /bin/mount -t jffs2 /dev/mtdblock$VARBLOCK /var
+        mount -t jffs2 /dev/mtdblock$VARBLOCK /var
         if [ $? != 0 ]; then
                 echo Erasing var /dev/$VARDEV
-                /usr/sbin/flash_eraseall /dev/$VARDEV
+		/usr/sbin/flash_eraseall /dev/$VARDEV
                 echo mounting /dev/mtdblock$VARBLOCK to /var
-                /bin/mount -t jffs2 /dev/mtdblock$VARBLOCK /var
+                mount -t jffs2 /dev/mtdblock$VARBLOCK /var
         fi
         if [ $? != 0 ]; then
                 echo failed to mount /var
-                /bin/rmdir /var && /bin/mv /var_init /var
+                rmdir /var && mv /var_init /var
         else
 
 # Move /etc/network/interfaces to /var/etc/network/interfaces
@@ -62,23 +62,23 @@ else
 				cp -a /var/etc/network/interfaces /var_init/etc/network/
 			fi
 		else
-			cp /var_init/etc/network/interfaces /var/etc/network/interfaces
+			cp -rf /var_init/etc/network/interfaces /var/etc/network/interfaces
 			ln -sf /var/etc/network/interfaces /etc/network/interfaces
 			fi
 		fi
 
 # Copy var_init to var, if partition is empty
 		if [ ! -d /var/tuxbox ]; then
-                        /bin/cp -a /var_init/* /var/
+                        cp -a /var_init/* /var/
                 fi
-                if [ -f /var_init/etc/.newimage ]; then
-			/bin/rm /var_init/etc/.newimage
-			/bin/cp /var_init/tuxbox/config/cables.xml /var/tuxbox/config/cables.xml
-			/bin/cp /var_init/tuxbox/config/satellites.xml /var/tuxbox/config/satellites.xml
-			/bin/cp /var_init/tuxbox/config/encoding.conf /var/tuxbox/config/encoding.conf
-			/bin/cp /var_init/tuxbox/config/providermap.xml /var/tuxbox/config/providermap.xml
+                if [ -f /var_init/update/.newimage ]; then
+			rm /var_init/update/.newimage
+			cp /var_init/tuxbox/config/cables.xml /var/tuxbox/config/cables.xml
+			cp /var_init/tuxbox/config/satellites.xml /var/tuxbox/config/satellites.xml
+			cp /var_init/tuxbox/config/encoding.conf /var/tuxbox/config/encoding.conf
+			cp /var_init/tuxbox/config/providermap.xml /var/tuxbox/config/providermap.xml
 			echo updating /var/lib/opkg ...
-			/bin/cp -rf /var_init/lib/opkg /var/lib/
+			cp -rf /var_init/lib/opkg /var/lib/
                 fi
         fi
 fi

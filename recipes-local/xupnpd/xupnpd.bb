@@ -5,7 +5,7 @@ LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://../LICENSE;md5=a48952524590c590e498b5eece5ed3d9"
 
 DEPENDS += "lua5.2"
-SRCREV = "404"
+SRCREV = "405"
 SRC_URI = "\
 	svn://tsdemuxer.googlecode.com/svn/trunk;protocol=http;module=xupnpd \
 	file://0002-ui_restart-fix-xupnpd-install-path.patch \
@@ -16,7 +16,7 @@ SRC_URI = "\
 "
 
 PV = "0.0+svn${SRCREV}"
-PR = "r5"
+PR = "r1"
 S = "${WORKDIR}/xupnpd/src"
 
 inherit base update-rc.d

@@ -48,6 +48,7 @@ SRC_URI = "git://git.slknet.de/git/cst-public-gui-neutrino.git;branch=cst-next \
 	file://0001-configure_fix.patch \
 	file://0002-write_nameserver_into_interfaces.patch \
 	file://0007-set-image-version.patch \
+	file://cst-next_10.06.2015.patch \
 "
 
 SRC_URI_append_coolstream-hd1 = " \
@@ -69,6 +70,7 @@ do_configure_prepend() {
 	INSTALL="`which install` -p"
 	export INSTALL
 	ln -sf ${WORKDIR}/build/src/gui/version.h ${S}/src/gui/
+	sed -i "s|XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX|${YT_DEV_KEY}|" ${S}/src/neutrino.cpp
 }
 
 do_compile () {
@@ -85,9 +87,8 @@ do_install_prepend () {
 	install -m 755 ${WORKDIR}/pre-wlan0.sh ${D}${sysconfdir}/network/
 	install -m 755 ${WORKDIR}/post-wlan0.sh ${D}${sysconfdir}/network/
 	install -m 644 ${WORKDIR}/timezone.xml ${D}${sysconfdir}/timezone.xml
-	install -d ${D}/var/cache
-	install -d ${D}/var/tuxbox/config/
-	install -d ${D}/var/tuxbox/plugins/ 
+	install -d ${D}${localstatedir}/cache
+	install -d ${D}${localstatedir}/tuxbox 
 	echo "version=${DISTRO_VERSION}  `date +%Y-%m-%d` `date +%H:%M`"    > ${D}/.version 
 	echo "creator=${CREATOR}"             >> ${D}/.version 
 	echo "imagename=Neutrino-HD"             >> ${D}/.version 
@@ -97,9 +98,10 @@ do_install_prepend () {
 
 # compatibility with binaries hand-built with --prefix=
 do_install_append() {
-	install -d ${D}/share
+	install -d ${D}/share 
 	ln -s ${datadir}/tuxbox ${D}/share/
 	ln -s ${datadir}/fonts  ${D}/share/
+	ln -s ${sysconfdir}/neutrino/config ${D}${localstatedir}/tuxbox/config
 }
 
 FILES_${PN} += "\
@@ -116,6 +118,7 @@ FILES_${PN} += "\
 	/share/tuxbox \
 	/var/cache \
 	/var/tuxbox/plugins \
+	/var/tuxbox/config \
 	/var/httpd/styles \
 "
 

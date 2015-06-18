@@ -18,10 +18,16 @@ SRC_URI = "file://rss.cfg \
 S = "${WORKDIR}/"
 
 do_install () {
-	install -d ${D}/var/tuxbox/plugins ${D}/var/tuxbox/config
+	install -d ${D}/var/tuxbox/plugins
 	install -m 644 ${S}/rss.lua ${D}/var/tuxbox/plugins
 	install -m 644 ${S}/rss.cfg ${D}/var/tuxbox/plugins
-	install -m 644 ${S}/rssreader.conf ${D}/var/tuxbox/config
+	if [ ${USE_VAR} == "yes" ];then
+		install -d ${D}/var/tuxbox/config
+		install -m 644 ${S}/rssreader.conf ${D}/var/tuxbox/config
+	else
+		install -d ${D}/etc/neutrino/config
+		install -m 644 ${S}/rssreader.conf ${D}/etc/neutrino/config
+	fi
 }
 
 
