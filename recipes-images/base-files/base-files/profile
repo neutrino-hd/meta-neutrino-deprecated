@@ -54,7 +54,7 @@ opkg () {
                 if [ $arg == "whatdepends" -o $arg == "list" \
                 -o $arg == "list-installed" -o $arg == "list-upgradable" \
                 -o $arg == "list-changed-conffiles" -o $arg == "status" \
-                -o $arg == "info" -o $arg == "find" -o $arg == "update" ]; then
+                -o $arg == "info" -o $arg == "find" ]; then
                         COL="yes";
                         break;
                 elif [ $arg == "upgrade" -o $arg == "install" -o $arg == "remove" ]; then
