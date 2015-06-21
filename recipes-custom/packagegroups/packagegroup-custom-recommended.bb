@@ -19,6 +19,7 @@ RDEPENDS_packagegroup-custom-recommended ?= "\
     cifs-utils \
     htop \
     libevent \
+    logrotate \
     mc \
     mc-fish \
     mc-helpers \
