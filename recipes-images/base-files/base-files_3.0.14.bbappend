@@ -40,10 +40,10 @@ do_custom_baseissueinstall() {
 
 do_configure_prepend () {
 	sed -i "s|GIT_USER|${GIT_USER}|" ${WORKDIR}/update_etc.sh
-	sed -i "s|GIT_MAIL|${GIT_MAIL}|" ${WORKDIR}/update_etc.sh
+	sed -i "s|MAIL|${MAIL}|" ${WORKDIR}/update_etc.sh
 	sed -i "s|GIT_URL|${GIT_URL}|" ${WORKDIR}/update_etc.sh
 	sed -i "s|GIT_USER|${GIT_USER}|" ${WORKDIR}/create_etc.sh
-	sed -i "s|GIT_MAIL|${GIT_MAIL}|" ${WORKDIR}/create_etc.sh
+	sed -i "s|MAIL|${MAIL}|" ${WORKDIR}/create_etc.sh
 	sed -i "s|GIT_URL|${GIT_URL}|" ${WORKDIR}/create_etc.sh
 	if [ ${DISTRO} == "coolstream-hd1_flash" ];then
 		sed -i "s|nano|vi|" ${WORKDIR}/create_etc.sh

@@ -5,7 +5,7 @@ else
 	cd /etc
 	if [ ! -e /etc/gitconfig ];then
 	git config --system user.name "GIT_USER"
-	git config --system user.email "GIT_MAIL"
+	git config --system user.email "MAIL"
 	git config --system core.editor "nano"
 	git config --system http.sslverify false
 	etckeeper init
