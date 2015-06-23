@@ -1,0 +1,11 @@
+--- a/config.h	2015-06-22 09:32:06.262876364 +0200
++++ b/config.h	2015-06-22 09:33:13.498068732 +0200
+@@ -27,7 +27,7 @@
+  * Default settings for Linux - leave these last.
+  */
+ #ifndef DEFAULT_MAIL_COMMAND
+-#define DEFAULT_MAIL_COMMAND "/bin/mail"
++#define DEFAULT_MAIL_COMMAND "/usr/bin/mailx"
+ #endif
+ 
+ #ifndef COMPRESS_COMMAND
