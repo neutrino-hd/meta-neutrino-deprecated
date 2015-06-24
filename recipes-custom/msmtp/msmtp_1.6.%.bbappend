@@ -10,6 +10,6 @@ do_install_prepend() {
 	sed -i "s|PROVIDER|${PROVIDER}|" ${WORKDIR}/msmtprc
 	sed -i "s|MAIL|${MAIL}|" ${WORKDIR}/aliases
 	install -d ${D}/${sysconfdir}
-	install -m 644 ${WORKDIR}/msmtprc ${D}${sysconfdir}/msmtprc
+	install -m 600 ${WORKDIR}/msmtprc ${D}${sysconfdir}/msmtprc
 	install -m 644 ${WORKDIR}/aliases ${D}${sysconfdir}/aliases
 }
