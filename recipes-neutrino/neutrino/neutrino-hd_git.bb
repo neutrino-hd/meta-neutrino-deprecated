@@ -49,6 +49,7 @@ SRC_URI = "git://git.slknet.de/git/cst-public-gui-neutrino.git;branch=cst-next \
 	file://0002-write_nameserver_into_interfaces.patch \
 	file://0007-set-image-version.patch \
 	file://cst-next_19.06.2015.patch \
+	file://cst-next_opkg_11.06.2015.patch \
 "
 
 SRC_URI_append_coolstream-hd1 = " \

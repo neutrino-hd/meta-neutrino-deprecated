@@ -1,0 +1,2122 @@
+diff --git a/data/Makefile.am b/data/Makefile.am
+index 5f4751b..ef9881b 100644
+--- a/data/Makefile.am
++++ b/data/Makefile.am
+@@ -5,7 +5,7 @@ SUBDIRS += lcd
+ endif
+ 
+ configdir = $(CONFIGDIR)
+-config_DATA = cables.xml satellites.xml encoding.conf tobackup.conf providermap.xml settingsupdate.conf terrestrial.xml
++config_DATA = cables.xml satellites.xml encoding.conf tobackup.conf providermap.xml settingsupdate.conf terrestrial.xml bad_package_pattern.list.sample
+ 
+ install-data-hook:
+ 	$(INSTALL) -d $(DESTDIR)/$(CONFIGDIR)/zapit
+diff --git a/data/bad_package_pattern.list.sample b/data/bad_package_pattern.list.sample
+new file mode 100644
+index 0000000..221ffa8
+--- /dev/null
++++ b/data/bad_package_pattern.list.sample
+@@ -0,0 +1,11 @@
++-dev$
++-doc$
++-dbg$
++-ptest$
++-staticdev$
++-locale-
++-charmap-
++-gconv-
++-localedata-
++^locale-base-
++^perl-module-
+diff --git a/data/locale/deutsch.locale b/data/locale/deutsch.locale
+index dc8072f..6b2bd7d 100644
+--- a/data/locale/deutsch.locale
++++ b/data/locale/deutsch.locale
+@@ -1146,7 +1146,9 @@ menu.hint_new_zap_mode Aktiviert Quickzap in der Kanalliste. Nach Betätigen der
+ menu.hint_next Weiter zum nächsten Menü.\nDie Taste 'Menü' schließt alle Menüs
+ menu.hint_next_brief Weiter zum nächsten Menü
+ menu.hint_numeric_adjust Bei numerischer Programmwahl die Kanalliste am neu gewählten Programm ausrichten
+-menu.hint_opkg Hier können Sie neue Software-Pakete installieren oder vorhandene aktualisieren
++menu.hint_opkg Software-Pakete installieren oder vorhandene aktualisieren
++menu.hint_opkg_feed_address_edit Bearbeiten von Feed-Adressen
++menu.hint_opkg_install_local_package Paket von USB-Stick, SD, Freigabe oder lokalem Ordner installieren.
+ menu.hint_opkg_upgrade Aktualisiert alle installierten Pakete auf die neueste verfügbare Version
+ menu.hint_osd Farben, Schriftarten, Anzeigegröße, Ansichtsoptionen der Menüs und mehr
+ menu.hint_osd_language Wählen Sie ihre Menü-Sprache
+@@ -1380,6 +1382,7 @@ messagebox.back Zurück
+ messagebox.cancel Abbruch
+ messagebox.discard Wollen Sie die Änderungen verwerfen?
+ messagebox.error Fehler
++messagebox.feature_not_supported Funktion wird nicht unterstützt. Bitte wenden Sie sich an Ihren Firmware-Anbieter!
+ messagebox.info Information
+ messagebox.no Nein
+ messagebox.ok OK
+@@ -1794,14 +1797,21 @@ opkg.button.expert_on Experten-Modus
+ opkg.button.info Paket-Informationen
+ opkg.button.install Paket installieren
+ opkg.button.uninstall Paket entfernen
+-opkg.failure.install Installation fehlgeschlagen (%d)
+-opkg.failure.update Update fehlgeschlagen (%d)
+-opkg.failure.upgrade Upgrade fehlgeschlagen (%d)
++opkg.enter.feed.address Bitte Adresse für Server-Feed oder lokalen Ordner eintragen!
++opkg.enter.feed.address.example Beispiel: http://pkg.nevis.neutrino-hd.com
++opkg.failure.install Installation fehlgeschlagen
++opkg.failure.update Update fehlgeschlagen
++opkg.failure.upgrade Upgrade fehlgeschlagen
++opkg.feed.addresses Feed-Adressen
++opkg.install.local.package Installiere lokales Paket
+ opkg.messagebox.reinstall %s erneut installieren?
+ opkg.messagebox.remove %s entfernen?
+-opkg.success.install Installation erfolgreich, Neustart von Neutrino kann erforderlich sein.
++opkg.messagebox.size.error Nicht genügend freier Speicher für Paketinstallation verfügbar!
++opkg.messagebox.updates.available Aktualisierungen verfügbar!
++opkg.success.install Installation erfolgreich!\nNeustart von Neutrino kann erforderlich sein. Jetzt neu starten?
+ opkg.title Paketverwaltung
+ opkg.upgrade Installierte Pakete aktualisieren
++opkg.warning_3rdparty_packages Drittanbieter-Pakete könnten Ihr System beschädigen! Sind Sie sicher, dieses Paket zu installieren?
+ options.default Voreinstellungen benutzen
+ options.fb framebuffer
+ options.hint_default Setzen Sie die Werte auf die Voreinstellung zurück.
+diff --git a/data/locale/english.locale b/data/locale/english.locale
+index 738b388..34d12bd 100644
+--- a/data/locale/english.locale
++++ b/data/locale/english.locale
+@@ -1149,6 +1149,8 @@ menu.hint_next Continue to next menu\nPress menu key to close all menus
+ menu.hint_next_brief Continue to next menu
+ menu.hint_numeric_adjust Adjust channel list mode on numeric zap
+ menu.hint_opkg Install or update software packages
++menu.hint_opkg_feed_address_edit Edit feed addresses
++menu.hint_opkg_install_local_package Install package from USB, SD, share or local directory.
+ menu.hint_opkg_upgrade Updates all installed packages to the most recent version available
+ menu.hint_osd Colors, fonts, screen size\nGUI look and feel options
+ menu.hint_osd_language Select OSD language
+@@ -1382,6 +1384,8 @@ messagebox.back Back
+ messagebox.cancel Cancel
+ messagebox.discard Discard changes?
+ messagebox.error Error
++messagebox.feature_not_supported Funkcia nie je podporovaná.
++messagebox.feature_not_supported Feature is not supported. Please contact your firmware provider!
+ messagebox.info Information
+ messagebox.no No
+ messagebox.ok Ok
+@@ -1796,14 +1800,21 @@ opkg.button.expert_on Expert mode
+ opkg.button.info Package information
+ opkg.button.install Install package
+ opkg.button.uninstall Uninstall package
+-opkg.failure.install Install failed (%d)
+-opkg.failure.update Update failed (%d)
+-opkg.failure.upgrade Upgrade failed (%d)
++opkg.enter.feed.address Please enter address for server, local folder or share!
++opkg.enter.feed.address.example Example: http://pkg.nevis.neutrino-hd.com
++opkg.failure.install Install failed
++opkg.failure.update Update failed
++opkg.failure.upgrade Upgrade failed
++opkg.feed.addresses Feed addresses
++opkg.install.local.package Install local package
+ opkg.messagebox.reinstall Re-install %s?
+ opkg.messagebox.remove Remove %s?
+-opkg.success.install Install successful, restart of Neutrino might be required.
++opkg.messagebox.size.error Not enough free memory available for this package!
++opkg.messagebox.updates.available Updates available!
++opkg.success.install Install successful!\n restart of Neutrino might be required. Restart now?
+ opkg.title Package Management
+ opkg.upgrade Upgrade installed packages
++opkg.warning_3rdparty_packages 3rd party packages could damage your system! Are you sure install this package?
+ options.default Reset to defaults
+ options.fb framebuffer
+ options.hint_default Reset the values to their defaults
+diff --git a/data/locale/nederlands.locale b/data/locale/nederlands.locale
+index 0a5bf6e..0f82412 100644
+--- a/data/locale/nederlands.locale
++++ b/data/locale/nederlands.locale
+@@ -1124,6 +1124,8 @@ menu.hint_network IP adres, gateway, DNS, Tijd synchronisatie\nNetwerklocaties e
+ menu.hint_new_zap_mode Schakelen van kanalen toestaan tijdens het browsen.\n(Schakelen tussen vensters met de 'Mute' toets)
+ menu.hint_numeric_adjust Pas zenderlijst modus aan na numerieke zap
+ menu.hint_opkg Installeer of update software pakketten
++menu.hint_opkg_feed_address_edit Bewerk server adressen!
++menu.hint_opkg_install_local_package Installatiepakket van USB, SD of netwerk.
+ menu.hint_opkg_upgrade Update alle geinstalleerde pakketten naar de meest recente beschikbare versie
+ menu.hint_osd Kleuren, Lettertypes, scherm afmeting\ngebruikersinterface vormgeving
+ menu.hint_osd_language Selecteer OSD taal
+@@ -1348,6 +1350,7 @@ messagebox.back Terug
+ messagebox.cancel Annuleer 
+ messagebox.discard Wijzigingen ongedaan maken?
+ messagebox.error Foutmelding
++messagebox.feature_not_supported Functie wordt niet ondersteund. Neem contact op met uw firmware provider!
+ messagebox.info Informatie
+ messagebox.no Nee
+ messagebox.ok Ok
+@@ -1733,14 +1736,21 @@ opkg.button.expert_on Expert modus
+ opkg.button.info Pakket info
+ opkg.button.install Installeer pakket
+ opkg.button.uninstall Deinstaleer pakket
+-opkg.failure.install installatie mislukt (%d)
+-opkg.failure.update Update mislukt (%d)
+-opkg.failure.upgrade Upgrade mislukt (%d)
++opkg.enter.feed.address Voer het adres van de server!
++opkg.enter.feed.address.example Voorbeeld: http://pkg.nevis.neutrino-hd.com
++opkg.failure.install installatie mislukt
++opkg.failure.update Update mislukt
++opkg.failure.upgrade Upgrade mislukt
++opkg.feed.addresses Feed adressen
++opkg.install.local.package Installeer lokale pakket
+ opkg.messagebox.reinstall Herinstalleer %s?
+ opkg.messagebox.remove Wissen%s?
+-opkg.success.install installatie succesvol, herstart van Neutrino mogelijk vereist.
++opkg.messagebox.size.error Onvoldoende geheugen beschikbaar voor dit pakket!
++opkg.messagebox.updates.available Updates beschikbare!
++opkg.success.install installatie succesvol!\n herstart van Neutrino mogelijk vereist. Nu opnieuw opstarten?
+ opkg.title Pakket management
+ opkg.upgrade Upgrade geïnstalleerd pakketten
++opkg.warning_3rdparty_packages 3rd party pakketten kan uw systeem beschadigen! Bent u zeker dat dit pakket te installeren?
+ options.default Herstel standaardwaarden
+ options.fb framebuffer
+ options.hint_default Reset de waardes naar standaard waardes
+diff --git a/data/locale/slovak.locale b/data/locale/slovak.locale
+index 04a5f69..6cdecf2 100644
+--- a/data/locale/slovak.locale
++++ b/data/locale/slovak.locale
+@@ -1370,6 +1370,7 @@ messagebox.back späť
+ messagebox.cancel zruš
+ messagebox.discard Zruš zmeny?
+ messagebox.error Chyba
++messagebox.feature_not_supported Funkcia nie je podporovaná!
+ messagebox.info Správa
+ messagebox.no nie
+ messagebox.ok ok
+@@ -1756,14 +1757,18 @@ opkg.button.expert_on Expertný mód
+ opkg.button.info Informácia balíčka
+ opkg.button.install Inštalovať balíček
+ opkg.button.uninstall Odstrániť balíček
+-opkg.failure.install Chyba inštalácie (%d)
+-opkg.failure.update Chyba aktualizácie (%d)
+-opkg.failure.upgrade Chyba aktualizovania (%d)
++opkg.failure.install inštalácia zlyhala
++opkg.failure.update aktualizácie zlyhala
++opkg.failure.upgrade Upgrade zlyhalo
++opkg.install.local.package Nainštalujte miestne balíček
+ opkg.messagebox.reinstall Preinštalovať %s?
+ opkg.messagebox.remove Odstrániť %s?
+-opkg.success.install Inštalácia v poriadku, reštart Neutrina bude žiadúci.
++opkg.messagebox.size.error Nie je dostatok voľnej pamäte pre tento balík!
++opkg.messagebox.updates.available Aktualizácia k dispozícii!
++opkg.success.install inštalácia úspešne!\n Môže byť potrebné reštart neutríno. Teraz reštartovať?
+ opkg.title Správa balíčkov
+ opkg.upgrade Aktualizovanie inštalovaných balíčkov
++opkg.warning_3rdparty_packages Zahraničné balíčky by mohli poškodiť systém! Si si istý, že inštaláciu tohto balíka?
+ options.default obnov predvolené
+ options.fb FRAMEBUFFER
+ options.hint_default Nastaviť prednastavené hodnoty
+diff --git a/src/driver/file.cpp b/src/driver/file.cpp
+index 1be2be5..523e754 100644
+--- a/src/driver/file.cpp
++++ b/src/driver/file.cpp
+@@ -42,21 +42,21 @@
+ /* ATTENTION: the array file_extension_list MUST BE SORTED ASCENDING (cf. sort, man bsearch) - otherwise bsearch will not work correctly! */
+ const char * const file_extension_list[] =
+ {
+-	"aac",   "asf",  "avi",  "bmp",  "cdr",  "crw",
+-	"dts",   "flac", "gif",  "imu",  "iso",  "jpeg", "jpg",
++	"aac",   "asf",  "avi",  "bin",  "bmp",  "cdr",  "crw",
++	"dts",   "flac", "gif",  "imu",  "ipk",  "iso",  "jpeg", "jpg",
+ 	"m2a",   "m3u",  "m3u8", "m4a",  "mkv",  "mp2",  "mp3",
+-	"mpa",   "ogg",  "pls",  "png",  "sh",
++	"mpa",   "ogg",  "opk",  "pls",  "png",  "sh",
+ 	"txt",   "url",  "wav",  "xml"
+ };
+ /* ATTENTION: the array file_extension_list MUST BE SORTED ASCENDING (cf. sort, man bsearch) - otherwise bsearch will not work correctly! */
+ 
+ const CFile::FileType file_type_list[] =
+ {
+-	CFile::FILE_AAC      , CFile::FILE_ASF      , CFile::FILE_AVI      , CFile::FILE_PICTURE  , CFile::FILE_CDR      , CFile::FILE_PICTURE  , 
+-	CFile::FILE_WAV      , CFile::FILE_FLAC     , CFile::FILE_PICTURE  , CFile::STREAM_PICTURE, CFile::FILE_ISO      , CFile::FILE_PICTURE  , CFile::FILE_PICTURE  , 
+-	CFile::FILE_MP3      , CFile::FILE_PLAYLIST , CFile::FILE_PLAYLIST , CFile::FILE_AAC      , CFile::FILE_MKV      , CFile::FILE_MP3      , CFile::FILE_MP3      ,
+-	CFile::FILE_MP3      , CFile::FILE_OGG      , CFile::FILE_PLAYLIST,  CFile::FILE_PICTURE  , CFile::FILE_TEXT     ,
+-	CFile::FILE_TEXT     , CFile::STREAM_AUDIO  , CFile::FILE_WAV      , CFile::FILE_XML
++	CFile::FILE_AAC      , CFile::FILE_ASF      , CFile::FILE_AVI        , CFile::FILE_BIN_PACKAGE  ,CFile::FILE_PICTURE      , CFile::FILE_CDR   , CFile::FILE_PICTURE  ,
++	CFile::FILE_WAV      , CFile::FILE_FLAC     , CFile::FILE_PICTURE    , CFile::STREAM_PICTURE    , CFile::FILE_PKG_PACKAGE ,CFile::FILE_ISO    , CFile::FILE_PICTURE  , CFile::FILE_PICTURE  ,
++	CFile::FILE_MP3      , CFile::FILE_PLAYLIST , CFile::FILE_PLAYLIST  , CFile::FILE_AAC        , CFile::FILE_MKV          , CFile::FILE_MP3         , CFile::FILE_MP3   ,
++	CFile::FILE_MP3      , CFile::FILE_OGG      , CFile::FILE_PKG_PACKAGE, CFile::FILE_PLAYLIST     ,  CFile::FILE_PICTURE    , CFile::FILE_TEXT  ,
++	CFile::FILE_TEXT     , CFile::STREAM_AUDIO  , CFile::FILE_WAV        , CFile::FILE_XML
+ };
+ 
+ int mycasecmp(const void * a, const void * b)
+diff --git a/src/driver/file.h b/src/driver/file.h
+index 7beabac..b06dd34 100644
+--- a/src/driver/file.h
++++ b/src/driver/file.h
+@@ -70,7 +70,9 @@ class CFile
+ 			FILE_PLAYLIST,
+ 			STREAM_AUDIO,
+ 			FILE_PICTURE,
+-			STREAM_PICTURE
++			STREAM_PICTURE,
++			FILE_BIN_PACKAGE,
++			FILE_PKG_PACKAGE
+ 		};
+ 
+ 		FileType	getType(void) const;
+diff --git a/src/gui/infoviewer.cpp b/src/gui/infoviewer.cpp
+index b0e30b4..c117add 100644
+--- a/src/gui/infoviewer.cpp
++++ b/src/gui/infoviewer.cpp
+@@ +271,7 @@ void CInfoViewer::initClock()
+ 	clock->setColorBody(COL_INFOBAR_PLUS_0);
+ 	clock->setCorner(RADIUS_LARGE, CORNER_TOP_RIGHT);
+ 	clock->setClockFont(SNeutrinoSettings::FONT_TYPE_INFOBAR_CHANNAME);
++	clock->setClockAlignment(CC_ALIGN_RIGHT | CC_ALIGN_HOR_CENTER);
+ 	clock->refresh();
+ 
+ 	clock->setPos(BoxEndX - 10 - clock->getWidth(), ChanNameY);
+diff --git a/src/gui/opkg_manager.cpp b/src/gui/opkg_manager.cpp
+index 7bd19e5..a954d54 100644
+--- a/src/gui/opkg_manager.cpp
++++ b/src/gui/opkg_manager.cpp
+@@ -5,7 +5,7 @@
+ 	OPKG-Manager Class for Neutrino-GUI
+ 
+ 	Implementation:
+-	Copyright (C) 2012 T. Graf 'dbt'
++	Copyright (C) 2012-2015 T. Graf 'dbt'
+ 	www.dbox2-tuning.net
+ 
+ 	Adaptions:
+@@ -41,19 +41,31 @@
+ 
+ #include <gui/widget/icons.h>
+ #include <gui/widget/messagebox.h>
+-#include <gui/widget/shellwindow.h>
+-#include <driver/screen_max.h>
+ 
++#include <gui/widget/progresswindow.h>
++#include <gui/widget/keyboard_input.h>
++#include <driver/screen_max.h>
++#include <gui/filebrowser.h>
+ #include <system/debug.h>
+ #include <system/helpers.h>
+ #include <unistd.h>
+-#include <stdio.h>
++#include <sys/vfs.h>
+ #include <poll.h>
+ #include <fcntl.h>
+ #include <alloca.h>
++#include <errno.h>
++#include <sys/wait.h>
++#include <fstream>
++
++#define OPKG_CL "opkg"
++#define OPKG_TMP_DIR "/tmp/.opkg"
++#define OPKG_TEST_DIR OPKG_TMP_DIR "/test"
++#define OPKG_CL_CONFIG_OPTIONS " -V2 --tmp-dir=/tmp --cache=" OPKG_TMP_DIR
+ 
+-/* later this can be changed to just "opkg" */
+-#define OPKG_CL "opkg-cl"
++#define OPKG_BAD_PATTERN_LIST_FILE "/var/tuxbox/config/bad_package_pattern.list"
++#define OPKG_CONFIG_FILE "/etc/opkg/opkg.conf"
++
++using namespace std;
+ 
+ enum
+ {
+@@ -65,42 +77,63 @@ enum
+ 	OM_REMOVE,
+ 	OM_INFO,
+ 	OM_INSTALL,
++	OM_STATUS,
++	OM_CONFIGURE,
++	OM_DOWNLOAD,
+ 	OM_MAX
+ };
+ 
+-static const std::string pkg_types[OM_MAX] =
++static const string pkg_types[OM_MAX] =
+ {
+-	OPKG_CL " list",
+-	OPKG_CL " list-installed",
+-	OPKG_CL " list-upgradable",
+-	OPKG_CL " update",
+-	OPKG_CL " upgrade ",
+-	OPKG_CL " remove ",
++	OPKG_CL " list ",
++	OPKG_CL " list-installed ",
++	OPKG_CL " list-upgradable ",
++	OPKG_CL " -A update ",
++	OPKG_CL OPKG_CL_CONFIG_OPTIONS " upgrade ",
++	OPKG_CL OPKG_CL_CONFIG_OPTIONS " remove ",
+ 	OPKG_CL " info ",
+-	OPKG_CL " install "
++	OPKG_CL OPKG_CL_CONFIG_OPTIONS " install ",
++	OPKG_CL " status ",
++	OPKG_CL " configure ",
++	OPKG_CL " download "
+ };
+ 
+-COPKGManager::COPKGManager()
++COPKGManager::COPKGManager(): opkg_conf('\t')
+ {
++	OM_ERRORS();
+ 	width = 80;
++
++	//define default dest keys
++	string dest_defaults[] = {"/", OPKG_TEST_DIR, OPKG_TMP_DIR, "/mnt"};
++	for(size_t i=0; i<sizeof(dest_defaults)/sizeof(dest_defaults[0]) ;i++)
++		config_dest.push_back(dest_defaults[i]);
++
++	loadConfig();
+ 	pkg_map.clear();
+ 	list_installed_done = false;
+ 	list_upgradeable_done = false;
+ 	expert_mode = false;
++	local_dir = &g_settings.update_dir_opkg;
++	v_bad_pattern = getBadPackagePatternList();
++	CFileHelpers::createDir(OPKG_TMP_DIR);
+ }
+ 
+ COPKGManager::~COPKGManager()
+ {
++	CFileHelpers::removeDir(OPKG_TMP_DIR);
+ }
+ 
+-int COPKGManager::exec(CMenuTarget* parent, const std::string &actionKey)
++int COPKGManager::exec(CMenuTarget* parent, const string &actionKey)
+ {
+ 	int res = menu_return::RETURN_REPAINT;
+ 
+ 	if (actionKey.empty()) {
+ 		if (parent)
+ 			parent->hide();
+-		return showMenu();
++		int ret = showMenu();
++		saveConfig();
++		CFileHelpers::removeDir(OPKG_TMP_DIR);
++		return ret;
+ 	}
+ 	int selected = menu->getSelected() - menu_offset;
+ 
+@@ -113,33 +146,56 @@ int COPKGManager::exec(CMenuTarget* parent, const std::string &actionKey)
+ 		if (ShowMsg(LOCALE_OPKG_TITLE, loc, CMessageBox::mbrCancel, CMessageBox::mbYes | CMessageBox::mbCancel) != CMessageBox::mbrCancel) {
+ 			if (parent)
+ 				parent->hide();
+-			execCmd(pkg_types[OM_REMOVE] + pkg_vec[selected]->name, true, true);
++			execCmd(pkg_types[OM_REMOVE] + pkg_vec[selected]->name, CShellWindow::VERBOSE | CShellWindow::ACKNOWLEDGE_EVENT);
+ 			refreshMenu();
+ 		}
+ 		return res;
+ 	}
+ 	if (actionKey == "rc_info") {
+-		if (selected < 0 || selected >= (int) pkg_vec.size())
++		if (selected < 0 || selected >= (int) pkg_vec.size()){
++			DisplayInfoMessage("No information available! Please first select a package!");
+ 			return menu_return::RETURN_NONE;
+-		if (parent)
+-			parent->hide();
+-		execCmd(pkg_types[OM_INFO] + pkg_vec[selected]->name, true, true);
++		}
++		//show package info...
++		bool is_installed = pkg_vec[selected]->installed;
++		string infostr = getPkgInfo(pkg_vec[selected]->name, "", is_installed /*status or info*/);
++		DisplayInfoMessage(infostr.c_str());
+ 		return res;
+ 	}
+-	if (actionKey == "rc_red") {
++	if (actionKey == "rc_yellow") {
+ 		expert_mode = !expert_mode;
+ 		updateMenu();
+ 		return res;
+ 	}
++	if (actionKey == "local_package") {
++		if (parent)
++			parent->hide();
++
++		CFileFilter fileFilter;
++		string filters[] = {"opk", "ipk"};
++		for(size_t i=0; i<sizeof(filters)/sizeof(filters[0]) ;i++)
++			fileFilter.addFilter(filters[i]);
++
++		CFileBrowser fileBrowser;
++		fileBrowser.Filter = &fileFilter;
++
++		if (fileBrowser.exec((*local_dir).c_str()))
++		{
++			string pkg_name = fileBrowser.getSelectedFile()->Name;
++			if (!installPackage(pkg_name))
++				showError(g_Locale->getText(LOCALE_OPKG_FAILURE_INSTALL), strerror(errno), pkg_name);
++
++			*local_dir = fileBrowser.getCurrentDir();
++		refreshMenu();
++		}
++		return res;
++	}
+ 	if(actionKey == pkg_types[OM_UPGRADE]) {
+ 		if (parent)
+ 			parent->hide();
+-		int r = execCmd(actionKey, true, true);
++		int r = execCmd(actionKey, CShellWindow::VERBOSE | CShellWindow::ACKNOWLEDGE_EVENT);
+ 		if (r) {
+-			std::string loc = g_Locale->getText(LOCALE_OPKG_FAILURE_UPGRADE);
+-			char rs[strlen(loc.c_str()) + 20];
+-			snprintf(rs, sizeof(rs), loc.c_str(), r);
+-			DisplayInfoMessage(rs);
++			showError(g_Locale->getText(LOCALE_OPKG_FAILURE_UPGRADE), strerror(errno), actionKey);
+ 		} else
+ 			installed = true;
+ 		refreshMenu();
+@@ -147,11 +203,11 @@ int COPKGManager::exec(CMenuTarget* parent, const std::string &actionKey)
+ 		return res;
+ 	}
+ 
+-	std::map<string, struct pkg>::iterator it = pkg_map.find(actionKey);
++	map<string, struct pkg>::iterator it = pkg_map.find(actionKey);
+ 	if (it != pkg_map.end()) {
+ 		if (parent)
+ 			parent->hide();
+-		std::string force = "";
++		string force = "";
+ 		if (it->second.installed && !it->second.upgradable) {
+ 			char l[200];
+ 			snprintf(l, sizeof(l), g_Locale->getText(LOCALE_OPKG_MESSAGEBOX_REINSTALL), actionKey.c_str());
+@@ -160,68 +216,150 @@ int COPKGManager::exec(CMenuTarget* parent, const std::string &actionKey)
+ 				return res;
+ 			force = "--force-reinstall ";
+ 		}
+-		int r = execCmd(pkg_types[OM_INSTALL] + force + actionKey, true, true);
+-		if (r) {
+-			std::string err = g_Locale->getText(LOCALE_OPKG_FAILURE_INSTALL);
+-			char rs[strlen(err.c_str()) + 20];
+-			snprintf(rs, sizeof(rs), err.c_str(), r);
+-			DisplayInfoMessage(rs);
+-		} else
+-				installed = true;
++
++		//install package with size check ...cancel installation if check failed
++		installPackage(actionKey, force);
++
+ 		refreshMenu();
+ 	}
+ 	return res;
+ }
+ 
++bool COPKGManager::checkSize(const string& pkg_name)
++{
++	string pkg_file = pkg_name;
++	string plain_pkg = getBaseName(pkg_file);
++
++	//exit check size if package already installed, because of auto remove of old stuff during installation
++	if (isInstalled(plain_pkg))
++		return true;
++
++	//get available root fs size
++	//TODO: Check writability!
++	struct statfs root_fs;
++	statfs("/", &root_fs);
++	u_int64_t free_size = root_fs.f_bfree*root_fs.f_bsize;
++
++	/*
++	 * To calculate the required size for installation here we make a quasi-dry run,
++	 * it is a bit awkward, but relatively specific, other solutions are welcome.
++	 * We create a temporary test directory and fill it with downloaded or user uploaded package file.
++	 * Then we unpack the package and change into temporary testing directory.
++	 * The required size results from the size of generated folders and subfolders.
++	 * TODO: size of dependencies are not really considered
++	*/
++	CFileHelpers fh;
++
++	//create test pkg dir
++	string 	tmp_dest = OPKG_TEST_DIR;
++		tmp_dest += "/package";
++	fh.createDir(tmp_dest);
++
++	//change into test dir
++	chdir(OPKG_TEST_DIR);
++
++	//copy package into test dir
++	string  tmp_dest_file = OPKG_TEST_DIR;
++		tmp_dest_file += "/" + plain_pkg;
++	if(!access( pkg_file.c_str(), F_OK)) //use local package
++		fh.copyFile(pkg_file.c_str(), tmp_dest_file.c_str(), 0644);
++	else
++		execCmd(pkg_types[OM_DOWNLOAD] + plain_pkg); //download package
++
++	//unpack package into test dir
++	string ar = "ar -x " + plain_pkg + char(0x2a);
++	execCmd(ar);
++
++	//untar package into test directory
++	string 	untar_tar_cmd = "tar -xf ";
++		untar_tar_cmd += OPKG_TEST_DIR;
++		untar_tar_cmd += "/data.tar.gz -C " + tmp_dest;
++	execCmd(untar_tar_cmd);
++
++	//get new current required minimal size from dry run test dir
++	u_int64_t req_size = fh.getDirSize(tmp_dest);
++
++	//clean up
++	fh.removeDir(OPKG_TEST_DIR);
++
++	dprintf(DEBUG_INFO,  "[COPKGManager] [%s - %d] Package: %s [required size=%lld (free size: %lld)]\n", __func__, __LINE__, pkg_name.c_str(), req_size, free_size);
++	if (free_size < req_size){
++		//exit if required size too much
++		dprintf(DEBUG_NORMAL,  "[COPKGManager] [%s - %d]  WARNING: size check freesize=%lld (recommended: %lld)\n", __func__, __LINE__, free_size, req_size);
++		return false;
++	}
++	return true;
++}
++
++
+ #define COPKGManagerFooterButtonCount 3
+ static const struct button_label COPKGManagerFooterButtons[COPKGManagerFooterButtonCount] = {
+-	{ NEUTRINO_ICON_BUTTON_RED, LOCALE_OPKG_BUTTON_EXPERT_ON },
++	{ NEUTRINO_ICON_BUTTON_YELLOW, LOCALE_OPKG_BUTTON_EXPERT_ON },
+ 	{ NEUTRINO_ICON_BUTTON_INFO_SMALL, LOCALE_OPKG_BUTTON_INFO },
+ 	{ NEUTRINO_ICON_BUTTON_OKAY,	   LOCALE_OPKG_BUTTON_INSTALL }
+ };
+ #define COPKGManagerFooterButtonCountExpert 4
+ static const struct button_label COPKGManagerFooterButtonsExpert[COPKGManagerFooterButtonCountExpert] = {
+-	{ NEUTRINO_ICON_BUTTON_RED, LOCALE_OPKG_BUTTON_EXPERT_OFF },
++	{ NEUTRINO_ICON_BUTTON_YELLOW, LOCALE_OPKG_BUTTON_EXPERT_OFF },
+ 	{ NEUTRINO_ICON_BUTTON_INFO_SMALL, LOCALE_OPKG_BUTTON_INFO },
+ 	{ NEUTRINO_ICON_BUTTON_OKAY,	   LOCALE_OPKG_BUTTON_INSTALL },
+ 	{ NEUTRINO_ICON_BUTTON_BLUE, LOCALE_OPKG_BUTTON_UNINSTALL }
+ };
+ 
+-/* TODO: this should go into a config file... */
+-static std::string bad_pattern[] = {
+-	"-dev$",
+-	"-doc$",
+-	"-dbg$",
+-	"-ptest$",
+-	"-staticdev$",
+-	"-locale-",
+-	"-charmap-",
+-	"-gconv-",
+-	"-localedata-",
+-	"^locale-base-",
+-	"^perl-module-",
+-	""
+-};
++vector<string> COPKGManager::getBadPackagePatternList()
++{
++	vector<string> v_ret;
++
++	ifstream in (OPKG_BAD_PATTERN_LIST_FILE, ios::in);
++	if (!in){
++		dprintf(DEBUG_NORMAL,  "[COPKGManager] [%s - %d] can't open %s, %s\n", __func__, __LINE__, OPKG_BAD_PATTERN_LIST_FILE, strerror(errno));
++		return v_ret;
++	}
++	string line;
++
++	while(getline(in, line)){
++		v_ret.push_back(line);
++	}
++	in.close();
++
++	return v_ret;
++}
+ 
+ bool COPKGManager::badpackage(std::string &s)
+ {
+-	int i;
+-	for (i = 0; !bad_pattern[i].empty(); i++)
++	if(v_bad_pattern.empty())
++		return false;
++
++	size_t i;
++	string st = "";
++	for (i = 0; i < v_bad_pattern.size(); i++)
+ 	{
+-		std::string p = bad_pattern[i];
++		string p = v_bad_pattern[i];
++		if (p.empty())
++			continue;
++
+ 		size_t patlen = p.length() - 1;
++		bool res = false;
+ 		/* poor man's regex :-) only supported are "^" and "$" */
+ 		if (p.substr(patlen, 1) == "$") { /* match at end */
+ 			if (s.rfind(p.substr(0, patlen)) == (s.length() - patlen))
+-				return true;
++				res = true;
+ 		} else if (p.substr(0, 1) == "^") { /* match at beginning */
+ 			if (s.find(p.substr(1)) == 0)
+-				return true;
++				res = true;
+ 		} else { /* match everywhere */
+ 			if (s.find(p) != std::string::npos)
+-				return true;
++				res = true;
+ 		}
++		if (res)
++			st += p + " ";
++	}
++
++	if (!st.empty()){
++		dprintf(DEBUG_NORMAL,  "[COPKGManager] [%s - %d] found bad package => %s [filtered with %s]\n", __func__, __LINE__, s.c_str(), st.c_str());
++		return true;
+ 	}
++
+ 	return false;
+ }
+ 
+@@ -230,7 +368,7 @@ void COPKGManager::updateMenu()
+ 	bool upgradesAvailable = false;
+ 	getPkgData(OM_LIST_INSTALLED);
+ 	getPkgData(OM_LIST_UPGRADEABLE);
+-	for (std::map<string, struct pkg>::iterator it = pkg_map.begin(); it != pkg_map.end(); it++) {
++	for (map<string, struct pkg>::iterator it = pkg_map.begin(); it != pkg_map.end(); it++) {
+ 		if (badpackage(it->second.name))
+ 			continue;
+ 		it->second.forwarder->iconName_Info_right = "";
+@@ -246,10 +384,75 @@ void COPKGManager::updateMenu()
+ 
+ 	upgrade_forwarder->setActive(upgradesAvailable);
+ 
+-	if (expert_mode)
++	if (expert_mode){
+ 		menu->setFooter(COPKGManagerFooterButtonsExpert, COPKGManagerFooterButtonCountExpert);
+-	else
++	}
++	else{
++		menu->setSelected(2); //back-item
+ 		menu->setFooter(COPKGManagerFooterButtons, COPKGManagerFooterButtonCount);
++	}
++}
++
++bool COPKGManager::checkUpdates(const std::string & package_name, bool show_progress)
++{
++	if (!hasOpkgSupport())
++		return false;
++
++	doUpdate();
++
++	bool ret = false;
++
++	getPkgData(OM_LIST);
++	getPkgData(OM_LIST_UPGRADEABLE);
++
++	size_t i = 0;
++	CProgressWindow status;
++	status.showHeader(false);
++
++	if (show_progress){
++		status.paint();
++		status.showStatus(i);
++	}
++
++	for (map<string, struct pkg>::iterator it = pkg_map.begin(); it != pkg_map.end(); it++){
++		dprintf(DEBUG_INFO,  "[COPKGManager] [%s - %d]  Update check for...%s\n", __func__, __LINE__, it->second.name.c_str());
++		if (show_progress){
++			status.showStatusMessageUTF(it->second.name);
++			status.showStatus(100*i /  pkg_map.size());
++		}
++
++		if (it->second.upgradable){
++			dprintf(DEBUG_INFO,  "[COPKGManager] [%s - %d]  Update packages available for...%s\n", __func__, __LINE__, it->second.name.c_str());
++			if (!package_name.empty() && package_name == it->second.name){
++				ret = true;
++				break;
++			}else
++				ret = true;
++		}
++		i++;
++	}
++
++	if (show_progress){
++		status.showGlobalStatus(100);
++		status.showStatusMessageUTF(g_Locale->getText(LOCALE_FLASHUPDATE_READY)); // UTF-8
++		status.hide();
++	}
++
++	pkg_map.clear();
++
++	return ret;
++}
++
++int COPKGManager::doUpdate()
++{
++	int r = execCmd(pkg_types[OM_UPDATE], CShellWindow::QUIET);
++	if (r) {
++		string msg = string(g_Locale->getText(LOCALE_OPKG_FAILURE_UPDATE));
++		msg += '\n' + tmp_str;
++		DisplayErrorMessage(msg.c_str());
++		return r;
++	}
++	return 0;
+ }
+ 
+ void COPKGManager::refreshMenu() {
+@@ -261,14 +464,8 @@ void COPKGManager::refreshMenu() {
+ int COPKGManager::showMenu()
+ {
+ 	installed = false;
+-
+-	int r = execCmd(pkg_types[OM_UPDATE]);
+-	if (r) {
+-		std::string loc = g_Locale->getText(LOCALE_OPKG_FAILURE_UPDATE);
+-		char rs[strlen(loc.c_str()) + 20];
+-		snprintf(rs, sizeof(rs), loc.c_str(), r);
+-		DisplayInfoMessage(rs);
+-	}
++	if (checkUpdates())
++		DisplayInfoMessage(g_Locale->getText(LOCALE_OPKG_MESSAGEBOX_UPDATES_AVAILABLE));
+ 
+ 	getPkgData(OM_LIST);
+ 	getPkgData(OM_LIST_UPGRADEABLE);
+@@ -276,19 +473,34 @@ int COPKGManager::showMenu()
+ 	menu = new CMenuWidget(g_Locale->getText(LOCALE_SERVICEMENU_UPDATE), NEUTRINO_ICON_UPDATE, width, MN_WIDGET_ID_SOFTWAREUPDATE);
+ 	menu->addIntroItems(LOCALE_OPKG_TITLE, NONEXISTANT_LOCALE, CMenuWidget::BTN_TYPE_BACK, CMenuWidget::BRIEF_HINT_YES);
+ 
++	//upgrade all installed packages
+ 	upgrade_forwarder = new CMenuForwarder(LOCALE_OPKG_UPGRADE, true, NULL , this, pkg_types[OM_UPGRADE].c_str(), CRCInput::RC_red);
+ 	upgrade_forwarder->setHint(NEUTRINO_ICON_HINT_SW_UPDATE, LOCALE_MENU_HINT_OPKG_UPGRADE);
+ 	menu->addItem(upgrade_forwarder);
++
++	//select and install local package
++	CMenuForwarder *fw;
++	fw = new CMenuForwarder(LOCALE_OPKG_INSTALL_LOCAL_PACKAGE, true, NULL, this, "local_package", CRCInput::RC_green);
++	fw->setHint(NEUTRINO_ICON_HINT_SW_UPDATE, LOCALE_MENU_HINT_OPKG_INSTALL_LOCAL_PACKAGE);
++	menu->addItem(fw);
++
++	//feed setup
++	CMenuWidget feeds_menu(LOCALE_OPKG_TITLE, NEUTRINO_ICON_UPDATE, w_max (100, 10));
++	showMenuConfigFeed(&feeds_menu);
++	fw = new CMenuForwarder(LOCALE_OPKG_FEED_ADRESSES, true, NULL, &feeds_menu, NULL, CRCInput::RC_www);
++	fw->setHint(NEUTRINO_ICON_HINT_SW_UPDATE, LOCALE_MENU_HINT_OPKG_FEED_ADRESSES_EDIT);
++	menu->addItem(fw);
++
+ 	menu->addItem(GenericMenuSeparatorLine);
+ 
+ 	menu_offset = menu->getItemsCount();
+ 
+ 	menu->addKey(CRCInput::RC_info, this, "rc_info");
+ 	menu->addKey(CRCInput::RC_blue, this, "rc_blue");
+-	menu->addKey(CRCInput::RC_red, this, "rc_red");
++	menu->addKey(CRCInput::RC_yellow, this, "rc_yellow");
+ 
+ 	pkg_vec.clear();
+-	for (std::map<string, struct pkg>::iterator it = pkg_map.begin(); it != pkg_map.end(); it++) {
++	for (map<string, struct pkg>::iterator it = pkg_map.begin(); it != pkg_map.end(); it++) {
+ 		if (badpackage(it->second.name))
+ 			continue;
+ 		it->second.forwarder = new CMenuForwarder(it->second.desc, true, NULL , this, it->second.name.c_str());
+@@ -303,24 +515,53 @@ int COPKGManager::showMenu()
+ 
+ 	menu->hide ();
+ 
+-	if (installed)
+-		DisplayInfoMessage(g_Locale->getText(LOCALE_OPKG_SUCCESS_INSTALL));
++	//handling after successful installation
++	string exit_action = "";
++	if (!has_err && installed){
++		/*!
++			Show a success message only if restart/reboot is required and user should decide what to do or not.
++			NOTE: marker file should be generated by opkg package itself (eg. with preinstall scripts),
++			so it's controlled by the package maintainer!
++		*/
++		//restart neutrino: user decision
++		if(!access( "/tmp/.restart", F_OK)){
++			int msg = ShowMsg(LOCALE_OPKG_TITLE, g_Locale->getText(LOCALE_OPKG_SUCCESS_INSTALL), CMessageBox::mbrNo,
++			CMessageBox::mbYes | CMessageBox::mbNo,
++			NEUTRINO_ICON_QUESTION,
++			width);
++			if (msg == CMessageBox::mbrYes)
++				exit_action = "restart";
++		}
++		//restart neutrino: forced
++		if (!access( "/tmp/.force_restart", F_OK))
++			exit_action = "restart";
++		//reboot stb: forced
++		if (!access( "/tmp/.reboot", F_OK)){
++			//ShowHint("", "Reboot ...", 300, 3); //TODO
++			g_RCInput->postMsg( NeutrinoMessages::REBOOT, 0);
++			res = menu_return::RETURN_EXIT_ALL;
++		}
++	}
++
+ 	delete menu;
++
++	if (!exit_action.empty())
++		CNeutrinoApp::getInstance()->exec(NULL, exit_action);
++
+ 	return res;
+ }
+ 
+ bool COPKGManager::hasOpkgSupport()
+ {
+-	string deps[] = {"/etc/opkg/opkg.conf", "/var/lib/opkg", ""};
++	string deps[] = {"/var/lib/opkg", /*"/bin/opkg-check-config", "/bin/update-alternatives", "/share/opkg/intercept"*/};
+ 
+ 	if (find_executable(OPKG_CL).empty()) {
+-		dprintf(DEBUG_INFO, "[neutrino opkg] did not find " OPKG_CL " executable\n");
++		dprintf(DEBUG_NORMAL, "[COPKGManager] [%s - %d]" OPKG_CL " executable not found\n", __func__, __LINE__);
+ 		return false;
+ 	}
+-	for (size_t i = 0; !deps[i].empty(); i++) {
+-		dprintf(DEBUG_INFO,  "[neutrino opkg] check if %s is available...\n", deps[i].c_str());
++	for(size_t i=0; i<sizeof(deps)/sizeof(deps[0]) ;i++){
+ 		if(access(deps[i].c_str(), R_OK) !=0) {
+-			dprintf(DEBUG_INFO,  "[neutrino opkg] %s not found\n", deps[i].c_str());
++			dprintf(DEBUG_NORMAL,  "[COPKGManager] [%s - %d] %s not found\n", __func__, __LINE__, deps[i].c_str());
+ 			return false;
+ 		}
+ 	}
+@@ -330,7 +571,7 @@ bool COPKGManager::hasOpkgSupport()
+ 
+ void COPKGManager::getPkgData(const int pkg_content_id)
+ {
+-	dprintf(DEBUG_INFO, "COPKGManager: executing %s\n", pkg_types[pkg_content_id].c_str());
++	dprintf(DEBUG_INFO, "[COPKGManager] [%s - %d] executing %s\n", __func__, __LINE__, pkg_types[pkg_content_id].c_str());
+ 
+ 	switch (pkg_content_id) {
+ 		case OM_LIST:
+@@ -342,21 +583,22 @@ void COPKGManager::getPkgData(const int pkg_content_id)
+ 			if (list_installed_done)
+ 				return;
+ 			list_installed_done = true;
+-			for (std::map<string, struct pkg>::iterator it = pkg_map.begin(); it != pkg_map.end(); it++)
++			for (map<string, struct pkg>::iterator it = pkg_map.begin(); it != pkg_map.end(); it++)
+ 				it->second.installed = false;
+ 			break;
+ 		case OM_LIST_UPGRADEABLE:
+ 			if (list_upgradeable_done)
+ 				return;
+ 			list_upgradeable_done = true;
+-			for (std::map<string, struct pkg>::iterator it = pkg_map.begin(); it != pkg_map.end(); it++)
++			for (map<string, struct pkg>::iterator it = pkg_map.begin(); it != pkg_map.end(); it++)
+ 				it->second.upgradable = false;
+ 			break;
+ 	}
+ 
+-	FILE *f = popen(pkg_types[pkg_content_id].c_str(), "r");
++	pid_t pid = 0;
++	FILE *f = my_popen(pid, pkg_types[pkg_content_id].c_str(), "r");
+ 	if (!f) {
+-		DisplayInfoMessage("Command failed");
++		showError("Internal Error", strerror(errno), pkg_types[pkg_content_id]);
+ 		return;
+ 	}
+ 
+@@ -369,21 +611,23 @@ void COPKGManager::getPkgData(const int pkg_content_id)
+ 		std::string line(buf);
+ 		trim(line);
+ 
+-		std::string name = getBlankPkgName(line);
++		string name = getBlankPkgName(line);
++		if (name.empty())
++			continue;
+ 
+ 		switch (pkg_content_id) {
+ 			case OM_LIST: {
+-				pkg_map[name] = pkg(name, line);
++				pkg_map[name] = pkg(name, line, line);
+ 				break;
+ 			}
+ 			case OM_LIST_INSTALLED: {
+-				std::map<string, struct pkg>::iterator it = pkg_map.find(name);
++				map<string, struct pkg>::iterator it = pkg_map.find(name);
+ 				if (it != pkg_map.end())
+ 					it->second.installed = true;
+ 				break;
+ 			}
+ 			case OM_LIST_UPGRADEABLE: {
+-				std::map<string, struct pkg>::iterator it = pkg_map.find(name);
++				map<string, struct pkg>::iterator it = pkg_map.find(name);
+ 				if (it != pkg_map.end())
+ 					it->second.upgradable = true;
+ 				break;
+@@ -394,31 +638,299 @@ void COPKGManager::getPkgData(const int pkg_content_id)
+ 		}
+ 	}
+ 
+-	pclose(f);
++	fclose(f);
++}
++
++string COPKGManager::getBlankPkgName(const string& line)
++{
++	dprintf(DEBUG_INFO,  "[COPKGManager] [%s - %d]  line: %s\n", __func__, __LINE__, line.c_str());
++
++	//check for error relevant contents and return an empty string if found
++	size_t pos0 = line.find("Collected errors:");
++	size_t pos01 = line.find(" * ");
++	if (pos0 != string::npos || pos01 != string::npos)
++		return "";
++
++	//split line and use name as return value
++	size_t pos1 = line.find(" ");
++	if (pos1 != string::npos)
++		return line.substr(0, pos1);
++
++	return "";
+ }
+ 
+-std::string COPKGManager::getBlankPkgName(const std::string& line)
++string COPKGManager::getPkgInfo(const string& pkg_name, const string& pkg_key, bool current_status)
+ {
+-	size_t l_pos = line.find(" ");
+-	if (l_pos != string::npos)
+-		return line.substr(0, l_pos);
+-	return line;
++	execCmd(pkg_types[current_status ? OM_STATUS : OM_INFO] + pkg_name, CShellWindow::QUIET);
++	dprintf(DEBUG_INFO,  "[COPKGManager] [%s - %d]  [data: %s]\n", __func__, __LINE__, tmp_str.c_str());
++
++	if (pkg_key.empty())
++		return tmp_str;
++
++	return getKeyInfo(tmp_str, pkg_key, ":");
+ }
+ 
+-int COPKGManager::execCmd(const char *cmdstr, bool verbose, bool acknowledge)
++string COPKGManager::getKeyInfo(const string& input, const std::string& key, const string& delimiters)
+ {
+-fprintf(stderr, "execCmd(%s)\n", cmdstr);
+-	std::string cmd(cmdstr);
+-	if (verbose) {
+-		cmd += " 2>&1";
+-		int res;
+-		CShellWindow(cmd, (verbose ? CShellWindow::VERBOSE : 0) | (acknowledge ? CShellWindow::ACKNOWLEDGE : 0), &res);
+-		return res;
+-	} else {
+-		cmd += " 2>/dev/null >&2";
+-		int r = my_system(3, "/bin/sh", "-c", cmd.c_str());
+-		if (r == -1)
+-			return r;
+-		return WEXITSTATUS(r);
++	string s = input;
++	size_t pos1 = s.find(key);
++	if (pos1 != string::npos){
++		size_t pos2 = s.find(delimiters, pos1)+ delimiters.length();
++		if (pos2 != string::npos){
++			size_t pos3 = s.find("\n", pos2);
++			if (pos3 != string::npos){
++				string ret = s.substr(pos2, pos3-pos2);
++				return trim(ret, " ");
++			}
++			else
++				dprintf(DEBUG_INFO, "[COPKGManager] [%s - %d]  Error: [key: %s] missing end of line...\n", __func__, __LINE__, key.c_str());
++		}
++	}
++	return "";
++}
++
++int COPKGManager::execCmd(const char *cmdstr, int verbose_mode)
++{
++	fprintf(stderr, "execCmd(%s)\n", cmdstr);
++	string cmd = string(cmdstr);
++	int res = 0;
++	has_err = false;
++	tmp_str.clear();
++	bool ok = true;
++
++	//create CShellWindow object
++	CShellWindow shell(cmd, verbose_mode, &res, false);
++
++	//init slot for shell output handler with 3 args, no return value, and connect with loop handler inside of CShellWindow object
++	sigc::slot3<void, string*, int*, bool*> sl_shell;
++	sl_shell = sigc::mem_fun(*this, &COPKGManager::handleShellOutput);
++	shell.OnShellOutputLoop.connect(sl_shell);
++#if 0
++	//demo for custom error message inside shell window loop
++	sigc::slot1<void, int*> sl1;
++	sl1 = sigc::mem_fun(*this, &COPKGManager::showErr);
++	shell.OnResultError.connect(sl1);
++#endif
++		shell.exec();
++
++	return res;
++}
++
++void COPKGManager::handleShellOutput(string* cur_line, int* res, bool* ok)
++{
++	//hold current res value
++	int _res = *res;
++
++	//use current line
++	string line = *cur_line;
++
++	//tmp_str contains all output lines and is available in the object scope of this
++	tmp_str += line + '\n';
++
++	//dprintf(DEBUG_NORMAL,  "[COPKGManager] [%s - %d]  come into shell handler with res: %d, line = %s\n", __func__, __LINE__, _res, line.c_str());
++
++	//detect any collected error
++	size_t pos2 = line.find("Collected errors:");
++	if (pos2 != string::npos)
++		has_err = true;
++
++	//check for collected errors and set res value
++	if (has_err){
++		dprintf(DEBUG_NORMAL,  "[COPKGManager] [%s - %d]  result: %s\n", __func__, __LINE__, line.c_str());
++
++		/*duplicate option cache: option is defined in OPKG_CL_CONFIG_OPTIONS,
++		 * NOTE: if found first cache option in the opkg.conf file, this will be preferred and it's not really an error!
++		*/
++		if (line.find("Duplicate option cache") != string::npos){
++			dprintf(DEBUG_NORMAL,  "[COPKGManager] [%s - %d]  WARNING: %s\n", __func__, __LINE__,  line.c_str());
++			*ok = true;
++			has_err = false;
++			*res = OM_SUCCESS;
++			return;
++		}
++		/*resolve_conffiles: already existent configfiles are not installed, but renamed in the same directory,
++		 * NOTE: It's not fine but not really bad. Files should be installed separate or user can change manually
++		*/
++		if (line.find("Existing conffile") != string::npos){
++			dprintf(DEBUG_NORMAL,  "[COPKGManager] [%s - %d]  WARNING: %s\n", __func__, __LINE__, line.c_str());
++			*ok = true;
++			has_err = false;
++			*res = OM_SUCCESS;
++			return;
++		}
++		//download error:
++		if (line.find("opkg_download:") != string::npos){
++			*res = OM_DOWNLOAD_ERR;
++			*ok = false;
++			return;
++		}
++		//not enough space
++		if (line.find("No space left on device") != string::npos){
++			*res = OM_OUT_OF_SPACE_ERR;
++			*ok = false;
++			return;
++		}
++		//deps
++		if (line.find("satisfy_dependencies") != string::npos){
++			*res = OM_UNSATISFIED_DEPS_ERR;
++			*ok = false;
++			return;
++		}
++		//unknown error
++		if (*ok){
++			dprintf(DEBUG_NORMAL,  "[COPKGManager] [%s - %d]  ERROR: unhandled error %s\n", __func__, __LINE__, line.c_str());
++			*res = OM_UNKNOWN_ERR;
++			*ok = false;
++			return;
++		}
++
++		if (!has_err){
++			*ok = true;
++			*res = OM_SUCCESS;
++		}
++	}
++
++	*res = _res;
++}
++
++void COPKGManager::showErr(int* res)
++{
++	string err = to_string(*res);
++	string errtest = err_list[1].id;
++	DisplayErrorMessage(errtest.c_str());
++}	
++
++void COPKGManager::showError(const char* local_msg, char* err_message, const string& additional_text)
++{
++	string msg = local_msg ? string(local_msg) + "\n" : "";
++	if (err_message)
++		msg += string(err_message) + ":\n";
++	if (!additional_text.empty())
++		msg += additional_text;
++	DisplayErrorMessage(msg.c_str());
++}
++
++bool COPKGManager::installPackage(const string& pkg_name, string options, bool force_configure)
++{
++	//check package size...cancel installation if size check failed
++	if (!checkSize(pkg_name)){
++		DisplayErrorMessage(g_Locale->getText(LOCALE_OPKG_MESSAGEBOX_SIZE_ERROR));
++	}
++	else{
++		string opts = " " + options + " ";
++
++		int r = execCmd(pkg_types[OM_INSTALL] + opts + pkg_name, CShellWindow::VERBOSE | CShellWindow::ACKNOWLEDGE_EVENT | CShellWindow::ACKNOWLEDGE);
++		if (r){
++			switch(r){
++				case OM_OUT_OF_SPACE_ERR:
++					DisplayErrorMessage("Not enough space available");
++					break;
++				case OM_DOWNLOAD_ERR:
++					DisplayErrorMessage("Can't download package. Check network!");
++					break;
++				case OM_UNSATISFIED_DEPS_ERR:{
++					int msgRet = ShowMsg("Installation", "Unsatisfied deps while installation! Try to repeat to force dependencies!", CMessageBox::mbrCancel, CMessageBox::mbYes | CMessageBox::mbNo, NULL, 600, -1);
++					if (msgRet == CMessageBox::mbrYes)
++						return installPackage(pkg_name, "--force-depends");
++					break;
++				}
++				default:
++					showError(g_Locale->getText(LOCALE_OPKG_FAILURE_INSTALL), strerror(errno), pkg_types[OM_INSTALL] + opts + pkg_name);
++			}
++		}else{
++			if (force_configure)
++				execCmd(pkg_types[OM_CONFIGURE] + getBlankPkgName(pkg_name), 0);
++			installed = true; //TODO: catch real result
++		}
++	}
++
++	return true;
++}
++
++bool COPKGManager::isInstalled(const string& pkg_name)
++{
++	string package = pkg_name;
++	package = getBaseName(package);
++
++	map<string, struct pkg>::iterator it = pkg_map.find(package);
++	if (it != pkg_map.end())
++		if (it->second.installed)
++			return true;
++	return false;
++}
++
++bool COPKGManager::isUpgradable(const string& pkg_name)
++{
++	string package = pkg_name;
++	package = getBaseName(package);
++
++	map<string, struct pkg>::iterator it = pkg_map.find(package);
++	if (it != pkg_map.end())
++		if (it->second.upgradable)
++			return true;
++	return false;
++}
++
++
++void COPKGManager::showMenuConfigFeed(CMenuWidget *feed_menu)
++{
++	feed_menu->addIntroItems(LOCALE_OPKG_FEED_ADRESSES);
++
++	for(size_t i=0; i<OPKG_MAX_FEEDS ;i++){
++		CKeyboardInput *feedinput = new CKeyboardInput("Feed " +to_string(i+1), &config_src[i], 0, NULL, NULL, LOCALE_OPKG_ENTER_FEED_ADDRESS, LOCALE_OPKG_ENTER_FEED_ADDRESS_EXAMPLE);
++		CMenuForwarder *fw = new CMenuDForwarder( string(), true , config_src[i], feedinput, NULL, CRCInput::convertDigitToKey(i));
++		feed_menu->addItem( fw);
++	}
++}
++
++void COPKGManager::loadConfig()
++{
++	opkg_conf.clear();
++	bool load_defaults = false;
++
++	if (!opkg_conf.loadConfig(OPKG_CONFIG_FILE,  '\t')){
++		dprintf(DEBUG_NORMAL,  "[COPKGManager] [%s - %d]  Error: error while loading opkg config file! -> %s. Using default settings!\n", __func__, __LINE__, OPKG_CONFIG_FILE);
++		load_defaults = true;
++	}
++
++	//package feeds
++	for(size_t i=0; i<OPKG_MAX_FEEDS ;i++){
++		string src_key = "src " + to_string(i);
++		config_src[i] = opkg_conf.getString(src_key, string());
++	}
++
++	//dest dir default keys, predefined in constructor
++	for(size_t j=0; j<config_dest.size() ;j++){
++		string dest_key = "dest " + to_string(j);
++		opkg_conf.getString(dest_key, config_dest[j]);
++	}
++
++	//load default settings and write to config file
++	if (load_defaults)
++		saveConfig();
++}
++
++void COPKGManager::saveConfig()
++{
++	//set package feeds
++	for(size_t i=0; i<OPKG_MAX_FEEDS ;i++){
++		string src_key = "src " + to_string(i);
++
++		if (!config_src[i].empty())
++			opkg_conf.setString(src_key, config_src[i]);
++		else
++			opkg_conf.deleteKey(src_key); //remove unused keys
++	}
++
++	//set dest dir default key values
++	for(size_t j=0; j<config_dest.size() ;j++){
++		string dest_key = "dest " + to_string(j);
++		opkg_conf.setString(dest_key, config_dest[j]);
++	}
++
++	//finally save config file
++	if (!opkg_conf.saveConfig(OPKG_CONFIG_FILE, '\t')){
++		dprintf(DEBUG_NORMAL,  "[COPKGManager] [%s - %d]  Error: error while saving opkg config file! -> %s\n", __func__, __LINE__, OPKG_CONFIG_FILE);
++		DisplayErrorMessage("Error while saving opkg config file!");
+ 	}
+ }
+diff --git a/src/gui/opkg_manager.h b/src/gui/opkg_manager.h
+index c5f014e..4979c9c 100644
+--- a/src/gui/opkg_manager.h
++++ b/src/gui/opkg_manager.h
+@@ -5,7 +5,7 @@
+ 	OPKG-Manager Class for Neutrino-GUI
+ 
+ 	Implementation:
+-	Copyright (C) 2012 T. Graf 'dbt'
++	Copyright (C) 2012-2015 T. Graf 'dbt'
+ 	www.dbox2-tuning.net
+ 
+ 	Adaptions:
+@@ -32,21 +32,33 @@
+ #define __OPKG_MANAGER__
+ 
+ #include <gui/widget/menue.h>
++#include <gui/widget/shellwindow.h>
+ #include <driver/framebuffer.h>
+-
++#include <configfile.h>
+ #include <string>
+ #include <vector>
+ #include <map>
+ 
++#define OPKG_MAX_FEEDS 10
++
+ class COPKGManager : public CMenuTarget
+ {
+ 	private:
+ 		int width;
+-
++		std::string tmp_str;
+ 		CFrameBuffer *frameBuffer;
+-
++		CConfigFile opkg_conf;
++		void saveConfig();
++		void loadConfig();
+ 		struct pkg;
+ 
++		//config
++		std::string config_src[OPKG_MAX_FEEDS];
++		std::vector<std::string> config_dest;
++
++		//filter
++		std::vector<std::string> v_bad_pattern;
++
+ 		std::map<std::string,pkg> pkg_map;
+ 		std::vector<pkg*> pkg_vec;
+ 
+@@ -57,27 +69,98 @@ class COPKGManager : public CMenuTarget
+ 		bool installed;
+ 		bool expert_mode;
+ 		int menu_offset;
++		std::string *local_dir;
++
++		bool has_err;
++		typedef struct om_error_data_t
++		{
++			std::string	id;
++			int		num;
++		}om_error_struct_t;
++		//error types
++		enum
++		{
++			OM_UNKNOWN_ERR 		=-1,
++			OM_SUCCESS		= 0,
++			OM_UNSATISFIED_DEPS_ERR = 5,
++			OM_DOWNLOAD_ERR		= 11,
++			OM_CONFLICT_ERR		= 12,
++			OM_OUT_OF_SPACE_ERR	= 15,
++			OM_PREREM_SCRIPT_ERR	= 16,
++		};
++		om_error_data_t *err_list;
++		void OM_ERRORS()
++		{
++			static om_error_data_t errlist[] = { 	{ "Cannot satisfy the following dependencies"	, OM_UNSATISFIED_DEPS_ERR	}, 
++								{ "No space left on device"			, OM_OUT_OF_SPACE_ERR 		},
++								{ "The following packages conflict"		, OM_CONFLICT_ERR		},
++								{ "Only have"					, OM_OUT_OF_SPACE_ERR 		},
++								{ "prerm script for package"			, OM_PREREM_SCRIPT_ERR		},
++							} ;
++			err_list = errlist;
++		};
++		void showErr(int* res);
+ 
+-		int execCmd(const char* cmdstr, bool verbose = false, bool acknowledge = false);
+-		int execCmd(std::string cmdstr, bool verbose = false, bool acknowledge = false) {
+-			return execCmd(cmdstr.c_str(), verbose, acknowledge);
++		int execCmd(const char* cmdstr, int verbose_mode = 0);
++		int execCmd(std::string cmdstr, int verbose_mode = 0) {
++			return execCmd(cmdstr.c_str(), verbose_mode);
+ 		};
+ 		void getPkgData(const int pkg_content_id);
+-		static std::string getBlankPkgName(const std::string& line);
++		std::string getBlankPkgName(const std::string& line);
++		bool isInstalled(const std::string& pkg_name);
++		bool isUpgradable(const std::string& pkg_name);
++
++		/*!
++		* Gets an info from opkg command info or status from a package via keywords as std::string
++		* 1st parameter is name of package as string eg. "gdb", without file extension or version data
++		* 2nd parameter needs a keyword like:
++		* Package, Version, Depends, Status, Section, Architecture, Maintainer, MD5Sum, Size, Filename, Source, Description
++		* These kewords are to find in the control package inside of the opkg package file and the package list.
++		* 3rd parameter sets the sub command status or info. For more details, take a look to the opkg commands via command line.
++		*/
++		std::string getPkgInfo(const std::string& pkg_name, const std::string& pkg_key = std::string(), bool current_status = false);
++
++		//Does the same like getPkgInfo(), but only for status
++		std::string getPkgStatus(const std::string& pkg_name, const std::string& pkg_key){return getPkgInfo(pkg_name, pkg_key, true);}
++
++		std::string getKeyInfo(const std::string& input, const std::string& pkg_info_key, const std::string& delimiters);
+ 		int showMenu();
++		void showMenuConfigFeed(CMenuWidget *feed_menu);
+ 		void updateMenu();
+ 		void refreshMenu();
++
++		//!Returns a vector with possible filter entries from OPKG_BAD_PATTERN_LIST_FILE 
++		static std::vector<std::string> getBadPackagePatternList();
++		/*!
++		* Returns true if found a ''bad'' package, Parameter: package name as std::string by rev
++		* To detect bad packages, it must be exist a matching pattern list file.
++		* Path is defined in OPKG_BAD_PATTERN_LIST_FILE.
++		* This provides the option to filter some unwanted entries in the package list menue.
++		* This makes sense eg. to hinder that the user could change important system packages.
++		* NOTE: a sample file you should find here as : "/var/tuxbox/config/bad_package_pattern.list.sample"
++		* If required, remove the ".sample" extension and change the entries for your requirements
++		* howto: a simple way to filter a package is to add the pure name, if you want
++		* to hide a package (even which name) then add this name to a line. Eg. if you want to hide
++		* package wget then add this and this package is not displayed at the gui.
++		* Also a few place holders should work, see the badpackage() function, but this
++		* can be inaccurately because it could filter innocent packages.
++		*/
+ 		bool badpackage(std::string &s);
+ 
++		void showError(const char* local_msg, char* err_msg = NULL, const std::string& additional_text = std::string());
++		int doUpdate();
++		void handleShellOutput(std::string* cur_line, int* res, bool* ok);
++
+ 		struct pkg {
+ 			std::string name;
++			std::string version;
+ 			std::string desc;
+ 			bool installed;
+ 			bool upgradable;
+ 			CMenuForwarder *forwarder;
+ 			pkg() { }
+-			pkg(std::string &_name, std::string &_desc)
+-				: name(_name), desc(_desc), installed(false), upgradable(false) { }
++			pkg(std::string &_name, std::string &_version, std::string &_desc)
++				: name(_name), version(_version), desc(_desc), installed(false), upgradable(false) { }
+ 		};
+ 	public:
+ 		COPKGManager();
+@@ -85,5 +168,8 @@ class COPKGManager : public CMenuTarget
+ 
+ 		int exec(CMenuTarget* parent, const std::string & actionKey);
+ 		static bool hasOpkgSupport();
++		bool checkUpdates(const std::string & package_name = std::string(), bool show_progress = true);
++		bool installPackage(const std::string& pkg_name, std::string options = std::string(), bool force_configure = false);
++		bool checkSize(const std::string& pkg_name);
+ };
+ #endif
+diff --git a/src/gui/update.cpp b/src/gui/update.cpp
+index 739be5a..d7437e5 100644
+--- a/src/gui/update.cpp
++++ b/src/gui/update.cpp
+@@ -48,7 +48,7 @@
+ 
+ #include <gui/color.h>
+ #include <gui/filebrowser.h>
+-
++#include <gui/opkg_manager.h>
+ #include <gui/widget/messagebox.h>
+ #include <gui/widget/hintbox.h>
+ 
+@@ -410,8 +410,10 @@ printf("[update] mode is %d\n", softupdate_mode);
+ 
+ 		CFileFilter UpdatesFilter;
+ 		if(allow_flash) UpdatesFilter.addFilter(FILEBROWSER_UPDATE_FILTER);
+-		UpdatesFilter.addFilter("bin");
+-		UpdatesFilter.addFilter("txt");
++
++		string filters[] = {"bin", "txt", "opk", "ipk"};
++		for(size_t i=0; i<sizeof(filters)/sizeof(filters[0]) ;i++)
++			UpdatesFilter.addFilter(filters[i]);
+ 
+ 		UpdatesBrowser.Filter = &UpdatesFilter;
+ 
+@@ -433,18 +435,39 @@ printf("[update] mode is %d\n", softupdate_mode);
+ 			fclose(fd);
+ 		else {
+ 			hide();
+-			printf("flash-file not found: %s\n", filename.c_str());
+-			ShowHint(LOCALE_MESSAGEBOX_ERROR, g_Locale->getText(LOCALE_FLASHUPDATE_CANTOPENFILE)); // UTF-8
++			printf("flash/package-file not found: %s\n", filename.c_str());
++			DisplayErrorMessage(g_Locale->getText(LOCALE_FLASHUPDATE_CANTOPENFILE));
+ 			return false;
+ 		}
+ 		hide();
++
++		//package install:
++		if (file_selected->getType() == CFile::FILE_PKG_PACKAGE){
++			COPKGManager opkg;
++			if (opkg.hasOpkgSupport()){
++				int msgres = ShowMsg(LOCALE_MESSAGEBOX_INFO, LOCALE_OPKG_WARNING_3RDPARTY_PACKAGES, CMessageBox::mbrNo, CMessageBox::mbYes | CMessageBox::mbNo, NEUTRINO_ICON_UPDATE, 700); // UTF-8
++				if (msgres == CMessageBox::mbrYes){
++					if (!opkg.installPackage(UpdatesBrowser.getSelectedFile()->Name))
++						DisplayErrorMessage(g_Locale->getText(LOCALE_OPKG_FAILURE_INSTALL));
++				}
++			}
++			else
++				DisplayInfoMessage(g_Locale->getText(LOCALE_MESSAGEBOX_FEATURE_NOT_SUPPORTED));
++			//!always leave here!
++			return false;
++		}
++		//set internal filetype
+ 		char const * ptr = rindex(filename.c_str(), '.');
+ 		if(ptr) {
+ 			ptr++;
+-			if(!strcmp(ptr, "bin")) fileType = 'A';
+-			else if(!strcmp(ptr, "txt")) fileType = 'T';
+-			else if(!allow_flash) return false;
+-			else fileType = 0;
++			if(!strcmp(ptr, "bin"))
++				fileType = 'A';
++			else if(!strcmp(ptr, "txt"))
++				fileType = 'T';
++			else if(!allow_flash)
++				return false;
++			else
++				fileType = 0;
+ #ifdef DEBUG
+ 			printf("[update] manual file type: %s %c\n", ptr, fileType);
+ #endif
+diff --git a/src/gui/update_menue.cpp b/src/gui/update_menue.cpp
+index 68c075c..5c54266 100644
+--- a/src/gui/update_menue.cpp
++++ b/src/gui/update_menue.cpp
+@@ -106,12 +106,9 @@ int CSoftwareUpdate::showSoftwareUpdate()
+ 		softUpdate.addItem(mf);
+ 
+ 		//firmware update via opkg
+-		if (COPKGManager::hasOpkgSupport()) {
+-			mf = new CMenuForwarder(LOCALE_OPKG_TITLE, true, NULL, new COPKGManager());
+-			mf->setHint(NEUTRINO_ICON_HINT_SW_UPDATE, LOCALE_MENU_HINT_OPKG);
+-			softUpdate.addItem(mf);
+-		}
+-
++		mf = new CMenuForwarder(LOCALE_OPKG_TITLE, COPKGManager::hasOpkgSupport(), NULL, new COPKGManager());
++		mf->setHint(NEUTRINO_ICON_HINT_SW_UPDATE, LOCALE_MENU_HINT_OPKG);
++		softUpdate.addItem(mf);
+ 	}
+ 
+ #ifdef BOXMODEL_APOLLO
+diff --git a/src/gui/widget/shellwindow.cpp b/src/gui/widget/shellwindow.cpp
+index 07302b0..da1f1ed 100644
+--- a/src/gui/widget/shellwindow.cpp
++++ b/src/gui/widget/shellwindow.cpp
+@@ -34,181 +34,240 @@
+ 
+ #include <global.h>
+ #include <neutrino.h>
+-#include <sys/types.h>
+ #include <sys/wait.h>
+ #include <driver/framebuffer.h>
+ #include <gui/widget/textbox.h>
+ #include <stdio.h>
+ #include <poll.h>
+ #include <fcntl.h>
++#include <errno.h>
+ #include <system/helpers.h>
++#include <gui/widget/messagebox.h>
+ #include <errno.h>
++#include <system/debug.h>
++
++CShellWindow::CShellWindow(const std::string &Command, const int Mode, int *Res, bool auto_exec)
++{
++	textBox 	= NULL;
++	frameBuffer 	= CFrameBuffer::getInstance();
++
++	command 	= Command;
++	mode 		= Mode;
++	res 		= Res;
++
++	if (auto_exec)
++		exec();
++}
+ 
+-CShellWindow::CShellWindow(const std::string &command, const int _mode, int *res) {
+-	pid_t pid;
+-	textBox = NULL;
++void CShellWindow::exec()
++{
+ 	std::string cmd;
+-	mode = _mode;
+-	if (!(mode & VERBOSE)){
++	if (mode == 0){
+ 		cmd = "PATH=/bin:/usr/bin:/usr/local/bin:/sbin:/usr/sbin:/usr/local/sbin ; export PATH ; " + command + " 2>/dev/null >&2";
+-		int r = system(cmd.c_str());
++		int r = my_system(cmd.c_str());
+ 		if (res) {
+ 			if (r == -1)
+ 				*res = r;
+ 			else
+ 				*res = WEXITSTATUS(r);
++			dprintf(DEBUG_NORMAL,  "[CShellWindow] [%s - %d]  Error! system returns: %d command: %s\n", __func__, __LINE__, *res, cmd.c_str());
+ 		}
+-		return;
+ 	}
++	else {
++		pid_t pid = 0;
++		cmd = command + " 2>&1";
++		FILE *f = my_popen(pid, cmd.c_str(), "r");
++		if (!f) {
++			if (res)
++				*res = -1;
++			dprintf(DEBUG_NORMAL,  "[CShellWindow] [%s - %d]  Error! my_popen returns: %d command: %s\n", __func__, __LINE__, *res, cmd.c_str());
++			return;
++		}
+ 
+-	cmd = command + " 2>&1";
+-	FILE *f = my_popen(pid, cmd.c_str(), "r");
+-	if (!f) {
+-		if (res)
+-			*res = -1;
+-		return;
+-	}
+-	Font *font = g_Font[SNeutrinoSettings::FONT_TYPE_MENU_INFO];
+-	frameBuffer = CFrameBuffer::getInstance();
+-	unsigned int lines_max = frameBuffer->getScreenHeight() / font->getHeight();
+-	list<std::string> lines;
+-	CBox textBoxPosition(frameBuffer->getScreenX(), frameBuffer->getScreenY(), frameBuffer->getScreenWidth(), frameBuffer->getScreenHeight());
+-	textBox = new CTextBox(cmd.c_str(), font, CTextBox::BOTTOM, &textBoxPosition);
+-	struct pollfd fds;
+-	fds.fd = fileno(f);
+-	fds.events = POLLIN | POLLHUP | POLLERR;
+-	fcntl(fds.fd, F_SETFL, fcntl(fds.fd, F_GETFL, 0) | O_NONBLOCK);
+-
+-	struct timeval tv;
+-	gettimeofday(&tv,NULL);
+-	uint64_t lastPaint = (uint64_t) tv.tv_usec + (uint64_t)((uint64_t) tv.tv_sec * (uint64_t) 1000000);
+-	bool ok = true, nlseen = false, dirty = false, incomplete = false;
+-	char output[1024];
+-	std::string txt = "";
+-	std::string line = "";
+-
+-	do {
+-		uint64_t now;
+-		fds.revents = 0;
+-		int r = poll(&fds, 1, 300);
+-		if (r > 0) {
+-			if (!feof(f)) {
+-				gettimeofday(&tv,NULL);
+-				now = (uint64_t) tv.tv_usec + (uint64_t)((uint64_t) tv.tv_sec * (uint64_t) 1000000);
+-
+-				unsigned int lines_read = 0;
+-				while (fgets(output, sizeof(output), f)) {
+-					char *outputp = output;
+-					dirty = true;
+-
+-					for (int i = 0; output[i] && !nlseen; i++)
+-						switch (output[i]) {
+-							case '\b':
+-								if (outputp > output)
+-									outputp--;
+-								*outputp = 0;
+-								break;
+-							case '\r':
+-								outputp = output;
+-								break;
+-							case '\n':
+-								lines_read++;
+-								nlseen = true;
+-								*outputp = 0;
+-								break;
+-							default:
+-								*outputp++ = output[i];
+-								break;
++		Font *font = g_Font[SNeutrinoSettings::FONT_TYPE_MENU_INFO];
++		int h_shell = frameBuffer->getScreenHeight();
++		int w_shell = frameBuffer->getScreenWidth();
++		unsigned int lines_max = h_shell / font->getHeight();
++		list<std::string> lines;
++		CBox textBoxPosition(frameBuffer->getScreenX(), frameBuffer->getScreenX(), w_shell, h_shell);
++		if (textBox == NULL){
++			textBox = new CTextBox(cmd.c_str(), font, CTextBox::BOTTOM, &textBoxPosition);
++			textBox->enableSaveScreen(false);
++		}
++		struct pollfd fds;
++		fds.fd = fileno(f);
++		fds.events = POLLIN | POLLHUP | POLLERR;
++		fcntl(fds.fd, F_SETFL, fcntl(fds.fd, F_GETFL, 0) | O_NONBLOCK);
++
++		struct timeval tv;
++		gettimeofday(&tv,NULL);
++		uint64_t lastPaint = (uint64_t) tv.tv_usec + (uint64_t)((uint64_t) tv.tv_sec * (uint64_t) 1000000);
++		bool ok = true, nlseen = false, dirty = false, incomplete = false;
++		char output[1024];
++		std::string txt = "";
++		std::string line = "";
++
++		do {
++			uint64_t now;
++			fds.revents = 0;
++			int r = poll(&fds, 1, 300);
++			if (r > 0) {
++				if (!feof(f)) {
++					gettimeofday(&tv,NULL);
++					now = (uint64_t) tv.tv_usec + (uint64_t)((uint64_t) tv.tv_sec * (uint64_t) 1000000);
++
++					unsigned int lines_read = 0;
++					while (fgets(output, sizeof(output), f)) {
++						char *outputp = output;
++						dirty = true;
++
++						for (int i = 0; output[i] && !nlseen; i++)
++							switch (output[i]) {
++								case '\b':
++									if (outputp > output)
++										outputp--;
++									*outputp = 0;
++									break;
++								case '\r':
++									outputp = output;
++									break;
++								case '\n':
++									lines_read++;
++									nlseen = true;
++									*outputp = 0;
++									break;
++								default:
++									*outputp++ = output[i];
++									break;
++							}
++
++						if (outputp < output + sizeof(output))
++							*outputp = 0;
++						line += std::string(output);
++						if (incomplete)
++							lines.pop_back();
++						if (nlseen) {
++							lines.push_back(line);
++							line.clear();
++							nlseen = false;
++							incomplete = false;
++						} else {
++							lines.push_back(line);
++							incomplete = true;
+ 						}
+ 
+-					if (outputp < output + sizeof(output))
+-						*outputp = 0;
+-					line += std::string(output);
+-					if (incomplete)
+-						lines.pop_back();
+-					if (nlseen) {
+-						lines.push_back(line);
+-						line.clear();
+-						nlseen = false;
+-						incomplete = false;
+-					} else {
+-						lines.push_back(line);
+-						incomplete = true;
+-					}
+-					if (lines.size() > lines_max)
+-						lines.pop_front();
+-					txt = "";
+-					bool first = true;
+-					for (std::list<std::string>::const_iterator it = lines.begin(), end = lines.end(); it != end; ++it) {
+-						if (!first)
+-							txt += '\n';
+-						first = false;
+-						txt += *it;
+-					}
+-					if (((lines_read == lines_max) && (lastPaint + 100000 < now)) || (lastPaint + 250000 < now)) {
+-						textBox->setText(&txt);
+-						textBox->paint();
+-						lines_read = 0;
+-						lastPaint = now;
+-						dirty = false;
++						//callback for line handler
++						std::string s_output = std::string((output));
++						OnShellOutputLoop(&s_output, res, &ok);
++						dprintf(DEBUG_NORMAL,  "[CShellWindow] [%s - %d]  res=%d ok=%d\n", __func__, __LINE__, *res, ok);
++
++						if (lines.size() > lines_max)
++							lines.pop_front();
++						txt = "";
++						bool first = true;
++						for (std::list<std::string>::const_iterator it = lines.begin(), end = lines.end(); it != end; ++it) {
++							if (!first)
++								txt += '\n';
++							first = false;
++							txt += *it;
++						}
++						if (((lines_read == lines_max) && (lastPaint + 100000 < now)) || (lastPaint + 250000 < now)) {
++							textBox->setText(&txt, textBox->getWindowsPos().iWidth, false);
++							if (!textBox->isPainted())
++								if (mode & VERBOSE) textBox->paint();
++							lines_read = 0;
++							lastPaint = now;
++							dirty = false;
++						}
+ 					}
+-				}
+-			} else
++				} else
++					ok = false;
++			} else if (r < 0)
+ 				ok = false;
+-		} else if (r < 0)
+-			ok = false;
+ 
+-		gettimeofday(&tv,NULL);
+-		now = (uint64_t) tv.tv_usec + (uint64_t)((uint64_t) tv.tv_sec * (uint64_t) 1000000);
+-		if (!ok || (r < 1 && dirty && lastPaint + 250000 < now)) {
+-			textBox->setText(&txt);
+-			textBox->paint();
+-			lastPaint = now;
+-			dirty = false;
++			gettimeofday(&tv,NULL);
++			now = (uint64_t) tv.tv_usec + (uint64_t)((uint64_t) tv.tv_sec * (uint64_t) 1000000);
++			if (!ok || (r < 1 && dirty && lastPaint + 250000 < now)) {
++				textBox->setText(&txt, textBox->getWindowsPos().iWidth, false);
++				if (!textBox->isPainted())
++					if (mode & VERBOSE) textBox->paint();
++				lastPaint = now;
++				dirty = false;
++			}
++		} while(ok);
++
++		if (mode & VERBOSE) {
++			txt += "\n...ready";
++			textBox->setText(&txt, textBox->getWindowsPos().iWidth, false);
++		}
++
++		fclose(f);
++		int s;
++		errno = 0;
++		int r = waitpid(pid, &s, 0);
++
++		if (res){
++			//if res value was generated inside signal, then use foreign res from signal instead own res value
++			if (OnShellOutputLoop.empty()){
++				if (r == -1)
++					*res = errno;
++				else
++					*res = WEXITSTATUS(s);
++			}
+ 		}
+-	} while(ok);
+-
+-	fclose(f);
+-	int s;
+-	errno = 0;
+-	int r = waitpid(pid, &s, 0);
+-
+-	if (res) {
+-		if (r == -1)
+-			*res = errno;
+-		else
+-			*res = WEXITSTATUS(s);
++
++		showResult();
+ 	}
+ }
+ 
+-CShellWindow::~CShellWindow()
++void CShellWindow::showResult()
+ {
+-	if (textBox && (mode & ACKNOWLEDGE)) {
+-		int iw, ih;
+-		frameBuffer->getIconSize(NEUTRINO_ICON_BUTTON_OKAY, &iw, &ih);
+-		Font *font = g_Font[SNeutrinoSettings::FONT_TYPE_INFOBAR_SMALL];
+-		int b_width = font->getRenderWidth(g_Locale->getText(LOCALE_MESSAGEBOX_OK)) + 36 + ih + (RADIUS_LARGE / 2);
+-		int fh = font->getHeight();
+-		int b_height = std::max(fh, ih) + 8 + (RADIUS_LARGE / 2);
+-		int xpos = frameBuffer->getScreenWidth() - b_width;
+-		int ypos = frameBuffer->getScreenHeight() - b_height;
+-		frameBuffer->paintBoxRel(xpos, ypos, b_width, b_height, COL_MENUCONTENT_PLUS_0, RADIUS_LARGE);
+-		frameBuffer->paintIcon(NEUTRINO_ICON_BUTTON_OKAY, xpos + ((b_height - ih) / 2), ypos + ((b_height - ih) / 2), ih);
+-		font->RenderString(xpos + iw + 17, ypos + fh + ((b_height - fh) / 2), b_width - (iw + 21), g_Locale->getText(LOCALE_MESSAGEBOX_OK), COL_MENUCONTENT_TEXT);
+-		frameBuffer->blit();
+-
+-		neutrino_msg_t msg;
+-		neutrino_msg_data_t data;
+-		uint64_t timeoutEnd = CRCInput::calcTimeoutEnd(g_settings.timing[SNeutrinoSettings::TIMING_MENU] == 0 ? 0xFFFF : g_settings.timing[SNeutrinoSettings::TIMING_MENU]);
+-		do
+-			g_RCInput->getMsgAbsoluteTimeout(&msg, &data, &timeoutEnd);
+-		while (msg != CRCInput::RC_ok && msg != CRCInput::RC_home && msg != CRCInput::RC_timeout);
+-
+-		frameBuffer->Clear();
+-		frameBuffer->blit();
++	if (textBox){
++		bool show_button = false;
++		bool exit = false;
++
++		if (mode & ACKNOWLEDGE){
++			show_button = true;
++		}
++		else if (mode & ACKNOWLEDGE_EVENT){
++			if (*res != 0){
++				OnResultError(res);
++				if (OnResultError.empty())
++					DisplayErrorMessage("Error while execution of task. Please see window for details!");
++				show_button = true;
++			}else{
++				OnResultOk(res);
++				exit = true; //TODO: evaluate plausible statement
++			}
++		}
++
++		if ((mode & VERBOSE)){
++			if (show_button){
++				int b_width = 150;
++				int b_height = 35;
++				int xpos = frameBuffer->getScreenWidth() - b_width;
++				int ypos = frameBuffer->getScreenHeight() - b_height;
++				CComponentsButton btn(xpos, ypos, b_width, b_height, LOCALE_MESSAGEBOX_BACK, NEUTRINO_ICON_BUTTON_OKAY, NULL, true, true);
++				btn.paint();
++			}
++
++			neutrino_msg_t msg;
++			neutrino_msg_data_t data;
++			uint64_t timeoutEnd = CRCInput::calcTimeoutEnd(g_settings.timing[SNeutrinoSettings::TIMING_MENU] == 0 ? 0xFFFF : g_settings.timing[SNeutrinoSettings::TIMING_MENU]);
++
++			if (!exit)
++			{
++				do
++					g_RCInput->getMsgAbsoluteTimeout(&msg, &data, &timeoutEnd);
++				while (msg != CRCInput::RC_ok && msg != CRCInput::RC_home && msg != CRCInput::RC_timeout);
++			}
++			textBox->hide();
++		}
+ 	}
+-	if (textBox) {
+-		textBox->hide();
++}
++
++CShellWindow::~CShellWindow()
++{
++	if (textBox)
+ 		delete textBox;
+-	}
+ }
+diff --git a/src/gui/widget/shellwindow.h b/src/gui/widget/shellwindow.h
+index a7c05b7..75cbd88 100644
+--- a/src/gui/widget/shellwindow.h
++++ b/src/gui/widget/shellwindow.h
+@@ -32,17 +32,88 @@
+ 
+ #include <string>
+ #include <gui/widget/textbox.h>
++#include <sigc++/signal.h>
+ 
+-class CShellWindow
++class CShellWindow : public sigc::trackable
+ {
+-	public:
+-		enum shellwindow_modes { VERBOSE = 1, ACKNOWLEDGE = 2 };
+-		CShellWindow(const std::string &cmd, const int mode = 0, int *res = NULL);
+-		~CShellWindow();
+ 	private:
+ 		int mode;
++		std::string command;
++		int* res;
+ 		CFrameBuffer *frameBuffer;
+ 		CTextBox *textBox;
++		void showResult();
++
++	public:
++		//shell window modes for handled shell output. //NOTE: mode 0 use only system calls, with unhandled return values and no handled shell output
++		enum shellwindow_modes
++		{
++			/*SYSTEM		= 0, */
++			QUIET			= 1, // no window
++			VERBOSE 		= 2, // show window
++			ACKNOWLEDGE 		= 4, // show result button inside window after execution, no message box NOTE: only in VERBOSE mode
++			ACKNOWLEDGE_EVENT	= 8  // same like ACKNOWLEDGE but shows a default error message box or a slot handled action instead default error message box
++		};
++		CShellWindow(const std::string &Command, const int Mode = 0, int* Res = NULL, bool auto_exec = true);
++		~CShellWindow();
++		void exec();
++
++		/*!
++		signal/event handler runs on loop in exec method
++		this allows to use the shell output lines in other objects eg. for evaluation of error or status data
++		example for implamentation in your class:
++		...your code...
++			//assuming in your class is declared a member function named YourMemberFunction(std::string& arg), parameter is a string as rev:
++			//Tis function should handle the shell output!
++
++			//declare a slot with return value as 'void' and parameter as 'string', here by rev!
++			sigc::slot1<void, string&> sl_shell_output;
++
++			//fill the slot with your member function in your class that do evaluate the output lines
++			sl_shell_output = sigc::mem_fun(*this, &CYourClass::YourMemberFunction);
++
++			//create the CShellWindow object in verbose mode, important: parameter 'auto_exec' must be set to 'false', so it is possible to connect the slot before engages the exec() methode
++			CShellWindow shell(cmd, (verbose ? CShellWindow::VERBOSE : 0) | (acknowledge ? CShellWindow::ACKNOWLEDGE_MSG : 0), &res, false);
++
++			//connect slot
++			shell.OnShellOutputLoop.connect(sl_shell_output);
++
++			//now exec...
++			shell.exec();
++		...other code...
++		*/
++		sigc::signal<void, std::string*, int*, bool*> OnShellOutputLoop;
++
++		/*!
++		signal/event handler runs after task is finished.
++		NOTE: works only with ACKNOWLEDGE_EVENT mode
++		After executed task comes a default messages (see method showResult()), but with these slots it is possible to use other messages
++		or any desired action without any touching this class.
++		Example for implementation in foreign class let show an alternate message than default message:
++		...your code...
++			//assuming in your foreign class is declared a member function named YourMemberFunction() without return value and int* as parmeter This method should run
++			instead the default message.
++
++			//declare a slot with return value as 'void' and wihout any parameter
++			sigc::slot<void, int*> sl_result_err;
++
++			//fill the slot with your member function in your class with your action
++			sl_result_err = sigc::mem_fun(*this, &CYourClass::YourMemberFunction);
++
++			//create the CShellWindow object in verbose mode, important: parameter 'auto_exec' must be set to 'false', so it is possible to connect the slot before engages the exec() methode
++			CShellWindow shell(cmd, (verbose ? CShellWindow::VERBOSE : 0) | (acknowledge ? CShellWindow::ACKNOWLEDGE_MSG : 0), &res, false);
++
++			//connect slot
++			shell1.OnResultError.connect(sl_result_err);
++
++			//now exec...
++			shell.exec();
++		...other code...
++		
++		Use of OnResultOk is similar with OnResultError.
++		*/
++		sigc::signal<void, int*> OnResultError;
++		sigc::signal<void, int*> OnResultOk;
+ };
+ 
+ #endif
+diff --git a/src/neutrino.cpp b/src/neutrino.cpp
+index 4e323f4..44bb6d4 100644
+--- a/src/neutrino.cpp
++++ b/src/neutrino.cpp
+@@ -756,7 +756,9 @@ int CNeutrinoApp::loadSetup(const char * fname)
+ 	g_settings.font_file = configfile.getString("font_file", FONTDIR"/neutrino.ttf");
+ 	g_settings.ttx_font_file = configfile.getString( "ttx_font_file", FONTDIR"/DejaVuLGCSansMono-Bold.ttf");
+ 	ttx_font_file = g_settings.ttx_font_file.c_str();
++
+ 	g_settings.update_dir = configfile.getString("update_dir", "/tmp");
++	g_settings.update_dir_opkg = configfile.getString("update_dir_opkg", g_settings.update_dir);
+ 
+ 	// parentallock
+ 	if (!parentallocked) {
+@@ -1220,6 +1222,8 @@ void CNeutrinoApp::saveSetup(const char * fname)
+ 	configfile.setString("softupdate_proxypassword" , g_settings.softupdate_proxypassword );
+ 
+ 	configfile.setString("update_dir", g_settings.update_dir);
++	configfile.setString("update_dir_opkg", g_settings.update_dir_opkg);
++
+ 	configfile.setString("font_file", g_settings.font_file);
+ 	configfile.setString("ttx_font_file", g_settings.ttx_font_file);
+ 
+diff --git a/src/system/locals.h b/src/system/locals.h
+index da243e5..9919a3c 100644
+--- a/src/system/locals.h
++++ b/src/system/locals.h
+@@ -1176,6 +1176,8 @@ typedef enum
+ 	LOCALE_MENU_HINT_NEXT_BRIEF,
+ 	LOCALE_MENU_HINT_NUMERIC_ADJUST,
+ 	LOCALE_MENU_HINT_OPKG,
++	LOCALE_MENU_HINT_OPKG_FEED_ADRESSES_EDIT,
++	LOCALE_MENU_HINT_OPKG_INSTALL_LOCAL_PACKAGE,
+ 	LOCALE_MENU_HINT_OPKG_UPGRADE,
+ 	LOCALE_MENU_HINT_OSD,
+ 	LOCALE_MENU_HINT_OSD_LANGUAGE,
+@@ -1409,6 +1411,7 @@ typedef enum
+ 	LOCALE_MESSAGEBOX_CANCEL,
+ 	LOCALE_MESSAGEBOX_DISCARD,
+ 	LOCALE_MESSAGEBOX_ERROR,
++	LOCALE_MESSAGEBOX_FEATURE_NOT_SUPPORTED,
+ 	LOCALE_MESSAGEBOX_INFO,
+ 	LOCALE_MESSAGEBOX_NO,
+ 	LOCALE_MESSAGEBOX_OK,
+@@ -1823,14 +1826,21 @@ typedef enum
+ 	LOCALE_OPKG_BUTTON_INFO,
+ 	LOCALE_OPKG_BUTTON_INSTALL,
+ 	LOCALE_OPKG_BUTTON_UNINSTALL,
++	LOCALE_OPKG_ENTER_FEED_ADDRESS,
++	LOCALE_OPKG_ENTER_FEED_ADDRESS_EXAMPLE,
+ 	LOCALE_OPKG_FAILURE_INSTALL,
+ 	LOCALE_OPKG_FAILURE_UPDATE,
+ 	LOCALE_OPKG_FAILURE_UPGRADE,
++	LOCALE_OPKG_FEED_ADRESSES,
++	LOCALE_OPKG_INSTALL_LOCAL_PACKAGE,
+ 	LOCALE_OPKG_MESSAGEBOX_REINSTALL,
+ 	LOCALE_OPKG_MESSAGEBOX_REMOVE,
++	LOCALE_OPKG_MESSAGEBOX_SIZE_ERROR,
++	LOCALE_OPKG_MESSAGEBOX_UPDATES_AVAILABLE,
+ 	LOCALE_OPKG_SUCCESS_INSTALL,
+ 	LOCALE_OPKG_TITLE,
+ 	LOCALE_OPKG_UPGRADE,
++	LOCALE_OPKG_WARNING_3RDPARTY_PACKAGES,
+ 	LOCALE_OPTIONS_DEFAULT,
+ 	LOCALE_OPTIONS_FB,
+ 	LOCALE_OPTIONS_HINT_DEFAULT,
+diff --git a/src/system/locals_intern.h b/src/system/locals_intern.h
+index da18621..0655f83 100644
+--- a/src/system/locals_intern.h
++++ b/src/system/locals_intern.h
+@@ -1176,6 +1176,8 @@ const char * locale_real_names[] =
+ 	"menu.hint_next_brief",
+ 	"menu.hint_numeric_adjust",
+ 	"menu.hint_opkg",
++	"menu.hint_opkg_feed_address_edit",
++	"menu.hint_opkg_install_local_package",
+ 	"menu.hint_opkg_upgrade",
+ 	"menu.hint_osd",
+ 	"menu.hint_osd_language",
+@@ -1409,6 +1411,7 @@ const char * locale_real_names[] =
+ 	"messagebox.cancel",
+ 	"messagebox.discard",
+ 	"messagebox.error",
++	"messagebox.feature_not_supported",
+ 	"messagebox.info",
+ 	"messagebox.no",
+ 	"messagebox.ok",
+@@ -1823,14 +1826,21 @@ const char * locale_real_names[] =
+ 	"opkg.button.info",
+ 	"opkg.button.install",
+ 	"opkg.button.uninstall",
++	"opkg.enter.feed.address",
++	"opkg.enter.feed.address.example",
+ 	"opkg.failure.install",
+ 	"opkg.failure.update",
+ 	"opkg.failure.upgrade",
++	"opkg.feed.addresses",
++	"opkg.install.local.package",
+ 	"opkg.messagebox.reinstall",
+ 	"opkg.messagebox.remove",
++	"opkg.messagebox.size.error",
++	"opkg.messagebox.updates.available",
+ 	"opkg.success.install",
+ 	"opkg.title",
+ 	"opkg.upgrade",
++	"opkg.warning_3rdparty_packages",
+ 	"options.default",
+ 	"options.fb",
+ 	"options.hint_default",
+diff --git a/src/system/settings.h b/src/system/settings.h
+index 8a1a8e6..f527845 100644
+--- a/src/system/settings.h
++++ b/src/system/settings.h
+@@ -584,6 +584,9 @@ struct SNeutrinoSettings
+ 	int flashupdate_createimage_add_spare;
+ 	int flashupdate_createimage_add_kernel;
+ 
++	std::string	update_dir;
++	std::string	update_dir_opkg;
++
+ 	//BouquetHandling
+ 	int bouquetlist_mode;
+ 
+@@ -701,7 +704,7 @@ struct SNeutrinoSettings
+ 	int	sms_channel;
+ 	std::string	font_file;
+ 	std::string	ttx_font_file;
+-	std::string	update_dir;
++
+ 	// USERMENU
+ 	typedef enum
+ 	{
