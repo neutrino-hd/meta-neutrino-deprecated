@@ -10,4 +10,5 @@ IMAGE_INSTALL += " \
 	neutrino-plugin-netzkino \
 	neutrino-plugin-rss \
 	neutrino-plugin-localtv \
+	neutrino-plugin-buli \
 	"
