@@ -14,8 +14,8 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/fuse/fuse-${PV}.tar.gz \
            file://gold-unversioned-symbol.patch \
            file://aarch64.patch \
 "
-SRC_URI[md5sum] = "33cae22ca50311446400daf8a6255c6a"
-SRC_URI[sha256sum] = "0beb83eaf2c5e50730fc553406ef124d77bc02c64854631bdfc86bfd6437391c"
+SRC_URI[md5sum] = "ecb712b5ffc6dffd54f4a405c9b372d8"
+SRC_URI[sha256sum] = "6be9c0bff6af8c677414935f31699ea5a7f8f5f791cfa5205be02ea186b97ce1"
 
 inherit autotools pkgconfig
 
