@@ -38,7 +38,7 @@ PV = "${SRCPV}"
 PR = "3"
 
 SRC_URI = " \
-	git://git.slknet.de/git/neutrino-mp.git;protocol=git \
+	git://github.com/neutrino-mp/neutrino-mp.git;protocol=git \
 	file://neutrino.init \
 	file://timezone.xml \
 	file://custom-poweroff.init \
