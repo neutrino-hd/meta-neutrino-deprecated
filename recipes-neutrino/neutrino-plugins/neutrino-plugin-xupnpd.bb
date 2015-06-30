@@ -8,7 +8,7 @@ SRCREV = "${AUTOREV}"
 PV = "${SRCPV}"
 
 
-SRC_URI = "git://git.coolstreamtech.de/cst-public-plugins-scripts-lua.git \
+SRC_URI = "git://git.slknet.de/git/cst-public-plugins-scripts-lua.git \
 	   file://xupnpd_youtube.lua \
 "
 
