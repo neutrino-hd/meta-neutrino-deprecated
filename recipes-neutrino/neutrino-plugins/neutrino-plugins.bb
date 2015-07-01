@@ -21,7 +21,7 @@ EXTRA_OECONF += " \
 	--with-boxtype=coolstream \
 "
 
-EXTRA_OECONF += "${@'--with-configdir=/var/tuxbox/config' if USE_VAR = 'yes' else '--with-configdir=/etc/neutrino/config'}"
+EXTRA_OECONF += "${@'--with-configdir=/var/tuxbox/config' if USE_VAR == 'yes' else '--with-configdir=/etc/neutrino/config'}"
 
 N_CFLAGS = "-Wall -W -Wshadow -g -O2 -funsigned-char -I${STAGING_INCDIR}/freetype2"
 N_CXXFLAGS = "${N_CFLAGS}"
