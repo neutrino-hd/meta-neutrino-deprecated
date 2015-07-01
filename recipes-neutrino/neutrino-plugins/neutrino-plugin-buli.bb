@@ -5,17 +5,15 @@ HOMEPAGE = "http://www.coolstream.to/index.php?page=Thread&threadID=15040&pageNo
 MAINTAINER = "Tischi"
 DEPENDS = "lua5.2 lua-json"
 
-SRCREV = "1.3"
+SRCREV = "${AUTOREV}"
+PV = "1.6"
 PR = "1"
 
 
-SRC_URI = "file://buliliveticker.cfg \
-	   file://buliliveticker.lua \
-	   file://buliliveticker.png \
-	   file://buliliveicon.png \
+SRC_URI = "git://github.com/Tischi81/BuliliveTicker.git \
 "
 
-S = "${WORKDIR}/"
+S = "${WORKDIR}/git"
 
 do_install () {
 	install -d ${D}/var/tuxbox/plugins
