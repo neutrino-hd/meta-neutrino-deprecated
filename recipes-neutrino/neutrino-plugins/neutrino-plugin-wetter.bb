@@ -5,7 +5,8 @@ HOMEPAGE = "http://www.coolstream.to/index.php?page=Thread&threadID=15384&pageNo
 MAINTAINER = "Tischi"
 DEPENDS = "lua5.2 lua-json"
 
-SRCREV = "${AUTOREV}"
+SRCREV = "674e3c32b2f95cbb59c5ea112d9e89a82a85caf1"
+#SRCREV = "${AUTOREV}"
 PV = "1.2"
 PR = "1"
 
