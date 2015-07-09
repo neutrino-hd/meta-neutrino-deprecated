@@ -6,7 +6,7 @@ MAINTAINER = "Tischi"
 DEPENDS = "lua5.2 lua-json"
 
 SRCREV = "${AUTOREV}"
-PV = "1.6"
+PV = "1.7"
 PR = "1"
 
 
