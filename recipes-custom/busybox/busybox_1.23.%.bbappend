@@ -6,6 +6,7 @@ SRC_URI += " \
 	file://telnetd.busybox \
 	file://hostname.script \
 	file://inetd.conf \
+	file://syslog.conf \
 "
 
 PACKAGES_prepend += "${PN}-inetd \
@@ -37,6 +38,7 @@ do_install_append() {
 		# the directory was created already before in do_install()
 		install -m 0755 ${WORKDIR}/hostname.script ${D}${sysconfdir}/udhcpc.d/51hostname
 	fi
+	install -m 0644 ${WORKDIR}/syslog.conf ${D}${sysconfdir}/syslog.conf
 }
 
 pkg_prerm_${PN}-telnetd () {
