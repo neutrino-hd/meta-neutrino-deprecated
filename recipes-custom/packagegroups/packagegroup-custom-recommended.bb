@@ -35,6 +35,7 @@ RDEPENDS_packagegroup-custom-recommended ?= "\
     minidlna \
     util-linux-blkid \
     wpa-supplicant \
+    sysklogd \
     "
 
 RDEPENDS_packagegroup-custom-recommended += "${@'' if USE_VAR == 'yes' else 'etckeeper'}"
