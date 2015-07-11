@@ -63,6 +63,10 @@ do_install_append () {
     fi
 }
 
+pkg_postinst_${PN} () {
+echo "mkdir /media/nfs" >> /etc/init.d/aa_media-tmpfs.sh
+}
+
 INSANE_SKIP_${PN} = "dev-so"
 
 RPROVIDES_${PN} += "${PN}-systemd"
