@@ -38,6 +38,6 @@ RDEPENDS_packagegroup-custom-recommended ?= "\
     sysklogd \
     "
 
-RDEPENDS_packagegroup-custom-recommended += "${@'' if USE_VAR == 'yes' else 'etckeeper'}"
+RDEPENDS_packagegroup-custom-recommended += "${@'' if USE_ETC != 'yes' else 'etckeeper'}"
     
 
