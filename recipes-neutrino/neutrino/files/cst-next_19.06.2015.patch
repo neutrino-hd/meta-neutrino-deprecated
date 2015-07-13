@@ -6040,18 +6040,18 @@ index 52d737f..0523d6b 100644
 --- a/src/system/settings.h
 +++ b/src/system/settings.h
 @@ -93,6 +93,7 @@ struct SNeutrinoTheme
- 	unsigned char menu_Content_inactive_Text_blue;
+        unsigned char menu_Content_inactive_Text_blue;
  
- 	int menu_Hint_gradient;
-+	int menu_ButtonBar_gradient;
+        int menu_Hint_gradient;
++       int menu_ButtonBar_gradient;
  
- 	unsigned char infobar_alpha;
- 	unsigned char infobar_red;
+        unsigned char infobar_alpha;
+        unsigned char infobar_red;
 @@ -124,7 +125,6 @@ struct SNeutrinoTheme
- 	unsigned char clock_Digit_red;
- 	unsigned char clock_Digit_green;
- 	unsigned char clock_Digit_blue;
--	int gradient_c2c;
+        unsigned char clock_Digit_red;
+        unsigned char clock_Digit_green;
+        unsigned char clock_Digit_blue;
+-       int gradient_c2c;
  };
  
- struct SNeutrinoSettings
+
