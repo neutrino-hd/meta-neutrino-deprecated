@@ -25,18 +25,18 @@ RDEPENDS_packagegroup-custom-recommended ?= "\
     mc-helpers \
     mc-helpers-perl \
     mc-helpers-python \
+    minidlna \
     nano \
     nfs-utils \
     nfs-utils-client \
     openssh \
     rpcbind \
     samba \
+    sysklogd \
     tmux \
-    minidlna \
     util-linux-blkid \
     wpa-supplicant \
-    sysklogd \
-    "
+"
 
 RDEPENDS_packagegroup-custom-recommended += "${@'' if USE_ETC != 'yes' else 'etckeeper'}"
     
