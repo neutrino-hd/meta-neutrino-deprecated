@@ -13,4 +13,3 @@ alias u='opkg update && opkg upgrade'
 # aliases for old farts who can't remember new names :)
 alias fcp='flashcp -v'
 alias eraseall=flash_eraseall
-

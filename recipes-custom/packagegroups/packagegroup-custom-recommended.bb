@@ -19,23 +19,25 @@ RDEPENDS_packagegroup-custom-recommended ?= "\
     cifs-utils \
     htop \
     libevent \
+    logrotate \
     mc \
     mc-fish \
     mc-helpers \
     mc-helpers-perl \
     mc-helpers-python \
+    minidlna \
     nano \
     nfs-utils \
     nfs-utils-client \
     openssh \
     rpcbind \
     samba \
+    sysklogd \
     tmux \
-    minidlna \
     util-linux-blkid \
     wpa-supplicant \
-    "
+"
 
-RDEPENDS_packagegroup-custom-recommended += "${@'' if USE_VAR == 'yes' else 'etckeeper'}"
+RDEPENDS_packagegroup-custom-recommended += "${@'' if USE_ETC != 'yes' else 'etckeeper'}"
     
 

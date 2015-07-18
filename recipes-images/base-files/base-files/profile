@@ -49,20 +49,25 @@ opkg () {
 	BOLD=$(echo -e '\033[1m');
 	NORM=$(echo -e '\033[0m');
 	COL="no";
-	for arg in $*; do
-		if [ $arg == "whatdepends" -o $arg == "list" \
-		-o $arg == "list-installed" -o $arg == "list-upgradable" \
-		-o $arg == "list-changed-conffiles" -o $arg == "status" \
-		-o $arg == "info" -o $arg == "find" ]; then
-			COL="yes";
-			break;
-		fi
-	done
-	if [ $COL == "yes" ]; then
-		# (|\t*) added for 'whatdepends'
-		/usr/bin/opkg $* | sed -re "s/^(|\t*)[a-z0-9-]*/$BOLD&$NORM/g";
-	else
-		/usr/bin/opkg $*;
+	KEEP="no";
+        for arg in $*; do
+                if [ $arg == "whatdepends" -o $arg == "list" \
+                -o $arg == "list-installed" -o $arg == "list-upgradable" \
+                -o $arg == "list-changed-conffiles" -o $arg == "status" \
+                -o $arg == "info" -o $arg == "find" ]; then
+                        COL="yes";
+                        break;
+                elif [ $arg == "upgrade" -o $arg == "install" -o $arg == "remove" ]; then
+                        KEEP="yes";
+                        break;
+                fi
+        done
+        if [ $COL == "yes" ]; then
+                # (|\t*) added for 'whatdepends'
+                /usr/bin/opkg $* | sed -re "s/^(|\t*)[a-z0-9-]*/$BOLD&$NORM/g";
+        elif [ $KEEP == "yes" ]; then
+                etckeeper pre-install && /usr/bin/opkg $* && etckeeper post-install;
+        else /usr/bin/opkg $*;
 	fi
 }
 
