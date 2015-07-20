@@ -21,13 +21,14 @@ CONFIG=/etc/sysconfig/crond
 # Source function library.
 . /etc/init.d/functions
 
-# start git init in a cronjob after system init has finished
-if [ -f /var/update/.newimage ];then
-(crontab -l 2>/dev/null; echo "@reboot /etc/init.d/create_etc.sh") | crontab -
-fi
-
 case "$1" in
   start)
+    if [ -f /etc/init.d/create_etc.sh ];then
+        if [ ! "$(crontab -l | grep "@reboot /etc/init.d/create_etc.sh")" ];then
+        echo -e "adding a reboot cronjob for create_etc.sh"
+        (crontab -l 2>/dev/null; echo "@reboot /etc/init.d/create_etc.sh") | crontab -
+        fi
+    fi
     echo -n "Starting crond: "
     start-stop-daemon --start --quiet --exec $CROND -- $CRONDARGS
     RETVAL=$?
