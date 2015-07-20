@@ -29,6 +29,22 @@ case "$1" in
         (crontab -l 2>/dev/null; echo "@reboot /etc/init.d/create_etc.sh") | crontab -
         fi
     fi
+    if [ ! "$(crontab -l | grep "cd / && run-parts /etc/cron.hourly")" ];then
+    echo -e "adding a cronjob for /etc/cron.hourly"
+    (crontab -l 2>/dev/null; echo "1   *     * * *    root        cd / && run-parts /etc/cron.hourly") | crontab -
+    fi
+    if [ ! "$(crontab -l | grep "cd / && run-parts /etc/cron.daily")" ];then
+    echo -e "adding a cronjob for /etc/cron.daily"
+    (crontab -l 2>/dev/null; echo "30   7     * * *    root        cd / && run-parts /etc/cron.daily") | crontab -
+    fi
+    if [ ! "$(crontab -l | grep "cd / && run-parts /etc/cron.weekly")" ];then
+    echo -e "adding a cronjob for /etc/cron.weekly"
+    (crontab -l 2>/dev/null; echo "42   7     * * 7    root        cd / && run-parts /etc/cron.weekly") | crontab -
+    fi
+    if [ ! "$(crontab -l | grep "cd / && run-parts /etc/cron.monthly")" ];then
+    echo -e "adding a cronjob for /etc/cron.monthly"
+    (crontab -l 2>/dev/null; echo "55   7     1 * *    root        cd / && run-parts /etc/cron.monthly") | crontab -
+    fi
     echo -n "Starting crond: "
     start-stop-daemon --start --quiet --exec $CROND -- $CRONDARGS
     RETVAL=$?
