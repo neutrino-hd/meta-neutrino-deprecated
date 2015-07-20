@@ -16,4 +16,3 @@ else
 	git commit -m "initial commit"
 	git push origin master
 fi
-
