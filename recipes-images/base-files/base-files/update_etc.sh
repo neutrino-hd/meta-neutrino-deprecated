@@ -6,7 +6,7 @@ if [ -e GIT_URL ];then
 		git config --system core.editor "nano"
 		git config --system http.sslverify false
 	fi
-        if [ "$(cd GIT_URL && git log --pretty=format:"%cd")" == "$(cd /etc && git log --pretty=format:"%cd")" ];then
+        if [ "$(cd GIT_URL && git log -1 --pretty=format:"%cd")" == "$(cd /etc && git log -1 --pretty=format:"%cd")" ];then
                 exit
         fi
 	cd /etc && etckeeper init
