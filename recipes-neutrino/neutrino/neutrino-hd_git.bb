@@ -48,10 +48,6 @@ SRC_URI = "git://git.slknet.de/git/cst-public-gui-neutrino.git;branch=cst-next \
 	file://0001-configure_fix.patch \
 	file://0002-write_nameserver_into_interfaces.patch \
 	file://0007-set-image-version.patch \
-<<<<<<< HEAD
-=======
-	file://cst-next_opkg_11.06.2015.patch \
->>>>>>> origin
 "
 
 SRC_URI_append_coolstream-hd1 = " \
@@ -105,7 +101,6 @@ do_install_append() {
 	ln -s ${datadir}/tuxbox ${D}/share/
 	ln -s ${datadir}/fonts  ${D}/share/
 	ln -s ${sysconfdir}/neutrino/config ${D}${localstatedir}/tuxbox/config
-	mv ${D}${sysconfdir}/neutrino/config/bad_package_pattern.list.sample ${D}${sysconfdir}/neutrino/config/bad_package_pattern.list
 }
 
 FILES_${PN} += "\
