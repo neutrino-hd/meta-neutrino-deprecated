@@ -122,7 +122,9 @@ FILES_${PN} += "\
 "
 
 pkg_preinst_${PN} () {
-mv /etc/neutrino/config/zapit/frontend.conf /etc/neutrino/config/zapit/frontend.conf.orig
+	if [ -f /etc/neutrino/config/zapit/frontend.conf ];then
+		mv /etc/neutrino/config/zapit/frontend.conf /etc/neutrino/config/zapit/frontend.conf.orig
+	fi
 }
 
 pkg_postinst_${PN} () {
@@ -134,7 +136,9 @@ pkg_postinst_${PN} () {
 		# neutrino icon path
 		I=/usr/share/tuxbox/neutrino/icons
 		pic2m2v $I/mp3.jpg $I/radiomode.jpg $I/scan.jpg $I/shutdown.jpg $I/start.jpg
-	fi	 
-mv /etc/neutrino/config/zapit/frontend.conf.orig /etc/neutrino/config/zapit/frontend.conf
+	fi
+	if [ -f /etc/neutrino/config/zapit/frontend.conf.orig ];then 
+		mv /etc/neutrino/config/zapit/frontend.conf.orig /etc/neutrino/config/zapit/frontend.conf
+	fi
 }
 
