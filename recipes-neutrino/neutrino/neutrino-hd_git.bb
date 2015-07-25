@@ -121,6 +121,10 @@ FILES_${PN} += "\
 	/var/httpd/styles \
 "
 
+pkg_preinst_${PN} () {
+mv /etc/neutrino/config/zapit/frontend.conf /etc/neutrino/config/zapit/frontend.conf.orig
+}
+
 pkg_postinst_${PN} () {
 	update-alternatives --install /bin/backup.sh backup.sh /usr/bin/backup.sh 100
 	update-alternatives --install /bin/install.sh install.sh /usr/bin/install.sh 100
@@ -130,5 +134,7 @@ pkg_postinst_${PN} () {
 		# neutrino icon path
 		I=/usr/share/tuxbox/neutrino/icons
 		pic2m2v $I/mp3.jpg $I/radiomode.jpg $I/scan.jpg $I/shutdown.jpg $I/start.jpg
-	fi
+	fi	 
+mv /etc/neutrino/config/zapit/frontend.conf.orig /etc/neutrino/config/zapit/frontend.conf
 }
+
