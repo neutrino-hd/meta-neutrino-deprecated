@@ -1,0 +1,29 @@
+From f8481d44b22a5c3e591bd67a736c54ee6d18baa7 Mon Sep 17 00:00:00 2001
+From: MarkusVolk <f_l_k@t-online.de>
+Date: Sun, 26 Jul 2015 08:45:35 +0200
+Subject: [PATCH 1349/1349] rcsim.c: fix eventdev for yocto
+
+Signed-off-by: MarkusVolk <f_l_k@t-online.de>
+---
+ src/rcsim.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/src/rcsim.c b/src/rcsim.c
+index 2ae56a3..8cc7e14 100644
+--- a/src/rcsim.c
++++ b/src/rcsim.c
+@@ -39,10 +39,8 @@
+ /* if you want use HAVE_XX_HARDWARE, better include config.h :-) */
+ #include "config.h"
+ 
+-#if defined(HAVE_DBOX_HARDWARE)
++#if defined HAVE_DBOX_HARDWARE || defined HAVE_COOL_HARDWARE
+ #define EVENTDEV "/dev/input/event0"
+-#elif defined (HAVE_COOL_HARDWARE)
+-#define EVENTDEV "/dev/input/input0"
+ #else
+ /* dreambox and tripledragon do not use a "normal" input device, so we cannot
+    (ab-)use the event repeating function of it. use the neutrino socket instead. */
+-- 
+2.1.4
+
