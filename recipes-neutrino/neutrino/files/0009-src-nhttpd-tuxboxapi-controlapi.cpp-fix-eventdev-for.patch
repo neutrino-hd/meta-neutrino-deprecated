@@ -1,0 +1,27 @@
+From 44121a9da4047b9952ba652c969d7b373f6aa577 Mon Sep 17 00:00:00 2001
+From: MarkusVolk <f_l_k@t-online.de>
+Date: Sun, 26 Jul 2015 11:12:20 +0200
+Subject: [PATCH 1361/1361] src/nhttpd/tuxboxapi/controlapi.cpp: fix eventdev
+ for yocto
+
+Signed-off-by: MarkusVolk <f_l_k@t-online.de>
+---
+ src/nhttpd/tuxboxapi/controlapi.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/nhttpd/tuxboxapi/controlapi.cpp b/src/nhttpd/tuxboxapi/controlapi.cpp
+index 247cb64..e1688d2 100644
+--- a/src/nhttpd/tuxboxapi/controlapi.cpp
++++ b/src/nhttpd/tuxboxapi/controlapi.cpp
+@@ -57,7 +57,7 @@ extern cVideo * videoDecoder;
+ 
+ extern CPlugins *g_PluginList;//for relodplugins
+ extern CBouquetManager *g_bouquetManager;
+-#define EVENTDEV "/dev/input/input0"
++#define EVENTDEV "/dev/input/event0"
+ 
+ //-----------------------------------------------------------------------------
+ //=============================================================================
+-- 
+2.1.4
+
