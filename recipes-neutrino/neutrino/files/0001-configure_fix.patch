@@ -1,15 +1,15 @@
-From 58fe47d01f4d25a04ac044a53a0a3365032dde7a Mon Sep 17 00:00:00 2001
-From: Markus Volk <f_l_k@gmx.net>
-Date: Fri, 27 Mar 2015 07:35:11 +0100
-Subject: [PATCH 0001/0001] configure_ac.patch
+From 735eb83e3f77f2bddfc425ec7d5daed28fdffd98 Mon Sep 17 00:00:00 2001
+From: MarkusVolk <f_l_k@t-online.de>
+Date: Mon, 27 Jul 2015 21:34:17 +0200
+Subject: [PATCH 1362/1362] configure_fix
 
-Signed-off-by: Markus Volk <f_l_k@gmx.net>
+Signed-off-by: MarkusVolk <f_l_k@t-online.de>
 ---
- configure.ac | 22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
+ configure.ac | 24 ++++++++++++------------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
 
 diff --git a/configure.ac b/configure.ac
-index 97b7455..b3d4c92 100644
+index 292cf82..768ea64 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -54,7 +54,7 @@ if test "$TREMOR_STATIC" = "yes"; then
@@ -21,7 +21,7 @@ index 97b7455..b3d4c92 100644
  	AC_DEFINE(USE_TREMOR,1,use libvorbisidec/tremor library)
  fi
  
-@@ -65,20 +65,20 @@ fi
+@@ -65,21 +65,21 @@ fi
  
  TUXBOX_APPS_LIB_PKGCONFIG_CHECK(ID3TAG,libid3tag)
  if test x"$ID3TAG_EXISTS" != xyes; then
@@ -40,19 +40,21 @@ index 97b7455..b3d4c92 100644
 -	TUXBOX_APPS_LIB_PKGCONFIG(OGG,ogg)
 +	TUXBOX_APPS_LIB_PKGCONFIG_CHECK(OGG,ogg)
  fi
+-TUXBOX_APPS_LIB_PKGCONFIG(SWRESAMPLE,libswresample)
++TUXBOX_APPS_LIB_PKGCONFIG_CHECK(SWRESAMPLE,libswresample)
  else
 -TUXBOX_APPS_LIB_PKGCONFIG(SWRESAMPLE,libswresample)
 +TUXBOX_APPS_LIB_PKGCONFIG_CHECK(SWRESAMPLE,libswresample)
  fi
  
  if test "$BOXTYPE" = "tripledragon"; then
-@@ -88,14 +88,14 @@ fi
+@@ -89,14 +89,14 @@ fi
  AM_CONDITIONAL(USE_TREMOR, test "$TREMOR" = "yes")
  
  # TUXBOX_APPS_LIB_PKGCONFIG(OPENSSL,openssl)
 -TUXBOX_APPS_LIB_CONFIG(CURL,curl-config)
 -TUXBOX_APPS_LIB_CONFIG(FREETYPE,freetype-config)
-+TUXBOX_APPS_LIB_PKGCONFIG_CHECK(CURL,libcurl)
++TUXBOX_APPS_LIB_CONFIG_CHECK(CURL,curl-config)
 +TUXBOX_APPS_LIB_PKGCONFIG(FREETYPE,freetype2)
  
  TUXBOX_APPS_LIB_PKGCONFIG(PNG,libpng)
