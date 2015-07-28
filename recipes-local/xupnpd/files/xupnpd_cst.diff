@@ -1,5 +1,5 @@
---- a/xupnpd.lua	2014-05-01 16:44:16.000000000 +0200
-+++ b/xupnpd.lua	2014-05-01 16:51:30.424628163 +0200
+--- a/xupnpd.lua	2015-07-26 16:45:06.823006000 +0200
++++ b/xupnpd.lua	2015-07-26 16:51:06.897652086 +0200
 @@ -1,13 +1,13 @@
  cfg={}
  
@@ -90,22 +90,21 @@
  --    { 'youtube',        'Drift0r',              'Drift0r' },
  --    { 'youtube',        'XboxAhoy',             'XboxAhoy' },
  --    { 'ag',             'videos',               'AG - New' },
-@@ -97,6 +100,8 @@
+@@ -97,6 +100,9 @@
  --    { 'gametrailers',   'ps3',                   'GT - PS3' },
  --    { 'giantbomb',      'all',                  'GiantBomb - All' },
  --    { 'dreambox',       'http://192.168.0.1:8001/','Dreambox1' },
 +    { 'coolstream',     'localhost', 'CST' },
++    { 'youporn',        'top_rated',            'YouPorn - Top Rated' },
 +--    { 'coolstream',       '172.16.1.10', 'CST-Remote' },
  }
  
  -- log ident, pid file end www root
-@@ -107,8 +112,8 @@
- cfg.tmp_path='/tmp/'
+@@ -108,7 +114,7 @@
  cfg.plugin_path='./plugins/'
  cfg.config_path='./config/'
--cfg.playlists_path='./playlists/'
+ cfg.playlists_path='./playlists/'
 ---cfg.feeds_path='/tmp/xupnpd-feeds/'
-+cfg.playlists_path='./playlists/'
 +cfg.feeds_path='/tmp/xupnpd-feeds/'
  cfg.ui_path='./ui/'
  cfg.drive=''                    -- reload playlists only if drive state=active/idle, example: cfg.drive='/dev/sda'

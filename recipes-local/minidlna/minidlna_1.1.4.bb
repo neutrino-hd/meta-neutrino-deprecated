@@ -36,3 +36,15 @@ do_install_append() {
 	install -m 644 ${WORKDIR}/minidlna-${DISTRO}.conf ${D}${sysconfdir}/minidlna.conf
 	install -m 755 ${WORKDIR}/init ${D}${sysconfdir}/init.d/${PN}
 }
+
+pkg_preinst_${PN} () {
+	if [ -f /etc/minidlna.conf ];then
+		mv /etc/minidlna.conf /etc/minidlna.conf.orig
+	fi
+}
+
+pkg_postinst_${PN} () {
+if [ -f /etc/minidlna.conf.orig ];then
+		mv /etc/minidlna.conf.orig /etc/minidlna.conf
+	fi
+}

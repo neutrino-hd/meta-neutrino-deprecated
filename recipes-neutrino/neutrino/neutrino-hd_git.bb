@@ -48,6 +48,9 @@ SRC_URI = "git://git.slknet.de/git/cst-public-gui-neutrino.git;branch=cst-next \
 	file://0001-configure_fix.patch \
 	file://0002-write_nameserver_into_interfaces.patch \
 	file://0007-set-image-version.patch \
+	file://0008-rcsim.c-fix-eventdev-for-yocto.patch \
+	file://0009-src-nhttpd-tuxboxapi-controlapi.cpp-fix-eventdev-for.patch \
+	file://0010-nhttpd-adjust-some-paths.patch \
 "
 
 SRC_URI_append_coolstream-hd1 = " \
@@ -121,6 +124,12 @@ FILES_${PN} += "\
 	/var/httpd/styles \
 "
 
+pkg_preinst_${PN} () {
+	if [ -f /etc/neutrino/config/zapit/frontend.conf ];then
+		mv /etc/neutrino/config/zapit/frontend.conf /etc/neutrino/config/zapit/frontend.conf.orig
+	fi
+}
+
 pkg_postinst_${PN} () {
 	update-alternatives --install /bin/backup.sh backup.sh /usr/bin/backup.sh 100
 	update-alternatives --install /bin/install.sh install.sh /usr/bin/install.sh 100
@@ -131,4 +140,8 @@ pkg_postinst_${PN} () {
 		I=/usr/share/tuxbox/neutrino/icons
 		pic2m2v $I/mp3.jpg $I/radiomode.jpg $I/scan.jpg $I/shutdown.jpg $I/start.jpg
 	fi
+	if [ -f /etc/neutrino/config/zapit/frontend.conf.orig ];then 
+		mv /etc/neutrino/config/zapit/frontend.conf.orig /etc/neutrino/config/zapit/frontend.conf
+	fi
 }
+
