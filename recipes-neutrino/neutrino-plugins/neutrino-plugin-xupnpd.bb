@@ -14,10 +14,6 @@ SRC_URI = "git://git.slknet.de/git/cst-public-plugins-scripts-lua.git \
 
 S = "${WORKDIR}/git"
 
-do_configure_prepend() {
-		sed -i "s|xxxxxxxxxxxxxxx|${YT_DEV_KEY}|" ${WORKDIR}/xupnpd_youtube.lua
-}
-
 do_install () {
 	install -d ${D}/usr/share/xupnpd/plugins
 	install -m 644 ${S}/xupnpd/xupnpd_18plus.lua ${D}/usr/share/xupnpd/plugins/
