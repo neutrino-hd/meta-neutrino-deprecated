@@ -25,11 +25,11 @@ do_install_append() {
         install -m 755 ${WORKDIR}/ntpdate ${D}/${sysconfdir}/network/if-up.d
 }
 
-FILES_${PN}-bin = "${bindir}/ntp-wait ${bindir}/ntpdc ${bindir}/ntpq ${bindir}/ntptime ${bindir}/ntptrace ${bindir}/ntpsweep ${bindir}/sntp"
-FILES_${PN} = "${sbindir}/ntpd ${sysconfdir}/ntp.conf ${sysconfdir}/init.d/ntpd"
-FILES_${PN}-tickadj = "${sbindir}/tickadj ${sbindir}/calc_tickadj"
-FILES_ntp-utils = "${sbindir}/* ${libdir}/ntp ${datadir}/ntp"
-FILES_ntpdate = "${sbindir}/ntpdate ${sysconfdir}/network/if-up.d/ntpdate"
+FILES_${PN}-bin = "${bindir}/ntp-wait ${bindir}/ntpdc ${bindir}/ntpq ${bindir}/ntptime ${bindir}/ntptrace ${bindir}/ntpsweep ${bindir}/sntp ${sbindir}"
+FILES_${PN} = "${bindir}/ntpd ${sysconfdir}/ntp.conf ${sysconfdir}/init.d/ntpd"
+FILES_${PN}-tickadj = "${bindir}/tickadj ${bindir}/calc_tickadj"
+FILES_ntp-utils = "${bindir}/* ${libdir}/ntp ${datadir}/ntp"
+FILES_ntpdate = "${bindir}/ntpdate ${sysconfdir}/network/if-up.d/ntpdate"
 
 # ntp originally includes tickadj. It's split off for inclusion in small firmware images on platforms
 # with wonky clocks (e.g. OpenSlug)
@@ -42,9 +42,9 @@ pkg_postinst_ntpdate() {
 if test "x$D" != "x"; then
         exit 1
 else
-        if ! grep -q -s ntpdate /etc/crontab; then
-                echo "adding crontab"
-		echo " 30  * 	* * *	root	/usr/sbin/ntpdate -b -s -u 0.de.pool.ntp.org" >> /etc/crontab
+        if ! grep -q -s ntpdate /var/spool/cron/root; then
+                echo "adding cronjob"
+		(crontab -l 2>/dev/null; echo "30  * 	* * *	root	/usr/bin/ntpdate -b -s -u 0.de.pool.ntp.org") | crontab -
         fi
 fi
 }
