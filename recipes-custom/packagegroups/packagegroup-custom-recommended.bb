@@ -27,8 +27,10 @@ RDEPENDS_packagegroup-custom-recommended ?= "\
     mc-helpers-python \
     minidlna \
     nano \
+    neutrino-plugin-logo \
     nfs-utils \
     nfs-utils-client \
+    ng-logos \
     openssh \
     rpcbind \
     samba \
