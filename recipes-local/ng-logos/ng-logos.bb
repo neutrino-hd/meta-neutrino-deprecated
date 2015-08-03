@@ -19,6 +19,6 @@ FILES_${PN} = "\
     /usr/share/tuxbox/neutrino/icons/logo \
 "
 
-SRC_URI[md5sum] = "6113d1c4cb4717d651924639a460ba41"
-SRC_URI[sha256sum] = "5549e6e2ac598a9e951396c01fa6ee93b7125f695a2b0eb2e1a219fbc0bce1e3"
+SRC_URI[md5sum] = "f97aeab4484530ac47628cf0db791fe6"
+SRC_URI[sha256sum] = "774dd03bac4ed43c52bc2fedae832b6ba558085fd7d40f48e8d8211923cadf2f"
 
