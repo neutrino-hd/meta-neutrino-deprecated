@@ -11,6 +11,7 @@ PR = "r1"
 SRC_URI = "file://logo-addon.sh \
 	   file://logo-addon_hint.png \
 	   file://logo-addon.cfg \
+	   file://license \
 "
 
 do_install () {
