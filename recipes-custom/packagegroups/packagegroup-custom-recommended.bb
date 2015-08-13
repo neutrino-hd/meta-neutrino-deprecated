@@ -32,6 +32,7 @@ RDEPENDS_packagegroup-custom-recommended ?= "\
     nfs-utils-client \
     ng-logos \
     openssh \
+    openssl \
     rpcbind \
     samba \
     sysklogd \
