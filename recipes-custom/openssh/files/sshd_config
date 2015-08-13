@@ -36,11 +36,9 @@ Protocol 2
 #LogLevel INFO
 
 # Authentication:
-
-Banner /etc/ssh/sshd_banner
 #LoginGraceTime 2m
 PermitRootLogin yes
-#StrictModes yes
+StrictModes no
 #MaxAuthTries 6
 #MaxSessions 10
 
@@ -59,11 +57,11 @@ PermitRootLogin yes
 #IgnoreRhosts yes
 
 # To disable tunneled clear text passwords, change to no here!
-#PasswordAuthentication yes
+PasswordAuthentication yes
 #PermitEmptyPasswords no
 
 # Change to no to disable s/key passwords
-#ChallengeResponseAuthentication yes
+ChallengeResponseAuthentication no
 
 # Kerberos options
 #KerberosAuthentication no
@@ -109,6 +107,7 @@ ClientAliveCountMax 4
 
 # no default banner path
 #Banner none
+Banner /etc/ssh/sshd_banner
 
 # override default of no subsystems
 Subsystem	sftp	/usr/libexec/sftp-server

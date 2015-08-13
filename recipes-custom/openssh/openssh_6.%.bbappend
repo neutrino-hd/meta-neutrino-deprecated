@@ -6,7 +6,7 @@ SRC_URI += "file://sshd_config \
 "
 
 # no compile problems with uclibc here. therefore overriding default bb settings
-EXTRA_OECONF_append_libc-uclibc=" --with-pam"
+EXTRA_OECONF_append_coolstream-hd2 = " --with-pam"
 
 do_install_append () {
 	sed -i "s|yocto|${MACHINE}|" ${WORKDIR}/sshd_banner
