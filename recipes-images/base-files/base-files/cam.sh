@@ -22,7 +22,7 @@ cam_start() {
 
 cam_stop() {
 	echo -n "Stopping $DESC: "
-	killall -9 $NAME
+	killall  $NAME
 	echo "done."
 	
 }
