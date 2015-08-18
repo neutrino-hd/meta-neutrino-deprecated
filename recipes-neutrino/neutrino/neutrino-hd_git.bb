@@ -98,6 +98,10 @@ do_install_prepend () {
 	update-rc.d -r ${D} custom-poweroff start 89 0 .
 }
 
+do_install_append () {
+	install -d ${D}/${sysconfdir}/neutrino/bin
+}
+
 # compatibility with binaries hand-built with --prefix=
 do_install_append() {
 	install -d ${D}/share

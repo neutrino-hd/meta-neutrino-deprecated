@@ -82,7 +82,9 @@ do_install_prepend_coolstream-hd2 () {
 
 do_install_append_coolstream-hd1 () {
 	install -d ${D}${base_libdir} ${D}${libdir} ${D}${localstatedir}/update ${D}${sysconfdir}/init.d
+	install -m 755 ${S}/local.sh ${D}${sysconfdir}/init.d/local.sh
 	install -m 755 ${S}/cam.sh ${D}${sysconfdir}/init.d/cam.sh
+	update-rc.d -r ${D} local.sh start 40 S .
 	update-rc.d -r ${D} cam.sh start 60 5 .
 	# hack to get better compatibility for precompiled binaries on the nevis platform
 	ln -s ./libcrypto.so.1.0.0 ${D}${base_libdir}/libcrypto.so.0.9.8
