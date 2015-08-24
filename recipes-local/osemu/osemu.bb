@@ -10,6 +10,7 @@ SRC_URI[sha256sum] = "5dd2e1bb7a82798a325d947d7fd77f383e47c68d2582a0953020e3bc57
 DEPENDS = ""
 
 SRCREV = "${AUTOREV}"
+PV = "${SRCPV}"
 PR = "r1"
 
 SRC_URI = " \
