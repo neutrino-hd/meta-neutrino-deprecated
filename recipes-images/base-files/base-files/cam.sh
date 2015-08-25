@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # Home Sharing script
 #
@@ -7,24 +7,31 @@
 #
 # Inactive by default. Fill the gaps, and link to /etc/rc5.d to activate.
 
-PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/var/bin:
+PATH=/usr/bin:/bin:/var/bin
 DAEMON=doscam
 DAEMON_OPTS="-b"
-NAME=doscam
-DESC=
+DAEMON1=osemu
+DAEMON1_OPTS="-a user:password -p 11000 -b"
 
 cam_start() {
-	echo -n "Starting $DESC: "
-	$DAEMON $DAEMON_OPTS 	
-	echo "done."
-	
+	if [ -e /usr/bin/$DAEMON1 ];then
+	echo -n "Starting $DAEMON1 "
+	$DAEMON1 $DAEMON1_OPTS
+	sleep 2
+	fi
+	echo -n "Starting $DAEMON "
+	$DAEMON $DAEMON_OPTS
+	echo -e "\ndone."
 }
 
 cam_stop() {
-	echo -n "Stopping $DESC: "
-	killall  $NAME
-	echo "done."
-	
+	if [ -e /usr/bin/$DAEMON1 ];then
+	echo -n -e "Stopping $DAEMON1\n"
+	killall $DAEMON1
+	fi
+	echo -n "Stopping $DAEMON "
+	killall $DAEMON
+	echo -e "\ndone."
 }
 
 case $1 in
@@ -39,7 +46,7 @@ restart)
 	sleep 2
 	cam_start
 	sleep 2
-	/usr/bin/pzapit -rz
+	pzapit -rz
 	;;
 init)
 	sleep 2
@@ -47,7 +54,6 @@ init)
 	if grep lastChannelTVScrambled=true /etc/neutrino/config/zapit/zapit.conf
 	then
 		sleep 5
-		/usr/bin/pzapit -rz
-	fi	
+		pzapit -rz
+	fi
 esac
-
