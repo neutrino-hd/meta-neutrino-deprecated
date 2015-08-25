@@ -1,15 +1,15 @@
-From 32db1626d610c9d269e3416acda831bb832b34f8 Mon Sep 17 00:00:00 2001
+From 164b1ec88da0bf7ac28929226ef796b5bf147480 Mon Sep 17 00:00:00 2001
 From: MarkusVolk <f_l_k@t-online.de>
-Date: Mon, 24 Aug 2015 22:32:04 +0200
+Date: Tue, 25 Aug 2015 10:21:20 +0200
 Subject: [PATCH] Makefile
 
 Signed-off-by: MarkusVolk <f_l_k@t-online.de>
 ---
- Makefile | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Makefile | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/Makefile b/Makefile
-index 321e21a..572b3ee 100755
+index 321e21a..9682b2c 100755
 --- a/Makefile
 +++ b/Makefile
 @@ -8,7 +8,7 @@ CFLAGS=-I. -O3 -funroll-loops -fomit-frame-pointer -mmmx -msse -msse2 -msse3
@@ -21,6 +21,4 @@ index 321e21a..572b3ee 100755
  else
  CFLAGS=-I. -O2 -funroll-loops
  endif
--- 
-2.1.4
 
