@@ -19,3 +19,7 @@ do_install () {
 	install -m 644 ${S}/mytvpro.cfg ${D}/var/tuxbox/plugins
 	install -m 644 ${S}/mytvpro_hint.png ${D}/var/tuxbox/plugins
 }
+
+do_install_append () {
+echo "integration=2" >> ${D}/var/tuxbox/plugins/mytvpro.cfg
+}
