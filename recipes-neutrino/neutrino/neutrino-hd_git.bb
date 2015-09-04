@@ -44,6 +44,7 @@ SRC_URI = "git://git.slknet.de/git/cst-public-gui-neutrino.git;branch=cst-next \
 	file://custom-poweroff.init \
 	file://pre-wlan0.sh \
 	file://post-wlan0.sh \
+	file://mount.mdev \
 	file://COPYING.GPL \
 	file://0001-configure_fix.patch \
 	file://0002-write_nameserver_into_interfaces.patch \
@@ -90,7 +91,9 @@ do_install_prepend () {
 	install -m 755 ${WORKDIR}/post-wlan0.sh ${D}${sysconfdir}/network/
 	install -m 644 ${WORKDIR}/timezone.xml ${D}${sysconfdir}/timezone.xml 
 	install -d ${D}${localstatedir}/cache
-	install -d ${D}${localstatedir}/tuxbox 
+	install -d ${D}${localstatedir}/tuxbox
+	install -d ${D}/lib/mdev/fs
+	install -m 755 ${WORKDIR}/mount.mdev ${D}/lib/mdev/fs/mount 
 	echo "version=${DISTRO_VERSION}  `date +%Y-%m-%d` `date +%H:%M`"    > ${D}/.version 
 	echo "creator=${CREATOR}"             >> ${D}/.version 
 	echo "imagename=Neutrino-HD"             >> ${D}/.version 
@@ -113,6 +116,7 @@ do_install_append() {
 FILES_${PN} += "\
 	/.version \
 	/etc \
+	/lib/mdev/fs \
 	/usr/share \
 	/usr/share/tuxbox \
 	/usr/share/iso-codes \
