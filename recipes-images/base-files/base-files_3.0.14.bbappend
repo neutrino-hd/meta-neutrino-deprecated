@@ -50,6 +50,9 @@ do_configure_prepend () {
 		sed -i "s|nano|vi|" ${WORKDIR}/create_etc.sh
 		sed -i "s|nano|vi|" ${WORKDIR}/update_etc.sh
 	fi
+	if [ ${DISTRO} = "coolstream-hd1" ];then
+		sed -i "s|/media/sda1|/media/sdb1|" ${WORKDIR}/create_etc.sh
+	fi
 }
 
 
