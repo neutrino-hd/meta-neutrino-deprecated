@@ -11,7 +11,7 @@ PATH=/usr/bin:/bin:/var/bin
 DAEMON=doscam
 DAEMON_OPTS="-b"
 DAEMON1=osemu
-DAEMON1_OPTS="-a user:password -p 11000 -b"
+DAEMON1_OPTS="-a user:password -p 11000 -b -r 31339:17999"
 
 cam_start() {
 	if [ -e /usr/bin/$DAEMON1 ];then
