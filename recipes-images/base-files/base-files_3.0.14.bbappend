@@ -7,6 +7,7 @@ SRC_URI += "file://profile \
 	    file://stb_update.sh \
 	    file://create_etc.sh \
 	    file://update_etc.sh \
+	    file://cam.sh \
 "
 
 BASEFILESISSUEINSTALL = "do_custom_baseissueinstall"
@@ -49,6 +50,9 @@ do_configure_prepend () {
 		sed -i "s|nano|vi|" ${WORKDIR}/create_etc.sh
 		sed -i "s|nano|vi|" ${WORKDIR}/update_etc.sh
 	fi
+	if [ ${DISTRO} = "coolstream-hd1" ];then
+		sed -i "s|/media/sda1|/media/sdb1|" ${WORKDIR}/create_etc.sh
+	fi
 }
 
 
@@ -57,8 +61,10 @@ do_install_prepend_coolstream-hd2 () {
 	install -d ${D}${sysconfdir}/init.d  ${D}${localstatedir}/update
 	install -m 755 ${S}/local.sh ${D}${sysconfdir}/init.d/local.sh
 	install -m 755 ${S}/stb_update.sh ${D}${sysconfdir}/init.d/bb_stb_update.sh
-	update-rc.d -r ${D} local.sh start 90 S .
+	install -m 755 ${S}/cam.sh ${D}${sysconfdir}/init.d/cam.sh
+	update-rc.d -r ${D} local.sh start 40 S .
 	update-rc.d -r ${D} bb_stb_update.sh start 03 S .
+	update-rc.d -r ${D} cam.sh start 60 5 .
 	touch ${D}${localstatedir}/update/.newimage
 	if [ ${USE_VAR} = "yes" ];then
 		install -d  ${D}${localstatedir}${sysconfdir}/network ${D}${localstatedir}/bin
@@ -79,6 +85,10 @@ do_install_prepend_coolstream-hd2 () {
 
 do_install_append_coolstream-hd1 () {
 	install -d ${D}${base_libdir} ${D}${libdir} ${D}${localstatedir}/update ${D}${sysconfdir}/init.d
+	install -m 755 ${S}/local.sh ${D}${sysconfdir}/init.d/local.sh
+	install -m 755 ${S}/cam.sh ${D}${sysconfdir}/init.d/cam.sh
+	update-rc.d -r ${D} local.sh start 40 S .
+	update-rc.d -r ${D} cam.sh start 60 5 .
 	# hack to get better compatibility for precompiled binaries on the nevis platform
 	ln -s ./libcrypto.so.1.0.0 ${D}${base_libdir}/libcrypto.so.0.9.8
 	ln -s ./libssl.so.1.0.0 ${D}${libdir}/libssl.so.0.9.8
@@ -89,4 +99,3 @@ do_install_append_coolstream-hd1 () {
 	fi
 	touch ${D}${localstatedir}/update/.newimage
 }
-

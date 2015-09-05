@@ -29,7 +29,7 @@ N_LDFLAGS += "-Wl,-rpath-link,${STAGING_DIR_HOST}${libdir},-lfreetype -lcrypto -
 
 do_compile () {
 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
-	oe_runmake CFLAGS="${N_CFLAGS}" CXXFLAGS="${N_CXXFLAGS}" LDFLAGS="${N_LDFLAGS}" SUBDIRS="msgbox ${PLUGIN_INSTALL}"
+	oe_runmake CFLAGS="${N_CFLAGS}" CXXFLAGS="${N_CXXFLAGS}" LDFLAGS="${N_LDFLAGS}" SUBDIRS="${PLUGIN_INSTALL}"
 }
 
 do_install () {

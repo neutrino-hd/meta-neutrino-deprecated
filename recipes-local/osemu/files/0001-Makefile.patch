@@ -1,0 +1,24 @@
+From 164b1ec88da0bf7ac28929226ef796b5bf147480 Mon Sep 17 00:00:00 2001
+From: MarkusVolk <f_l_k@t-online.de>
+Date: Tue, 25 Aug 2015 10:21:20 +0200
+Subject: [PATCH] Makefile
+
+Signed-off-by: MarkusVolk <f_l_k@t-online.de>
+---
+ Makefile | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index 321e21a..9682b2c 100755
+--- a/Makefile
++++ b/Makefile
+@@ -8,7 +8,7 @@ CFLAGS=-I. -O3 -funroll-loops -fomit-frame-pointer -mmmx -msse -msse2 -msse3
+ else ifneq (,$(findstring mplt,$(TARGETHELP)))
+ CFLAGS=-I. -O3 -funroll-loops -fomit-frame-pointer -mplt
+ else ifneq (,$(findstring m4,$(TARGETHELP)))
+-CFLAGS=-I. -O2 -fPIC -funroll-loops -fomit-frame-pointer -m4-300
++CFLAGS=-I. -O2 -fPIC -funroll-loops -fomit-frame-pointer
+ else
+ CFLAGS=-I. -O2 -funroll-loops
+ endif
+

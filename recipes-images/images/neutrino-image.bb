@@ -12,4 +12,7 @@ IMAGE_INSTALL += " \
 	neutrino-plugin-localtv \
 	neutrino-plugin-buli \
 	neutrino-plugin-wetter \
+	neutrino-plugin-mtv \
+	neutrino-plugin-mytvpro \
+	neutrino-plugin-myspass \
 	"
