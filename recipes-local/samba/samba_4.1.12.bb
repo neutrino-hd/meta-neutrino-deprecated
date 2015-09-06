@@ -33,15 +33,19 @@ SRC_URI = "${SAMBA_MIRROR}/stable/samba-${PV}.tar.gz \
            file://18-avoid-get-config-by-native-ncurses.patch \
            file://19-systemd-daemon-is-contained-by-libsystemd.patch \
            file://20-do-not-import-target-module-while-cross-compile.patch \
+	   file://smb.conf \
+	   file://init.samba \
+	   file://init.winbind \
+	   file://volatiles.03_samba \
           "
 
 SRC_URI[md5sum] = "232016d7581a1ba11e991ec2674553c4"
 SRC_URI[sha256sum] = "033604674936bf5c77d7df299b0626052b84a41505a6a6afe902f6274fc29898"
 
-inherit systemd waf-samba
+inherit waf-samba
 
 DEPENDS += "readline virtual/libiconv zlib popt talloc libtdb libtevent libldb krb5 ctdb"
-RDEPENDS_${PN} += "openldap"
+RDEPENDS_${PN} += "openldap libtalloc libtevent krb5 ncurses"
 
 PACKAGECONFIG = "${@base_contains('DISTRO_FEATURES', 'pam', 'pam', '', d)}"
 PACKAGECONFIG += "${@base_contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)}"
@@ -99,10 +103,14 @@ do_install_append() {
             > ${D}${sysconfdir}/tmpfiles.d/99-${BPN}.conf
     fi
 
-    install -d ${D}${sysconfdir}/samba
+    install -d ${D}${sysconfdir}/samba ${D}${sysconfdir}/init.d/
     echo "127.0.0.1 localhost" > ${D}${sysconfdir}/samba/lmhosts
-    install -m644 packaging/LSB/smb.conf ${D}${sysconfdir}/samba/smb.conf
-
+    install -m644 ${WORKDIR}/smb.conf ${D}${sysconfdir}/samba/smb.conf
+    install -m755 ${WORKDIR}/init.samba ${D}${sysconfdir}/init.d/samba
+    install -m755 ${WORKDIR}/init.winbind ${D}${sysconfdir}/init.d/winbind
+    install -D -m 644 ${WORKDIR}/volatiles.03_samba ${D}${sysconfdir}/default/volatiles/volatiles.03_samba
+    update-rc.d -r ${D} samba defaults 60
+    update-rc.d -r ${D} winbind start 60 2 3 4 5 .
     install -d ${D}${libdir}/tmpfiles.d
     install -m644 packaging/systemd/samba.conf.tmp ${D}${libdir}/tmpfiles.d/samba.conf
 
