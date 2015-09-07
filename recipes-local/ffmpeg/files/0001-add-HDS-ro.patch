@@ -1,20 +1,9 @@
-From caff4ed62381f27fcb6008e97898e404e9c03fe7 Mon Sep 17 00:00:00 2001
+From a311102d78840d25474d0158db478862bef5ae59 Mon Sep 17 00:00:00 2001
 From: Jacek Jendrzej <crashdvb@googlemail.com>
 Date: Thu, 23 Apr 2015 19:57:16 +0200
 Subject: [PATCH 1/4] add HDS ro
 
 Signed-off-by: Jacek Jendrzej <crashdvb@googlemail.com>
-
-original code: CORY MCCARTHY <cory.mccarthy@shaw.ca>, see
-http://thread.gmane.org/gmane.comp.video.ffmpeg.devel/171211/focus=171212
-https://www.mail-archive.com/ffmpeg-devel%40ffmpeg.org/msg03387.html
-
-patches by martii <m4rtii@gmx.de>:
-https://gitorious.org/neutrino-hd/martiis-buildsystem-cs/commit/1621eac7d0b01663d3463274acc16515a55cfec4
-https://gitorious.org/neutrino-hd/martiis-buildsystem-cs/commit/a426f4d7e976b927ba88be01b8ceab34c986a43c
-https://gitorious.org/neutrino-hd/martiis-buildsystem-cs/commit/2f770a1ee3a8a964db85f43953d37a55de262886
-https://gitorious.org/neutrino-hd/martiis-buildsystem-cs/commit/d6887c27eb5d78295d413a246a5fd6eca9a6c764
-https://gitorious.org/neutrino-hd/martiis-buildsystem-cs/commit/421cdc974a89838c521e217e244183cbcd4d95ef
 ---
  configure                 |    5 +
  libavformat/Makefile      |    1 +
@@ -42,7 +31,7 @@ https://gitorious.org/neutrino-hd/martiis-buildsystem-cs/commit/421cdc974a89838c
  create mode 100644 libavformat/hdsdec.c
 
 diff --git a/configure b/configure
-index e2bd3de..c81b97c 100755
+index 2eada0e..30f75e0 100755
 --- a/configure
 +++ b/configure
 @@ -277,6 +277,7 @@ External library support:
@@ -53,7 +42,7 @@ index e2bd3de..c81b97c 100755
  
  Toolchain options:
    --arch=ARCH              select architecture [$arch]
-@@ -1384,6 +1385,7 @@ EXTERNAL_LIBRARY_LIST="
+@@ -1385,6 +1386,7 @@ EXTERNAL_LIBRARY_LIST="
      libopus
      libpulse
      libquvi
@@ -61,7 +50,7 @@ index e2bd3de..c81b97c 100755
      librtmp
      libschroedinger
      libshine
-@@ -2479,6 +2481,7 @@ dxa_demuxer_select="riffdec"
+@@ -2483,6 +2485,7 @@ dxa_demuxer_select="riffdec"
  eac3_demuxer_select="ac3_parser"
  f4v_muxer_select="mov_muxer"
  flac_demuxer_select="flac_parser"
@@ -69,7 +58,7 @@ index e2bd3de..c81b97c 100755
  hds_muxer_select="flv_muxer"
  hls_muxer_select="mpegts_muxer"
  image2_alias_pix_demuxer_select="image2_demuxer"
-@@ -4992,6 +4995,8 @@ disabled  zlib || check_lib   zlib.h      zlibVersion -lz   || disable  zlib
+@@ -5012,6 +5015,8 @@ disabled  zlib || check_lib   zlib.h      zlibVersion -lz   || disable  zlib
  disabled bzlib || check_lib2 bzlib.h BZ2_bzlibVersion -lbz2 || disable bzlib
  disabled  lzma || check_lib2  lzma.h lzma_version_number -llzma || disable lzma
  
@@ -79,7 +68,7 @@ index e2bd3de..c81b97c 100755
  disabled crystalhd || check_lib libcrystalhd/libcrystalhd_if.h DtsCrystalHDVersion -lcrystalhd || disable crystalhd
  
 diff --git a/libavformat/Makefile b/libavformat/Makefile
-index 8d9a770..d2062b7 100644
+index bca9d5b..e8334c0 100644
 --- a/libavformat/Makefile
 +++ b/libavformat/Makefile
 @@ -179,6 +179,7 @@ OBJS-$(CONFIG_H263_DEMUXER)              += h263dec.o rawdec.o
@@ -91,7 +80,7 @@ index 8d9a770..d2062b7 100644
  OBJS-$(CONFIG_HEVC_DEMUXER)              += hevcdec.o rawdec.o
  OBJS-$(CONFIG_HEVC_MUXER)                += rawenc.o
 diff --git a/libavformat/allformats.c b/libavformat/allformats.c
-index e6a9d01..d1be6d9 100644
+index 0f53d4c..06652e5 100644
 --- a/libavformat/allformats.c
 +++ b/libavformat/allformats.c
 @@ -141,7 +141,7 @@ void av_register_all(void)
@@ -2782,5 +2771,5 @@ index 0000000..e616816
 +    .read_seek      = hds_read_seek,
 +};
 -- 
-2.3.5
+2.4.0
 
