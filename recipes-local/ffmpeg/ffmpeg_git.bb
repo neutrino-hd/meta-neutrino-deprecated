@@ -6,8 +6,6 @@ PR = "1"
 
 SRC_URI = "git://github.com/FFmpeg/FFmpeg.git;branch=master \
 	   file://0001-add-HDS-ro.patch \
-	   file://0002-changed-allow-4-second-skew-between-streams-in-mov-b.patch \
-	   file://0003-Get-stream-durations-using-read_timestamp.patch \
 	   file://0004-add-ASF-VC1-Annex-G-and-RCV-bitstream-filters.patch \
 "
 
