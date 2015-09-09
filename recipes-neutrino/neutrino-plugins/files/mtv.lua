@@ -277,13 +277,13 @@ function playlist(filename)
 end
 
 function dlstart(name)
-	local infotext = name .." - Doownlaod-list wird erstellt\n"
+	local infotext = name .." - Dateien werden heruntergeladen\n"
 	name = name:gsub([[%s+]], "_")
 	name = name:gsub("[:'&()]", "_")
 	local dlname = "/tmp/" .. name ..".dl"
 	local p = file_exists(dlname)
 	if p == true then
-		infotext="Ein andere Download ist bereits Aktiv."
+		infotext="Ein anderer Download ist bereits aktiv."
 	end
 	local h = hintbox.new{caption="Info", text=infotext}
 	h:paint()
@@ -323,7 +323,7 @@ function dlstart(name)
 	script:write("'" .. dlname .. "'\n")
 	script:write([[
 	wget -q 'http://127.0.0.1/control/message?popup=Video Liste ]])
-	script:write(name .. "ist heruntergeladet.' -O /dev/null\n")
+	script:write(name .. "wurde heruntergeladen.' -O /dev/null\n")
 	script:write("rm '" .. dlname .. "'\n")
 	script:write("rm '" .. scriptname .. "'\n")
 
@@ -349,8 +349,8 @@ function gen_dl_list(name)
 	menu:addItem{type="separatorline"}
 	local d = 1 -- directkey
 
-	menu:addItem{type="forwarder", name="Download-Start", action="dlstart", enabled=true,
-	id=name, directkey=godirectkey(d),hint="Starte die selektierten Videos herunterzuladen in" .. conf.path}
+	menu:addItem{type="forwarder", name="Download starten", action="dlstart", enabled=true,
+	id=name, directkey=godirectkey(d),hint="Speichert die ausgewählten Videos unter: " .. conf.path}
 	menu:addItem{type="separatorline"}
 	for i, v in ipairs(glob.MTVliste) do
 		d = d + 1
@@ -373,13 +373,13 @@ function __menu(_menu,menu_name,table,_action)
 	local d = 1 -- directkey
 
 	_menu:addItem{type="forwarder", name="Playliste", action="playlist", enabled=true,
-	id="Playliste " .. menu_name, directkey=godirectkey(d),hint="Playlist: " .. menu_name}
+	id="Playlist " .. menu_name, directkey=godirectkey(d),hint="Playlist: " .. menu_name}
         d=d+1
-	_menu:addItem{type="forwarder", name="Generiere M3U Playlist", action="gen_m3u_list", enabled=true,
-	id=menu_name, directkey=godirectkey(d),hint="Generiere M3U Playlist: /tmp/" .. menu_name .. ".m3u"}
+	_menu:addItem{type="forwarder", name="Erstelle M3U Playlist", action="gen_m3u_list", enabled=true,
+	id=menu_name, directkey=godirectkey(d),hint="Erstelle eine M3U Playlist im Verzeichnis: /tmp/" .. menu_name .. ".m3u"}
         d=d+1
-	_menu:addItem{type="forwarder", name="Generiere Download-List", action="gen_dl_list", enabled=true,
-	id=menu_name, directkey=godirectkey(d),hint="Generiere Download-List vor Verzeichnis: " .. conf.path}
+	_menu:addItem{type="forwarder", name="Erstelle Download Liste", action="gen_dl_list", enabled=true,
+	id=menu_name, directkey=godirectkey(d),hint="Welche Videos sollen heruntergeladen werden ?"}
 
 	_menu:addItem{type="separatorline"}
 
@@ -431,7 +431,7 @@ function setings()
 	menu:addItem{type="separatorline"}
 	menu:addItem{ type="filebrowser", dir_mode="1", id="path", name="Verzeichnis: ", action="set_path",
 		   enabled=true,value=conf.path,directkey=godirectkey(d),
-		   hint_icon="hint_service",hint="In welchem Verzeichnis soll die Video gespeichert werden ?"
+		   hint_icon="hint_service",hint="In welchem Verzeichnis soll das Video gespeichert werden ?"
 		 }
 	d=d+1
 	menu:addItem{type="chooser", action="set_option", options={ on, off }, id="dlflag", value=bool2onoff(conf.dlflag), directkey=godirectkey(d), name="Auswahl vorbelegen mit",hint_icon="hint_service",hint="Erstelle Auswahlliste mit 'ein' oder 'aus'"}
@@ -515,7 +515,7 @@ function main_menu()
 	id="", directkey=godirectkey(d),hint="Einstellungen"}
         d=d+1
 	menu:addItem{type="separatorline"}
-	menu:addItem{type="keyboardinput", action="setvar", id="search", name="Künstler Name:", value=conf.name,directkey=godirectkey(d),hint_icon="hint_service",hint="Nach welchem Künstler soll gesucht werden"}
+	menu:addItem{type="keyboardinput", action="setvar", id="search", name="Künstler Name:", value=conf.name,directkey=godirectkey(d),hint_icon="hint_service",hint="Nach welchem Künstler soll gesucht werden ?"}
 	d=d+1
 	menu:addItem{type="forwarder", name="Suche nach Künstler", action="search_artists", enabled=true,
 	id="find", directkey=godirectkey(d),hint="Suche nach Künstler"}
