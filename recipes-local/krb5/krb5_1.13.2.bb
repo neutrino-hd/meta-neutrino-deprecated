@@ -20,7 +20,7 @@ DEPENDS = "ncurses util-linux e2fsprogs e2fsprogs-native"
 inherit autotools-brokensep binconfig perlnative
 
 SHRT_VER = "${@oe.utils.trim_version("${PV}", 2)}"
-SRC_URI = "http://web.mit.edu/kerberos/dist/${BPN}/${SHRT_VER}/${BP}-signed.tar \
+SRC_URI = "http://web.mit.edu/kerberos/dist/krb5/${SHRT_VER}/krb5-${PV}-signed.tar \
            file://0001-aclocal-Add-parameter-to-disable-keyutils-detection.patch \
            file://debian-suppress-usr-lib-in-krb5-config.patch;striplevel=2 \
            file://crosscompile_nm.patch \
@@ -46,7 +46,7 @@ CACHED_CONFIGUREVARS += "krb5_cv_attr_constructor_destructor=yes ac_cv_func_regc
                   ac_cv_printf_positional=yes ac_cv_file__etc_environment=yes \
                   ac_cv_file__etc_TIMEZONE=no"
 
-CFLAGS_append += "-DDESTRUCTOR_ATTR_WORKS=1 -I${STAGING_INCDIR}/et"
+CFLAGS_append += "-DDESTRUCTOR_ATTR_WORKS=1 -I${STAGING_INCDIR}/etc -Wno-maybe-uninitialized"
 LDFLAGS_append += "-lpthread"
 
 FILES_${PN} += "${datadir}/gnats"
