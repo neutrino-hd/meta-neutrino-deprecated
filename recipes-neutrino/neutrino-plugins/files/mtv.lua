@@ -21,15 +21,17 @@
 ]]
 
 local glob = {}
-local mtv_verrsion="mtv.de Version 0.2" -- Lua API Version: " .. APIVERSION.MAJOR .. "." .. APIVERSION.MINOR
+local mtv_verrsion="mtv.de Version 0.3 test" -- Lua API Version: " .. APIVERSION.MAJOR .. "." .. APIVERSION.MINOR
 local n = neutrino()
 local conf = {}
 local on="ein"
 local off="aus"
 
 function get_confFile()
-	local confFile = "/var/tuxbox/config/mtv.conf"
-	return confFile
+	return "/var/tuxbox/config/mtv.conf"
+end
+function get_conf_mtvfavFile()
+	return "/var/tuxbox/config/mtvfav.conf"
 end
 
 function hideMenu(menu)
@@ -40,15 +42,6 @@ function setvar(k, v)
 	if v and #v > 0 then
 		conf[k]=v
 		conf.changed = true
-	end
-end
-
-function set_bool_in_liste(k, v) 
-	local i = tonumber(k)
-	if v == on then
-		glob.MTVliste[i].enabled=true
-	else 
-		glob.MTVliste[i].enabled=false
 	end
 end
 
@@ -63,9 +56,19 @@ function saveConfig()
 		local config	= configfile.new()
 		config:setString("path", conf.path)
 		config:setBool  ("dlflag",conf.dlflag)
+		config:setBool  ("flvflag",conf.flvflag)
 		config:setString("search", conf.search)
 		config:saveConfig(get_confFile())
 		conf.changed = false
+	end
+	if glob.fav_changed == true then
+		local file_mtvconf=io.open(get_conf_mtvfavFile(),"w")
+		for k, v in ipairs(glob.mtv) do
+			if v.fav == true then
+				file_mtvconf:write('name="'.. v.name ..'",url="'.. v.url ..'"\n')
+			end
+		end
+		file_mtvconf:close()
 	end
 end
 
@@ -74,20 +77,56 @@ function loadConfig()
 	config:loadConfig(get_confFile())
 	conf.path = config:getString("path", "/media/sda1/movies/")
 	conf.dlflag = config:getBool("dlflag", false)
+	conf.flvflag = config:getBool("flvflag", false)
 	conf.search = config:getString("search", "Jessie J")
 	conf.changed = false
 end
 
+function pop(cmd)
+       local f = assert(io.popen(cmd, 'r'))
+       local s = assert(f:read('*a'))
+       f:close()
+       return s
+end
+
+function read_file(filename)
+	if filename == nil then 
+		print("Error: FileName  is empty") 
+		return nil
+	end
+	local fp = io.open(filename, "r")
+	if fp == nil then print("Error opening file '" .. filename .. "'.") return nil end
+	local data = fp:read("*a")
+	fp:close()
+	return data
+end
+
 function init()
-	glob.mtv_search={}
+	glob.fav_changed = false
+	glob.have_rtmpdump=false
+	local r= pop("which rtmpdump")
+	if #r>0 then 
+		glob.have_rtmpdump=true
+	end
+	glob.mtv_artist={}
 	glob.mtv={
-		{name = "Brandneu",url="http://www.mtv.de/musik"},
-		{name = "Hitlist Germany - Top 100",url="http://www.mtv.de/charts/5-hitlist-germany-top-100"},
-		{name = "MTV.de Videocharts",url="http://www.mtv.de/charts/8-mtv-de-videocharts"},
-		{name = "Top 100 Jahrescharts 2013",url="http://www.mtv.de/charts/199-top-100-single-jahrescharts-2013"},
-		{name = "Dance Charts",url="http://www.mtv.de/charts/6-dance-charts"},
-		{name = "Deutsche Urban Charts",url="http://www.mtv.de/charts/9-deutsche-black-charts"},
+		{name = "Brandneu",url="http://www.mtv.de/musik",fav=false},
+		{name = "Hitlist Germany - Top 100",url="http://www.mtv.de/charts/5-hitlist-germany-top-100",fav=false},
+		{name = "MTV.de Videocharts",url="http://www.mtv.de/charts/8-mtv-de-videocharts",fav=false},
+		{name = "Top 100 Jahrescharts 2013",url="http://www.mtv.de/charts/199-top-100-single-jahrescharts-2013",fav=false},
+		{name = "Dance Charts",url="http://www.mtv.de/charts/6-dance-charts",fav=false},
+		{name = "Deutsche Urban Charts",url="http://www.mtv.de/charts/9-deutsche-black-charts",fav=false},
 	}
+	local mtvconf = get_conf_mtvfavFile()
+	local havefile = file_exists(mtvconf)
+	if havefile == true then
+		local favdata = read_file(mtvconf)
+		if havefile ~= nil then
+			for _name ,_url in favdata:gmatch('name%s-=%s-"(.-)"%s-,%s-url%s-=%s-"(.-)"') do
+				table.insert(glob.mtv,{name=_name, url=_url,fav=true})
+			end
+		end
+	end
 end
 
 function info(captxt,infotxt, sleep)
@@ -106,18 +145,6 @@ function info(captxt,infotxt, sleep)
 		until msg == RC.ok or msg == RC.home
 	end
 	h:hide()
-end
-
-function read_file(filename)
-	if filename == nil then 
-		print("Error: FileName  is empty") 
-		return nil
-	end
-	local fp = io.open(filename, "r")
-	if fp == nil then print("Error opening file '" .. filename .. "'.") return nil end
-	local data = fp:read("*a")
-	fp:close()
-	return data
 end
 
 function getdata(url)
@@ -183,6 +210,7 @@ function getvideourl(url)
 end
 
 function godirectkey(d)
+	if d  == nil then return d end
 	local  _dkey = ""
 	if d == 1 then
 		_dkey = RC["red"]
@@ -279,15 +307,16 @@ end
 function dlstart(name)
 	local infotext = name .." - Dateien werden heruntergeladen\n"
 	name = name:gsub([[%s+]], "_")
-	name = name:gsub("[:'&()]", "_")
+	name = name:gsub("[:'&()/]", "_")
+	print(name)
 	local dlname = "/tmp/" .. name ..".dl"
-	local p = file_exists(dlname)
-	if p == true then
+	local havefile = file_exists("/tmp/.rtmpdl")
+	if havefile == true then
 		infotext="Ein anderer Download ist bereits aktiv."
 	end
 	local h = hintbox.new{caption="Info", text=infotext}
 	h:paint()
-	if p == true then 
+	if havefile == true then 
 		os.execute("sleep 4")
 		h:hide()
 		return 
@@ -299,18 +328,26 @@ function dlstart(name)
 		if v.enabled == true then
 			local url = getvideourl(glob.MTVliste[i].url)
 			if url then
-				if glob.MTVliste[i].name == nil then
-					glob.MTVliste[i].name = "NoName_" .. i
+				local videoformat = url:sub(-4)
+				if videoformat == nil then
+					videoformat = ".mp4"
 				end
-				local fname = v.name:gsub([[%s+]], "_")
-				fname = fname:gsub("[:'()]", "_")
-				dl:write("rtmpdump -e -r " .. url .. " -o " .. conf.path .. "/" .. fname ..".mp4\n")
-				script_start = true
+				if videoformat ~= ".flv" or conf.flvflag then
+					if glob.MTVliste[i].name == nil then
+						glob.MTVliste[i].name = "NoName_" .. i
+					end
+					local fname = v.name:gsub([[%s+]], "_")
+					fname = fname:gsub("[:'()]", "_")
+					
+					dl:write("rtmpdump -e -r " .. url .. " -o " .. conf.path .. "/" .. fname  .. videoformat .."\n")
+					script_start = true
+				end
 			end
 		end
 	end
-	dl:close()
+	h:hide()
 	if script_start == true then
+	dl:close()
 	local scriptname  = "/tmp/" .. name ..".sh"
 	local script=io.open(scriptname,"w")
 	script:write(
@@ -323,43 +360,143 @@ function dlstart(name)
 	script:write("'" .. dlname .. "'\n")
 	script:write([[
 	wget -q 'http://127.0.0.1/control/message?popup=Video Liste ]])
-	script:write(name .. "wurde heruntergeladen.' -O /dev/null\n")
-	script:write("rm '" .. dlname .. "'\n")
-	script:write("rm '" .. scriptname .. "'\n")
+		script:write(name .. "wurde heruntergeladen.' -O /dev/null\n")
+		script:write("rm '" .. dlname .. "'\n")
+		script:write("rm '" .. scriptname .. "'\n")
+		script:write("rm /tmp/.rtmpdl\n")
 
-	script:close()
-	os.execute("sleep 2")
-	os.execute("chmod 755 '" .. scriptname .. "'")
-	os.execute("sh '"..scriptname.."' &")
+		script:close()
+		os.execute("echo >/tmp/.rtmpdl")
+		os.execute("sleep 2")
+		os.execute("chmod 755 '" .. scriptname .. "'")
+		os.execute("sh '"..scriptname.."' &")
 	else
-		local er = hintbox.new{caption="Info", text=name .." - Doownlaod-Error\n"}
+		local er = hintbox.new{caption="Info", text=name .." - \nDownload ist fehlerhaft \noder Video in FLV-Format"}
 		er:paint()
 		os.remove(dlname)
 		print("ERROR")
 		os.execute("sleep 2")
 		er:hide()
 	end
-	h:hide()
 end
 
-function gen_dl_list(name)
-	hideMenu(glob.menu_liste)
+function exist(_url)
+	for i, v in ipairs(glob.mtv) do
+		if v.fav == true and v.url == _url then
+			return true
+		end
+	end
+	return false
+end
+
+function addfav(id)
+	local addinfo = false 
+	for i, v in ipairs(glob.mtv_artist) do
+		if v.enabled and exist(v.url) == false then
+			table.insert(glob.mtv,{name=v.name, url=v.url,fav=true})
+			glob.mtv_artist[i].disabled=true
+			glob.fav_changed = true
+			addinfo = true
+		end
+	end
+	if addinfo == true then
+		info("Info","Zu Favoriten hinzugefügt",2)
+	end
+end
+
+function favdel(id)
+	local delinfo = false 
+	for i, v in ipairs(glob.mtv) do
+		if v.fav and v.enabled then
+			table.remove(glob.mtv,i)
+			glob.fav_changed = true
+			delinfo = true
+		end
+	end
+	if delinfo == true then
+		info("Info","Ausgewählten Favoriten gelöscht",2)
+	end
+
+end
+
+function chooser_menu(id)
+	if id:sub(1,29) =="Erstelle Download Liste für " then
+		local forwarder_action = "dlstart"
+		local forwarder_name = "Download starten"
+		local chooser_action = "set_bool_in_liste"
+		local hintname = "Speichert die ausgewählten Videos unter: " .. conf.path
+		local _id = id:sub(30,#id)
+		local name = id
+		local value=conf.dlflag 
+		gen_chooser_menu(glob.MTVliste, name, _id, chooser_action, forwarder_action, forwarder_name, hintname, value, glob.menu_liste)
+	elseif id:sub(1,15) =="Neue Favoriten" then
+		local forwarder_action = "addfav"
+		local forwarder_name = "Zu Favoriten hinzufügen"
+		local chooser_action = "set_bool_in_searchliste"
+		local hintname = "Speichert die ausgewählten Videos unter: " .. conf.path
+		local name = id .. " hinzufügen" 
+		local value=false 
+		gen_chooser_menu(glob.mtv_artist, name , id, chooser_action, forwarder_action, forwarder_name, hintname, value, glob.search_artists_menu)
+	elseif id =="favdel" then
+		local forwarder_action = "favdel"
+		local forwarder_name = "Lösche ausführen"
+		local chooser_action = "set_bool_in_mtv"
+		local hintname = "Lösche die ausgewählten Videos."
+		local name = id .. " hinzufügen" 
+		local value=false 
+		gen_chooser_menu(glob.mtv, name , id, chooser_action, forwarder_action, forwarder_name, hintname, value, glob.main_menu)
+
+	end
+end
+
+function set_bool_in_liste(k, v) 
+	local i = tonumber(k)
+	if v == on then
+		glob.MTVliste[i].enabled=true
+	else 
+		glob.MTVliste[i].enabled=false
+	end
+end
+
+function set_bool_in_searchliste(k, v) 
+	local i = tonumber(k)
+	if v == on then
+		glob.mtv_artist[i].enabled=true
+	else 
+		glob.mtv_artist[i].enabled=false
+	end
+end
+
+function set_bool_in_mtv(k, v) 
+	local i = tonumber(k)
+	if v == on then
+		glob.mtv[i].enabled=true
+	else 
+		glob.mtv[i].enabled=false
+	end
+end
+
+function gen_chooser_menu(table, name , _id, _chooser_action, _forwarder_action, _forwarder, _hintname, _value, hidemenu)
+	hideMenu(hidemenu)
 	local menu =  menu.new{name=name, icon="icon_red"}
 	menu:addItem{type="back"}
 	menu:addItem{type="separatorline"}
 	local d = 1 -- directkey
 
-	menu:addItem{type="forwarder", name="Download starten", action="dlstart", enabled=true,
-	id=name, directkey=godirectkey(d),hint="Speichert die ausgewählten Videos unter: " .. conf.path}
+	menu:addItem{type="forwarder", name=_forwarder, action=_forwarder_action, enabled=true,
+	id=_id, directkey=godirectkey(d),hint=_hintname}
 	menu:addItem{type="separatorline"}
-	for i, v in ipairs(glob.MTVliste) do
-		d = d + 1
-		local dkey = godirectkey(d)
-		menu:addItem{type="chooser", action="set_bool_in_liste", options={ on, off }, id=i, value=bool2onoff(conf.dlflag), 
-		name=i .. ": " ..v.name, hint_icon="hint_service",hint=v.name .. " speichern ? Ein/Aus"}
+	for i, v in ipairs(table) do
+		if (("favdel" == _forwarder_action and v.fav==true) or "addfav" ==  _forwarder_action or "dlstart" ==  _forwarder_action) then
+			d = d + 1
+			local dkey = godirectkey(d)
+			menu:addItem{type="chooser", action=_chooser_action, options={ on, off }, id=i, value=bool2onoff(_value), 
+			name=i .. ": " ..v.name, hint_icon="hint_service",hint=v.name .. " speichern ? Ein/Aus"}
+		end
 	end
 	menu:exec()
 	menu:hide()
+	return MENU_RETURN.EXIT_REPAINT
 end
 
 function __menu(_menu,menu_name,table,_action)
@@ -367,7 +504,7 @@ function __menu(_menu,menu_name,table,_action)
 		info("Info", "Liste ist leer.", 1)
 		return
 	end
-	hideMenu(glob.main_menu)
+	hideMenu(glob.mtv_listen_menu)
 	_menu:addItem{type="back"}
 	_menu:addItem{type="separatorline"}
 	local d = 1 -- directkey
@@ -377,10 +514,9 @@ function __menu(_menu,menu_name,table,_action)
         d=d+1
 	_menu:addItem{type="forwarder", name="Erstelle M3U Playlist", action="gen_m3u_list", enabled=true,
 	id=menu_name, directkey=godirectkey(d),hint="Erstelle eine M3U Playlist im Verzeichnis: /tmp/" .. menu_name .. ".m3u"}
-        d=d+1
-	_menu:addItem{type="forwarder", name="Erstelle Download Liste", action="gen_dl_list", enabled=true,
-	id=menu_name, directkey=godirectkey(d),hint="Welche Videos sollen heruntergeladen werden ?"}
-
+	d = d + 1
+	_menu:addItem{type="forwarder", name="Erstelle Download Liste", action="chooser_menu", enabled=glob.have_rtmpdump,
+			id="Erstelle Download Liste für "..menu_name, directkey=godirectkey(d),hint="Welche Videos sollen heruntergeladen werden ?"}
 	_menu:addItem{type="separatorline"}
 
 	for i, v in ipairs(table) do
@@ -393,7 +529,7 @@ function __menu(_menu,menu_name,table,_action)
 	return MENU_RETURN.EXIT_REPAINT
 end
 
-function mtvliste(id)
+function mtv_liste(id)
 	local i = tonumber(id)
 	glob.MTVliste=nil;
 	local url=glob.mtv[i].url
@@ -435,7 +571,12 @@ function setings()
 		 }
 	d=d+1
 	menu:addItem{type="chooser", action="set_option", options={ on, off }, id="dlflag", value=bool2onoff(conf.dlflag), directkey=godirectkey(d), name="Auswahl vorbelegen mit",hint_icon="hint_service",hint="Erstelle Auswahlliste mit 'ein' oder 'aus'"}
-
+	d=d+1
+	menu:addItem{type="chooser", action="set_option", options={ on, off }, id="flvflag", value=bool2onoff(conf.flvflag), directkey=godirectkey(d), name="Videos in FLV-Format herunterladen ? ",hint_icon="hint_service",hint="Videos in FLV-Format sind meisten mit nicht kompatiblen Video-Codec (zB: vp6f)."}
+	menu:addItem{type="separatorline"}
+	d=d+1
+	menu:addItem{type="forwarder", name="Ausgewählte Favoriten löschen.", action="chooser_menu", enabled=true,
+	id="favdel", directkey=godirectkey(d),hint="Favoriten bearbeiten"}
 	menu:exec()
 	menu:hide()
 	return MENU_RETURN.EXIT_REPAINT
@@ -445,11 +586,14 @@ function gen_search_list(search)
 	local url = "http://www.mtv.de/searches?q=+"..search .. "+&ajax=1"
 	local clip_page = getdata(url)
 	if clip_page == nil then return nil end
-	glob.mtv_search={}
+	glob.mtv_artist={}
 	for _url ,title in clip_page:gmatch('/artists/(.-)"><div class="title">(.-)</div>') do
 		title=title:gsub("&quot;",'"')
 		title=title:gsub("&amp;",'&')
-		table.insert(glob.mtv_search,{name=title,url="http://www.mtv.de/artists/" .. _url})
+		_url="http://www.mtv.de/artists/" .. _url
+		if exist(_url) == false then
+			table.insert(glob.mtv_artist,{name=title, url=_url, enabled=false,disabled=false})
+		end
 	end
 	return MENU_RETURN.EXIT_REPAINT
 
@@ -459,10 +603,11 @@ function searchliste(id)
 	hideMenu(glob.artists_menu)
 	local i = tonumber(id)
 	glob.MTVliste=nil;
-	local url=glob.mtv_search[i].url
+	if glob.mtv_artist[i].disabled == true then return end
+	local url=glob.mtv_artist[i].url
 	glob.MTVliste = getliste(url)
-	glob.menu_liste  = menu.new{name=glob.mtv_search[i].name, icon="icon_blue"}
-	__menu(glob.menu_liste ,glob.mtv_search[i].name, glob.MTVliste,"action_exec")
+	glob.menu_liste  = menu.new{name=glob.mtv_artist[i].name, icon="icon_blue"}
+	__menu(glob.menu_liste ,glob.mtv_artist[i].name, glob.MTVliste,"action_exec")
 	return MENU_RETURN.EXIT_REPAINT
 end
 
@@ -476,21 +621,27 @@ function search_artists()
 		gen_search_list(conf.search)
 	end
 	h:hide()
-	if glob.mtv_search == nil or #glob.mtv_search == 0 then
+	if glob.mtv_artist == nil or #glob.mtv_artist == 0 then
 		info("Info", "Liste ist leer.", 1)
 		return
 	end
 
-	local d = 0
+	local d = 1
 	local menu =  menu.new{name=conf.search, icon="icon_yellow"}
+	glob.search_artists_menu = menu
 	glob.artists_menu = menu
 	menu:addItem{type="back"}
 	menu:addItem{type="separatorline"}
-	if glob.mtv_search then
-	for i, v in ipairs(glob.mtv_search) do
+	menu:addItem{type="forwarder", name="Neue Favoriten hinzufügen", action="chooser_menu", enabled=true,
+	id="Neue Favoriten", directkey=godirectkey(d),hint="Listen für Favoriten auswählen und hinzufügen."}
+	menu:addItem{type="separatorline"}
+
+	if glob.mtv_artist then
+	for i, v in ipairs(glob.mtv_artist) do
 		d = d + 1
 		local dkey = godirectkey(d)
-		menu:addItem{type="forwarder", name=i .. ": " .. v.name, action="searchliste",enabled=true,id=i,directkey=dkey,hint=v.type}
+		local _hint = 
+		menu:addItem{type="forwarder", name=i .. ": " .. v.name, action="searchliste",enabled=true,id=i,directkey=dkey,hint="Suchwort-Liste für " .. conf.search}
 	end
 	end
 	menu:exec()
@@ -498,12 +649,28 @@ function search_artists()
 	return MENU_RETURN.EXIT_REPAINT
 end
 
-function main_menu()
-	local table = glob.mtv
-	if table == nil then
+function mtv_listen_menu()
+	if glob.mtv == nil then
 		return
 	end
-	hideMenu(glob.menu_liste)
+	hideMenu(glob.main_menu)
+	glob.mtv_listen_menu  = menu.new{name="MTV Listen", icon="icon_red"}
+	local menu = glob.mtv_listen_menu 
+	menu:addItem{type="back"}
+	menu:addItem{type="separatorline"}
+	local d = 0 -- directkey
+	for i, v in ipairs(glob.mtv) do
+		d = d + 1
+		local dkey = godirectkey(d)
+		menu:addItem{type="forwarder", name=v.name, action="mtv_liste",enabled=true,id=i,directkey=dkey,hint=v.url}
+	end
+	menu:exec()
+	menu:hide()
+	return MENU_RETURN.EXIT_REPAINT
+end
+
+function main_menu()
+-- 	hideMenu(glob.menu_liste)
 	glob.main_menu  = menu.new{name="MTV", icon="icon_red"}
 	local menu = glob.main_menu 
 	local d = 1 -- directkey
@@ -511,23 +678,20 @@ function main_menu()
 	menu:addKey{directkey=RC["info"], id=mtv_verrsion, action="info"}
 	menu:addItem{type="back"}
 	menu:addItem{type="separatorline"}
-	menu:addItem{type="forwarder", name="Einstellungen", action="setings", enabled=true,
-	id="", directkey=godirectkey(d),hint="Einstellungen"}
+	menu:addItem{type="forwarder", name="MTV Listen", action="mtv_listen_menu", enabled=true,
+	id="dumm", directkey=godirectkey(d),hint="MTV Listen"}
         d=d+1
 	menu:addItem{type="separatorline"}
-	menu:addItem{type="keyboardinput", action="setvar", id="search", name="Künstler Name:", value=conf.name,directkey=godirectkey(d),hint_icon="hint_service",hint="Nach welchem Künstler soll gesucht werden ?"}
-	d=d+1
 	menu:addItem{type="forwarder", name="Suche nach Künstler", action="search_artists", enabled=true,
 	id="find", directkey=godirectkey(d),hint="Suche nach Künstler"}
+	d=d+1
+	menu:addItem{type="keyboardinput", action="setvar", id="search", name="Künstler Name:", value=conf.name,directkey=godirectkey(d),hint_icon="hint_service",hint="Nach welchem Künstler soll gesucht werden ?"}
 
 	menu:addItem{type="separatorline"}
-	for i, v in ipairs(table) do
-		d = d + 1
-		local dkey = godirectkey(d)
-		menu:addItem{type="forwarder", name=v.name, action="mtvliste",enabled=true,id=i,directkey=dkey,hint=v.url}
-	end
+	d=d+1
+	menu:addItem{type="forwarder", name="Einstellungen", action="setings", enabled=true,
+	id="", directkey=godirectkey(d),hint="Einstellungen"}
 	menu:exec()
-	menu:hide()
 end
 
 function main()
