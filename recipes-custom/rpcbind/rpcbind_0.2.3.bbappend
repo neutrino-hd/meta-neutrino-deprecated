@@ -1,1 +1,0 @@
-UCLIBCPATCHES_libc-uclibc = ""
