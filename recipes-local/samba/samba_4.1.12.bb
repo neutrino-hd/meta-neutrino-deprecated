@@ -44,9 +44,10 @@ SRC_URI[sha256sum] = "033604674936bf5c77d7df299b0626052b84a41505a6a6afe902f6274f
 
 inherit waf-samba
 
-DEPENDS += "readline virtual/libiconv zlib popt talloc libtdb libtevent libldb krb5 ctdb"
-RDEPENDS_${PN} += "openldap libtalloc libtevent krb5 ncurses"
-
+DEPENDS += "readline virtual/libiconv zlib popt talloc libtdb libtevent libldb krb5 ctdb ncurses attr libcap openldap gettext"
+DEPENDS_libc-uclibc += "readline virtual/libiconv zlib popt talloc libtdb libtevent libldb krb5 ctdb ncurses attr libcap openldap gettext"
+RDEPENDS_${PN} += "openldap libtalloc libtevent krb5 ncurses libldb libattr libtdb"
+RDEPENDS_${PN}_libc-uclibc += "openldap libtalloc libtevent krb5 ncurses libldb libattr libtdb libiconv"
 PACKAGECONFIG = "${@base_contains('DISTRO_FEATURES', 'pam', 'pam', '', d)}"
 PACKAGECONFIG += "${@base_contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)}"
 
@@ -70,7 +71,7 @@ EXTRA_OECONF += "--enable-fhs \
                  --with-pammodulesdir=${libdir}/security \
                  --with-lockdir=${localstatedir}/lib/samba \
                  --with-cachedir=${localstatedir}/lib/samba \
-                 --with-perl-lib-install-dir=${PERL_VERNDORLIB} \
+                 --with-perl-lib-install-dir=${PERL_VENDORLIB} \
                  --disable-gnutls \
                  --disable-rpath-install \
                  --with-shared-modules=${SAMBA4_MODULES} \
@@ -161,4 +162,4 @@ FILES_${PN}-python-dbg = "${libdir}/python${PYTHON_BASEVERSION}/site-packages/.d
                           ${libdir}/python${PYTHON_BASEVERSION}/site-packages/samba/dcerpc/.debug/* \
                          "
 
-FILES_${PN}-pidl = "${datadir}/perl5/vendor_perl/*"
+FILES_${PN}-pidl = "${datadir}/perl5/*"
