@@ -360,7 +360,7 @@ function dlstart(name)
 	script:write("'" .. dlname .. "'\n")
 	script:write([[
 	wget -q 'http://127.0.0.1/control/message?popup=Video Liste ]])
-		script:write(name .. "wurde heruntergeladen.' -O /dev/null\n")
+		script:write(name .. " wurde heruntergeladen.' -O /dev/null\n")
 		script:write("rm '" .. dlname .. "'\n")
 		script:write("rm '" .. scriptname .. "'\n")
 		script:write("rm /tmp/.rtmpdl\n")
@@ -439,7 +439,7 @@ function chooser_menu(id)
 		gen_chooser_menu(glob.mtv_artist, name , id, chooser_action, forwarder_action, forwarder_name, hintname, value, glob.search_artists_menu)
 	elseif id =="favdel" then
 		local forwarder_action = "favdel"
-		local forwarder_name = "Lösche ausführen"
+		local forwarder_name = "Favoriten löschen"
 		local chooser_action = "set_bool_in_mtv"
 		local hintname = "Lösche die ausgewählten Videos."
 		local name = id .. " hinzufügen" 
@@ -509,7 +509,7 @@ function __menu(_menu,menu_name,table,_action)
 	_menu:addItem{type="separatorline"}
 	local d = 1 -- directkey
 
-	_menu:addItem{type="forwarder", name="Playliste", action="playlist", enabled=true,
+	_menu:addItem{type="forwarder", name="Playlist", action="playlist", enabled=true,
 	id="Playlist " .. menu_name, directkey=godirectkey(d),hint="Playlist: " .. menu_name}
         d=d+1
 	_menu:addItem{type="forwarder", name="Erstelle M3U Playlist", action="gen_m3u_list", enabled=true,
