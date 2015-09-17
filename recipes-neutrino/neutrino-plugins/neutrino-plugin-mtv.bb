@@ -15,14 +15,13 @@ S = "${WORKDIR}/git/plugins/mtv"
 PR = "1"
 
 SRC_URI = "git://git.slknet.de/git/cst-public-plugins-scripts-lua.git \
-	   file://mtv_hint.png \
 "
 
 do_install () {
 	install -d ${D}/var/tuxbox/plugins
 	install -m 644 ${S}/mtv.lua ${D}/var/tuxbox/plugins
 	install -m 644 ${S}/mtv.cfg ${D}/var/tuxbox/plugins
-	install -m 644 ${WORKDIR}/mtv_hint.png ${D}/var/tuxbox/plugins
+	install -m 644 ${S}/mtv_hint.png ${D}/var/tuxbox/plugins
 }
 
 FILES_${PN} = "\
