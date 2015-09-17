@@ -17,6 +17,8 @@ PACKAGES = "\
 RDEPENDS_packagegroup-custom-recommended ?= "\
     autofs \
     cifs-utils \
+    exfat-utils \
+    fuse-exfat \
     htop \
     libevent \
     logrotate \
@@ -30,9 +32,12 @@ RDEPENDS_packagegroup-custom-recommended ?= "\
     neutrino-plugin-logo \
     nfs-utils \
     nfs-utils-client \
+    ntfs3g \
+    ntfsprogs \
     ng-logos \
     openssh \
     openssl \
+    parted \
     rpcbind \
     samba \
     sysklogd \
