@@ -32,7 +32,7 @@ RDEPENDS_packagegroup-custom-recommended ?= "\
     neutrino-plugin-logo \
     nfs-utils \
     nfs-utils-client \
-    ntfs3g \
+    ntfs-3g \
     ntfsprogs \
     ng-logos \
     openssh \
