@@ -42,7 +42,6 @@ RDEPENDS_packagegroup-custom-recommended ?= "\
     samba \
     sysklogd \
     tmux \
-    util-linux-blkid \
     wpa-supplicant \
 "
 
