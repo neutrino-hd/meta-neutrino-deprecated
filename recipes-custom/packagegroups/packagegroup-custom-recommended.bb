@@ -17,6 +17,7 @@ PACKAGES = "\
 RDEPENDS_packagegroup-custom-recommended ?= "\
     autofs \
     cifs-utils \
+    dosfstools \
     exfat-utils \
     fuse-exfat \
     htop \
