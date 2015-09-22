@@ -7,7 +7,7 @@
 #
 # Inactive by default. Fill the gaps, and link to /etc/rc5.d to activate.
 
-PATH=/usr/bin:/bin:/var/bin
+PATH=/bin:/usr/bin
 DAEMON=doscam
 DAEMON_OPTS="-b"
 DAEMON1=osemu

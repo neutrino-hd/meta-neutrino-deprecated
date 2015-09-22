@@ -45,7 +45,5 @@ RDEPENDS_packagegroup-custom-recommended ?= "\
     tmux \
     wpa-supplicant \
 "
-
-RDEPENDS_packagegroup-custom-recommended += "${@'' if USE_ETC != 'yes' else 'etckeeper'}"
     
 

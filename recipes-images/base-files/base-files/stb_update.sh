@@ -49,22 +49,6 @@ if [ -f /var/update/uldr.bin ]; then
 	DO_REBOOT=1
 fi
 
-if [ -f /var/update/.erase_var ]; then
-	# check if we are using gnu coreutils
-	if [ -e /usr/bin/cut.coreutils ]; then
-	# coreutils "cut" counts from 1
-	DEV=`grep -i var /proc/mtd | cut -f 1 -s -d :`
-	else
-	# busybox "cut" counts from 0
-	DEV=`grep -i var /proc/mtd | cut -f 0 -s -d :`
-	fi
-	echo cleaning var partition on device $DEV .....
-	/usr/sbin/flash_eraseall /dev/$DEV
-	rm /var/update/.erase_var
-	touch /var/update/.newimage
-	DO_REBOOT=1
-fi
-
 if [ -f /var/update/.erase_env ]; then
 	# check if we are using gnu coreutils
 	if [ -e /usr/bin/cut.coreutils ]; then
