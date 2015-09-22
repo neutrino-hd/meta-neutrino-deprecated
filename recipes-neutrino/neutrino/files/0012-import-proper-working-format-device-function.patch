@@ -1,0 +1,82 @@
+From 33260ec973bd982c3a39083ce1490e8ff63e3f64 Mon Sep 17 00:00:00 2001
+From: MarkusVolk <f_l_k@t-online.de>
+Date: Sat, 19 Sep 2015 15:39:53 +0200
+Subject: [PATCH 1386/1386] import proper working format device function from
+ neutrino-mp ... copyright stefan Seyfried
+
+Signed-off-by: MarkusVolk <f_l_k@t-online.de>
+---
+ src/gui/hdd_menu.cpp | 28 ++++++++++++++++++----------
+ 1 file changed, 18 insertions(+), 10 deletions(-)
+
+diff --git a/src/gui/hdd_menu.cpp b/src/gui/hdd_menu.cpp
+index 5b3cf57..d00f64b 100644
+--- a/src/gui/hdd_menu.cpp
++++ b/src/gui/hdd_menu.cpp
+@@ -788,6 +788,7 @@ int CHDDMenuHandler::formatDevice(std::string dev)
+ 	int res;
+ 	FILE * f;
+ 	CProgressWindow * progress;
++	std::string fdisk, sfdisk, tune2fs;
+ 
+ 	printf("CHDDMenuHandler::formatDevice: dev %s hdd_fs %d\n", dev.c_str(), g_settings.hdd_fs);
+ 
+@@ -823,27 +824,34 @@ int CHDDMenuHandler::formatDevice(std::string dev)
+ 		goto _return;
+ 	}
+ 
+-#ifdef ASSUME_MDEV
+-	creat("/tmp/.nomdevmount", 00660);
+-#else
++#ifndef ASSUME_MDEV
+ 	f = fopen("/proc/sys/kernel/hotplug", "w");
+ 	if(f) {
+ 		fprintf(f, "none\n");
+ 		fclose(f);
+ 	}
+ #endif
++	creat("/tmp/.nomdevmount", 00660);
+ 
+ 	progress = new CProgressWindow();
+ 	progress->setTitle(LOCALE_HDD_FORMAT);
+ 	progress->exec(NULL,"");
+ 	progress->showGlobalStatus(0);
+ 
+-	if (access("/sbin/sfdisk", X_OK) == 0) {
+-		snprintf(cmd, sizeof(cmd), "/sbin/sfdisk -f -uM %s", devname.c_str());
++	fdisk   = find_executable("fdisk");
++	sfdisk  = find_executable("sfdisk");
++	tune2fs = find_executable("tune2fs");
++	if (! sfdisk.empty()) {
++		snprintf(cmd, sizeof(cmd), "%s -f -uM %s", sfdisk.c_str(), devname.c_str());
+ 		strcpy(cmd2, "0,\n;\n;\n;\ny\n");
++	} else if (! fdisk.empty()) {
++		snprintf(cmd, sizeof(cmd), "%s -u %s", fdisk.c_str(), devname.c_str());
++		strcpy(cmd2, "o\nn\np\n1\n2048\n\nw\n");
+ 	} else {
+-		snprintf(cmd, sizeof(cmd), "/sbin/fdisk %s", devname.c_str());
+-		strcpy(cmd2, "o\nn\np\n1\n\n\nw\n");
++		/* cannot do anything */
++		fprintf(stderr, "CHDDFmtExec: neither fdisk nor sfdisk found in $PATH :-(\n");
++		showError(LOCALE_HDD_FORMAT_FAILED);
++		goto _remount;
+ 	}
+ 	progress->showStatusMessageUTF(cmd);
+ 
+@@ -953,10 +961,10 @@ int CHDDMenuHandler::formatDevice(std::string dev)
+ 	}
+ 	sleep(2);
+ 
+-	if (devtool->fmt.substr(0, 3) == "ext") {
++	if (devtool->fmt.substr(0, 3) == "ext" && ! tune2fs.empty()) {
+ 		std::string d = "/dev/" + devpart;
+-		printf("CHDDMenuHandler::formatDevice: executing %s %s\n","/sbin/tune2fs -r 0 -c 0 -i 0", d.c_str());
+-		my_system(8, "/sbin/tune2fs", "-r", "0", "-c", "0", "-i", "0", d.c_str());
++		printf("CHDDMenuHandler::formatDevice: executing %s %s %s\n", tune2fs.c_str(), "-r 0 -c 0 -i 0", d.c_str());
++		my_system(8, tune2fs.c_str(), "-r", "0", "-c", "0", "-i", "0", d.c_str());
+ 	}
+ 	show_menu = true;
+ 
+-- 
+2.1.4
+

@@ -52,6 +52,8 @@ SRC_URI = "git://git.slknet.de/git/cst-public-gui-neutrino.git;branch=cst-next \
 	file://0008-rcsim.c-fix-eventdev-for-yocto.patch \
 	file://0009-src-nhttpd-tuxboxapi-controlapi.cpp-fix-eventdev-for.patch \
 	file://0010-nhttpd-adjust-some-paths.patch \
+	file://0011-opkg_manager.cpp-newer-versions-of-opkg-are-using-op.patch \
+	file://0012-import-proper-working-format-device-function.patch \
 "
 
 SRC_URI_append_coolstream-hd1 = " \

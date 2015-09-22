@@ -1,4 +1,4 @@
-From 66e6acf85e419b4d0028b07ac4421ad2631ed364 Mon Sep 17 00:00:00 2001
+From 5d396001ae90c6945b2d06f1c4ae70ad4632e1a3 Mon Sep 17 00:00:00 2001
 From: Jacek Jendrzej <crashdvb@googlemail.com>
 Date: Sun, 29 Mar 2015 16:00:22 +0200
 Subject: [PATCH 4/4] add-ASF-VC1-Annex-G-and-RCV-bitstream-filters
@@ -14,10 +14,10 @@ Signed-off-by: Jacek Jendrzej <crashdvb@googlemail.com>
  create mode 100644 libavcodec/vc1_asftorcv_bsf.c
 
 diff --git a/libavcodec/Makefile b/libavcodec/Makefile
-index 00090bf..8760544 100644
+index e1fd83b..7e66089 100644
 --- a/libavcodec/Makefile
 +++ b/libavcodec/Makefile
-@@ -850,6 +850,9 @@ OBJS-$(CONFIG_MP3_HEADER_DECOMPRESS_BSF)  += mp3_header_decompress_bsf.o \
+@@ -851,6 +851,9 @@ OBJS-$(CONFIG_MP3_HEADER_DECOMPRESS_BSF)  += mp3_header_decompress_bsf.o \
  OBJS-$(CONFIG_NOISE_BSF)                  += noise_bsf.o
  OBJS-$(CONFIG_REMOVE_EXTRADATA_BSF)       += remove_extradata_bsf.o
  OBJS-$(CONFIG_TEXT2MOVSUB_BSF)            += movsub_bsf.o
@@ -157,7 +157,7 @@ index 0000000..0555ace
 +                              const uint8_t *buf, int buf_size, int keyframe){
 +    ASFTOANNEXGBSFContext* ctx = (ASFTOANNEXGBSFContext*)bsfc->priv_data;
 +
-+    if (avctx->codec_id != CODEC_ID_VC1) {
++    if (avctx->codec_id != AV_CODEC_ID_VC1) {
 +        av_log(avctx, AV_LOG_ERROR, "Only VC1 Advanced profile is accepted!\n");
 +        return -1;
 +    }
@@ -262,7 +262,7 @@ index 0000000..2682aad
 +                          const uint8_t *buf, int buf_size, int keyframe){
 +    ASFTORCVBSFContext* ctx = (ASFTORCVBSFContext*)bsfc->priv_data;
 +
-+    if (avctx->codec_id != CODEC_ID_WMV3) {
++    if (avctx->codec_id != AV_CODEC_ID_WMV3) {
 +        av_log(avctx, AV_LOG_ERROR, "Only WMV3 is accepted!\n");
 +        return -1;
 +    }
@@ -316,5 +316,5 @@ index 0000000..2682aad
 +    asftorcv_filter,
 +};
 -- 
-2.3.5
+2.4.0
 
