@@ -25,7 +25,6 @@ RDEPENDS_packagegroup-custom-needed = "\
 	tzdata-europe \
 	udev-extraconf \
 	util-linux-blkid \
-	util-linux-mkfs \
 	"
 
 RDEPENDS_packagegroup-custom-needed_append = "${@'opkg' if DISTRO != 'coolstream-hd1_flash' else ''}"
