@@ -33,7 +33,7 @@ local on="ein"
 local off="aus"
 local u="ubouquets"
 local b="bouquets"
-local localtv_verrsion="LocalTV 0.12 (beta)"
+local localtv_verrsion="LocalTV 0.13"
 function __LINE__() return debug.getinfo(2, 'l').currentline end
 
 function gethttpdata(host,link)
@@ -67,7 +67,6 @@ function gethttpdata(host,link)
 	end
 	p.close(fd)
 	data = table.concat(data)
---	print(string.find(data, "HTTP/%d*%.%d* (%d%d%d)"))
 	return data
 end
 
@@ -205,7 +204,6 @@ function changeFav()
 	end
 	for _, v in ipairs(ListeTab) do
 		if v.enabled then
---			print(v.name)
 			if v.bt then
 				local locked = ""
 				local hidden = ""
@@ -223,7 +221,7 @@ function changeFav()
 				if v.epg then
 					epg=' epg="' .. "0"  .. '"' -- v.epg disable epg scan 
 				end
-				fileout:write('\t<Bouquet name="' .. v.name .. '"' .. bqID .. hidden .. locked .. epg ..' >\n')
+				fileout:write('\t<Bouquet name="' .. v.name .. " (".. conf.name .. ')"' .. bqID .. hidden .. locked .. epg ..' >\n')
 					for __, b in ipairs(v.bt) do
 						if conf.epg then
 						local un = ""
@@ -234,7 +232,7 @@ function changeFav()
 						if b.un then
 							un=' un="' .. b.un  .. '"'
 						end
-						fileout:write('\t\t<S i="' .. b.i ..'" t="' .. b.t .. '" on="' .. b.on..'" s="' ..b.s..'" frq="'.. b.frq .. '" n="'.. b.n .. un .. l ..'" />\n')
+						fileout:write('\t\t<S i="' .. b.i ..'" t="' .. b.t .. '" on="' .. b.on..'" s="' ..b.s..'" frq="'.. b.frq .. '" n="'.. b.n .. '"' .. un .. l ..' />\n')
 					end
  					fileout:write('\t\t<S u=' .. b.tv..' n="' ..b.n.. '" />\n')
 				end
@@ -285,7 +283,7 @@ function saveliste()
 				changeFav()
 			end
 			os.execute( 'pzapit -c')
-			info("Information", "Liste ".. conf.name .. ".xml" .. " wurde gespeichert")
+			info("Inforation", "Liste ".. conf.name .. ".xml" .. " wurde gespeichert")
 		end
 	else
 		info("Fehler", "Verzeichnis nicht beschreibbar")
@@ -380,6 +378,7 @@ function info(captxt,infotxt)
 	until msg == RC.ok or msg == RC.home
 	h:hide()
 end
+
 function set_bool_in_liste(k, v) 
 	local i = tonumber(k)
 	if v == on then

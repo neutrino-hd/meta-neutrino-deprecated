@@ -5,7 +5,7 @@ HOMEPAGE = ""
 MAINTAINER = "Jacek Jendrzej"
 DEPENDS = "lua5.2"
 
-PV = "0.12"
+PV = "0.13"
 PR = "1"
 
 SRC_URI = "file://LocalTV.cfg \
