@@ -125,7 +125,7 @@ function add_channels(t,b_name)
 					end
 					v.attr.n=v.attr.n:gsub("%&","&amp;")
 					local url='"http://' .. conf.ip .. ':31339/id='.. chid .. '"'
-					table.insert(BListeTab, { tv=url,s=v.attr.s, frq=v.attr.frq, n=v.attr.n, t=v.attr.t, on=v.attr.on, i=v.attr.i, l=v.attr.l, un=v.attr.un })
+					table.insert(BListeTab, { tv=url,s=v.attr.s, frq=v.attr.frq, n=v.attr.n, t=v.attr.t, on=v.attr.on, i=v.attr.i, l=v.attr.l, un=v.attr.un, epgid=chid:sub(#chid-10,#chid) })
 					ok=true
 				end
 			end
@@ -222,19 +222,16 @@ function changeFav()
 					epg=' epg="' .. "0"  .. '"' -- v.epg disable epg scan 
 				end
 				fileout:write('\t<Bouquet name="' .. v.name .. " (".. conf.name .. ')"' .. bqID .. hidden .. locked .. epg ..' >\n')
-					for __, b in ipairs(v.bt) do
-						if conf.epg then
-						local un = ""
-						local l = ""
-						if b.l then
-							l=' l="' .. b.l .. '"' 
-						end
-						if b.un then
-							un=' un="' .. b.un  .. '"'
-						end
-						fileout:write('\t\t<S i="' .. b.i ..'" t="' .. b.t .. '" on="' .. b.on..'" s="' ..b.s..'" frq="'.. b.frq .. '" n="'.. b.n .. '"' .. un .. l ..' />\n')
+				for __, b in ipairs(v.bt) do
+					local un = ""
+					local l = ""
+					if b.l then
+						l=' l="' .. b.l .. '"' 
 					end
- 					fileout:write('\t\t<S u=' .. b.tv..' n="' ..b.n.. '" />\n')
+					if b.un then
+						un=' un="' .. b.un  .. '"'
+					end
+					fileout:write('\t\t<S u=' .. b.tv..' n="' ..b.n.. '"' .. un .. l ..' />\n')
 				end
 				fileout:write('\t</Bouquet>\n')
 			end
@@ -272,7 +269,7 @@ function saveliste()
 -- 					print(v.name)
 					if v.bt then
 						for __, b in ipairs(v.bt) do
-							localtv:write('\t<webtv title="' .. b.n .. '" url=' .. b.tv .. ' description="' .. v.name .. '" genre="' ..conf.name  ..'" />\n')
+							localtv:write('\t<webtv title="' .. b.n .. '" url=' .. b.tv  .. ' epgid="' .. b.epgid.. '" description="' .. v.name .. '" genre="' ..conf.name  ..'" />\n')
 						end
 					end
 				end
@@ -305,7 +302,6 @@ function saveConfig()
 		config:setString("ip",conf.ip)
 		config:setBool  ("enabled",conf.enabled)
 		config:setString("fav",conf.fav)
-		config:setBool  ("epg",conf.epg)
 		config:saveConfig(get_confFile())
 		conf.changed = false
 	end
@@ -320,7 +316,6 @@ function loadConfig()
 	conf.bouquet = config:getString("bouquet", "ubouquets")
 	conf.enabled = config:getBool("enabled", true)
 	conf.fav = config:getString("fav", "no")
-	conf.epg = config:getBool("epg", false)
 	conf.changed = false
 end
 
@@ -432,7 +427,6 @@ function main_menu()
 		 }
 	m:addItem{type="chooser", action="set_option", options={ on, off }, id="enabled", value=bool2onoff(conf.enabled), directkey=RC["5"], name="Auswahl vorbelegen mit",hint_icon="hint_service",hint="Erstelle Auswahlliste mit 'ein' oder 'aus'"}
 	m:addItem{type="chooser", action="setabc", options={ fno, fadd, fover }, id="boxub", value=favoption(conf.fav), name="",directkey=RC["6"],hint_icon="hint_service",hint="Erstellte Bouquets zu den Favoriten hinzufügen, überschreiben oder unverändert lassen"}
-	m:addItem{type="chooser", action="set_option", options={ on, off }, id="epg",enabled=ture,value=bool2onoff(conf.epg), directkey=RC["7"], name="Falsche Sender erstellen",hint_icon="hint_service",hint="Falsche Sender nur in der Favoritenliste erstellen. EPG workaround !!!"}
 	m:addItem{type="separatorline"}
 	m:addItem{type="forwarder", name="Erstelle Liste", action="make_list",enabled=true,id="",directkey=RC["red"],hint_icon="hint_service",hint="Die Liste erstellen" }
 	m:exec()

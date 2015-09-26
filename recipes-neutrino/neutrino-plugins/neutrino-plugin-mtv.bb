@@ -8,7 +8,7 @@ DEPENDS = "lua5.2"
 RDEPENDS_${PN} += "rtmpdump"
 
 SRCREV = "${AUTOREV}"
-PV = "0.3-${SRCPV}"
+PV = "${SRCPV}"
 
 S = "${WORKDIR}/git/plugins/mtv"
 
