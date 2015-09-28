@@ -1,9 +1,8 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/nfs-utils:"
 
-SRC_URI_append_libc-uclibc += "file://sockaddr_h.patch \
-			       file://volatiles.04_nfs \
-"
+SRC_URI_append += "file://volatiles.04_nfs"
 
+SRC_URI_append_libc-uclibc += "file://sockaddr_h.patch"
 
 do_install_append() {
 	install -d ${D}${sysconfdir}/default/volatiles
