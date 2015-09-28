@@ -1,0 +1,4 @@
+movies  -rw,soft,intr,rsize=8192,wsize=8192 192.168.2.21:/srv/nfs/sda1/movies
+pictures  -rw,soft,intr,rsize=8192,wsize=8192 192.168.2.21:/srv/nfs/sda1/pictures
+music  -rw,soft,intr,rsize=8192,wsize=8192 192.168.2.21:/srv/nfs/sda1/music
+

@@ -53,7 +53,17 @@ automount() {
 			mkdir /media/$DIR
 			rm -f "/media/$LINK"
 			ln -s ../$name "/media/$LINK"
+                        for i in $name; do
+                                mkdir -p "/srv/nfs/$name"
+                                mount --bind "/media/$name" "/srv/nfs/$name"
+                                cat /etc/exports | grep "/srv/nfs/$name" && break
+				echo "/srv/nfs/$name *(rw,no_root_squash,insecure,no_subtree_check,async,nohide)" >> /etc/exports
+				echo "/srv/nfs/$name/movies *(rw,no_root_squash,insecure,no_subtree_check,async,nohide)" >> /etc/exports
+				echo "/srv/nfs/$name/pictures *(rw,no_root_squash,insecure,no_subtree_check,async,nohide)" >> /etc/exports
+				echo "/srv/nfs/$name/music *(rw,no_root_squash,insecure,no_subtree_check,async,nohide)" >> /etc/exports
+			done
 		done
+		cat /sys/class/net/eth0/operstate | grep "up" && exportfs -r
 	fi
 }
 
@@ -93,9 +103,11 @@ fi
 
 
 if [ "$ACTION" = "remove" ] && [ -x "$UMOUNT" ] && [ -n "$DEVNAME" ]; then
+	name="`basename "$DEVNAME"`"
 	for mnt in `grep "$DEVNAME" /proc/mounts | cut -f 2 -d " " `
 	do
 		$UMOUNT $mnt
+		$UMOUNT  /srv/nfs/$name
 	done
 
 	if [ -x /usr/bin/mdev_helper ]; then
@@ -103,6 +115,10 @@ if [ "$ACTION" = "remove" ] && [ -x "$UMOUNT" ] && [ -n "$DEVNAME" ]; then
 	fi
 
 	# Remove empty directories from auto-mounter
-	name="`basename "$DEVNAME"`"
-	test -e "/tmp/.automount-$name" && rm_dir "/media/$name"
+	if [ -e "/tmp/.automount-$name" ];then
+		rm_dir "/media/$name"
+		rm_dir "/srv/nfs/$name"
+		echo "`cat /etc/exports | grep -v -e "$name"`" > /etc/exports
+		cat /sys/class/net/eth0/operstate | grep "up" && exportfs -r
+	fi
 fi
