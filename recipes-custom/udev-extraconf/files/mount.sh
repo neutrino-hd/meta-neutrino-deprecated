@@ -74,6 +74,11 @@ rm_dir() {
 		[ x`readlink $i` = x../$L_TARGET ] && rm $i
 		rmdir ${i%/*}
 	done
+	cd /srv/nfs
+	for i in $(find * -maxdepth 1 -type l); do
+		[ x`readlink $i` = x../$L_TARGET ] && rm $i
+		rmdir ${i%/*}
+	done
 }
 
 # No ID_FS_TYPE for cdrom device, yet it should be mounted
