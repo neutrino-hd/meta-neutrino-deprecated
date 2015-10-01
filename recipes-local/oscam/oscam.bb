@@ -5,8 +5,6 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
 
 DEPENDS = "libusb1 openssl virtual/stb-hal-libs"
 
-PR = "r1"
-
 SRC_URI = " \
 	svn://www.streamboard.tv/svn/oscam;module=trunk;protocol=http \
 	file://oscam.user \
@@ -21,23 +19,16 @@ SRC_URI_append_coolstream-hd2 = " \
 "
 
 SRCREV = "${AUTOREV}"
-PV = "1.20+svn${SRCREV}"
+PV = "1.20+svn${SRCPV}"
 
 S = "${WORKDIR}/trunk"
 	
 INHIBIT_PACKAGE_STRIP = "1"
 
-inherit cmake update-alternatives
+inherit cmake
 
 do_configure_append_coolstream-hd2 () {
-	if [ ${BOXTYPE} == "apollo" ];then
-		if [ ${BOXMODEL} == "tank" ];then	
-			sed -i "s|^#define MAX_COOL_DMX.*|#define MAX_COOL_DMX 4|" ${S}/module-dvbapi-coolapi.c
-		else
-			sed -i "s|^#define MAX_COOL_DMX.*|#define MAX_COOL_DMX 2|" ${S}/module-dvbapi-coolapi.c
-		fi
-	fi
-	if [ ${BOXTYPE} == "kronos" ];then
+	if [ ${BOXTYPE} = "kronos" ];then
 		sed -i "s|^#define MAX_COOL_DMX.*|#define MAX_COOL_DMX 3|" ${S}/module-dvbapi-coolapi.c
 	fi
 }
@@ -62,6 +53,7 @@ EXTRA_OECMAKE = " \
 		 -DMODULE_CCCSHARE=1 \
 		 -DCARDREADER_SC8IN1=0 \
 		 -DCARDREADER_SMARGO=0 \
+		 -DINSTALL_COMPONENT=1 \
 "
 
 EXTRA_OECMAKE_append_coolstream-hd1 += "-DOSCAM_SYSTEM_NAME=Coolstream \
