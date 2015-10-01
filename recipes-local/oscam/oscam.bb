@@ -14,10 +14,6 @@ SRC_URI = " \
 	file://oscam.conf \
 "
 
-SRC_URI_append_coolstream-hd2 = " \
-	file://CMakeLists.patch \
-"
-
 SRCREV = "${AUTOREV}"
 PV = "1.20+svn${SRCPV}"
 
