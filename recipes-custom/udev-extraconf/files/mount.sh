@@ -55,10 +55,10 @@ automount() {
 			ln -s ../$name "/media/$LINK"
 			mkdir -p "/srv/nfs/$name"
 			cat /etc/exports | grep "/srv/nfs/$name" && break
-			echo "/srv/nfs/$name *(ro,no_root_squash,insecure,no_subtree_check,async,nohide)" >> /etc/exports
-			echo "/srv/nfs/$name/movies *(ro,no_root_squash,insecure,no_subtree_check,async,nohide)" >> /etc/exports
-			echo "/srv/nfs/$name/pictures *(ro,no_root_squash,insecure,no_subtree_check,async,nohide)" >> /etc/exports
-			echo "/srv/nfs/$name/music *(ro,no_root_squash,insecure,no_subtree_check,async,nohide)" >> /etc/exports
+			echo "/srv/nfs/$name *(rw,no_root_squash,insecure,no_subtree_check,async,nohide)" >> /etc/exports
+			echo "/srv/nfs/$name/movies *(rw,no_root_squash,insecure,no_subtree_check,async,nohide)" >> /etc/exports
+			echo "/srv/nfs/$name/pictures *(rw,no_root_squash,insecure,no_subtree_check,async,nohide)" >> /etc/exports
+			echo "/srv/nfs/$name/music *(rw,no_root_squash,insecure,no_subtree_check,async,nohide)" >> /etc/exports
 		done
 		mount --bind "/media/$name" "/srv/nfs/$name"
 		cat /sys/class/net/eth0/operstate | grep "up" && exportfs -r
