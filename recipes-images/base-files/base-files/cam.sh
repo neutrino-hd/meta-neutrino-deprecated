@@ -8,7 +8,11 @@
 # Inactive by default. Fill the gaps, and link to /etc/rc5.d to activate.
 
 PATH=/bin:/usr/bin
+if [ -e /usr/bin/doscam ];then
 DAEMON=doscam
+else
+DAEMON=oscam
+fi
 DAEMON_OPTS="-b"
 DAEMON1=osemu
 DAEMON1_OPTS="-a user:password -p 11000 -b"
