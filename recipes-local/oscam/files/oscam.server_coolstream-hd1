@@ -1,0 +1,10 @@
+[reader]
+label                         = skyS02
+protocol                      = internal
+device                        = 0
+detect			      = CD
+caid                          = 1702,1833
+rsakey =                            
+boxkey = 
+group                         = 1
+emmcache                      = 1,3,2
