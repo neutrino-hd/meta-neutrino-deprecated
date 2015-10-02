@@ -6,12 +6,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
 DEPENDS = "libusb1 openssl virtual/stb-hal-libs"
 
 SRC_URI = " \
-	svn://www.streamboard.tv/svn/oscam;module=trunk;protocol=http \
-	file://oscam.user \
-	file://oscam.server_${MACHINE} \
-	file://oscam.services \
-	file://oscam.dvbapi \
-	file://oscam.conf \
+	svn://www.streamboard.tv/svn/oscam;module=trunk;protocol=https \
+	file://disable_in_yocto_not_working_revision_fetching.diff \
 "
 
 SRCREV = "${AUTOREV}"
@@ -21,7 +17,10 @@ S = "${WORKDIR}/trunk"
 	
 INHIBIT_PACKAGE_STRIP = "1"
 
-inherit cmake
+INITSCRIPT_NAME = "cam.sh"
+INITSCRIPT_PARAMS = "defaults"
+
+inherit cmake update-rc.d
 
 do_configure_append_coolstream-hd2 () {
 	if [ ${BOXTYPE} = "kronos" ];then
@@ -30,6 +29,7 @@ do_configure_append_coolstream-hd2 () {
 }
 
 EXTRA_OECMAKE = " \
+		 -DCS_SVN_VERSION="${SRCPV}" \
 		 -DWEBIF=1 \
 		 -DHAVEDVBAPI=1 \
 		 -DUSE_LIBCRYPTO=1 \
@@ -58,8 +58,6 @@ EXTRA_OECMAKE_append_coolstream-hd2 += "-DOSCAM_SYSTEM_NAME=CST2 \
 "
 
 do_install () {
-	install -d ${D}/etc/neutrino/config ${D}/etc/neutrino/bin
+	install -d ${D}/etc/neutrino/bin
 	install -D -m 755 ${WORKDIR}/build/oscam ${D}/etc/neutrino/bin/oscam
-	install -D -m 644 ${WORKDIR}/oscam.* ${D}/etc/neutrino/config
-	mv ${D}/etc/neutrino/config/oscam.server_${MACHINE} ${D}/etc/neutrino/config/oscam.server
 }
