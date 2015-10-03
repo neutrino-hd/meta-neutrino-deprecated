@@ -20,6 +20,8 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/daemons/autofs/v5/autofs-${PV}.tar.gz \
            file://using-pkg-config-to-detect-libxml-2.0-and-krb5.patch \
            file://force-STRIP-to-emtpy.patch \
            file://remove-bashism.patch \
+	   file://auto.master \
+	   file://auto.nfs \	
 "
 
 SRC_URI[md5sum] = "b7724a9a55923f3c06933a8dfd1e79d3"
@@ -61,10 +63,9 @@ do_install_append () {
     if [ -d ${D}${localstatedir}/run ]; then
 	rmdir ${D}${localstatedir}/run
     fi
-}
-
-pkg_postinst_${PN} () {
-echo "mkdir /media/nfs" >> /etc/init.d/aa_media-tmpfs.sh
+    install -d ${D}${sysconfdir}
+    install -m 644 ${WORKDIR}/auto.master ${D}/${sysconfdir}/auto.master
+    install -m 644 ${WORKDIR}/auto.nfs ${D}/${sysconfdir}/auto.nfs
 }
 
 INSANE_SKIP_${PN} = "dev-so"

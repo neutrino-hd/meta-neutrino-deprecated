@@ -1,0 +1,29 @@
+From e485ecef3baefe7cefc46eb74a3c5bd26699e7ba Mon Sep 17 00:00:00 2001
+From: MarkusVolk <f_l_k@t-online.de>
+Date: Fri, 25 Sep 2015 13:14:56 +0200
+Subject: [PATCH] disable network_services menu
+
+Signed-off-by: MarkusVolk <f_l_k@t-online.de>
+---
+ src/gui/network_setup.cpp | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/gui/network_setup.cpp b/src/gui/network_setup.cpp
+index 87097ae..f16fa30 100644
+--- a/src/gui/network_setup.cpp
++++ b/src/gui/network_setup.cpp
+@@ -382,9 +382,9 @@ int CNetworkSetup::showNetworkSetup()
+ 		networkSettings->addItem(mf);
+ 
+ 		//services
+-		mf = new CMenuForwarder(LOCALE_NETWORKMENU_SERVICES, true, NULL, &services, NULL, CRCInput::RC_1);
++/*		mf = new CMenuForwarder(LOCALE_NETWORKMENU_SERVICES, true, NULL, &services, NULL, CRCInput::RC_1);
+ 		mf->setHint("", LOCALE_MENU_HINT_NET_SERVICES);
+-		networkSettings->addItem(mf);
++		networkSettings->addItem(mf);*/
+ 	}
+ 
+ 	int ret = 0;
+-- 
+2.1.4
+

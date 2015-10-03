@@ -27,11 +27,11 @@ EXTRA_OECONF = " \
 	--with-boxtype=coolstream \
 "
 
-EXTRA_OECONF += "${@'--prefix=/ \
-		     --exec_prefix=/usr \
-		     --includedir=${exec_prefix}/include \
-		     --with-configdir=${sysconfdir}/neutrino/config' \
-		 if USE_VAR != 'yes' else ''}"
+EXTRA_OECONF += "--prefix=/ \
+		 --exec_prefix=/usr \
+		 --includedir=${exec_prefix}/include \
+		 --with-configdir=${sysconfdir}/neutrino/config \
+"
 
 EXTRA_OECONF_append_coolstream-hd1 = " \
 	--with-boxmodel=nevis \
