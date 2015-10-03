@@ -12,6 +12,8 @@ HOST_aol = "smtp.de.aol.com"
 HOST_mail.de = "smtp.mail.de"
 HOST_outlook = "smtp-mail.outlook.com"
 
+EXTRA_OECONF += "--disable-gai-idn"
+
 do_install_prepend() {
 	install -d ${D}/${sysconfdir}
 	install -m 600 ${WORKDIR}/msmtprc ${D}${sysconfdir}/msmtprc
