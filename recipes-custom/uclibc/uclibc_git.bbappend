@@ -4,7 +4,7 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/uclibc:"
 SRC_URI += "file://uClibc.machine \
 	    file://uClibc.distro \
 	    file://locale.cfg \
-	    file://fix libgcc_s_resume issue.patch \
+	    file://fix-libgcc-s-resume-issue.patch \
 "
 
 # we cannot compile in thumb mode
