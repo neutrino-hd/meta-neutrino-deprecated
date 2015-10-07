@@ -58,6 +58,6 @@ EXTRA_OECMAKE_append_coolstream-hd2 += "-DOSCAM_SYSTEM_NAME=CST2 \
 "
 
 do_install () {
-	install -d ${D}/etc/neutrino/bin
-	install -D -m 755 ${WORKDIR}/build/oscam ${D}/etc/neutrino/bin/oscam
+	install -d ${D}/usr/bin
+	install -D -m 755 ${WORKDIR}/build/oscam ${D}/usr/bin/oscam
 }

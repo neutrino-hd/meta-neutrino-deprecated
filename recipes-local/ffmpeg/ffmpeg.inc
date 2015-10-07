@@ -118,6 +118,7 @@ EXTRA_OECONF = " \
 	--enable-demuxer=hds \
 	--disable-encoders \
 	--disable-muxers \
+	--enable-muxer=mpegts \
 	--disable-filters \
 	--disable-protocol=data \
 	--disable-protocol=cache \
