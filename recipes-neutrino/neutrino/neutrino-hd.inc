@@ -2,7 +2,7 @@
 #
 N_CFLAGS = "-Wall -Wextra -Wshadow -g -O2 -fno-strict-aliasing -rdynamic -DENABLE_FREESATEPG -DNEW_LIBCURL -I${STAGING_INCDIR}/freetype2"
 
-N_CXXFLAGS = "${N_CFLAGS}"
+N_CXXFLAGS = "${N_CFLAGS} -D__STDC_CONSTANT_MACROS"
 
 N_LDFLAGS += "-Wl,-rpath-link,${STAGING_DIR_HOST}/usr/lib -lcurl -ldl"
 
