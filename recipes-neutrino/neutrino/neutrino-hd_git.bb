@@ -75,6 +75,7 @@ include neutrino-hd.inc
 do_configure_prepend() {
 	INSTALL="`which install` -p"
 	export INSTALL
+	export DVB_API_VERSION=5
 	ln -sf ${WORKDIR}/build/src/gui/version.h ${S}/src/gui/
 	sed -i "s|XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX|${YT_DEV_KEY}|" ${S}/src/neutrino.cpp
 }
