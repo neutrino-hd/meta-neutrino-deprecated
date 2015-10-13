@@ -16,3 +16,5 @@ SRC_URI[md5sum] = "7eb50352c06b17c499a6d51e18e99ec5"
 SRC_URI[sha256sum] = "f8d412fbe7385e63fa4f02976d3ecae9a87a3936806f20e82ea67f351cae434f"
 
 inherit autotools pkgconfig
+
+CPPFLAGS = "-D_GLIBCXX_USE_CXX11_ABI=0"

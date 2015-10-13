@@ -2,11 +2,11 @@
 #
 N_CFLAGS = "-Wall -Wextra -Wshadow -g -O2 -fno-strict-aliasing -rdynamic -DENABLE_FREESATEPG -DNEW_LIBCURL -I${STAGING_INCDIR}/freetype2"
 
-N_CXXFLAGS = "${N_CFLAGS} -D__STDC_CONSTANT_MACROS"
+N_CXXFLAGS = "${N_CFLAGS}"
 
 N_LDFLAGS += "-Wl,-rpath-link,${STAGING_DIR_HOST}/usr/lib -lcurl -ldl"
 
-N_CPPFLAGS = "-DDYNAMIC_LUAPOSIX -D__KERNEL_STRICT_NAMES "
+N_CPPFLAGS = "-DDYNAMIC_LUAPOSIX -D__KERNEL_STRICT_NAMES -D_GLIBCXX_USE_CXX11_ABI=0 -D__STDC_CONSTANT_MACROS"
 N_CPPFLAGS_append_coolstream-hd2 = "-DFB_HW_ACCELERATION -mcpu=cortex-a9 -mfpu=vfpv3-d16 -mfloat-abi=hard" 
 
 
