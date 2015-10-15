@@ -55,6 +55,7 @@ SRC_URI = "git://git.slknet.de/git/cst-public-gui-neutrino.git;branch=cst-next \
 	file://0011-opkg_manager.cpp-newer-versions-of-opkg-are-using-op.patch \
 	file://0012-import-proper-working-format-device-function.patch \
 	file://0013-disable-network_services-menu.patch \
+	file://0015-fix-build-for-new-ffmpeg.patch \
 "
 
 SRC_URI_append_coolstream-hd1 = " \
