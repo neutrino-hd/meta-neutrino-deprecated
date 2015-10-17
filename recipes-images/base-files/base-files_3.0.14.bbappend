@@ -28,10 +28,10 @@ do_custom_baseissueinstall() {
 	printf "\n%s" '                                       /___/'			>> ${D}${sysconfdir}/issue.net
 	printf "\n\nNeutrino-HD image (based on Yocto ${DISTRO} ${DISTRO_VERSION})" 	>> ${D}${sysconfdir}/issue
 	printf "\n\nNeutrino-HD image (based on Yocto ${DISTRO} ${DISTRO_VERSION}) " 	>> ${D}${sysconfdir}/issue.net
-	echo -e "\n%s %m %r" 								>> ${D}${sysconfdir}/issue
-	echo -e "\n%s %m %r" 								>> ${D}${sysconfdir}/issue.net
-	echo -e "%d, %t" 								>> ${D}${sysconfdir}/issue
-	echo -e "%d, %t" 								>> ${D}${sysconfdir}/issue.net
+	echo "\n%s %m %r" 								>> ${D}${sysconfdir}/issue
+	echo "\n%s %m %r" 								>> ${D}${sysconfdir}/issue.net
+	echo "%d, %t" 								>> ${D}${sysconfdir}/issue
+	echo "%d, %t" 								>> ${D}${sysconfdir}/issue.net
 	printf "\\\n \\\l\n"								>> ${D}${sysconfdir}/issue
 	echo >> ${D}${sysconfdir}/issue
 	echo >> ${D}${sysconfdir}/issue.net
