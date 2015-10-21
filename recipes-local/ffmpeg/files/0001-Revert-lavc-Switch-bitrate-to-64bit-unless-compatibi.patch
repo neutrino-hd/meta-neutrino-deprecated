@@ -326,19 +326,6 @@ index 0ae35ed..244f078 100644
      }
  }
  
-diff --git a/libavcodec/version.h b/libavcodec/version.h
-index 97f4ae4..4fe1eed 100644
---- a/libavcodec/version.h
-+++ b/libavcodec/version.h
-@@ -29,7 +29,7 @@
- #include "libavutil/version.h"
- 
- #define LIBAVCODEC_VERSION_MAJOR  57
--#define LIBAVCODEC_VERSION_MINOR   7
-+#define LIBAVCODEC_VERSION_MINOR   1
- #define LIBAVCODEC_VERSION_MICRO 100
- 
- #define LIBAVCODEC_VERSION_INT  AV_VERSION_INT(LIBAVCODEC_VERSION_MAJOR, \
 diff --git a/libavcodec/wma.c b/libavcodec/wma.c
 index 6d1c7e5..006d8d5 100644
 --- a/libavcodec/wma.c
