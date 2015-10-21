@@ -1,6 +1,6 @@
 From 2238d3c62bccca8ecb929a3af49d92f7277fb82a Mon Sep 17 00:00:00 2001
 From: MarkusVolk <f_l_k@t-online.de>
-Date: Wed, 21 Oct 2015 13:15:48 +0200
+Date: Wed, 21 Oct 2015 13:15:48 +020
 Subject: [PATCH 1430/1430] cst-next_21.10.2015
 
 Signed-off-by: MarkusVolk <f_l_k@t-online.de>
@@ -10166,15 +10166,6 @@ diff --git a/src/neutrino.cpp b/src/neutrino.cpp
 index 75369a1..bf619f3 100644
 --- a/src/neutrino.cpp
 +++ b/src/neutrino.cpp
-@@ -801,7 +801,7 @@ int CNeutrinoApp::loadSetup(const char * fname)
- 
- 	//Movie-Player
- 	g_settings.movieplayer_repeat_on = configfile.getInt32("movieplayer_repeat_on", CMoviePlayerGui::REPEAT_OFF);
--	g_settings.youtube_dev_id = configfile.getString("youtube_dev_id","XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
-+	g_settings.youtube_dev_id = configfile.getString("youtube_dev_id","");
- 
- 	//Filebrowser
- 	g_settings.filebrowser_showrights =  configfile.getInt32("filebrowser_showrights", 1);
 @@ -2170,9 +2170,8 @@ void CNeutrinoApp::RealRun(CMenuWidget &mainMenu)
  
  	dprintf(DEBUG_NORMAL, "initialized everything\n");
