@@ -41,43 +41,6 @@ Signed-off-by: MarkusVolk <f_l_k@t-online.de>
  libavformat/vqf.c                |  4 ++--
  24 files changed, 45 insertions(+), 71 deletions(-)
 
-diff --git a/doc/APIchanges b/doc/APIchanges
-index b9cdce6..770d6a0 100644
---- a/doc/APIchanges
-+++ b/doc/APIchanges
-@@ -15,32 +15,6 @@ libavutil:     2015-08-28
- 
- API changes, most recent first:
- 
--2015-10-15 - xxxxxxx - lavf 57.4.100
--  Remove the latm demuxer that was a duplicate of the loas demuxer.
--
--2015-10-14 - xxxxxxx - lavu 55.4.100 / lavu 55.2.0 - dict.h
--  Change return type of av_dict_copy() from void to int, so that a proper
--  error code can be reported.
--
--2015-09-29 - xxxxxxx - lavc 57.3.100 / lavc 57.2.0 - avcodec.h
--  Change type of AVPacket.duration from int to int64_t.
--
--2015-09-17 - xxxxxxx - lavc 57.3.100 / lavc 57.2.0 - d3d11va.h
--  Add av_d3d11va_alloc_context(). This function must from now on be used for
--  allocating AVD3D11VAContext.
--
--2015-09-15 - lavf 57.2.100 - avformat.h
--  probesize and max_analyze_duration switched to 64bit, both
--  are only accessible through AVOptions
--
--2015-09-15 - lavf 57.1.100 - avformat.h
--  bit_rate was changed to 64bit, make sure you update any
--  printf() or other type sensitive code
--
--2015-09-15 - lavc 57.2.100 - avcodec.h
--  bit_rate/rc_max_rate/rc_min_rate were changed to 64bit, make sure you update
--  any printf() or other type sensitive code
--
- 2015-xx-xx - lavu 55.0.100 / lavu 55.0.0
-   xxxxxxx - Change type of AVPixFmtDescriptor.flags from uint8_t to uint64_t.
-   xxxxxxx - Change type of AVComponentDescriptor fields from uint16_t to int
 diff --git a/ffserver.c b/ffserver.c
 index 1d4c8dc..adf7398 100644
 --- a/ffserver.c
