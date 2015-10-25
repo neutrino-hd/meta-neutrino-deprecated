@@ -5,20 +5,21 @@ HOMEPAGE = "http://www.coolstream.to/index.php?page=Thread&threadID=15384&pageNo
 MAINTAINER = "Tischi"
 DEPENDS = "lua5.2 lua-json"
 
-SRCREV = "674e3c32b2f95cbb59c5ea112d9e89a82a85caf1"
-#SRCREV = "${AUTOREV}"
-PV = "1.2"
-PR = "1"
-
-
-SRC_URI = "git://github.com/Tischi81/LuaWetterApp.git \
+SRC_URI = "file://luawetterapp.cfg \
+	   file://luawetterapp.lua \
+	   file://luawettericon.png \
 "
 
-S = "${WORKDIR}/git"
+PV = "1.4"
+PR = "1"
+
+S = "${WORKDIR}"
 
 do_install () {
-	install -d ${D}/var/tuxbox/plugins
-	install -m 644 ${S}/luawetter* ${D}/var/tuxbox/plugins
+	install -d ${D}/var/tuxbox/plugins 
+	install -m 644 ${S}/luawetterapp.lua ${D}/var/tuxbox/plugins
+	install -m 644 ${S}/luawetterapp.cfg ${D}/var/tuxbox/plugins
+	install -m 644 ${S}/luawettericon.png ${D}/var/tuxbox/plugins
 }
 
 
