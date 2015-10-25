@@ -7,9 +7,11 @@ RDEPENDS_${PN} = "lua-json luaposix"
 
 SRCREV = "${AUTOREV}"
 PV = "${SRCPV}"
+PR = "1"
 
 
 SRC_URI = "git://git.slknet.de/git/cst-public-plugins-scripts-lua.git \
+	   file://ARD.png \
 "
 
 S = "${WORKDIR}/git"
@@ -19,8 +21,11 @@ do_install () {
 	install -m 755 ${S}/plugins/ard_mediathek/ard_mediathek.lua ${D}/var/tuxbox/plugins
 	install -m 644 ${S}/plugins/ard_mediathek/ard_mediathek.jpg ${D}/var/tuxbox/plugins
 	install -m 644 ${S}/plugins/ard_mediathek/ard_mediathek.cfg ${D}/var/tuxbox/plugins
+	install -m 644 ${WORKDIR}/ARD.png ${D}/var/tuxbox/plugins
 }
 
-
+do_install_append () {
+echo "hinticon=ARD" >> ${D}/var/tuxbox/plugins/ard_mediathek.cfg
+}
 
 
