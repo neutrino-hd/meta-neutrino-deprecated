@@ -6,28 +6,24 @@ MAINTAINER = "Jacek Jendrzej"
 DEPENDS = "lua5.2 expat"
 RDEPENDS_${PN} = "lua-expat lua-feedparser"
 
-SRCREV = "0.09c"
+PV = "0.09c"
 PR = "1"
 
 
 SRC_URI = "file://rss.cfg \
 	   file://rss.lua \
 	   file://rssreader.conf \
+	   file://rss_icon.png \
 "
 
 S = "${WORKDIR}/"
 
 do_install () {
-	install -d ${D}/var/tuxbox/plugins
+	install -d ${D}/var/tuxbox/plugins ${D}/etc/neutrino/config
 	install -m 644 ${S}/rss.lua ${D}/var/tuxbox/plugins
 	install -m 644 ${S}/rss.cfg ${D}/var/tuxbox/plugins
-	if [ ${USE_VAR} == "yes" ];then
-		install -d ${D}/var/tuxbox/config
-		install -m 644 ${S}/rssreader.conf ${D}/var/tuxbox/config
-	else
-		install -d ${D}/etc/neutrino/config
-		install -m 644 ${S}/rssreader.conf ${D}/etc/neutrino/config
-	fi
+	install -m 644 ${S}/rss_icon.png ${D}/var/tuxbox/plugins
+	install -m 644 ${S}/rssreader.conf ${D}/etc/neutrino/config
 }
 
 
