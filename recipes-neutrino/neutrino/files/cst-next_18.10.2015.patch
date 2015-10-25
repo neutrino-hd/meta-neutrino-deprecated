@@ -1,118 +1,3 @@
-From 2238d3c62bccca8ecb929a3af49d92f7277fb82a Mon Sep 17 00:00:00 2001
-From: MarkusVolk <f_l_k@t-online.de>
-Date: Wed, 21 Oct 2015 13:15:48 +020
-Subject: [PATCH 1430/1430] cst-next_21.10.2015
-
-Signed-off-by: MarkusVolk <f_l_k@t-online.de>
----
- data/locale/deutsch.locale                 |  13 +
- data/locale/english.locale                 |  15 +-
- data/locale/nederlands.locale              |  15 +
- data/locale/slovak.locale                  |  15 +
- data/themes/Makefile.am                    |   1 +
- data/themes/Neutrino3.0.theme              |  67 +++
- src/driver/colorgradient.cpp               |  10 +-
- src/driver/framebuffer.cpp                 |  18 +-
- src/driver/framebuffer.h                   |   5 +-
- src/gui/audiomute.cpp                      |  21 +-
- src/gui/bedit/bouqueteditor_channels.cpp   |  15 +-
- src/gui/bedit/bouqueteditor_chanselect.cpp |   2 +-
- src/gui/bouquetlist.cpp                    |   5 +-
- src/gui/channellist.cpp                    | 143 +++---
- src/gui/channellist.h                      |   6 +-
- src/gui/components/Makefile.am             |   2 +
- src/gui/components/cc.h                    |  10 +-
- src/gui/components/cc_base.cpp             | 305 +------------
- src/gui/components/cc_base.h               | 349 +--------------
- src/gui/components/cc_detailsline.cpp      |  63 +--
- src/gui/components/cc_draw.cpp             | 689 +++++++++++++++++++++++++++++
- src/gui/components/cc_draw.h               | 299 +++++++++++++
- src/gui/components/cc_extra.cpp            | 106 +++++
- src/gui/components/cc_extra.h              | 234 ++++++++++
- src/gui/components/cc_frm.cpp              |  82 +++-
- src/gui/components/cc_frm.h                |  21 +-
- src/gui/components/cc_frm_button.cpp       |  30 +-
- src/gui/components/cc_frm_button.h         |  45 +-
- src/gui/components/cc_frm_chain.cpp        |   8 +-
- src/gui/components/cc_frm_chain.h          |   4 +-
- src/gui/components/cc_frm_clock.cpp        | 423 ++++++++++--------
- src/gui/components/cc_frm_clock.h          | 134 +++---
- src/gui/components/cc_frm_ext_text.cpp     |  20 +-
- src/gui/components/cc_frm_ext_text.h       |  16 +-
- src/gui/components/cc_frm_footer.cpp       |  10 +-
- src/gui/components/cc_frm_footer.h         |   4 +-
- src/gui/components/cc_frm_header.cpp       | 222 ++++++++--
- src/gui/components/cc_frm_header.h         |  49 +-
- src/gui/components/cc_frm_icons.cpp        |   8 +-
- src/gui/components/cc_frm_icons.h          |   4 +-
- src/gui/components/cc_frm_scrollbar.cpp    |   8 +-
- src/gui/components/cc_frm_scrollbar.h      |   2 +-
- src/gui/components/cc_frm_signalbars.cpp   |  17 +-
- src/gui/components/cc_frm_slider.cpp       |   4 +-
- src/gui/components/cc_frm_slider.h         |   2 +-
- src/gui/components/cc_frm_window.cpp       |  22 +-
- src/gui/components/cc_frm_window.h         |  10 +-
- src/gui/components/cc_item.cpp             | 174 +++-----
- src/gui/components/cc_item.h               | 129 ++++++
- src/gui/components/cc_item_infobox.cpp     |   8 +-
- src/gui/components/cc_item_infobox.h       |   7 +-
- src/gui/components/cc_item_picture.cpp     |  54 ++-
- src/gui/components/cc_item_picture.h       |  27 +-
- src/gui/components/cc_item_progressbar.cpp | 255 ++++++-----
- src/gui/components/cc_item_progressbar.h   |  21 +-
- src/gui/components/cc_item_shapes.cpp      |  16 +-
- src/gui/components/cc_item_shapes.h        |   5 +-
- src/gui/components/cc_item_text.cpp        | 134 ++++--
- src/gui/components/cc_item_text.h          |  81 +++-
- src/gui/components/cc_item_tvpic.cpp       |  10 +-
- src/gui/components/cc_item_tvpic.h         |   5 +-
- src/gui/components/cc_text_screen.h        |  44 ++
- src/gui/components/cc_timer.cpp            |  39 +-
- src/gui/components/cc_timer.h              |   2 +-
- src/gui/components/cc_types.h              |  54 ++-
- src/gui/eventlist.cpp                      |   8 +-
- src/gui/infoclock.cpp                      |  86 ++--
- src/gui/infoclock.h                        |  16 +-
- src/gui/infoviewer.cpp                     | 419 ++++++++++--------
- src/gui/infoviewer.h                       |  12 +-
- src/gui/infoviewer_bb.cpp                  |  74 ++--
- src/gui/infoviewer_bb.h                    |   9 +-
- src/gui/luainstance.cpp                    |  36 +-
- src/gui/moviebrowser.cpp                   |  11 +-
- src/gui/osd_setup.cpp                      | 111 ++++-
- src/gui/osd_setup.h                        |   2 +-
- src/gui/screensaver.cpp                    |   6 +-
- src/gui/screensaver.h                      |   1 -
- src/gui/streaminfo2.cpp                    |   2 +-
- src/gui/test_menu.cpp                      |  24 +-
- src/gui/themes.cpp                         |  61 ++-
- src/gui/timeosd.cpp                        |  64 +--
- src/gui/timeosd.h                          |   1 +
- src/gui/timerlist.cpp                      |   4 +-
- src/gui/user_menue.cpp                     |  11 +-
- src/gui/volumebar.cpp                      |  23 +-
- src/gui/volumebar.h                        |   9 +-
- src/gui/widget/menue.cpp                   | 138 ++++--
- src/gui/widget/menue.h                     |   8 +-
- src/gui/widget/progresswindow.cpp          |   6 +-
- src/gui/widget/progresswindow.h            |   2 +-
- src/gui/widget/textbox.cpp                 |  65 ++-
- src/gui/widget/textbox.h                   |   8 +-
- src/neutrino.cpp                           |  20 +-
- src/neutrino.h                             |   2 +-
- src/system/debug.h                         |   2 +-
- src/system/locals.h                        |  15 +-
- src/system/locals_intern.h                 |  15 +-
- src/system/settings.h                      |  10 +-
- 99 files changed, 3863 insertions(+), 2036 deletions(-)
- create mode 100644 data/themes/Neutrino3.0.theme
- create mode 100644 src/gui/components/cc_draw.cpp
- create mode 100644 src/gui/components/cc_draw.h
- create mode 100644 src/gui/components/cc_extra.cpp
- create mode 100644 src/gui/components/cc_extra.h
- create mode 100644 src/gui/components/cc_item.h
- create mode 100644 src/gui/components/cc_text_screen.h
-
 diff --git a/data/locale/deutsch.locale b/data/locale/deutsch.locale
 index 35083c2..7bfa56c 100644
 --- a/data/locale/deutsch.locale
@@ -8447,7 +8332,7 @@ index b3305e0..d85d6a0 100644
 +	infoViewerBB->ResetModules();
 +}
 diff --git a/src/gui/infoviewer.h b/src/gui/infoviewer.h
-index c4283f3..63f705e 100644
+index f2b75ea..22cc040 100644
 --- a/src/gui/infoviewer.h
 +++ b/src/gui/infoviewer.h
 @@ -52,6 +52,8 @@ class CInfoViewer
@@ -8489,16 +8374,16 @@ index c4283f3..63f705e 100644
  			  bool starttimes = true, const int pb_pos = -1,
  			  const char *runningStart = NULL, const char *runningRest = NULL,
  			  const char *nextStart = NULL, const char *nextDuration = NULL,
-@@ -180,6 +185,7 @@ class CInfoViewer
+@@ -179,6 +179,7 @@ class CInfoViewer
+ 	bool    SDT_freq_update;
  	void	setUpdateTimer(uint64_t interval);
  	uint32_t getUpdateTimer(void) { return lcdUpdateTimer; }
- 	inline t_channel_id get_current_channel_id(void) { return current_channel_id; }
 +	void    ResetModules();
+ 	inline t_channel_id get_current_channel_id(void) { return current_channel_id; }
  };
  #if 0
- class CInfoViewerHandler : public CMenuTarget
 diff --git a/src/gui/infoviewer_bb.cpp b/src/gui/infoviewer_bb.cpp
-index d0b46fb..f01f515 100644
+index 78aeeb9..55eb2f0 100644
 --- a/src/gui/infoviewer_bb.cpp
 +++ b/src/gui/infoviewer_bb.cpp
 @@ -88,7 +88,7 @@ CInfoViewerBB::CInfoViewerBB()
@@ -8553,7 +8438,7 @@ index d0b46fb..f01f515 100644
  }
  
  void CInfoViewerBB::showIcon_SubT()
-@@ -667,6 +663,7 @@ void CInfoViewerBB::showSysfsHdd()
+@@ -666,6 +662,7 @@ void CInfoViewerBB::showSysfsHdd()
  void CInfoViewerBB::showBarSys(int percent)
  {	
  	if (is_visible){
@@ -8561,7 +8446,7 @@ index d0b46fb..f01f515 100644
  		sysscale->setDimensionsAll(bbIconMinX, BBarY + InfoHeightY_Info / 2 - 2 - 6, hddwidth, 6);
  		sysscale->setValues(percent, 100);
  		sysscale->paint();
-@@ -676,6 +673,7 @@ void CInfoViewerBB::showBarSys(int percent)
+@@ -675,6 +672,7 @@ void CInfoViewerBB::showBarSys(int percent)
  void CInfoViewerBB::showBarHdd(int percent)
  {
  	if (is_visible) {
@@ -8569,7 +8454,7 @@ index d0b46fb..f01f515 100644
  		if (percent >= 0){
  			hddscale->setDimensionsAll(bbIconMinX, BBarY + InfoHeightY_Info / 2 + 2 + 0, hddwidth, 6);
  			hddscale->setValues(percent, 100);
-@@ -819,6 +817,7 @@ void CInfoViewerBB::paintCA_bar(int left, int right)
+@@ -818,6 +816,7 @@ void CInfoViewerBB::paintCA_bar(int left, int right)
  {
  	int xcnt = (g_InfoViewer->BoxEndX - g_InfoViewer->ChanInfoX - (g_settings.casystem_frame ? 24 : 0)) / 4;
  	int ycnt = (bottom_bar_offset - (g_settings.casystem_frame ? 14 : 0)) / 4;
@@ -8577,7 +8462,7 @@ index d0b46fb..f01f515 100644
  
  	if (right)
  		right = xcnt - ((right/4)+1);
-@@ -827,21 +826,29 @@ void CInfoViewerBB::paintCA_bar(int left, int right)
+@@ -826,21 +825,29 @@ void CInfoViewerBB::paintCA_bar(int left, int right)
  
  	if (g_settings.casystem_frame) { // with highlighted frame
  		if (!right || !left) { // paint full bar
@@ -8619,7 +8504,7 @@ index d0b46fb..f01f515 100644
  	if (!g_settings.casystem_dotmatrix) //don't show dotmatrix
  		return;
  
-@@ -853,6 +860,7 @@ void CInfoViewerBB::paintCA_bar(int left, int right)
+@@ -852,6 +859,7 @@ void CInfoViewerBB::paintCA_bar(int left, int right)
  			frameBuffer->paintBoxRel((g_InfoViewer->ChanInfoX + (g_settings.casystem_frame ? 14 : 2)) + i*4, g_InfoViewer->BoxEndY + (g_settings.casystem_frame ? 4 : 2) + j*4, 2, 2, COL_INFOBAR_PLUS_1);
  		}
  	}
@@ -8627,7 +8512,7 @@ index d0b46fb..f01f515 100644
  }
  
  void CInfoViewerBB::changePB()
-@@ -876,7 +884,21 @@ void CInfoViewerBB::reset_allScala()
+@@ -875,7 +883,21 @@ void CInfoViewerBB::reset_allScala()
  	//lasthdd = lastsys = -1;
  }
  
@@ -9235,7 +9120,7 @@ index 109155f..f262680 100644
  
  		if (!clock->isPainted())
 diff --git a/src/gui/themes.cpp b/src/gui/themes.cpp
-index bef79a3..33dd961 100644
+index 996b522..b247f24 100644
 --- a/src/gui/themes.cpp
 +++ b/src/gui/themes.cpp
 @@ -52,7 +52,7 @@
@@ -10163,7 +10048,7 @@ index 7ba6874..75d22f7 100644
  
  #endif // !defined(AFX_TEXTBOX_H__208DED01_ABEC_491C_A632_5B21057DC5D8__INCLUDED_)
 diff --git a/src/neutrino.cpp b/src/neutrino.cpp
-index 75369a1..bf619f3 100644
+index 75369a1..da9daf3 100644
 --- a/src/neutrino.cpp
 +++ b/src/neutrino.cpp
 @@ -2170,9 +2170,8 @@ void CNeutrinoApp::RealRun(CMenuWidget &mainMenu)
@@ -10362,6 +10247,3 @@ index 97b33ba..49ca1fc 100644
  };
  
  struct SNeutrinoSettings
--- 
-2.1.4
-
