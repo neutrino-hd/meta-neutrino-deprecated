@@ -57,6 +57,8 @@ SRC_URI = "git://git.slknet.de/git/cst-public-gui-neutrino.git;branch=cst-next \
 	file://0013-disable-network_services-menu.patch \
 	file://cst-next_18.10.2015.patch \
 	file://cst-next_25.10.2015.patch \
+	file://CInfoViewerBB-fix-paint-icons.patch \
+	file://update-olive.theme.patch \
 "
 
 SRC_URI_append_coolstream-hd1 = " \

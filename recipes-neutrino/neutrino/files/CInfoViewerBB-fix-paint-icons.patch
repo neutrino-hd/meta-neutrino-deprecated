@@ -1,0 +1,38 @@
+From 3b133d1975b0309b4f6eefda47f3494a789b3138 Mon Sep 17 00:00:00 2001
+From: "M. Liebmann" <tuxcode.bbg@gmail.com>
+Date: Thu, 22 Oct 2015 06:53:35 +0200
+Subject: [PATCH 3/4] CInfoViewerBB: fix paint icons
+
+---
+ src/gui/infoviewer_bb.cpp | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
+
+diff --git a/src/gui/infoviewer_bb.cpp b/src/gui/infoviewer_bb.cpp
+index 3125000..1fba274 100644
+--- a/src/gui/infoviewer_bb.cpp
++++ b/src/gui/infoviewer_bb.cpp
+@@ -369,7 +369,21 @@ void CInfoViewerBB::showBBButtons(const int modus)
+ 	}
+ 
+ 	if (paint) {
++		fb_pixel_t *pixbuf = NULL;
++		int buf_x = bbIconMinX;
++		int buf_y = BBarY;
++		int buf_w = g_InfoViewer->BoxEndX-bbIconMinX;
++		int buf_h = InfoHeightY_Info;
++		if (modus != -1) {
++			pixbuf = new fb_pixel_t[buf_w * buf_h];
++//printf("\nbuf_x: %d, buf_y: %d, buf_w: %d, buf_h: %d, pixbuf: %p\n \n", buf_x, buf_y, buf_w, buf_h, pixbuf);
++			frameBuffer->SaveScreen(buf_x, buf_y, buf_w, buf_h, pixbuf);
++		}
+ 		paintFoot(minX - g_InfoViewer->ChanInfoX);
++		if ((modus != -1) && (pixbuf != NULL)) {
++			frameBuffer->RestoreScreen(buf_x, buf_y, buf_w, buf_h, pixbuf);
++			delete [] pixbuf;
++		}
+ 		int last_x = minX;
+ 		for (i = BUTTON_MAX; i > 0;) {
+ 			--i;
+-- 
+2.6.2
+
