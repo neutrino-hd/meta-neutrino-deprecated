@@ -27,12 +27,13 @@ local n = neutrino()
 
 local u="ubouquets"
 local b="bouquets"
-local localtv_version="LocalTV 0.15"
+local localtv_version="LocalTV 0.18"
 function __LINE__() return debug.getinfo(2, 'l').currentline end
 
 locale = {}
 locale["deutsch"] = {
 	create_error = "Liste konnte nicht erstellt werden.",
+	patient = "Bitte warten ...",
 	Error = "Fehler",
 	fover = "Favoriten durch erstellte Bouquets ersetzen",
 	fno = "Favoriten nicht ändern",
@@ -59,9 +60,12 @@ locale["deutsch"] = {
 	provhint = "Liste aus Favoriten- oder Anbieterbouquets",
 	select = "Auswahl vorbelegen mit",
 	saveonoff = " speichern ? Ein/Aus",
+	deflinkpath = "Symlinks im Var-Bereich",
+	deflinkpathhint="Sollen alle Logo links zu /var/tuxbox/icons/logo führen ?"
 }
 locale["english"] = {
 	create_error = "List could not be created.",
+	patient = "Please be patient.",
 	Error = "Error",
 	fover = "Replace favorites by created bouquets",
 	fno = "Favorites do not change",
@@ -88,6 +92,8 @@ locale["english"] = {
 	provhint = "List of Favorites or Provider Bouquets",
 	select = "Selection Preassign with",
 	saveonoff = " save ? on/off",
+	deflinkpath = "Symlinks in the VAR-area",
+	deflinkpathhint="If all logo links lead to /var/tuxbox/icons/logo logo ?"
 }
 ----------------------------------------------------------------------------------------------
 function gethttpdata(host,link)
@@ -162,7 +168,7 @@ function to_chid(satpos, frq, t, on, i)
 		string.format('%04x', service_id))
 end
 
-function add_channels(t,b_name)
+function add_channels(t,b_name,logolist)
 	local BListeTab = {}
 	local ok = false
 	if t and b_name then
@@ -175,11 +181,18 @@ function add_channels(t,b_name)
 -- 			    		print(v.attr.i , v.attr.t , v.attr.on , v.attr.s , v.attr.frq, v.attr.n )
 					local chid = to_chid(v.attr.s, v.attr.frq, v.attr.t, v.attr.on, v.attr.i)
 					if v.attr.n == nil then
-						v.attr.n = locale[conf.lang].notdef
+						if logolist ~= nil then
+							v.attr.n = logolist:match(chid .. ";(.-);")
+						end
+						if v.attr.n == nil then
+							v.attr.n = locale[conf.lang].notdef .. " " .. k
+						end
 					end
 					v.attr.n=v.attr.n:gsub("%&","&amp;")
 					local url='http://' .. conf.ip .. ':31339/id='.. chid
-					table.insert(BListeTab, { tv=url,s=v.attr.s, frq=v.attr.frq, n=v.attr.n, t=v.attr.t, on=v.attr.on, i=v.attr.i, l=v.attr.l, un=v.attr.un, epgid=chid:sub(#chid-11,#chid) })
+					local _epgid = chid:sub(#chid-11,#chid)
+					_epgid = _epgid:gsub("^0+(.-)", "%1")
+					table.insert(BListeTab, { tv=url, n=v.attr.n, l=v.attr.l, un=v.attr.un, epgid= _epgid })
 					ok=true
 				end
 			end
@@ -194,26 +207,31 @@ end
 
 function make_list(value)
 	local boxurl ="http://" .. conf.ip .. "/control/get" .. conf.bouquet .."xml"
+	local h = hintbox.new{caption=locale[conf.lang].info, text=locale[conf.lang].patient}
+	h:paint()
+
 	local data = getdatafromurl(boxurl)
 
 	if data == nil then return end -- error
-
+	local logolist = getdatafromurl("http://" .. conf.ip .. "/control/logolist")
 	local lom = require("lxp.lom")
 	local tab = lom.parse(data)
 	if tab == nil then
+		h:hide()
 		info(locale[conf.lang].Error, locale[conf.lang].create_error)
 		return
 	end
 	ListeTab = {}
 	for i, v in ipairs(tab) do
 		if v.tag == "Bouquet" then
-			local blt = add_channels(v,v.attr.name)
+			local blt = add_channels(v,v.attr.name,logolist)
 			if blt then
 				v.attr.name=v.attr.name:gsub("%&","&amp;")
 				table.insert(ListeTab, { name=v.attr.name, epg=v.attr.epg, hidden=v.attr.hidden, locked=v.attr.locked ,bqID=v.attr.bqID , bt=blt, enabled=conf.enabled})
 			end
 		end
 	end
+	h:hide()
 	if ListeTab then
 		gen_menu(ListeTab)
 	end
@@ -227,8 +245,11 @@ end
 
 function is_dir(path)
 	local f = io.open(path, "r")
-	local ok, err, code = f:read(1)
-	f:close()
+	local ok, err, code = false, false, false
+	if f then
+		ok, err, code = f:read(1)
+		f:close()
+	end
 	return code == 21
 end
 
@@ -340,25 +361,38 @@ function saveliste()
 			else
 				return
 			end
+			local deflogopth = "/var/tuxbox/icons/logo"
 			for _, v in ipairs(ListeTab) do
 				if v.enabled then
 					if v.bt then
 						for __, b in ipairs(v.bt) do
 							localtv:write('\t<webtv title="' .. b.n .. '" url="' .. b.tv  .. '" epgid="' .. b.epgid.. '" description="' .. v.name .. '" genre="' ..conf.name  ..'" />\n')
 							if conf.logo_dir  ~= "#" then
-								local logo = conf.logo_dir.."/" ..b.epgid
-								local jpg = false
-								local png = file_exists(logo..".png")
-								local picformat = ".png"
-								if png == false then
-									jpg = file_exists(logo..".jpg")
-									picformat = ".jpg"
-								end
-								if  png or jpg then
-									local webtvid = n:createChannelIDfromUrl(b.tv)
-									webtvid = webtvid:sub(#webtvid-11,#webtvid)
-									local logo_symlink =  webtvid .. picformat
-									os.execute("cd " .. conf.logo_dir .. "/ && ln  -s " .. b.epgid.. picformat .. " " .. logo_symlink)
+								local logo={}
+								logo[1] =  deflogopth .."/"
+								logo[2] = "/share/tuxbox/neutrino/icons/logo"
+								logo[3] = conf.logo_dir
+								for j,l  in pairs(logo) do
+									if l and is_dir(l) then
+										local logopath = l .."/" ..b.epgid
+										local jpg = false
+										local png = file_exists(logopath..".png")
+										local picformat = ".png"
+										if png == false then
+											jpg = file_exists(logopath..".jpg")
+											picformat = ".jpg"
+										end
+										if  png or jpg then
+											local webtvid = n:createChannelIDfromUrl(b.tv)
+											webtvid = webtvid:sub(#webtvid-11,#webtvid)
+											local defvar =""
+											if conf.varonoff == true and is_dir(deflogopth) then
+												defvar = deflogopth .. "/"
+											end
+											local logo_symlink = defvar .. webtvid .. picformat
+											os.execute("cd " .. l .. "/ && ln  -s " .. b.epgid.. picformat .. " " .. logo_symlink)
+										end
+									end
 								end
 							end
 						end
@@ -393,6 +427,7 @@ function saveConfig()
 		config:setString("bouquet",conf.bouquet)
 		config:setString("ip",conf.ip)
 		config:setBool  ("enabled",conf.enabled)
+		config:setBool  ("varonoff",conf.varonoff)
 		config:setString("fav",conf.fav)
 		config:saveConfig(get_confFile())
 		conf.changed = false
@@ -409,6 +444,7 @@ function loadConfig()
 	conf.bouquet = config:getString("bouquet", "ubouquets")
 
 	conf.enabled = config:getBool("enabled", true)
+	conf.varonoff = config:getBool("varonoff", false)
 	conf.fav = config:getString("fav", "no")
 	conf.changed = false
 	local Nconfig	= configfile.new()
@@ -544,9 +580,10 @@ function main_menu()
 	m:addItem{type="chooser", action="setabc", options={ locale[conf.lang].fno, locale[conf.lang].fadd, locale[conf.lang].fover }, id="boxub", value=favoption(conf.fav), name="",directkey=RC["6"],hint_icon="hint_service",hint=locale[conf.lang].favoption}
 	g.item1 = m:addItem{type="filebrowser",dir_mode="1",name="Fav " .. locale[conf.lang].directory .. ":",action="set_backup_path",enabled=file_exists(conf.ubouquets_xml),
 		value=conf.backuppath,directkey=RC["7"] ,hint_icon="hint_service",hint=locale[conf.lang].directory_hint}
+	m:addItem{type="chooser", action="set_option", options={ locale[conf.lang].on, locale[conf.lang].off }, id="varonoff", value=bool2onoff(conf.varonoff), directkey=RC["8"], enabled=is_dir("/var/tuxbox/icons/logo"), name=locale[conf.lang].deflinkpath,hint_icon="hint_service",hint=locale[conf.lang].deflinkpathhint}
 	m:addItem{type="separatorline"}
 	m:addItem{type="forwarder", name=locale[conf.lang].createlist, action="make_list",enabled=true,id="",directkey=RC["red"],hint_icon="hint_service",hint=locale[conf.lang].createlisthint }
-	
+
 	m:setActive{item=g.item1, activ=conf.fav ~= "no"}
 	m:exec()
 	m:hide()
