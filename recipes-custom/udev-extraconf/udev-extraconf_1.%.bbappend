@@ -18,8 +18,8 @@ do_install_append() {
 	install -D -m 0755 ${WORKDIR}/mount.sh ${D}${sysconfdir}/udev/scripts/mount.sh
 	# needs to run after S02sysfs.sh and before S03udev -> call it aa_media...
 	update-rc.d -r ${D} aa_media-tmpfs.sh start 03 S .
-	# needs to run after S03udev -> zz_udev...
-	update-rc.d -r ${D} zz_udev-blockdev.sh start 03 S .
+	# needs to run after S04udev -> zz_udev...
+	update-rc.d -r ${D} zz_udev-blockdev.sh start 04 S .
 }
 
 FILES_${PN} += " \
