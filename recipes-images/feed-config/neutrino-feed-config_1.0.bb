@@ -34,6 +34,11 @@ do_compile() {
 	# TODO: handle IPK_FEED_URIS?
 }
 
+do_install_prepend () {
+	if [ ${DISTRO} = "coolstream-hd1" ];then
+		sed -i "s|/media/sda1|/media/sdb1|" ${S}/${sysconfdir}/opkg/base-feeds.conf
+	fi
+}
 
 do_install () {
 	install -d ${D}${sysconfdir}/opkg
