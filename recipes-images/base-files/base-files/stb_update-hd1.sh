@@ -1,6 +1,8 @@
 #!/bin/sh
 export PATH=/sbin:/bin:/usr/bin:/usr/sbin
 
+DO_REBOOT=0
+
 if [ -e /var/update/uImage ] ; then
 	# check if we are using gnu coreutils
 	if [ -e /usr/bin/cut.coreutils ]; then
