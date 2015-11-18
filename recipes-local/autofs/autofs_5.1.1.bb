@@ -51,7 +51,6 @@ CACHED_CONFIGUREVARS = "ac_cv_path_RANLIB=${RANLIB} \
 "
 
 do_configure_prepend () {
-    sed -e "s:filagdir:flagdir:" -i configure.in
     if [ ! -e acinclude.m4 ]; then
         cp aclocal.m4 acinclude.m4
     fi
