@@ -8901,98 +8901,7 @@ diff --git a/src/gui/luainstance.cpp b/src/gui/luainstance.cpp
 index e98fca0..e44cc5c 100644
 --- a/src/gui/luainstance.cpp
 +++ b/src/gui/luainstance.cpp
-@@ -342,8 +342,8 @@ static void set_lua_variables(lua_State *L)
- 	}
- }
- 
--//#define DBG printf
--#define DBG(...)
-+//#define DBG1 printf
-+#define DBG1(...)
- 
- #define lua_boxpointer(L, u) \
- 	(*(void **)(lua_newuserdata(L, sizeof(void *))) = (u))
-@@ -617,7 +617,7 @@ int CLuaInstance::NewWindow(lua_State *L)
- int CLuaInstance::PaintBox(lua_State *L)
- {
- 	int count = lua_gettop(L);
--	DBG("CLuaInstance::%s %d\n", __func__, count);
-+	DBG1("CLuaInstance::%s %d\n", __func__, count);
- 	int x, y, w, h, radius = 0, corner = CORNER_ALL;
- 	unsigned int c;
- 
-@@ -650,7 +650,7 @@ int CLuaInstance::PaintBox(lua_State *L)
- 
- int CLuaInstance::PaintIcon(lua_State *L)
- {
--	DBG("CLuaInstance::%s %d\n", __func__, lua_gettop(L));
-+	DBG1("CLuaInstance::%s %d\n", __func__, lua_gettop(L));
- 	int x, y, h;
- 	unsigned int o;
- 	const char *fname;
-@@ -671,7 +671,7 @@ extern CPictureViewer * g_PicViewer;
- 
- int CLuaInstance::DisplayImage(lua_State *L)
- {
--	DBG("CLuaInstance::%s %d\n", __func__, lua_gettop(L));
-+	DBG1("CLuaInstance::%s %d\n", __func__, lua_gettop(L));
- 	int x, y, w, h;
- 	const char *fname;
- 
-@@ -802,7 +802,7 @@ int CLuaInstance::strSub(lua_State *L)
- 
- int CLuaInstance::GetSize(lua_State *L)
- {
--	DBG("CLuaInstance::%s %d\n", __func__, lua_gettop(L));
-+	DBG1("CLuaInstance::%s %d\n", __func__, lua_gettop(L));
- 	int w = 0, h = 0;
- 	const char *fname;
- 
-@@ -819,7 +819,7 @@ int CLuaInstance::RenderString(lua_State *L)
- 	unsigned int c;
- 	const char *text;
- 	int numargs = lua_gettop(L);
--	DBG("CLuaInstance::%s %d\n", __func__, numargs);
-+	DBG1("CLuaInstance::%s %d\n", __func__, numargs);
- 	c = COL_MENUCONTENT_TEXT;
- 	boxh = 0;
- 	center = 0;
-@@ -859,7 +859,7 @@ int CLuaInstance::getRenderWidth(lua_State *L)
- {
- 	int f;
- 	const char *text;
--	DBG("CLuaInstance::%s %d\n", __func__, lua_gettop(L));
-+	DBG1("CLuaInstance::%s %d\n", __func__, lua_gettop(L));
- 
- 	CLuaData *W = CheckData(L, 1);
- 	if (!W)
-@@ -888,7 +888,7 @@ int CLuaInstance::GetInput(lua_State *L)
- 	/* TODO: I'm not sure if this works... */
- 	if (msg != CRCInput::RC_timeout && msg > CRCInput::RC_MaxRC)
- 	{
--		DBG("CLuaInstance::%s: msg 0x%08" PRIx32 " data 0x%08" PRIx32 "\n", __func__, msg, data);
-+		DBG1("CLuaInstance::%s: msg 0x%08" PRIx32 " data 0x%08" PRIx32 "\n", __func__, msg, data);
- 		CNeutrinoApp::getInstance()->handleMsg(msg, data);
- 	}
- 	/* signed int is debatable, but the "big" messages can't yet be handled
-@@ -901,7 +901,7 @@ int CLuaInstance::GetInput(lua_State *L)
- int CLuaInstance::FontHeight(lua_State *L)
- {
- 	int f;
--	DBG("CLuaInstance::%s %d\n", __func__, lua_gettop(L));
-+	DBG1("CLuaInstance::%s %d\n", __func__, lua_gettop(L));
- 
- 	CLuaData *W = CheckData(L, 1);
- 	if (!W)
-@@ -915,7 +915,7 @@ int CLuaInstance::FontHeight(lua_State *L)
- 
- int CLuaInstance::GCWindow(lua_State *L)
- {
--	DBG("CLuaInstance::%s %d\n", __func__, lua_gettop(L));
-+	DBG1("CLuaInstance::%s %d\n", __func__, lua_gettop(L));
- 	CLuaData *w = (CLuaData *)lua_unboxpointer(L, 1);
- 	delete w->fbwin;
- 	w->rcinput = NULL;
+
 @@ -1796,13 +1796,13 @@ int CLuaInstance::CWindowNew(lua_State *L)
  	tableLookup(L, "name", name) || tableLookup(L, "title", name) || tableLookup(L, "caption", name);
  	tableLookup(L, "icon", icon);
@@ -9029,15 +8938,6 @@ index e98fca0..e44cc5c 100644
  	return 0;
  }
  
-@@ -2029,7 +2029,7 @@ int CLuaInstance::CWindowSetCenterPos(lua_State *L)
- 
- int CLuaInstance::CWindowDelete(lua_State *L)
- {
--	DBG("CLuaInstance::%s %d\n", __func__, lua_gettop(L));
-+	DBG1("CLuaInstance::%s %d\n", __func__, lua_gettop(L));
- 	CLuaCWindow *m = CWindowCheck(L, 1);
- 	if (!m)
- 		return 0;
 @@ -2183,13 +2183,13 @@ int CLuaInstance::ComponentsTextNew(lua_State *L)
  	if (font_text >= SNeutrinoSettings::FONT_TYPE_COUNT || font_text < 0)
  		font_text = SNeutrinoSettings::FONT_TYPE_MENU;
@@ -9074,15 +8974,6 @@ index e98fca0..e44cc5c 100644
  	return 0;
  }
  
-@@ -2352,7 +2352,7 @@ int CLuaInstance::ComponentsTextEnableUTF8(lua_State *L)
- 
- int CLuaInstance::ComponentsTextDelete(lua_State *L)
- {
--	DBG("CLuaInstance::%s %d\n", __func__, lua_gettop(L));
-+	DBG1("CLuaInstance::%s %d\n", __func__, lua_gettop(L));
- 	CLuaComponentsText *m = ComponentsTextCheck(L, 1);
- 	if (!m)
- 		return 0;
 @@ -2416,13 +2416,13 @@ int CLuaInstance::CPictureNew(lua_State *L)
  	if (alignment)
  		dprintf(DEBUG_NORMAL, "[CLuaInstance][%s - %d] invalid argument: 'alignment' has no effect!\n", __func__, __LINE__);
@@ -9118,15 +9009,6 @@ index e98fca0..e44cc5c 100644
 +		m->cp->hide(); //FIXME: no_restore without effect, remove or use with kill()
  	return 0;
  }
- 
-@@ -2514,7 +2514,7 @@ int CLuaInstance::CPictureSetCenterPos(lua_State *L)
- 
- int CLuaInstance::CPictureDelete(lua_State *L)
- {
--	DBG("CLuaInstance::%s %d\n", __func__, lua_gettop(L));
-+	DBG1("CLuaInstance::%s %d\n", __func__, lua_gettop(L));
- 	CLuaPicture *m = CPictureCheck(L, 1);
- 	if (!m) return 0;
  
 diff --git a/src/gui/moviebrowser.cpp b/src/gui/moviebrowser.cpp
 index ba72c74..b1089b2 100644
