@@ -27,7 +27,7 @@ local n = neutrino()
 
 local u="ubouquets"
 local b="bouquets"
-local localtv_version="LocalTV 0.18"
+local localtv_version="LocalTV 0.19"
 function __LINE__() return debug.getinfo(2, 'l').currentline end
 
 locale = {}
@@ -390,7 +390,11 @@ function saveliste()
 												defvar = deflogopth .. "/"
 											end
 											local logo_symlink = defvar .. webtvid .. picformat
-											os.execute("cd " .. l .. "/ && ln  -s " .. b.epgid.. picformat .. " " .. logo_symlink)
+											if conf.varonoff == true then
+												os.execute("ln  -fs " .. l .."/".. b.epgid.. picformat .. " " .. logo_symlink)
+											else
+												os.execute("cd " .. l .. "/ && ln  -fs " .. b.epgid.. picformat .. " " .. logo_symlink)
+											end
 										end
 									end
 								end
