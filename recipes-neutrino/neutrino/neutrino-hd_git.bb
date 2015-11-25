@@ -62,6 +62,7 @@ SRC_URI = "git://git.slknet.de/git/cst-public-gui-neutrino.git;branch=cst-next \
 
 SRC_URI_append_coolstream-hd1 = " \
 	file://0005-remove-unneeded-mp3.jpg-files.patch;apply=yes \
+	file://hd1_disable_GetReadCount.patch \
 "
 
 SRC_URI_append_libc-glibc = "file://0006-Makefile.am-we-don-t-need-liconv-for-glibc.patch\

@@ -1,0 +1,15 @@
+diff --git a/src/gui/movieplayer.cpp b/src/gui/movieplayer.cpp
+index 7f844e0..9b63e43 100644
+--- a/src/gui/movieplayer.cpp
++++ b/src/gui/movieplayer.cpp
+@@ -2201,7 +2201,9 @@ void CMoviePlayerGui::makeScreenShot(bool autoshot, bool forcover)
+ size_t CMoviePlayerGui::GetReadCount()
+ {
+         uint64_t this_read = 0;
++#ifdef BOXMODEL_APOLLO
+         this_read = playback->GetReadCount();
++#endif
+         uint64_t res;
+         if (this_read < last_read)
+                 res = 0;
+
