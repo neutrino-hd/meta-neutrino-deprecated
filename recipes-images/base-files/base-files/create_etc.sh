@@ -1,6 +1,6 @@
 #!/bin/sh
 
-GIT__URL="GIT_URL"
+GIT__URL='GIT_URL'
 DEST=$(echo $GIT__URL | cut -d"/" -f1,2,3)
 
 if [ -e $GIT__URL ];then
