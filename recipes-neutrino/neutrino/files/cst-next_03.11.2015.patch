@@ -8897,12 +8897,9 @@ index 5137752..0a16f81 100644
  };
  
  #endif // __infoview_bb__
-diff --git a/src/gui/luainstance.cpp b/src/gui/luainstance.cpp
-index e98fca0..e44cc5c 100644
 --- a/src/gui/luainstance.cpp
 +++ b/src/gui/luainstance.cpp
-
-@@ -1796,13 +1796,13 @@ int CLuaInstance::CWindowNew(lua_State *L)
+@@ -2103,13 +2103,13 @@ int CLuaInstance::CWindowNew(lua_State *L)
  	tableLookup(L, "name", name) || tableLookup(L, "title", name) || tableLookup(L, "caption", name);
  	tableLookup(L, "icon", icon);
  
@@ -8920,7 +8917,7 @@ index e98fca0..e44cc5c 100644
  	}
  
  	tableLookup(L, "color_frame" , color_frame);
-@@ -1836,7 +1836,7 @@ int CLuaInstance::CWindowNew(lua_State *L)
+@@ -2143,7 +2143,7 @@ int CLuaInstance::CWindowNew(lua_State *L)
  
  	CLuaCWindow **udata = (CLuaCWindow **) lua_newuserdata(L, sizeof(CLuaCWindow *));
  	*udata = new CLuaCWindow();
@@ -8929,7 +8926,7 @@ index e98fca0..e44cc5c 100644
  
  	if (!show_header)
  		(*udata)->w->showHeader(false);
-@@ -1917,7 +1917,7 @@ int CLuaInstance::CWindowHide(lua_State *L)
+@@ -2224,7 +2224,7 @@ int CLuaInstance::CWindowHide(lua_State *L)
  			paramBoolDeprecated(L, tmp.c_str());
  		no_restore = (tmp == "true" || tmp == "1" || tmp == "yes");
  	}
@@ -8938,7 +8935,7 @@ index e98fca0..e44cc5c 100644
  	return 0;
  }
  
-@@ -2183,13 +2183,13 @@ int CLuaInstance::ComponentsTextNew(lua_State *L)
+@@ -2490,13 +2490,13 @@ int CLuaInstance::ComponentsTextNew(lua_State *L)
  	if (font_text >= SNeutrinoSettings::FONT_TYPE_COUNT || font_text < 0)
  		font_text = SNeutrinoSettings::FONT_TYPE_MENU;
  
@@ -8956,7 +8953,7 @@ index e98fca0..e44cc5c 100644
  	}
  
  	tableLookup(L, "color_text"  , color_text);
-@@ -2228,7 +2228,7 @@ int CLuaInstance::ComponentsTextNew(lua_State *L)
+@@ -2535,7 +2535,7 @@ int CLuaInstance::ComponentsTextNew(lua_State *L)
  
  	CLuaComponentsText **udata = (CLuaComponentsText **) lua_newuserdata(L, sizeof(CLuaComponentsText *));
  	*udata = new CLuaComponentsText();
@@ -8965,7 +8962,7 @@ index e98fca0..e44cc5c 100644
  	(*udata)->parent = pw;
  	(*udata)->mode = mode;
  	(*udata)->font_text = font_text;
-@@ -2273,7 +2273,7 @@ int CLuaInstance::ComponentsTextHide(lua_State *L)
+@@ -2580,7 +2580,7 @@ int CLuaInstance::ComponentsTextHide(lua_State *L)
  		m->ct->setText("", m->mode, g_Font[m->font_text]);
  		m->ct->paint();
  	} else
@@ -8974,7 +8971,7 @@ index e98fca0..e44cc5c 100644
  	return 0;
  }
  
-@@ -2416,13 +2416,13 @@ int CLuaInstance::CPictureNew(lua_State *L)
+@@ -2723,13 +2723,13 @@ int CLuaInstance::CPictureNew(lua_State *L)
  	if (alignment)
  		dprintf(DEBUG_NORMAL, "[CLuaInstance][%s - %d] invalid argument: 'alignment' has no effect!\n", __func__, __LINE__);
  
@@ -8992,21 +8989,24 @@ index e98fca0..e44cc5c 100644
  	}
  	tableLookup(L, "color_frame"      , color_frame);
  	tableLookup(L, "color_background" , color_background);
-@@ -2437,7 +2437,7 @@ int CLuaInstance::CPictureNew(lua_State *L)
- 
+@@ -2745,9 +2745,9 @@ int CLuaInstance::CPictureNew(lua_State *L)
  	CLuaPicture **udata = (CLuaPicture **) lua_newuserdata(L, sizeof(CLuaPicture *));
  	*udata = new CLuaPicture();
--	(*udata)->cp = new CComponentsPicture(x, y, dx, dy, image_name, pw, has_shadow, (fb_pixel_t)color_frame, (fb_pixel_t)color_background, (fb_pixel_t)color_shadow, transparency);
-+	(*udata)->cp = new CComponentsPicture(x, y, dx, dy, image_name, pw, shadow_mode, (fb_pixel_t)color_frame, (fb_pixel_t)color_background, (fb_pixel_t)color_shadow, transparency);
+ 	if (dx == 0 && dy == 0) /* NO_SCALE */
+-		(*udata)->cp = new CComponentsPicture(x, y, image_name, pw, has_shadow, (fb_pixel_t)color_frame, (fb_pixel_t)color_background, (fb_pixel_t)color_shadow, transparency);
++		(*udata)->cp = new CComponentsPicture(x, y, image_name, pw, shadow_mode, (fb_pixel_t)color_frame, (fb_pixel_t)color_background, (fb_pixel_t)color_shadow, transparency);
+ 	else
+-		(*udata)->cp = new CComponentsPicture(x, y, dx, dy, image_name, pw, has_shadow, (fb_pixel_t)color_frame, (fb_pixel_t)color_background, (fb_pixel_t)color_shadow, transparency);
++		(*udata)->cp = new CComponentsPicture(x, y, dx, dy, image_name, pw, shadow_mode, (fb_pixel_t)color_frame, (fb_pixel_t)color_background, (fb_pixel_t)color_shadow, transparency);
  	(*udata)->parent = pw;
  	luaL_getmetatable(L, "cpicture");
  	lua_setmetatable(L, -2);
-@@ -2480,7 +2480,7 @@ int CLuaInstance::CPictureHide(lua_State *L)
+@@ -2790,7 +2790,7 @@ int CLuaInstance::CPictureHide(lua_State *L)
  		m->cp->setPicture("");
  		m->cp->paint();
  	} else
 -		m->cp->hide(no_restore);
-+		m->cp->hide(); //FIXME: no_restore without effect, remove or use with kill()
++		m->cp->hide();
  	return 0;
  }
  
