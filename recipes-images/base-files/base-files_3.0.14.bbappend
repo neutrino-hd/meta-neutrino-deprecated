@@ -4,6 +4,7 @@ SRC_URI += "file://profile \
 	    file://inputrc \
 	    file://local.sh \
 	    file://stb_update.sh \
+	    file://stb_update-hd1.sh \
 	    file://create_etc.sh \
 	    file://update_etc.sh \
 	    file://cam.sh \
@@ -51,6 +52,7 @@ do_configure_prepend () {
 	fi
 	if [ ${DISTRO} = "coolstream-hd1" ];then
 		sed -i "s|/media/sda1|/media/sdb1|" ${WORKDIR}/create_etc.sh
+		sed -i "s|/media/sda1|/media/sdb1|" ${WORKDIR}/update_etc.sh
 	fi
 }
 
@@ -84,5 +86,7 @@ do_install_append_coolstream-hd1 () {
 	ln -s ./libssl.so.1.0.0 ${D}${libdir}/libssl.so.0.9.8
 	install -m 755 ${S}/update_etc.sh ${D}${sysconfdir}/init.d/update_etc.sh
 	install -m 755 ${S}/create_etc.sh ${D}${sysconfdir}/init.d/create_etc.sh
-	update-rc.d -r ${D} update_etc.sh start 08 5 .		
+	install -m 755 ${S}/stb_update-hd1.sh ${D}${sysconfdir}/init.d/bb_stb_update.sh
+	update-rc.d -r ${D} bb_stb_update.sh start 03 S .
+	update-rc.d -r ${D} update_etc.sh start 08 5 .
 }
