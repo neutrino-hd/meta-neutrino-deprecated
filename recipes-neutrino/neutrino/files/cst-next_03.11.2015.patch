@@ -120,10 +120,10 @@ diff --git a/data/locale/slovak.locale b/data/locale/slovak.locale
 index 04a5f69..a927d94 100644
 --- a/data/locale/slovak.locale
 +++ b/data/locale/slovak.locale
-@@ -276,6 +276,16 @@ clock_size_height Výška zobrazenia
- clock_switch_off Skryť hodiny
+@@ -291,6 +291,16 @@ clock_switch_off Skryť hodiny
  clock_switch_on Zobraziť hodiny
  color.gradient Farebný gradient
+ color.gradient_c2c Farba farebného gradienta
 +color.gradient_a2b color A to B
 +color.gradient_b2a color B to A
 +color.gradient_d2l dark nach light
@@ -137,19 +137,19 @@ index 04a5f69..a927d94 100644
  colorchooser.alpha Priehľadnosť
  colorchooser.blue Modrý
  colorchooser.green Zelený
-@@ -945,6 +955,8 @@ menu.hint_clock_seconds Zobraenie formátu času so sekundami
+@@ -975,6 +985,8 @@ menu.hint_clock_seconds Zobraenie formátu času so sekundami
  menu.hint_clock_size Nastavenie veľkosti informačných hodín.
  menu.hint_clock_textcolor Nastavenie ferieb číslic
  menu.hint_color_gradient Prepne farebné prechody pre rôzne položky ponuky Zap/Vyp
 +menu.hint_color_gradient_direction Definujte smer farebného prechodu.
 +menu.hint_color_gradient_separator_enable Povoliť/zakázať farebný gradient pre menu oddeľovacích liniek
- menu.hint_colors Konfigurácia farieb GUI
- menu.hint_content_back Zmena farby podkladu GUI okna
- menu.hint_content_textcolor Zmena farby textu GUI okna
-@@ -1422,6 +1434,9 @@ miscsettings.infobar_disp_4 Logo+názov+číslo kanála
- miscsettings.infobar_disp_5 Logo+signál
+ menu.hint_color_gradient_c2c Prepne prechody medzi 2 farbami a jednofarebným gradientom
+ menu.hint_colored_events Použije inú farbu pre aktuálnu alebo ďaľšiu udalosť
+ menu.hint_colored_events_textcolor Zmena farby pre farebné udalosti v zozname kanálov a infolištu
+@@ -1472,6 +1484,9 @@ miscsettings.infobar_disp_5 Logo+signál
  miscsettings.infobar_disp_6 Logo+číslo kanála+signál
- miscsettings.infobar_disp_log len Logo
+ miscsettings.infobar_gradient_bottom Spodok gradientu
+ miscsettings.infobar_gradient_top Vrch gradientu
 +miscsettings.infobar_gradient_body Gradient EPG-area
 +miscsettings.infobar_gradient_bottom Gradient buttobar
 +miscsettings.infobar_gradient_top Gradient top
