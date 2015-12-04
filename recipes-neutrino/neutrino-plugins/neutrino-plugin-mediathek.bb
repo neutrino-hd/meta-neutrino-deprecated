@@ -20,8 +20,10 @@ do_install () {
 	install -d ${D}/var/tuxbox/plugins ${D}/var/tuxbox/plugins/coolithek ${D}/var/tuxbox/plugins/coolithek/locale ${D}/usr/share/lua/5.2/
 	install -m 644 ${S}/coolithek.lua ${D}/var/tuxbox/plugins
 	install -m 644 ${S}/coolithek.cfg ${D}/var/tuxbox/plugins
+	install -m 644 ${S}/coolithek_hint.png ${D}/var/tuxbox/plugins
 	install -m 644 ${S}/share/lua/5.2/* ${D}/usr/share/lua/5.2/
 	install -m 644 ${S}/coolithek/*.lua ${D}/var/tuxbox/plugins/coolithek
+	install -m 644 ${S}/coolithek/background.jpg ${D}/var/tuxbox/plugins/coolithek
 	install -m 644 ${S}/coolithek/locale/*.lua ${D}/var/tuxbox/plugins/coolithek/locale
 }
 
