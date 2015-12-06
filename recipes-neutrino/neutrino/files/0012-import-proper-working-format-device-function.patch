@@ -45,10 +45,10 @@ index 5b3cf57..d00f64b 100644
 -	if (access("/sbin/sfdisk", X_OK) == 0) {
 -		snprintf(cmd, sizeof(cmd), "/sbin/sfdisk -f -uM %s", devname.c_str());
 +	fdisk   = find_executable("fdisk");
-+	sfdisk  = find_executable("sfdisk");
++
 +	tune2fs = find_executable("tune2fs");
 +	if (! sfdisk.empty()) {
-+		snprintf(cmd, sizeof(cmd), "%s -f -uM %s", sfdisk.c_str(), devname.c_str());
++		snprintf(cmd, sizeof(cmd), "%s -f %s", sfdisk.c_str(), devname.c_str());
  		strcpy(cmd2, "0,\n;\n;\n;\ny\n");
 +	} else if (! fdisk.empty()) {
 +		snprintf(cmd, sizeof(cmd), "%s -u %s", fdisk.c_str(), devname.c_str());
@@ -62,7 +62,16 @@ index 5b3cf57..d00f64b 100644
 +		goto _remount;
  	}
  	progress->showStatusMessageUTF(cmd);
+
+@@ -873,6 +881,8 @@ int CHDDMenuHandler::formatDevice(std::string dev)
+ 	waitfordev(devname + part, 30);
+ #endif
  
++	res = umount_all(dev);
++	printf("CHDDMenuHandler::formatDevice: umount res %d\n", res);
+ 	progress->showStatusMessageUTF(mkfscmd.c_str());
+ 	f = popen(mkfscmd.c_str(), "r");
+ 	if (!f) { 
 @@ -953,10 +961,10 @@ int CHDDMenuHandler::formatDevice(std::string dev)
  	}
  	sleep(2);
