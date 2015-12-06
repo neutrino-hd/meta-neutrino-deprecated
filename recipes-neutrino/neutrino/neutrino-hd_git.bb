@@ -58,6 +58,7 @@ SRC_URI = "git://git.slknet.de/git/cst-public-gui-neutrino.git;branch=cst-next \
 	file://cst-next_03.11.2015.patch \
 	file://update-olive.theme.patch \
 	file://0015-acinclude-fix-DVB_API_VERSION-check-for-gcc5.patch \
+	file://0016-dont-install-undotum.ttf-to-shrink-size.patch \
 "
 
 SRC_URI_append_coolstream-hd1 = " \

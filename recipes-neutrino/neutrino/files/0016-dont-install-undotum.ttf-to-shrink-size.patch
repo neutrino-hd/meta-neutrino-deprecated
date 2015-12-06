@@ -1,0 +1,25 @@
+From 155a5832cf423e2b2a6b11b14908df74ef937ee3 Mon Sep 17 00:00:00 2001
+From: MarkusVolk <f_l_k@t-online.de>
+Date: Sun, 6 Dec 2015 12:21:38 +0100
+Subject: [PATCH 21/21] dont install undotum.ttf to shrink size
+
+Signed-off-by: MarkusVolk <f_l_k@t-online.de>
+---
+ data/fonts/Makefile.am | 4 ----
+ 1 file changed, 4 deletions(-)
+
+diff --git a/data/fonts/Makefile.am b/data/fonts/Makefile.am
+index 7f822c6..43637ec 100644
+--- a/data/fonts/Makefile.am
++++ b/data/fonts/Makefile.am
+@@ -10,7 +10,3 @@ install_DATA = \
+ 	DejaVuLGCSansMono-Bold.ttf \
+ 	tuxtxt.ttf \
+ 	tuxtxt.otb
+-
+-if BOXMODEL_APOLLO
+-install_DATA += UnDotum.ttf
+-endif
+-- 
+2.1.4
+
