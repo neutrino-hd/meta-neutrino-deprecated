@@ -8897,8 +8897,8 @@ index 5137752..0a16f81 100644
  };
  
  #endif // __infoview_bb__
---- a/src/gui/luainstance.cpp
-+++ b/src/gui/luainstance.cpp
+--- a/src/gui/lua/luainstance.cpp
++++ b/src/gui/lua/luainstance.cpp
 @@ -2103,13 +2103,13 @@ int CLuaInstance::CWindowNew(lua_State *L)
  	tableLookup(L, "name", name) || tableLookup(L, "title", name) || tableLookup(L, "caption", name);
  	tableLookup(L, "icon", icon);
