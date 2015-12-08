@@ -21,6 +21,7 @@ RDEPENDS_packagegroup-custom-recommended ?= "\
     exfat-utils \
     fuse-exfat \
     htop \
+    inotify-tools \
     libevent \
     logrotate \
     mc \
