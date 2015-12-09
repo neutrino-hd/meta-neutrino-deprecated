@@ -1,6 +1,8 @@
 --[[
 	LocalTV Plugin
 	Copyright (C) 2015,  Jacek Jendrzej 'satbaby', Janus, flk
+	Slovak translate: EnoSat
+	Czech translate: marecek29
 
 	License: GPL
 
@@ -27,7 +29,7 @@ local n = neutrino()
 
 local u="ubouquets"
 local b="bouquets"
-local localtv_version="LocalTV 0.19"
+local localtv_version="LocalTV 0.22"
 function __LINE__() return debug.getinfo(2, 'l').currentline end
 
 locale = {}
@@ -95,6 +97,74 @@ locale["english"] = {
 	deflinkpath = "Symlinks in the VAR-area",
 	deflinkpathhint="If all logo links lead to /var/tuxbox/icons/logo logo ?"
 }
+locale["slovak"] = {
+	create_error = "Zoznam nemohol byť vytvorený.",
+	patient = "Prosím čakajte...",
+	Error = "Chyba",
+	on = "áno",
+	off = "nie",
+	dirnotwrit = "Do adresára nemožno zapisovať",
+	saved = " bolo uložené",
+	notdef = "Nedefinované",
+	askoverwrit = "Prepísať existujúcí súbor ?",
+	isavailable = " je dostupné",
+	list = "Zoznam ",
+	info = "Informácie",
+	savelist = "Uložit zoznam",
+	savelisthint = "Uloženie zoznamu pod ",
+	name = "Názov",
+	keyboardhint = "Pod akým názvom uložiť zoznam",
+	ip = "IP názov boxu",
+	boxhint = "IP adresa boxu alebo Url",
+	ub="Zoznam z:",
+	provhint = "Zoznam obľúbených alebo Buket poskytovateľov",
+	directory = "adresár",
+	listsaveto = "V ktorom adresári uložiť zoznam ?",
+	select = "Výber s priradením",
+	onoffhint = "Vytvorenie vybraného zoznamu s 'áno' alebo 'nie'",
+	fno = "Nemeniť obľúbené",
+	fadd = "Vytvorené bukety pridať do zoznamu obľúbených ",
+	fover = "Nahradenie obľúbených vytvorenými buketami",
+	favoption = "Vytvorenie záložky obľúbených, prepísanie alebo ponechanie bez zmeny",
+	directory_hint = "Vyberte adresár v ktorom balíky Obľúbených budú vytvorené",
+	deflinkpath = "Symlinky vo VAR-oblasti",
+	deflinkpathhint="Ak všetky odkazy na logá smerujú do /var/tuxbox/icons/logo ?",
+	createlist = "Vytvoriť zoznam",
+	createlisthint = "Vytvorenie zoznamu",
+	saveonoff = " uložiť ? áno/nie"
+}
+locale["czech"] = {
+	create_error = "Seznam nemohl byt nahrán.",
+	patient = "Prosím čekejte ...",
+	Error = "Chyba",
+	fover = "Nahradit oblíbené vytvořeným buketem ",
+	fno = "Oblíbené neměnit",
+	fadd = "Vytvořit buket a přidat do oblíbených ",
+	on = "ano",
+	off = "ne",
+	favoption = "Vytvořit Buket,přepsat nebo opustit beze změn",
+	dirnotwrit = "Adresář není zapisovatelný",
+	saved = " uloženo",
+	notdef = "Nedefinováno",
+	askoverwrit = "Prepsat existující soubor ?",
+	isavailable = " je přístupný",
+	list = "seznam ",
+	info = "Informace",
+	savelist = "Uložit seznam",
+	savelisthint = "Ukládání seznamu pod ",
+	keyboardhint = "Pod jakým jménem uložit",
+	listsaveto = "V jakém adresáři uložit ?",
+	directory = "Adresář",
+	directory_hint = "Vyberte adresář ve kterém Oblíbené budou vytvořeny",
+	createlist = "Vytvořit seznam",
+	createlisthint = "Vytvořit seznam",
+	onoffhint = "Vtvoření seznamu s ano nebo ne'",
+	provhint = "Seznam Oblíbených nebo Bukety Poskytovatelů",
+	select = "Výběr s přiřazenímt",
+	saveonoff = " uloži ? Ano/Ne",
+	deflinkpath = "Symlinks ve Var-oblasti",
+	deflinkpathhint="Jestliže linky vedou do /var/tuxbox/icons/logo logo ?"
+}
 ----------------------------------------------------------------------------------------------
 function gethttpdata(host,link)
 
@@ -153,9 +223,9 @@ function getdatafromurl(url)
 		end
 
 	if data == nil then
-	  	print("DEBUG ".. __LINE__())
+		print("DEBUG ".. __LINE__())
 	end
-      return data
+	return data
 end
 
 function to_chid(satpos, frq, t, on, i)
@@ -174,11 +244,11 @@ function add_channels(t,b_name,logolist)
 	if t and b_name then
 		for k, v in ipairs(t) do
 			if v.tag == "S" then
---     				print(v.tag)
+--				print(v.tag)
 				if v.attr.u then
--- 			    		print(v.attr.u)
+--					print(v.attr.u)
 				elseif v.attr.i then
--- 			    		print(v.attr.i , v.attr.t , v.attr.on , v.attr.s , v.attr.frq, v.attr.n )
+--					print(v.attr.i , v.attr.t , v.attr.on , v.attr.s , v.attr.frq, v.attr.n )
 					local chid = to_chid(v.attr.s, v.attr.frq, v.attr.t, v.attr.on, v.attr.i)
 					if v.attr.n == nil then
 						if logolist ~= nil then
@@ -188,7 +258,6 @@ function add_channels(t,b_name,logolist)
 							v.attr.n = locale[conf.lang].notdef .. " " .. k
 						end
 					end
-					v.attr.n=v.attr.n:gsub("%&","&amp;")
 					local url='http://' .. conf.ip .. ':31339/id='.. chid
 					local _epgid = chid:sub(#chid-11,#chid)
 					_epgid = _epgid:gsub("^0+(.-)", "%1")
@@ -226,7 +295,6 @@ function make_list(value)
 		if v.tag == "Bouquet" then
 			local blt = add_channels(v,v.attr.name,logolist)
 			if blt then
-				v.attr.name=v.attr.name:gsub("%&","&amp;")
 				table.insert(ListeTab, { name=v.attr.name, epg=v.attr.epg, hidden=v.attr.hidden, locked=v.attr.locked ,bqID=v.attr.bqID , bt=blt, enabled=conf.enabled})
 			end
 		end
@@ -271,6 +339,12 @@ function make_fav_back()
 	os.execute("cp " .. conf.ubouquets_xml .. " /tmp/tmpfav/temp_inst/inst/var/tuxbox/config/zapit/" )
 	os.execute("cd /tmp/tmpfav && tar -czvf  " .. conf.backuppath .."/last_ubouquets_xml.bin temp_inst" )
 	os.execute("rm -rf /tmp/tmpfav/")
+end
+
+function toUcode(str)
+	local ustr=str:gsub("&","&amp;")
+	ustr=ustr:gsub("'","&apos;")
+	return ustr
 end
 
 function changeFav()
@@ -318,7 +392,8 @@ function changeFav()
 				if v.epg then
 					epg=' epg="' .. "0"  .. '"' -- v.epg disable epg scan 
 				end
-				fileout:write('\t<Bouquet name="' .. v.name .. " (".. conf.name .. ')"' .. bqID .. hidden .. locked .. epg ..' >\n')
+				local bname =toUcode(v.name)
+				fileout:write('\t<Bouquet name="' .. bname .. " (".. conf.name .. ')"' .. bqID .. hidden .. locked .. epg ..' >\n')
 				for __, b in ipairs(v.bt) do
 					local un = ""
 					local l = ""
@@ -327,8 +402,10 @@ function changeFav()
 					end
 					if b.un then
 						un=' un="' .. b.un  .. '"'
+						un=toUcode(un)
 					end
-					fileout:write('\t\t<S u="' .. b.tv..'" n="' ..b.n.. '"' .. un .. l ..' />\n')
+					local name =toUcode(b.n)
+					fileout:write('\t\t<S u="' .. b.tv..'" n="' ..name.. '"' .. un .. l ..' />\n')
 				end
 				fileout:write('\t</Bouquet>\n')
 			end
@@ -366,7 +443,7 @@ function saveliste()
 				if v.enabled then
 					if v.bt then
 						for __, b in ipairs(v.bt) do
-							localtv:write('\t<webtv title="' .. b.n .. '" url="' .. b.tv  .. '" epgid="' .. b.epgid.. '" description="' .. v.name .. '" genre="' ..conf.name  ..'" />\n')
+							localtv:write('\t<webtv title="' .. toUcode(b.n) .. '" url="' .. b.tv  .. '" epgid="' .. b.epgid.. '" description="' .. toUcode(v.name) .. '" genre="' .. toUcode(conf.name)  ..'" />\n')
 							if conf.logo_dir  ~= "#" then
 								local logo={}
 								logo[1] =  deflogopth .."/"
@@ -552,14 +629,16 @@ function gen_menu(table)
 		return
 	end
 	g.main:hide()
-	local m  = menu.new{name="Liste " .. conf.name .. ": ".. conf.ip, icon="icon_blue"}
+	local m  = menu.new{name=locale[conf.lang].list .. conf.name .. ": ".. conf.ip, icon="icon_blue"}
 	m:addItem{type="separator"}
 	m:addItem{type="back"}
 	m:addItem{type="separatorline"}
 	m:addItem{type="forwarder", name=locale[conf.lang].savelist, action="saveliste",enabled=true,id="" ,directkey=RC["red"],hint_icon="hint_service",hint=locale[conf.lang].savelisthint .. conf.path .. "/" .. conf.name .. ".xml" }
 	m:addItem{type="separatorline"}
 	for i, v in ipairs(table) do
-		m:addItem{type="chooser", action="set_bool_in_liste", options={ locale[conf.lang].on, locale[conf.lang].off }, id=i, value=bool2onoff(v.enabled), name=v.name,hint_icon="hint_service",hint="Bouquet ".. v.name .. locale[conf.lang].saveonoff}
+		local name=v.name:gsub("&amp;","%&")
+		name=name:gsub("&apos;","'")
+		m:addItem{type="chooser", action="set_bool_in_liste", options={ locale[conf.lang].on, locale[conf.lang].off }, id=i, value=bool2onoff(v.enabled), name=name,hint_icon="hint_service",hint="Bouquet ".. name .. locale[conf.lang].saveonoff}
 	end
 	m:exec()
 	m:hide()
@@ -573,9 +652,9 @@ function main_menu()
 
 	m:addItem{type="back"}
 	m:addItem{type="separatorline"}
-	m:addItem{type="keyboardinput", action="setvar", id="name", name="Name", value=conf.name,directkey=RC["1"],hint_icon="hint_service",hint=locale[conf.lang].keyboardhint}
-	m:addItem{type="keyboardinput", action="setvar", id="ip",   value=conf.ip, name="Box-Adresse (IP/Name)",directkey=RC["2"],hint_icon="hint_service",hint="Box IP oder Url"}
-	m:addItem{type="chooser", action="setub", options={ u, b }, id="ub", value=conf.bouquet, name="Liste aus:",directkey=RC["3"],hint_icon="hint_service",hint=locale[conf.lang].provhint}
+	m:addItem{type="keyboardinput", action="setvar", id="name", name=locale[conf.lang].name, value=conf.name,directkey=RC["1"],hint_icon="hint_service",hint=locale[conf.lang].keyboardhint}
+	m:addItem{type="keyboardinput", action="setvar", id="ip",   value=conf.ip, name=locale[conf.lang].ip,directkey=RC["2"],hint_icon="hint_service",hint=locale[conf.lang].boxhint}
+	m:addItem{type="chooser", action="setub", options={ u, b }, id="ub", value=conf.bouquet, name=locale[conf.lang].ub,directkey=RC["3"],hint_icon="hint_service",hint=locale[conf.lang].provhint}
 	m:addItem{ type="filebrowser", dir_mode="1", id="path", name="WebTV ".. locale[conf.lang].directory .. ": ", action="set_path",
 		   enabled=true,value=conf.path,directkey=RC["4"],
 		   hint_icon="hint_service",hint=locale[conf.lang].listsaveto
