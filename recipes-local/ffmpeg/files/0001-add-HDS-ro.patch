@@ -1730,7 +1730,7 @@ index 0000000..51b94b4
 +    FLVMediaSample **samples, int *nb_samples_out);
 diff --git a/libavformat/hdsdec.c b/libavformat/hdsdec.c
 new file mode 100644
-index 0000000..e616816
+index 0000000..1fadfc8
 --- /dev/null
 +++ b/libavformat/hdsdec.c
 @@ -0,0 +1,1036 @@
@@ -2078,9 +2078,9 @@ index 0000000..e616816
 +	    av_asprintf("%d kbit/s", media->bitrate), 0);
 +
 +	if (media->video_stream)
-+	    ff_program_add_stream_index(s, p->id, media->video_stream->index);
++	    av_program_add_stream_index(s, p->id, media->video_stream->index);
 +	if (media->audio_stream)
-+	    ff_program_add_stream_index(s, p->id, media->audio_stream->index);
++	    av_program_add_stream_index(s, p->id, media->audio_stream->index);
 +    }
 +
 +    return 0;
