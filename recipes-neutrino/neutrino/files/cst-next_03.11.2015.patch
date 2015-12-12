@@ -8897,89 +8897,19 @@ index 5137752..0a16f81 100644
  };
  
  #endif // __infoview_bb__
---- a/src/gui/lua/luainstance.cpp
-+++ b/src/gui/lua/luainstance.cpp
-@@ -2103,13 +2103,13 @@ int CLuaInstance::CWindowNew(lua_State *L)
- 	tableLookup(L, "name", name) || tableLookup(L, "title", name) || tableLookup(L, "caption", name);
- 	tableLookup(L, "icon", icon);
- 
--	bool has_shadow = false;
--	if (!tableLookup(L, "has_shadow", has_shadow))
-+	int shadow_mode = CC_SHADOW_OFF;
-+	if (!tableLookup(L, "shadow_mode", shadow_mode))
- 	{
- 		tmp1 = "false";
--		if (tableLookup(L, "has_shadow", tmp1))
-+		if (tableLookup(L, "shadow_mode", tmp1))
- 			paramBoolDeprecated(L, tmp1.c_str());
--		has_shadow = (tmp1 == "true" || tmp1 == "1" || tmp1 == "yes");
-+		shadow_mode = (tmp1 == "true" || tmp1 == "1" || tmp1 == "yes");
- 	}
- 
- 	tableLookup(L, "color_frame" , color_frame);
-@@ -2143,7 +2143,7 @@ int CLuaInstance::CWindowNew(lua_State *L)
- 
- 	CLuaCWindow **udata = (CLuaCWindow **) lua_newuserdata(L, sizeof(CLuaCWindow *));
- 	*udata = new CLuaCWindow();
--	(*udata)->w = new CComponentsWindow(x, y, dx, dy, name.c_str(), icon.c_str(), 0, has_shadow, (fb_pixel_t)color_frame, (fb_pixel_t)color_body, (fb_pixel_t)color_shadow);
-+	(*udata)->w = new CComponentsWindow(x, y, dx, dy, name.c_str(), icon.c_str(), 0, shadow_mode, (fb_pixel_t)color_frame, (fb_pixel_t)color_body, (fb_pixel_t)color_shadow);
- 
- 	if (!show_header)
- 		(*udata)->w->showHeader(false);
-@@ -2224,7 +2224,7 @@ int CLuaInstance::CWindowHide(lua_State *L)
- 			paramBoolDeprecated(L, tmp.c_str());
- 		no_restore = (tmp == "true" || tmp == "1" || tmp == "yes");
- 	}
--	m->w->hide(no_restore);
-+	m->w->hide(); //FIXME: no_restore without effect, remove it or use with kill()?
- 	return 0;
- }
- 
-@@ -2490,13 +2490,13 @@ int CLuaInstance::ComponentsTextNew(lua_State *L)
- 	if (font_text >= SNeutrinoSettings::FONT_TYPE_COUNT || font_text < 0)
- 		font_text = SNeutrinoSettings::FONT_TYPE_MENU;
- 
--	bool has_shadow = false;
--	if (!tableLookup(L, "has_shadow", has_shadow))
-+	int shadow_mode = CC_SHADOW_OFF;
-+	if (!tableLookup(L, "shadow_mode", shadow_mode))
- 	{
- 		std::string tmp1 = "false";
--		if (tableLookup(L, "has_shadow", tmp1))
-+		if (tableLookup(L, "shadow_mode", tmp1))
- 			paramBoolDeprecated(L, tmp1.c_str());
--		has_shadow = (tmp1 == "true" || tmp1 == "1" || tmp1 == "yes");
-+		shadow_mode = (tmp1 == "true" || tmp1 == "1" || tmp1 == "yes");
- 	}
- 
- 	tableLookup(L, "color_text"  , color_text);
-@@ -2535,7 +2535,7 @@ int CLuaInstance::ComponentsTextNew(lua_State *L)
- 
- 	CLuaComponentsText **udata = (CLuaComponentsText **) lua_newuserdata(L, sizeof(CLuaComponentsText *));
- 	*udata = new CLuaComponentsText();
--	(*udata)->ct = new CComponentsText(x, y, dx, dy, text, mode, g_Font[font_text], pw, has_shadow, (fb_pixel_t)color_text, (fb_pixel_t)color_frame, (fb_pixel_t)color_body, (fb_pixel_t)color_shadow);
-+	(*udata)->ct = new CComponentsText(x, y, dx, dy, text, mode, g_Font[font_text], CComponentsText::FONT_STYLE_REGULAR, pw, shadow_mode, (fb_pixel_t)color_text, (fb_pixel_t)color_frame, (fb_pixel_t)color_body, (fb_pixel_t)color_shadow);
- 	(*udata)->parent = pw;
- 	(*udata)->mode = mode;
- 	(*udata)->font_text = font_text;
-@@ -2580,7 +2580,7 @@ int CLuaInstance::ComponentsTextHide(lua_State *L)
- 		m->ct->setText("", m->mode, g_Font[m->font_text]);
- 		m->ct->paint();
- 	} else
--		m->ct->hide(no_restore);
-+		m->ct->hide(); //FIXME: no_restore without effect, remove or use with kill()
- 	return 0;
- }
- 
-@@ -2723,13 +2723,13 @@ int CLuaInstance::CPictureNew(lua_State *L)
+diff --git a/src/gui/lua/lua_cc_picture.cpp b/src/gui/lua/lua_cc_picture.cpp
+index 21ebed5..6c97cbb 100644
+--- a/src/gui/lua/lua_cc_picture.cpp
++++ b/src/gui/lua/lua_cc_picture.cpp
+@@ -96,12 +96,13 @@ int CLuaInstCCPicture::CCPictureNew(lua_State *L)
  	if (alignment)
  		dprintf(DEBUG_NORMAL, "[CLuaInstance][%s - %d] invalid argument: 'alignment' has no effect!\n", __func__, __LINE__);
  
 -	bool has_shadow = false;
--	if (!tableLookup(L, "has_shadow", has_shadow))
+-	if (!tableLookup(L, "has_shadow", has_shadow)) {
 +	int shadow_mode = CC_SHADOW_OFF;
 +	if (!tableLookup(L, "shadow_mode", shadow_mode))
- 	{
++	{
  		std::string tmp1 = "false";
 -		if (tableLookup(L, "has_shadow", tmp1))
 +		if (tableLookup(L, "shadow_mode", tmp1))
@@ -8987,11 +8917,11 @@ index 5137752..0a16f81 100644
 -		has_shadow = (tmp1 == "true" || tmp1 == "1" || tmp1 == "yes");
 +		shadow_mode = (tmp1 == "true" || tmp1 == "1" || tmp1 == "yes");
  	}
- 	tableLookup(L, "color_frame"      , color_frame);
- 	tableLookup(L, "color_background" , color_background);
-@@ -2745,9 +2745,9 @@ int CLuaInstance::CPictureNew(lua_State *L)
- 	CLuaPicture **udata = (CLuaPicture **) lua_newuserdata(L, sizeof(CLuaPicture *));
- 	*udata = new CLuaPicture();
+ 	tableLookup(L, "color_frame",      color_frame);
+ 	tableLookup(L, "color_background", color_background);
+@@ -117,9 +118,9 @@ int CLuaInstCCPicture::CCPictureNew(lua_State *L)
+ 	CLuaCCPicture **udata = (CLuaCCPicture **) lua_newuserdata(L, sizeof(CLuaCCPicture *));
+ 	*udata = new CLuaCCPicture();
  	if (dx == 0 && dy == 0) /* NO_SCALE */
 -		(*udata)->cp = new CComponentsPicture(x, y, image_name, pw, has_shadow, (fb_pixel_t)color_frame, (fb_pixel_t)color_background, (fb_pixel_t)color_shadow, transparency);
 +		(*udata)->cp = new CComponentsPicture(x, y, image_name, pw, shadow_mode, (fb_pixel_t)color_frame, (fb_pixel_t)color_background, (fb_pixel_t)color_shadow, transparency);
@@ -9001,12 +8931,92 @@ index 5137752..0a16f81 100644
  	(*udata)->parent = pw;
  	luaL_getmetatable(L, "cpicture");
  	lua_setmetatable(L, -2);
-@@ -2790,7 +2790,7 @@ int CLuaInstance::CPictureHide(lua_State *L)
+@@ -160,7 +161,7 @@ int CLuaInstCCPicture::CCPictureHide(lua_State *L)
  		m->cp->setPicture("");
  		m->cp->paint();
  	} else
 -		m->cp->hide(no_restore);
-+		m->cp->hide();
++		m->cp->hide(); //FIXME: no_restore without effect, remove or use with kill()
+ 	return 0;
+ }
+ 
+diff --git a/src/gui/lua/lua_cc_text.cpp b/src/gui/lua/lua_cc_text.cpp
+index e680a46..4bd7299 100644
+--- a/src/gui/lua/lua_cc_text.cpp
++++ b/src/gui/lua/lua_cc_text.cpp
+@@ -98,12 +98,13 @@ int CLuaInstCCText::CCTextNew(lua_State *L)
+ 	if (font_text >= SNeutrinoSettings::FONT_TYPE_COUNT || font_text < 0)
+ 		font_text = SNeutrinoSettings::FONT_TYPE_MENU;
+ 
+-	bool has_shadow = false;
+-	if (!tableLookup(L, "has_shadow", has_shadow)) {
++	int shadow_mode = CC_SHADOW_OFF;
++	if (!tableLookup(L, "shadow_mode", shadow_mode)) 
++	{
+ 		std::string tmp1 = "false";
+-		if (tableLookup(L, "has_shadow", tmp1))
++		if (tableLookup(L, "shadow_mode", tmp1))
+ 			paramBoolDeprecated(L, tmp1.c_str());
+-		has_shadow = (tmp1 == "true" || tmp1 == "1" || tmp1 == "yes");
++		shadow_mode = (tmp1 == "true" || tmp1 == "1" || tmp1 == "yes");
+ 	}
+ 
+ 	tableLookup(L, "color_text",   color_text);
+@@ -142,7 +143,7 @@ int CLuaInstCCText::CCTextNew(lua_State *L)
+ 
+ 	CLuaCCText **udata = (CLuaCCText **) lua_newuserdata(L, sizeof(CLuaCCText *));
+ 	*udata = new CLuaCCText();
+-	(*udata)->ct = new CComponentsText(x, y, dx, dy, text, mode, g_Font[font_text], pw, has_shadow, (fb_pixel_t)color_text, (fb_pixel_t)color_frame, (fb_pixel_t)color_body, (fb_pixel_t)color_shadow);
++	(*udata)->ct = new CComponentsText(x, y, dx, dy, text, mode, g_Font[font_text], CComponentsText::FONT_STYLE_REGULAR, pw, shadow_mode, (fb_pixel_t)color_text, (fb_pixel_t)color_frame, (fb_pixel_t)color_body, (fb_pixel_t)color_shadow);
+ 	(*udata)->parent = pw;
+ 	(*udata)->mode = mode;
+ 	(*udata)->font_text = font_text;
+@@ -185,7 +186,7 @@ int CLuaInstCCText::CCTextHide(lua_State *L)
+ 		m->ct->setText("", m->mode, g_Font[m->font_text]);
+ 		m->ct->paint();
+ 	} else
+-		m->ct->hide(no_restore);
++		m->ct->hide(); //FIXME: no_restore without effect, remove or use with kill()
+ 	return 0;
+ }
+ 
+diff --git a/src/gui/lua/lua_cc_window.cpp b/src/gui/lua/lua_cc_window.cpp
+index 399abd7..907b2d6 100644
+--- a/src/gui/lua/lua_cc_window.cpp
++++ b/src/gui/lua/lua_cc_window.cpp
+@@ -88,12 +88,13 @@ int CLuaInstCCWindow::CCWindowNew(lua_State *L)
+ 	tableLookup(L, "name", name) || tableLookup(L, "title", name) || tableLookup(L, "caption", name);
+ 	tableLookup(L, "icon", icon);
+ 
+-	bool has_shadow = false;
+-	if (!tableLookup(L, "has_shadow", has_shadow)) {
++	int shadow_mode = CC_SHADOW_OFF;
++	if (!tableLookup(L, "shadow_mode", shadow_mode))
++	{
+ 		tmp1 = "false";
+-		if (tableLookup(L, "has_shadow", tmp1))
++		if (tableLookup(L, "shadow_mode", tmp1))
+ 			paramBoolDeprecated(L, tmp1.c_str());
+-		has_shadow = (tmp1 == "true" || tmp1 == "1" || tmp1 == "yes");
++		shadow_mode = (tmp1 == "true" || tmp1 == "1" || tmp1 == "yes");
+ 	}
+ 
+ 	tableLookup(L, "color_frame" , color_frame);
+@@ -125,7 +126,7 @@ int CLuaInstCCWindow::CCWindowNew(lua_State *L)
+ 
+ 	CLuaCCWindow **udata = (CLuaCCWindow **) lua_newuserdata(L, sizeof(CLuaCCWindow *));
+ 	*udata = new CLuaCCWindow();
+-	(*udata)->w = new CComponentsWindow(x, y, dx, dy, name.c_str(), icon.c_str(), 0, has_shadow, (fb_pixel_t)color_frame, (fb_pixel_t)color_body, (fb_pixel_t)color_shadow);
++	(*udata)->w = new CComponentsWindow(x, y, dx, dy, name.c_str(), icon.c_str(), 0, shadow_mode, (fb_pixel_t)color_frame, (fb_pixel_t)color_body, (fb_pixel_t)color_shadow);
+ 
+ 	if (!show_header)
+ 		(*udata)->w->showHeader(false);
+@@ -204,7 +205,7 @@ int CLuaInstCCWindow::CCWindowHide(lua_State *L)
+ 			paramBoolDeprecated(L, tmp.c_str());
+ 		no_restore = (tmp == "true" || tmp == "1" || tmp == "yes");
+ 	}
+-	m->w->hide(no_restore);
++	m->w->hide(); //FIXME: no_restore without effect, remove it or use with kill()?
  	return 0;
  }
  
