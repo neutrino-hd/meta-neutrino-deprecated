@@ -12,6 +12,7 @@ PR = "0.2"
 
 
 SRC_URI = "git://git.slknet.de/git/mediathek-luaV2.git;branch=master \
+	   file://0001-Makefile-add-dummy-clean-target.patch \
 "
 
 S = "${WORKDIR}/git"
