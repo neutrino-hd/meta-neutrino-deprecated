@@ -10003,30 +10003,17 @@ diff --git a/src/gui/user_menue.cpp b/src/gui/user_menue.cpp
 index 96a3338..d2962d9 100644
 --- a/src/gui/user_menue.cpp
 +++ b/src/gui/user_menue.cpp
-@@ -163,15 +163,21 @@ bool CUserMenu::showUserMenu(neutrino_msg_t msg)
+@@ -163,7 +163,9 @@ bool CUserMenu::showUserMenu(neutrino_msg_t msg)
  	if (menu == NULL)
  		return true;
  
-+	/*
-+	using native callback to ensure paint for info clock after hide of this menu window
-+	menu->hide() handler comes too early, nice to see if clock is transparent.
-+	*/
+-	if (button < COL_BUTTONMAX)	
 +	menu->OnAfterHide.connect(sigc::mem_fun(CInfoClock::getInstance(), &CInfoClock::block));
 +
- 	if (button < COL_BUTTONMAX)	
++	if (button < COL_BUTTONMAX)
  		menu->setSelected(user_menu[button].selected);
--	
-+
+ 	
  	//show cancel button if configured
- 	if (g_settings.personalize[SNeutrinoSettings::P_UMENU_SHOW_CANCEL])
- 		menu->addIntroItems(NONEXISTANT_LOCALE, NONEXISTANT_LOCALE, CMenuWidget::BTN_TYPE_CANCEL);
- 	else
- 		menu->addItem(GenericMenuSeparator);
--	
-+
- 	std::string itemstr_last("1");
- 
- 	std::vector<std::string> items = ::split(g_settings.usermenu[button]->items, ',');
 @@ -452,7 +458,6 @@ bool CUserMenu::showUserMenu(neutrino_msg_t msg)
  
  	extern CInfoClock *InfoClock;
