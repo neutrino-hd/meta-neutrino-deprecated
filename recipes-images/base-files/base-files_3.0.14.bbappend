@@ -57,7 +57,7 @@ do_configure_prepend () {
 }
 
 # compatibility links for prebuild binaries that have been built with smelly old software
-do_install_append () {
+do_install_append_libc-uclibc () {
 	ln -s ./librt.so.1 ${D}${base_libdir}/librt.so.0
 	ln -s ./libc.so.1 ${D}${base_libdir}/libc.so.0
 	ln -s ./libpthread.so.1 ${D}${base_libdir}/libpthread.so.0
