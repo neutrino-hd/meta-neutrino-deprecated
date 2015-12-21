@@ -3,7 +3,7 @@ HOMEPAGE = "http://wiki.samba.org/index.php/LinuxCIFS_utils"
 
 LICENSE = "GPLv3 & LGPLv3"
 LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
-DEPENDS = "samba"
+#DEPENDS = "samba"
 PV = "5.9"
 PR = "r1"
 

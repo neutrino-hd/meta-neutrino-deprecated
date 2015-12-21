@@ -9,6 +9,7 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/LGPL-3.0;md5=b
 
 SRC_URI[md5sum] = "5dffb86414218a91864ed4453ba9be07"
 SRC_URI[sha256sum] = "3e29ce6c3ba3c4f7c2d57ce8cf0fbc24c86618c519f2b2fb6a459025488b6174"
+DEPENDS += "attr libcap"
 
 inherit waf-samba
 

@@ -1,9 +1,10 @@
 #!/bin/sh
 
 GIT__URL='GIT_URL'
+GIT_EXIST=$(echo $GIT__URL"/HEAD")
 DEST=$(echo $GIT__URL | cut -d"/" -f1,2,3)
 
-if [ -e $GIT__URL ];then
+if [ -e $GIT_EXIST ];then
 	exit
 elif mountpoint -q $DEST;then
 	cd /etc

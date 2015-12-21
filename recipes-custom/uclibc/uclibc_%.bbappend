@@ -13,3 +13,7 @@ do_install_append() {
 	install -d ${D}/usr/bin
 	install -m 755 ${S}/extra/scripts/getent ${D}/usr/bin/getent
 }
+
+do_install_append_libc-uclibc () {
+	rm ${D}/usr/include/argp.h
+}
