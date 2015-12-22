@@ -25,4 +25,4 @@ do_install() {
 #
 # We will skip parsing for non-musl systems
 #
-#COMPATIBLE_HOST = ".*-musl.* .*-uclibc.*"
+COMPATIBLE_HOST = ".*-uclibc.*"
