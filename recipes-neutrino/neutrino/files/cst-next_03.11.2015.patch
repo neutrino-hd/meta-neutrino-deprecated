@@ -8931,15 +8931,15 @@ index 21ebed5..6c97cbb 100644
  	(*udata)->parent = pw;
  	luaL_getmetatable(L, "cpicture");
  	lua_setmetatable(L, -2);
-@@ -160,7 +161,7 @@ int CLuaInstCCPicture::CCPictureHide(lua_State *L)
- 		m->cp->setPicture("");
- 		m->cp->paint();
+@@ -160,7 +160,7 @@ int CLuaInstCCPicture::CCPictureHide(lua_State *L)
+ 		D->cp->setPicture("");
+ 		D->cp->paint();
  	} else
--		m->cp->hide(no_restore);
-+		m->cp->hide(); //FIXME: no_restore without effect, remove or use with kill()
+-		D->cp->hide(no_restore);
++		D->cp->hide(); //FIXME: no_restore without effect, remove or use with kill()
  	return 0;
  }
- 
+
 diff --git a/src/gui/lua/lua_cc_text.cpp b/src/gui/lua/lua_cc_text.cpp
 index e680a46..4bd7299 100644
 --- a/src/gui/lua/lua_cc_text.cpp
@@ -8971,15 +8971,15 @@ index e680a46..4bd7299 100644
  	(*udata)->parent = pw;
  	(*udata)->mode = mode;
  	(*udata)->font_text = font_text;
-@@ -185,7 +186,7 @@ int CLuaInstCCText::CCTextHide(lua_State *L)
- 		m->ct->setText("", m->mode, g_Font[m->font_text]);
- 		m->ct->paint();
+@@ -185,7 +185,7 @@ int CLuaInstCCText::CCTextHide(lua_State *L)
+ 		D->ct->setText("", D->mode, g_Font[D->font_text]);
+ 		D->ct->paint();
  	} else
--		m->ct->hide(no_restore);
-+		m->ct->hide(); //FIXME: no_restore without effect, remove or use with kill()
+-		D->ct->hide(no_restore);
++		D->ct->hide(); //FIXME: no_restore without effect, remove or use with kill()
  	return 0;
  }
- 
+
 diff --git a/src/gui/lua/lua_cc_window.cpp b/src/gui/lua/lua_cc_window.cpp
 index 399abd7..907b2d6 100644
 --- a/src/gui/lua/lua_cc_window.cpp
@@ -9011,15 +9011,15 @@ index 399abd7..907b2d6 100644
  
  	if (!show_header)
  		(*udata)->w->showHeader(false);
-@@ -204,7 +205,7 @@ int CLuaInstCCWindow::CCWindowHide(lua_State *L)
+@@ -204,7 +204,7 @@ int CLuaInstCCWindow::CCWindowHide(lua_State *L)
  			paramBoolDeprecated(L, tmp.c_str());
  		no_restore = (tmp == "true" || tmp == "1" || tmp == "yes");
  	}
--	m->w->hide(no_restore);
-+	m->w->hide(); //FIXME: no_restore without effect, remove it or use with kill()?
+-	D->w->hide(no_restore);
++	D->w->hide(); //FIXME: no_restore without effect, remove it or use with kill()?
  	return 0;
  }
- 
+
 diff --git a/src/gui/moviebrowser.cpp b/src/gui/moviebrowser.cpp
 index ba72c74..b1089b2 100644
 --- a/src/gui/moviebrowser.cpp
