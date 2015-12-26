@@ -73,10 +73,9 @@ SRC_URI = "git://git.slknet.de/git/cst-public-gui-neutrino.git;branch=cst-next \
 	file://cst-next/0016-CComponentsWindow-add-method-to-set-header-color.patch \
 	file://cst-next/0017-CComponentsWindow-add-member-setWindowHeaderTextColo.patch \
 	file://cst-next/0018-CPersonalizeGui-try-to-fix-disabled-observer-item.patch \
-	file://cst-next/0019-CPersonalizeGui-try-to-fix-wrong-active-mode-after-c.patch \
-	file://cst-next/0020-CCDraw-try-to-separate-parameter-paint_bg-from-shado.patch \
+	file://cst-next/0019-CCDraw-try-to-separate-parameter-paint_bg-from-shado.patch \
+	file://cst-next/0020-CInfoClock-remove-shadow-in-transparent-mode.patch \
 	file://cst-next/0021-CInfoViewerBB-try-to-fix-missing-sys-scales-in-infov.patch \
-	file://cst-next/0022-CInfoClock-remove-shadow-in-transparent-mode.patch \
 	file://update-olive.theme.patch \
 	file://0015-acinclude-fix-DVB_API_VERSION-check-for-gcc5.patch \
 	file://0016-dont-install-undotum.ttf-to-shrink-size.patch \
@@ -181,4 +180,5 @@ pkg_postinst_${PN} () {
 		mv /etc/neutrino/config/zapit/frontend.conf.orig /etc/neutrino/config/zapit/frontend.conf
 	fi
 }
+
 

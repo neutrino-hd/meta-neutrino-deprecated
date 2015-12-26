@@ -1,7 +1,7 @@
-From 41ff94f55f9cc0d9859ea2ad566429e50188beb5 Mon Sep 17 00:00:00 2001
+From f622be64521dffcb28d3faca81d1fed8f488c719 Mon Sep 17 00:00:00 2001
 From: Thilo Graf <dbt@novatux.de>
 Date: Fri, 25 Dec 2015 19:21:05 +0100
-Subject: [PATCH 22/22] CInfoClock: remove shadow in transparent mode
+Subject: [PATCH 20/21] CInfoClock: remove shadow in transparent mode
 
 ---
  src/gui/infoclock.cpp | 2 ++

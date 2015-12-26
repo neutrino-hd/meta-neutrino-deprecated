@@ -1,15 +1,17 @@
-From eb67cdd386d6f3854df9ce599054a398c6b70b67 Mon Sep 17 00:00:00 2001
-From: Thilo Graf <dbt@novatux.de>
-Date: Fri, 25 Dec 2015 11:04:29 +0100
-Subject: [PATCH] CInfoViewerBB: try to fix missing sys scales in infoviewer
+From e982f80e8740dc75197f1508074b55b261a8a059 Mon Sep 17 00:00:00 2001
+From: "M. Liebmann" <tuxcode.bbg@gmail.com>
+Date: Sat, 26 Dec 2015 10:50:50 +0100
+Subject: [PATCH 21/21] CInfoViewerBB: try to fix missing sys scales in
+ infoviewer
 
 Signed-off-by: M. Liebmann <tuxcode.bbg@gmail.com>
+Signed-off-by: Thilo Graf <dbt@novatux.de>
 ---
  src/gui/infoviewer_bb.cpp | 14 +++++++-------
  1 file changed, 7 insertions(+), 7 deletions(-)
 
 diff --git a/src/gui/infoviewer_bb.cpp b/src/gui/infoviewer_bb.cpp
-index 3017123..f921310 100644
+index bd81e93..c90e03d 100644
 --- a/src/gui/infoviewer_bb.cpp
 +++ b/src/gui/infoviewer_bb.cpp
 @@ -407,19 +407,19 @@ void CInfoViewerBB::showBBButtons(const int modus)
@@ -40,5 +42,5 @@ index 3017123..f921310 100644
  		int last_x = minX;
  		for (i = BUTTON_MAX; i > 0;) {
 -- 
-2.6.4
+2.1.4
 
