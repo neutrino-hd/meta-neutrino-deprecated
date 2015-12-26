@@ -1,0 +1,55 @@
+From da999deb76e244896a5c65c0f850d36ed0d15e6f Mon Sep 17 00:00:00 2001
+From: Thilo Graf <dbt@novatux.de>
+Date: Thu, 19 Nov 2015 15:57:38 +0100
+Subject: [PATCH 03/21] CBEChannelWidget/CBEChannelSelectWidget: remove
+ setShadowOnOff()
+
+Name and function was changed
+---
+ src/gui/bedit/bouqueteditor_channels.cpp   | 15 +++++++++++----
+ src/gui/bedit/bouqueteditor_chanselect.cpp |  2 +-
+ 2 files changed, 12 insertions(+), 5 deletions(-)
+
+diff --git a/src/gui/bedit/bouqueteditor_channels.cpp b/src/gui/bedit/bouqueteditor_channels.cpp
+index 834b0a2..5c0ae0b 100644
+--- a/src/gui/bedit/bouqueteditor_channels.cpp
++++ b/src/gui/bedit/bouqueteditor_channels.cpp
+@@ -252,11 +252,18 @@ void CBEChannelWidget::initItem2DetailsLine (int pos, int /*ch_index*/)
+ 		//infobox
+ 		if (ibox == NULL){
+ 			ibox = new CComponentsInfoBox();
+-			ibox->setDimensionsAll(x, ypos2, width, info_height);
+-			ibox->setFrameThickness(2);
+-			ibox->setCorner(RADIUS_LARGE);
+-			ibox->setShadowOnOff(CC_SHADOW_OFF);
+ 		}
++
++		if (ibox->isPainted())
++			ibox->hide();
++
++		ibox->setDimensionsAll(x, ypos2, width, info_height);
++		ibox->setFrameThickness(2);
++#if 0
++		ibox->paint(false,true);
++#endif
++		ibox->setCorner(RADIUS_LARGE);
++		ibox->disableShadow();
+ 	}
+ }
+ 
+diff --git a/src/gui/bedit/bouqueteditor_chanselect.cpp b/src/gui/bedit/bouqueteditor_chanselect.cpp
+index 0875d65..2888bab 100644
+--- a/src/gui/bedit/bouqueteditor_chanselect.cpp
++++ b/src/gui/bedit/bouqueteditor_chanselect.cpp
+@@ -309,7 +309,7 @@ void CBEChannelSelectWidget::initItem2DetailsLine (int pos, int /*ch_index*/)
+ 			ibox->setDimensionsAll(x, ypos2, width, info_height);
+ 			ibox->setFrameThickness(2);
+ 			ibox->setCorner(RADIUS_LARGE);
+-			ibox->setShadowOnOff(CC_SHADOW_OFF);
++			ibox->disableShadow();
+ 		}
+ 	}
+ }
+-- 
+2.1.4
+

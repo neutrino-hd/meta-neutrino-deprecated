@@ -55,7 +55,28 @@ SRC_URI = "git://git.slknet.de/git/cst-public-gui-neutrino.git;branch=cst-next \
 	file://0011-opkg_manager.cpp-newer-versions-of-opkg-are-using-op.patch \
 	file://0012-import-proper-working-format-device-function.patch \
 	file://0013-disable-network_services-menu.patch \
-	file://cst-next_03.11.2015.patch \
+	file://cst-next/0001-CTextBox-add-modify-methodes-for-screen-handlings.patch \
+	file://cst-next/0002-components-rework-classes.patch \
+	file://cst-next/0003-CBEChannelWidget-CBEChannelSelectWidget-remove-setSh.patch \
+	file://cst-next/0004-Colors-init-global-color-gradient-implementation.patch \
+	file://cst-next/0005-CMenuWidget-rework-cc-modules-implementation.patch \
+	file://cst-next/0006-lua-instances-adopt-for-last-rebases-with-splitted-l.patch \
+	file://cst-next/0007-tmp-revert-remove-osd-setup-for-gradients.patch \
+	file://cst-next/0008-CScreenSaver-add-signal-slot-handler-OnBeforeStart-t.patch \
+	file://cst-next/0009-CTimeOSD-disable-setHeight-in-CTimeOSD-height-is-bou.patch \
+	file://cst-next/0010-CAudioPlayerGui-try-to-fix-infocklock-view-in-audiop.patch \
+	file://cst-next/0011-CMovieBrowser-try-to-fix-paint-of-channellogo-and-sc.patch \
+	file://cst-next/0012-CUserMenu-using-native-callback-to-ensure-paint-for-.patch \
+	file://cst-next/0013-CEpgData-try-to-fix-channellogo-scale-in-header.patch \
+	file://cst-next/0014-neutrino.h-remove-unused-methode-switchClockOnOff.patch \
+	file://cst-next/0015-CImageInfo-try-to-fix-paint-button-paint.patch \
+	file://cst-next/0016-CComponentsWindow-add-method-to-set-header-color.patch \
+	file://cst-next/0017-CComponentsWindow-add-member-setWindowHeaderTextColo.patch \
+	file://cst-next/0018-CPersonalizeGui-try-to-fix-disabled-observer-item.patch \
+	file://cst-next/0019-CPersonalizeGui-try-to-fix-wrong-active-mode-after-c.patch \
+	file://cst-next/0020-CCDraw-try-to-separate-parameter-paint_bg-from-shado.patch \
+	file://cst-next/0021-CInfoViewerBB-try-to-fix-missing-sys-scales-in-infov.patch \
+	file://cst-next/0022-CInfoClock-remove-shadow-in-transparent-mode.patch \
 	file://update-olive.theme.patch \
 	file://0015-acinclude-fix-DVB_API_VERSION-check-for-gcc5.patch \
 	file://0016-dont-install-undotum.ttf-to-shrink-size.patch \

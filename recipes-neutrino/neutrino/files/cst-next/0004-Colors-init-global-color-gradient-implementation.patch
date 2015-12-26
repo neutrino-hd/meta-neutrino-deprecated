@@ -1,0 +1,2398 @@
+From facb71752f5ab343e20f8a5803ed671167d4fd9b Mon Sep 17 00:00:00 2001
+From: Thilo Graf <dbt@novatux.de>
+Date: Thu, 19 Nov 2015 15:59:48 +0100
+Subject: [PATCH 04/21] Colors: init global color gradient implementation
+
+---
+ data/locale/deutsch.locale    |  16 ++
+ data/locale/english.locale    |  18 +-
+ data/locale/nederlands.locale |  18 ++
+ data/locale/slovak.locale     |  23 ++-
+ data/themes/Makefile.am       |   1 +
+ data/themes/Neutrino3.0.theme |  67 +++++++
+ src/gui/eventlist.cpp         |   8 +-
+ src/gui/infoviewer.cpp        | 431 +++++++++++++++++++++++-------------------
+ src/gui/infoviewer.h          |  13 +-
+ src/gui/infoviewer_bb.cpp     | 126 +++++++-----
+ src/gui/infoviewer_bb.h       |   9 +-
+ src/gui/osd_setup.cpp         | 185 +++++++++++++-----
+ src/gui/osd_setup.h           |  11 +-
+ src/gui/themes.cpp            |  61 ++++--
+ src/neutrino.cpp              |  39 ++--
+ src/system/locals.h           |  18 +-
+ src/system/locals_intern.h    |  18 +-
+ src/system/settings.h         |  18 +-
+ 18 files changed, 722 insertions(+), 358 deletions(-)
+ create mode 100644 data/themes/Neutrino3.0.theme
+
+diff --git a/data/locale/deutsch.locale b/data/locale/deutsch.locale
+index cbf4d64..81fbb79 100644
+--- a/data/locale/deutsch.locale
++++ b/data/locale/deutsch.locale
+@@ -290,10 +290,23 @@ clock_size_height Höhe der Anzeige
+ clock_switch_off Uhr ausblenden
+ clock_switch_on Uhr einblenden
+ color.gradient Farbverlauf
++color.gradient_a2b Farbe A zu B
++color.gradient_b2a Farbe B zu A
++color.gradient_d2l dunkel nach hell
++color.gradient_dld dunkel hell dunkel
++color.gradient_l2d hell nach dunkel
++color.gradient_ldl hell dunkel hell
++color.gradient_mode_direction Richtung
++color.gradient_mode_direction_hor horizontal
++color.gradient_mode_direction_ver vertikal
++color.gradient_separator_enable Farbverlauf für Trennlinie
+ colorchooser.alpha alpha
+ colorchooser.blue blau
+ colorchooser.green grün
+ colorchooser.red rot
++colorchooser.save Speichern
++colormenu.advanced_mode_off Standard-Optionen
++colormenu.advanced_mode_on Erweiterte Optionen
+ colormenu.background Hintergrundfarbe
+ colormenu.clock_textcolor Ziffernfarbe
+ colormenu.contrast_fonts Schriftkontrast
+@@ -976,6 +989,8 @@ menu.hint_clock_seconds Legen Sie fest, ob die Sekunden angezeigt werden sollen
+ menu.hint_clock_size Stellen Sie die Größe der Uhr ein
+ menu.hint_clock_textcolor Konfigurieren Sie die Farbe der Ziffern
+ menu.hint_color_gradient Schaltet Farbverläufe für verschiedene Menüelemente ein/aus
++menu.hint_color_gradient_direction Richtung des Farbverlaufs festlegen
++menu.hint_color_gradient_separator_enable Farbverlauf für Menü-Trennlinien aktivieren/deaktivieren
+ menu.hint_colored_events Definiert, ob die aktuelle oder nächste Sendung in einer anderen Farbe dargestellt werden soll
+ menu.hint_colored_events_textcolor Ändern Sie die Farbe für farbige Events in der Kanalliste und der Infobar
+ menu.hint_colors Konfigurieren Sie die Menü-Farben
+@@ -1470,6 +1485,7 @@ miscsettings.infobar_disp_3 Logo, Kanalname [Signalbalken]
+ miscsettings.infobar_disp_4 Logo, Kanalname [Kanalnummer]
+ miscsettings.infobar_disp_5 Logo [Signalbalken]
+ miscsettings.infobar_disp_6 Kanalnummer, Logo [Signalbalken]
++miscsettings.infobar_gradient_body Farbverlauf EPG-Bereich
+ miscsettings.infobar_gradient_bottom Farbverlauf unten
+ miscsettings.infobar_gradient_top Farbverlauf oben
+ miscsettings.infobar_logo_hdd_dir Logo-Verzeichnis
+diff --git a/data/locale/english.locale b/data/locale/english.locale
+index 4898ab4..160a184 100644
+--- a/data/locale/english.locale
++++ b/data/locale/english.locale
+@@ -290,11 +290,23 @@ clock_size_height Display height
+ clock_switch_off Clock off
+ clock_switch_on Clock on
+ color.gradient Color gradient
+-color.gradient_c2c Color to color gradient
++color.gradient_a2b color A to B
++color.gradient_b2a color B to A
++color.gradient_d2l dark to light
++color.gradient_dld dark light dark
++color.gradient_l2d light to dark
++color.gradient_ldl light dark light
++color.gradient_mode_direction Direction
++color.gradient_mode_direction_hor horizontal
++color.gradient_mode_direction_ver vertical
++color.gradient_separator_enable Color gradient separator line
+ colorchooser.alpha alpha
+ colorchooser.blue blue
+ colorchooser.green green
+ colorchooser.red red
++colorchooser.save Save
++colormenu.advanced_mode_off Default options
++colormenu.advanced_mode_on Advanced options
+ colormenu.background Background
+ colormenu.clock_textcolor Digit color
+ colormenu.contrast_fonts Contrast fonts
+@@ -977,7 +989,8 @@ menu.hint_clock_seconds Show time format with seconds
+ menu.hint_clock_size Set the size of the info clock
+ menu.hint_clock_textcolor Configure digit colors
+ menu.hint_color_gradient Switches color gradients for various menu items on/off
+-menu.hint_color_gradient_c2c Switches smooth gradient between 2 colors and one-color gradient
++menu.hint_color_gradient_direction Define direction of color gradient.
++menu.hint_color_gradient_separator_enable Disable/enable color gradient for menu separator lines
+ menu.hint_colored_events Use different color for current or next event
+ menu.hint_colored_events_textcolor Change color for colored events in channellist and infobar
+ menu.hint_colors Configure GUI colors
+@@ -1472,6 +1485,7 @@ miscsettings.infobar_disp_3 Logo, Channelname [Signal]
+ miscsettings.infobar_disp_4 Logo, Channelname [Channelnumber]
+ miscsettings.infobar_disp_5 Logo [Signal]
+ miscsettings.infobar_disp_6 Channelnumber, Logo [Signal]
++miscsettings.infobar_gradient_body Gradient EPG-area
+ miscsettings.infobar_gradient_bottom Gradient bottom
+ miscsettings.infobar_gradient_top Gradient top
+ miscsettings.infobar_logo_hdd_dir Logo directory
+diff --git a/data/locale/nederlands.locale b/data/locale/nederlands.locale
+index 4556a00..3c1f70f 100644
+--- a/data/locale/nederlands.locale
++++ b/data/locale/nederlands.locale
+@@ -270,10 +270,23 @@ clock_size_height Display hoogte
+ clock_switch_off klok uit
+ clock_switch_on klok aan
+ color.gradient Kleur gradient
++color.gradient_a2b color A to B
++color.gradient_a2b color B to A
++color.gradient_d2l donker tot licht
++color.gradient_dld donker licht donker
++color.gradient_l2d licht tot donker
++color.gradient_ldl licht donker licht
++color.gradient_mode_direction Richting
++color.gradient_mode_direction_hor horizontaal
++color.gradient_mode_direction_ver vertikaal
++color.gradient_separator_enable Gradiënt voor separator
+ colorchooser.alpha Alpha
+ colorchooser.blue Blauw
+ colorchooser.green Groen
+ colorchooser.red Rood
++colorchooser.save Save
++colormenu.advanced_mode_off Toon standaard opties
++colormenu.advanced_mode_on Toon geavanceerde zoekopties
+ colormenu.background Achtergrond
+ colormenu.clock_textcolor Digit kleur
+ colormenu.contrast_fonts Contrast lettertype
+@@ -928,6 +941,8 @@ menu.hint_clock_seconds Toon tijdsformaat met secondes
+ menu.hint_clock_size Stel grootte van de info klok in
+ menu.hint_clock_textcolor Configureer digit kleuren
+ menu.hint_color_gradient Schakel kleur verloop van menu items aan/uit
++menu.hint_color_gradient_direction Definieer de richting van kleurverloop.
++menu.hint_color_gradient_separator_enable Uitschakelen/inschakelen kleurverloop voor menu separator lijnen
+ menu.hint_colored_events Gebruik andere kleur voor huidige of volgende programma
+ menu.hint_colored_events_textcolor Wijzig programma kleur voor gekleurde programma opties in kanalenlijst en infobalk.
+ menu.hint_colors Configureer GUI-kleuren
+@@ -1399,6 +1414,9 @@ miscsettings.infobar_disp_3 Logo, Kanaalnaam [Signaal]
+ miscsettings.infobar_disp_4 Logo, Kanaalnaam [Kanaalnummer]
+ miscsettings.infobar_disp_5 Logo [Signaal]
+ miscsettings.infobar_disp_6 Kanaalnummer, Logo [Signaal]
++miscsettings.infobar_gradient_body Gradient EPG-area
++miscsettings.infobar_gradient_bottom Gradient knoppenbalk beschikbaar
++miscsettings.infobar_gradient_top Gradient top
+ miscsettings.infobar_logo_hdd_dir Logo directory
+ miscsettings.infobar_sat_display Satelliet weergeven op de infobalk
+ miscsettings.infobar_show show Info wanneer EPG verandert
+diff --git a/data/locale/slovak.locale b/data/locale/slovak.locale
+index 46ca0c0..d4b0cdc 100644
+--- a/data/locale/slovak.locale
++++ b/data/locale/slovak.locale
+@@ -290,11 +290,21 @@ clock_size_height Výška zobrazenia
+ clock_switch_off Skryť hodiny
+ clock_switch_on Zobraziť hodiny
+ color.gradient Farebný gradient
+-color.gradient_c2c Farba farebného gradienta
++color.gradient_a2b color A to B
++color.gradient_b2a color B to A
++color.gradient_d2l dark nach light
++color.gradient_dld dark light dark
++color.gradient_l2d light to dark
++color.gradient_ldl light dark light
++color.gradient_mode_direction Smer
++color.gradient_mode_direction_hor horizontálne
++color.gradient_mode_direction_ver vertikálne
++color.gradient_separator_enable Gradient pre Separator
+ colorchooser.alpha Priehľadnosť
+ colorchooser.blue Modrý
+ colorchooser.green Zelený
+ colorchooser.red Červený
++colorchooser.save Save
+ colormenu.background Pozadie
+ colormenu.clock_textcolor Farba čílic
+ colormenu.contrast_fonts Kontrast písma
+@@ -975,9 +985,8 @@ menu.hint_clock_seconds Zobraenie formátu času so sekundami
+ menu.hint_clock_size Nastavenie veľkosti informačných hodín.
+ menu.hint_clock_textcolor Nastavenie ferieb číslic
+ menu.hint_color_gradient Prepne farebné prechody pre rôzne položky ponuky Zap/Vyp
+-menu.hint_color_gradient_c2c Prepne prechody medzi 2 farbami a jednofarebným gradientom
+-menu.hint_colored_events Použije inú farbu pre aktuálnu alebo ďaľšiu udalosť
+-menu.hint_colored_events_textcolor Zmena farby pre farebné udalosti v zozname kanálov a infolištu
++menu.hint_color_gradient_direction Definujte smer farebného prechodu.
++menu.hint_color_gradient_separator_enable Povoliť/zakázať farebný gradient pre menu oddeľovacích liniek
+ menu.hint_colors Konfigurácia farieb GUI
+ menu.hint_content_back Zmena farby podkladu GUI okna
+ menu.hint_content_textcolor Zmena farby textu GUI okna
+@@ -1470,8 +1479,10 @@ miscsettings.infobar_disp_3 Logo+názov kanála+signál
+ miscsettings.infobar_disp_4 Logo+názov+číslo kanála
+ miscsettings.infobar_disp_5 Logo+signál
+ miscsettings.infobar_disp_6 Logo+číslo kanála+signál
+-miscsettings.infobar_gradient_bottom Spodok gradientu
+-miscsettings.infobar_gradient_top Vrch gradientu
++miscsettings.infobar_disp_log len Logo
++miscsettings.infobar_gradient_body Gradient EPG-area
++miscsettings.infobar_gradient_bottom Gradient buttobar
++miscsettings.infobar_gradient_top Gradient top
+ miscsettings.infobar_logo_hdd_dir Adresár loga
+ miscsettings.infobar_sat_display Zobrazenie satelitu v stavovom riadku
+ miscsettings.infobar_show Zobraziť Info pri zmene EPG
+diff --git a/data/themes/Makefile.am b/data/themes/Makefile.am
+index 3e35742..c94cf88 100644
+--- a/data/themes/Makefile.am
++++ b/data/themes/Makefile.am
+@@ -9,6 +9,7 @@ install_DATA = \
+ 	Gray.theme \
+ 	Grey-Blue.theme \
+ 	MonoChrom.theme \
++	Neutrino3.0.theme \
+ 	Olive.theme \
+ 	Red.theme \
+ 	VirginMedia.theme
+diff --git a/data/themes/Neutrino3.0.theme b/data/themes/Neutrino3.0.theme
+new file mode 100644
+index 0000000..69793b2
+--- /dev/null
++++ b/data/themes/Neutrino3.0.theme
+@@ -0,0 +1,67 @@
++clock_Digit_alpha=0
++clock_Digit_blue=100
++clock_Digit_green=100
++clock_Digit_red=100
++colored_events_alpha=0
++colored_events_blue=0
++colored_events_channellist=2
++colored_events_green=70
++colored_events_infobar=2
++colored_events_red=95
++infobar_Text_alpha=0
++infobar_Text_blue=100
++infobar_Text_green=100
++infobar_Text_red=100
++infobar_alpha=20
++infobar_blue=47
++infobar_casystem_alpha=8
++infobar_casystem_blue=54
++infobar_casystem_green=10
++infobar_casystem_red=4
++infobar_gradient_body=2
++infobar_gradient_body_direction=1
++infobar_gradient_bottom=1
++infobar_gradient_bottom_direction=1
++infobar_gradient_top=1
++infobar_gradient_top_direction=1
++infobar_green=4
++infobar_red=0
++menu_ButtonBar_gradient=0
++menu_ButtonBar_gradient_direction=1
++menu_Content_Selected_Text_alpha=0
++menu_Content_Selected_Text_blue=0
++menu_Content_Selected_Text_green=0
++menu_Content_Selected_Text_red=0
++menu_Content_Selected_alpha=20
++menu_Content_Selected_blue=100
++menu_Content_Selected_green=55
++menu_Content_Selected_red=25
++menu_Content_Text_alpha=0
++menu_Content_Text_blue=100
++menu_Content_Text_green=100
++menu_Content_Text_red=100
++menu_Content_alpha=20
++menu_Content_blue=41
++menu_Content_green=5
++menu_Content_inactive_Text_alpha=0
++menu_Content_inactive_Text_blue=85
++menu_Content_inactive_Text_green=70
++menu_Content_inactive_Text_red=55
++menu_Content_inactive_alpha=20
++menu_Content_inactive_blue=35
++menu_Content_inactive_green=15
++menu_Content_inactive_red=0
++menu_Content_red=0
++menu_Head_Text_alpha=0
++menu_Head_Text_blue=0
++menu_Head_Text_green=70
++menu_Head_Text_red=95
++menu_Head_alpha=0
++menu_Head_blue=35
++menu_Head_gradient=1
++menu_Head_gradient_direction=1
++menu_Head_green=6
++menu_Head_red=0
++menu_Hint_gradient=2
++menu_Hint_gradient_direction=1
++menu_Separator_gradient_enable=1
+diff --git a/src/gui/eventlist.cpp b/src/gui/eventlist.cpp
+index 1341b54..49f7675 100644
+--- a/src/gui/eventlist.cpp
++++ b/src/gui/eventlist.cpp
+@@ -877,7 +877,7 @@ void CEventList::paintHead(t_channel_id _channel_id, std::string _channelname, s
+ 	int font_lr  = SNeutrinoSettings::FONT_TYPE_EVENTLIST_ITEMLARGE;
+ 
+ 	CComponentsFrmChain header(x, y, full_width, theight);
+-	header.enableColBodyGradient(g_settings.theme.menu_Head_gradient);
++	header.enableColBodyGradient(g_settings.theme.menu_Head_gradient, COL_MENUCONTENT_PLUS_0, g_settings.theme.menu_Head_gradient_direction);
+ 	header.setCorner(RADIUS_LARGE, CORNER_TOP);
+ 
+ 	int x_off = 10;
+@@ -905,19 +905,19 @@ void CEventList::paintHead(t_channel_id _channel_id, std::string _channelname, s
+ 	}
+ 	else {
+ 		header.removeCCItem(midLogo); //remove/destroy logo object, if it is not available
+-		CComponentsText *midText = new CComponentsText(CC_CENTERED, CC_CENTERED, mid_width, theight, _channelname, CTextBox::CENTER, g_Font[font_mid], &header, CC_SHADOW_OFF, COL_MENUHEAD_TEXT);
++		CComponentsText *midText = new CComponentsText(CC_CENTERED, CC_CENTERED, mid_width, theight, _channelname, CTextBox::CENTER, g_Font[font_mid], CComponentsText::FONT_STYLE_REGULAR, &header, CC_SHADOW_OFF, COL_MENUHEAD_TEXT);
+ 		midText->doPaintBg(false);
+ 	}
+ 
+ 	if (!_channelname_prev.empty()) {
+-		CComponentsText *lText = new CComponentsText(x_off, CC_CENTERED, side_width, theight, _channelname_prev, CTextBox::NO_AUTO_LINEBREAK, g_Font[font_lr], &header, CC_SHADOW_OFF, COL_MENUHEAD_TEXT);
++		CComponentsText *lText = new CComponentsText(x_off, CC_CENTERED, side_width, theight, _channelname_prev, CTextBox::NO_AUTO_LINEBREAK, g_Font[font_lr], CComponentsText::FONT_STYLE_REGULAR, &header, CC_SHADOW_OFF, COL_MENUHEAD_TEXT);
+ 		lText->doPaintBg(false);
+ 	}
+ 
+ 	if (!_channelname_next.empty()) {
+ 		int name_w = std::min(g_Font[font_lr]->getRenderWidth(_channelname_next), side_width);
+ 		int x_pos = full_width - name_w - x_off;
+-		CComponentsText *rText = new CComponentsText(x_pos, CC_CENTERED, name_w, theight, _channelname_next, CTextBox::NO_AUTO_LINEBREAK, g_Font[font_lr], &header, CC_SHADOW_OFF, COL_MENUHEAD_TEXT);
++		CComponentsText *rText = new CComponentsText(x_pos, CC_CENTERED, name_w, theight, _channelname_next, CTextBox::NO_AUTO_LINEBREAK, g_Font[font_lr], CComponentsText::FONT_STYLE_REGULAR, &header, CC_SHADOW_OFF, COL_MENUHEAD_TEXT);
+ 		rText->doPaintBg(false);
+ 	}
+ 
+diff --git a/src/gui/infoviewer.cpp b/src/gui/infoviewer.cpp
+index 90c9add..c56d34c 100644
+--- a/src/gui/infoviewer.cpp
++++ b/src/gui/infoviewer.cpp
+@@ -83,7 +83,6 @@ extern CInfoClock *InfoClock;
+ 
+ #define LEFT_OFFSET 5
+ 
+-
+ event_id_t CInfoViewer::last_curr_id = 0, CInfoViewer::last_next_id = 0;
+ 
+ static bool sortByDateTime (const CChannelEvent& a, const CChannelEvent& b)
+@@ -96,8 +95,9 @@ extern bool timeset;
+ CInfoViewer::CInfoViewer ()
+ 	: fader(g_settings.theme.infobar_alpha)
+ {
+-	sigscale = NULL;
+-	snrscale = NULL;
++	sigbox = NULL;
++	header = numbox = body = rec = NULL;
++	txt_cur_start = txt_cur_event = txt_cur_event_rest = txt_next_start = txt_next_event = txt_next_in = NULL;
+ 	timescale = NULL;
+ 	clock = NULL;
+ 	frameBuffer = CFrameBuffer::getInstance();
+@@ -111,7 +111,7 @@ CInfoViewer::CInfoViewer ()
+ 	ChanWidth = 0;
+ 	ChanHeight = 0;
+ 	time_width = 0;
+-	time_height = 0;
++	time_height = header_height = 0;
+ 	lastsnr = 0;
+ 	lastsig = 0;
+ 	lasttime = 0;
+@@ -126,12 +126,7 @@ CInfoViewer::CInfoViewer ()
+ 
+ CInfoViewer::~CInfoViewer()
+ {
+-	delete sigscale;
+-	delete snrscale;
+-	delete timescale;
+-	delete infoViewerBB;
+-	delete infobar_txt;
+-	delete clock;
++	ResetModules();
+ }
+ 
+ void CInfoViewer::Init()
+@@ -150,11 +145,11 @@ void CInfoViewer::Init()
+ 	SDT_freq_update = false;
+ 
+ 	/* maybe we should not tie this to the blinkenlights settings? */
+-	infoViewerBB->setBBOffset();
++	infoViewerBB->initBBOffset();
+ 	/* after font size changes, Init() might be called multiple times */
+ 	changePB();
+ 
+-	casysChange = g_settings.casystem_display;
++	casysChange = g_settings.infobar_casystem_display;
+ 	channellogoChange = g_settings.infobar_show_channellogo;
+ 
+ 	current_channel_id = CZapit::getInstance()->GetCurrentChannelID();;
+@@ -174,14 +169,14 @@ void CInfoViewer::Init()
+              |           |  _recording icon                 _progress bar
+  BoxStartY---+-----------+ |                               |
+      |       |           | *                              #######____
+-     |       |           |-------------------------------------------+--+-ChanNameY
+-     |       |           | Channelname                               |  |
+- ChanHeight--+-----------+                                           |  |
+-                |                                                    |  InfoHeightY
+-                |01:23     Current Event                             |  |
+-                |02:34     Next Event                                |  |
+-                |                                                    |  |
+-     BoxEndY----+----------------------------------------------------+--+
++     |       |           |-------------------------------------------+--+-ChanNameY-----+
++     |       |           | Channelname (header)              | clock |  | header height |
++ ChanHeight--+-----------+-------------------------------------------+--+               |
++                |                 B---O---D---Y                      |                  |InfoHeightY
++                |01:23     Current Event                             |                  |
++                |02:34     Next Event                                |                  |
++                |                                                    |                  |
++     BoxEndY----+----------------------------------------------------+--+---------------+
+                 |                     optional blinkenlights iconbar |  bottom_bar_offset
+      BBarY------+----------------------------------------------------+--+
+                 | * red   * green  * yellow  * blue ====== [DD][16:9]|  InfoHeightY_Info
+@@ -221,7 +216,7 @@ void CInfoViewer::start ()
+ 	BoxEndY = g_settings.screen_EndY - 10 - infoViewerBB->InfoHeightY_Info - infoViewerBB->bottom_bar_offset;
+ 	BoxStartY = BoxEndY - InfoHeightY - ChanHeight / 2;
+ 
+-	ChanNameY = BoxStartY + (ChanHeight / 2) + SHADOW_OFFSET;	//oberkante schatten?
++	ChanNameY = BoxStartY + (ChanHeight / 2)/* + SHADOW_OFFSET*/;	//oberkante schatten?
+ 	ChanInfoX = BoxStartX + (ChanWidth / 3);
+ 
+ 	initClock();
+@@ -229,18 +224,22 @@ void CInfoViewer::start ()
+ 	time_width = clock->getWidth();
+ }
+ 
+-void CInfoViewer::changePB()
++void CInfoViewer::ResetPB()
+ {
+-	if (sigscale)
+-		delete sigscale;
+-	sigscale = new CProgressBar();
+-	
+-	if (snrscale)
+-		delete snrscale;
+-	snrscale = new CProgressBar();
+-	
+-	if (timescale)
++	if (sigbox){
++		delete sigbox;
++		sigbox = NULL;
++	}
++
++	if (timescale){
+ 		delete timescale;
++		timescale = NULL;
++	}
++}
++
++void CInfoViewer::changePB()
++{
++	ResetPB();
+ 	timescale = new CProgressBar();
+ 	timescale->setType(CProgressBar::PB_TIMESCALE);
+ }
+@@ -248,37 +247,24 @@ void CInfoViewer::changePB()
+ void CInfoViewer::initClock()
+ {
+ 
+-	static int gradient_top = g_settings.theme.infobar_gradient_top;
+-	static int gradient_c2c = g_settings.theme.gradient_c2c;
+-
+-	if ((gradient_top != g_settings.theme.infobar_gradient_top || gradient_c2c != g_settings.theme.gradient_c2c) && clock != NULL) {
+-		gradient_top = g_settings.theme.infobar_gradient_top;
+-		gradient_c2c = g_settings.theme.gradient_c2c;
+-		clock->clearSavedScreen();
+-		delete clock;
+-		clock = NULL;
+-	}
++	int gradient_top = g_settings.theme.infobar_gradient_top;
+ 
++	//basic init for clock object
+ 	if (clock == NULL){
+ 		clock = new CComponentsFrmClock();
+-		clock->setClockBlink("%H.%M");
++		clock->setClockFormat("%H:%M", "%H %M");
+ 		clock->setClockIntervall(1);
+-		clock->doPaintBg(!gradient_top);
+-		clock->enableTboxSaveScreen(gradient_top);
+-		if (time_width)
+-			clock->setWidth(time_width);
+ 	}
+ 
++	InfoClock->getInstance()->disableInfoClock();
++	clock->enableColBodyGradient(gradient_top, COL_INFOBAR_PLUS_0);
++	clock->enableSegmentSaveScreen(gradient_top);
+ 	clock->setColorBody(COL_INFOBAR_PLUS_0);
+ 	clock->setCorner(RADIUS_LARGE, CORNER_TOP_RIGHT);
+-	clock->setClockFont(SNeutrinoSettings::FONT_TYPE_INFOBAR_CHANNAME);
+-	clock->setClockAlignment(CC_ALIGN_RIGHT | CC_ALIGN_BOTTOM);
+-	clock->refresh();
+-
++	clock->doPaintBg(!gradient_top);
++	clock->setClockFont(g_Font[SNeutrinoSettings::FONT_TYPE_INFOBAR_CHANNAME]);
+ 	clock->setPos(BoxEndX - 10 - clock->getWidth(), ChanNameY);
+ 	clock->setTextColor(COL_INFOBAR_TEXT);
+-	clock->setClockFormat("%H:%M");
+-	clock->setClockBlink("%H %M");
+ }
+ 
+ void CInfoViewer::showRecordIcon (const bool show)
+@@ -306,7 +292,7 @@ void CInfoViewer::showRecordIcon (const bool show)
+ 
+ 		int records		= crm->GetRecordCount();
+ 		
+-		const int radius = RADIUS_MIN;
++
+ 		const int ChanName_X = BoxStartX + ChanWidth + SHADOW_OFFSET;
+ 		const int icon_space = 3, box_posY = 12;
+ 		int box_len = 0, rec_icon_posX = 0, ts_icon_posX = 0;
+@@ -346,8 +332,14 @@ void CInfoViewer::showRecordIcon (const bool show)
+ 		
+ 		if (show)
+ 		{
+-			frameBuffer->paintBoxRel(box_posX + SHADOW_OFFSET, BoxStartY + box_posY + SHADOW_OFFSET, box_len, chanH, COL_INFOBAR_SHADOW_PLUS_0, radius);
+-			frameBuffer->paintBoxRel(box_posX, BoxStartY + box_posY , box_len, chanH, COL_INFOBAR_PLUS_0, radius);
++			if (rec == NULL){ //TODO: full refactoring of this icon handler
++				rec = new CComponentsShapeSquare(box_posX, BoxStartY + box_posY , box_len, chanH, NULL, CC_SHADOW_ON, COL_RED, COL_INFOBAR_PLUS_0);
++				rec->setFrameThickness(2);
++				rec->setShadowWidth(3);
++				rec->setCorner(RADIUS_MIN, CORNER_ALL);
++			}
++			if (!rec->isPainted())
++				rec->paint(CC_SAVE_SCREEN_NO);
+ 			
+ 			if (rec_mode != CRecordManager::RECMODE_TSHIFT)
+ 				g_Font[SNeutrinoSettings::FONT_TYPE_INFOBAR_SMALL]->RenderString (rec_icon_posX + rec_icon_w + icon_space, BoxStartY + box_posY + chanH, box_len, records_msg, COL_INFOBAR_TEXT);
+@@ -380,13 +372,11 @@ void CInfoViewer::showRecordIcon (const bool show)
+ 
+ void CInfoViewer::paintBackground(int col_NumBox)
+ {
+-	int c_rad_large = RADIUS_LARGE;
+-	int c_shadow_width = (c_rad_large * 2) + 1;
+ 	int c_rad_mid = RADIUS_MID;
+ 	int BoxEndInfoY = BoxEndY;
+ 	if (showButtonBar) // add button bar and blinkenlights
+ 		BoxEndInfoY += infoViewerBB->InfoHeightY_Info + infoViewerBB->bottom_bar_offset;
+-	// kill left side
++#if 0	// kill left side
+ 	frameBuffer->paintBackgroundBox(BoxStartX,
+ 					BoxStartY + ChanHeight - 6,
+ 					BoxStartX + ChanWidth / 3,
+@@ -402,34 +392,53 @@ void CInfoViewer::paintBackground(int col_NumBox)
+ 	frameBuffer->paintBox(ChanInfoX + SHADOW_OFFSET, BoxEndInfoY - c_shadow_width,
+ 			      BoxEndX - c_shadow_width, BoxEndInfoY + SHADOW_OFFSET,
+ 			      COL_INFOBAR_SHADOW_PLUS_0, c_rad_large, CORNER_BOTTOM_LEFT);
+-
++#endif
+ 	// background for channel name/logo and clock
+ 	paintHead();
+ 
+ 	// background for epg data
+-	frameBuffer->paintBox(ChanInfoX, ChanNameY + time_height, BoxEndX, BoxEndY,
+-			      COL_INFOBAR_PLUS_0, c_rad_large, (showButtonBar ? CORNER_NONE : CORNER_BOTTOM));
++	paintBody();
+ 
+ 	// number box
+-	frameBuffer->paintBoxRel(BoxStartX + SHADOW_OFFSET, BoxStartY + SHADOW_OFFSET,
+-				 ChanWidth, ChanHeight,
+-				 COL_INFOBAR_SHADOW_PLUS_0, c_rad_mid);
+-	frameBuffer->paintBoxRel(BoxStartX, BoxStartY,
+-				 ChanWidth, ChanHeight,
+-				 col_NumBox, c_rad_mid);
++	if (numbox == NULL) //TODO: move into an own member, paintNumBox() or so...
++		numbox = new CComponentsShapeSquare(BoxStartX, BoxStartY, ChanWidth, ChanHeight, NULL, CC_SHADOW_ON);
++	else
++		numbox->setDimensionsAll(BoxStartX, BoxStartY, ChanWidth, ChanHeight);
++
++	numbox->setColorBody(g_settings.theme.infobar_gradient_top ? COL_MENUHEAD_PLUS_0 : col_NumBox);
++	numbox->enableColBodyGradient(g_settings.theme.infobar_gradient_top, g_settings.theme.infobar_gradient_top ? COL_INFOBAR_PLUS_0 : col_NumBox, g_settings.theme.infobar_gradient_top_direction);
++	numbox->setCorner(c_rad_mid, CORNER_ALL);
++	numbox->paint(CC_SAVE_SCREEN_NO);
+ }
+ 
+ void CInfoViewer::paintHead()
+ {
+-	CComponentsShapeSquare header(ChanInfoX, ChanNameY, BoxEndX-ChanInfoX, time_height);
++	if (header == NULL){
++		header = new CComponentsShapeSquare(ChanInfoX, ChanNameY, BoxEndX-ChanInfoX, time_height, NULL, CC_SHADOW_RIGHT);
++		header->setCorner(RADIUS_LARGE, CORNER_TOP_RIGHT);
++	}else
++		header->setDimensionsAll(ChanInfoX, ChanNameY, BoxEndX-ChanInfoX, time_height);
++
++	header->setColorBody(g_settings.theme.infobar_gradient_top ? COL_MENUHEAD_PLUS_0 : COL_INFOBAR_PLUS_0);
++	header->enableColBodyGradient(g_settings.theme.infobar_gradient_top, COL_INFOBAR_PLUS_0, g_settings.theme.infobar_gradient_top_direction);
++	clock->setColorBody(header->getColorBody());
++
++	header->paint(CC_SAVE_SCREEN_NO);
++	header_height = header->getHeight();
++}
++
++void CInfoViewer::paintBody()
++{
++	int h_body = InfoHeightY - header_height + (g_settings.infobar_casystem_display < 2 ? infoViewerBB->bottom_bar_offset : 0);
++	if (body == NULL)
++		body = new CComponentsShapeSquare(ChanInfoX, ChanNameY + header_height, BoxEndX-ChanInfoX, h_body, NULL, CC_SHADOW_RIGHT);
++	else
++		body->setDimensionsAll(ChanInfoX, ChanNameY + header_height, BoxEndX-ChanInfoX, h_body);
+ 
+-	header.setColorBody(g_settings.theme.infobar_gradient_top ? COL_MENUHEAD_PLUS_0 : COL_INFOBAR_PLUS_0);
+-	header.enableColBodyGradient(g_settings.theme.infobar_gradient_top);
+-	header.set2ndColor(COL_INFOBAR_PLUS_0);
+-	header.setCorner(RADIUS_LARGE, CORNER_TOP_RIGHT);
+-	clock->setColorBody(header.getColorBody());
++	body->setColorBody(g_settings.theme.infobar_gradient_body ? COL_MENUHEAD_PLUS_0 : COL_INFOBAR_PLUS_0);
++	body->enableColBodyGradient(g_settings.theme.infobar_gradient_body, COL_INFOBAR_PLUS_0, g_settings.theme.infobar_gradient_body_direction);
+ 
+-	header.paint(CC_SAVE_SCREEN_NO);
++	body->paint(CC_SAVE_SCREEN_NO);
+ }
+ 
+ void CInfoViewer::show_current_next(bool new_chan, int  epgpos)
+@@ -513,7 +522,6 @@ void CInfoViewer::showMovieTitle(const int playState, const t_channel_id &Channe
+ 	aspectRatio = 0;
+ 	last_curr_id = last_next_id = 0;
+ 	showButtonBar = true;
+-
+ 	fileplay = true;
+ 	reset_allScala();
+ 	if (!gotTime)
+@@ -550,7 +558,7 @@ void CInfoViewer::showMovieTitle(const int playState, const t_channel_id &Channe
+ 	if (g_settings.infobar_show_channellogo > 1)
+ 		ChannelLogoMode = showChannelLogo(current_channel_id, 0);
+ 	if (ChannelLogoMode == 0 || ChannelLogoMode == 3 || ChannelLogoMode == 4)
+-		g_Font[SNeutrinoSettings::FONT_TYPE_INFOBAR_CHANNAME]->RenderString(ChanNameX + 10 , ChanNameY + time_height,BoxEndX - (ChanNameX + 20) - time_width - LEFT_OFFSET - 10 ,ChannelName, COL_INFOBAR_TEXT);
++		g_Font[SNeutrinoSettings::FONT_TYPE_INFOBAR_CHANNAME]->RenderString(ChanNameX + 10 , ChanNameY + header_height,BoxEndX - (ChanNameX + 20) - time_width - LEFT_OFFSET - 10 ,ChannelName, COL_INFOBAR_TEXT);
+ 
+ 	// show_Data
+ 	if (CMoviePlayerGui::getInstance().file_prozent > 100)
+@@ -559,7 +567,7 @@ void CInfoViewer::showMovieTitle(const int playState, const t_channel_id &Channe
+ 	const char *unit_short_minute = g_Locale->getText(LOCALE_UNIT_SHORT_MINUTE);
+  	char runningRest[32]; // %d can be 10 digits max...
+ 	snprintf(runningRest, sizeof(runningRest), "%d / %d %s", (curr_pos + 30000) / 60000, (duration - curr_pos + 30000) / 60000, unit_short_minute);
+-	display_Info(g_file_epg.c_str(), g_file_epg1.c_str(), true, false, CMoviePlayerGui::getInstance().file_prozent, NULL, runningRest);
++	display_Info(g_file_epg.c_str(), g_file_epg1.c_str(), false, CMoviePlayerGui::getInstance().file_prozent, NULL, runningRest);
+ 
+ 	int speed = CMoviePlayerGui::getInstance().GetSpeed();
+ 	const char *playicon = NULL;
+@@ -593,17 +601,14 @@ void CInfoViewer::showMovieTitle(const int playState, const t_channel_id &Channe
+ 		playicon = NEUTRINO_ICON_BUTTON_HELP;
+ 		break;
+ 	}
+-
+ 	int icon_w = 0,icon_h = 0;
+ 	frameBuffer->getIconSize(playicon, &icon_w, &icon_h);
+-
+ 	int speedw = 0;
+ 	if (speed) {
+ 		sprintf(runningRest, "%dx", speed);
+ 		speedw = 5 + g_Font[SNeutrinoSettings::FONT_TYPE_INFOBAR_INFO]->getRenderWidth(runningRest);
+ 		icon_w += speedw;
+ 	}
+-
+ 	int icon_x = BoxStartX + ChanWidth / 2 - icon_w / 2;
+ 	int icon_y = BoxStartY + ChanHeight / 2 - icon_h / 2;
+ 	if (speed) {
+@@ -613,10 +618,8 @@ void CInfoViewer::showMovieTitle(const int playState, const t_channel_id &Channe
+ 		icon_x += speedw;
+ 	}
+ 	frameBuffer->paintIcon(playicon, icon_x, icon_y);
+-
+ 	showLcdPercentOver ();
+ 	showInfoFile();
+-
+ 	//loop(fadeValue, show_dot , fadeIn);
+ 	loop(show_dot);
+ 	aspectRatio = 0;
+@@ -626,19 +629,17 @@ void CInfoViewer::showMovieTitle(const int playState, const t_channel_id &Channe
+ 
+ void CInfoViewer::reset_allScala()
+ {
+-	sigscale->reset();
+-	snrscale->reset();
+-	timescale->reset();
++	changePB();
+ 	lastsig = lastsnr = -1;
+ 	infoViewerBB->reset_allScala();
+ }
+ 
+ void CInfoViewer::check_channellogo_ca_SettingsChange()
+ {
+-	if (casysChange != g_settings.casystem_display || channellogoChange != g_settings.infobar_show_channellogo) {
+-		casysChange = g_settings.casystem_display;
++	if (casysChange != g_settings.infobar_casystem_display || channellogoChange != g_settings.infobar_show_channellogo) {
++		casysChange = g_settings.infobar_casystem_display;
+ 		channellogoChange = g_settings.infobar_show_channellogo;
+-		infoViewerBB->setBBOffset();
++		infoViewerBB->initBBOffset();
+ 		start();
+ 	}
+ }
+@@ -779,7 +780,7 @@ void CInfoViewer::showTitle(CZapitChannel * channel, const bool calledFromNumZap
+ 		{
+ 			ChanNumWidth = 5 + g_Font[SNeutrinoSettings::FONT_TYPE_INFOBAR_CHANNAME]->getRenderWidth (strChanNum);
+ 			g_Font[SNeutrinoSettings::FONT_TYPE_INFOBAR_CHANNAME]->RenderString(
+-				ChanNameX + 5, ChanNameY + time_height,
++				ChanNameX + 5, ChanNameY + header_height,
+ 				ChanNumWidth, strChanNum, col_NumBoxText);
+ 		}
+ 	}
+@@ -790,7 +791,7 @@ void CInfoViewer::showTitle(CZapitChannel * channel, const bool calledFromNumZap
+ 			//fb_pixel_t color = CNeutrinoApp::getInstance ()->channelList->SameTP(new_channel_id) ? COL_INFOBAR_TEXT : COL_INFOBAR_SHADOW_TEXT;
+ 			fb_pixel_t color = COL_INFOBAR_TEXT;
+ 			g_Font[SNeutrinoSettings::FONT_TYPE_INFOBAR_CHANNAME]->RenderString(
+-				ChanNameX + 10 + ChanNumWidth, ChanNameY + time_height,
++				ChanNameX + 10 + ChanNumWidth, ChanNameY + header_height,
+ 				BoxEndX - (ChanNameX + 20) - time_width - LEFT_OFFSET - 10 - ChanNumWidth,
+ 				ChannelName, color /*COL_INFOBAR_TEXT*/);
+ 			//provider name
+@@ -804,7 +805,7 @@ void CInfoViewer::showTitle(CZapitChannel * channel, const bool calledFromNumZap
+ 					chann_size = 1;
+ 				chname_width += (chname_width/chann_size/2);
+ 
+-				int tmpY = ((ChanNameY + time_height) - g_Font[SNeutrinoSettings::FONT_TYPE_INFOBAR_CHANNAME]->getDigitOffset() 
++				int tmpY = ((ChanNameY + header_height) - g_Font[SNeutrinoSettings::FONT_TYPE_INFOBAR_CHANNAME]->getDigitOffset()
+ 						+ g_Font[SNeutrinoSettings::FONT_TYPE_INFOBAR_INFO]->getDigitOffset());
+ 				g_Font[SNeutrinoSettings::FONT_TYPE_INFOBAR_INFO]->RenderString(
+ 					ChanNameX + 10 + ChanNumWidth + chname_width, tmpY,
+@@ -826,7 +827,7 @@ void CInfoViewer::showTitle(CZapitChannel * channel, const bool calledFromNumZap
+ 				current = next;
+ 				next = "";
+ 			}
+-			display_Info(current, next, true, false, 0, NULL, NULL, NULL, NULL, true, true);
++			display_Info(current, next, false, 0, NULL, NULL, NULL, NULL, true, true);
+ 		}
+ #endif
+ 	} else {
+@@ -1306,7 +1307,7 @@ int CInfoViewer::handleMsg (const neutrino_msg_t msg, neutrino_msg_data_t data)
+ 	} else if ((msg == NeutrinoMessages::EVT_ZAP_COMPLETE) ||
+ 			(msg == NeutrinoMessages::EVT_ZAP_ISNVOD)) {
+ 		current_channel_id = (*(t_channel_id *)data);
+-		killInfobarText();
++		//killInfobarText();
+ 		return messages_return::handled;
+ 	} else if (msg == NeutrinoMessages::EVT_ZAP_CA_ID) {
+ 		//chanready = 1;
+@@ -1331,7 +1332,7 @@ int CInfoViewer::handleMsg (const neutrino_msg_t msg, neutrino_msg_data_t data)
+  					int curr_pos = CMoviePlayerGui::getInstance().GetPosition(); 
+  					int duration = CMoviePlayerGui::getInstance().GetDuration();
+ 					snprintf(runningRest, sizeof(runningRest), "%d / %d %s", (curr_pos + 30000) / 60000, (duration - curr_pos + 30000) / 60000, unit_short_minute);
+-					display_Info(NULL, NULL, true, false, CMoviePlayerGui::getInstance().file_prozent, NULL, runningRest);
++					display_Info(NULL, NULL, false, CMoviePlayerGui::getInstance().file_prozent, NULL, runningRest);
+ 				} else if (!IS_WEBTV(current_channel_id)) {
+ 					show_Data( true );
+ 				}
+@@ -1402,7 +1403,7 @@ int CInfoViewer::handleMsg (const neutrino_msg_t msg, neutrino_msg_data_t data)
+ 		showSNR ();
+ 		return messages_return::handled;
+ 	} else if (msg == NeutrinoMessages::EVT_MODECHANGED) {
+-		aspectRatio = data;
++		aspectRatio = (int8_t)data;
+ 		if (is_visible && showButtonBar)
+ 			infoViewerBB->showIcon_16_9 ();
+ 		return messages_return::handled;
+@@ -1481,7 +1482,7 @@ void CInfoViewer::showSNR ()
+ 	   TODO: decouple this  */
+ 	if (!fileplay && !IS_WEBTV(current_channel_id) && ( g_settings.infobar_show_channellogo == 3 || g_settings.infobar_show_channellogo == 5 || g_settings.infobar_show_channellogo == 6 )) {
+ 		int chanH = g_SignalFont->getHeight();
+-		int freqStartY = BoxStartY + 2 * chanH - 3;
++// 		int freqStartY = BoxStartY + 2 * chanH - 3;
+ 		if ((newfreq && chanready) || SDT_freq_update) {
+ 			char freq[20];
+ 			newfreq = false;
+@@ -1498,73 +1499,38 @@ void CInfoViewer::showSNR ()
+ 			g_SignalFont->RenderString (3 + BoxStartX + ((ChanWidth - satNameWidth) / 2), BoxStartY + 2 * chanH - 3, satNameWidth, freq, SDT_freq_update ? COL_COLORED_EVENTS_TEXT:COL_INFOBAR_TEXT);
+ 			SDT_freq_update = false;
+ 		}
+-
+-		char percent[10];
+-		uint16_t ssig, ssnr;
+-		int sw, snr, sig, posx, posy;
+-
+-		int height;
+-		ssig = CFEManager::getInstance()->getLiveFE()->getSignalStrength();
+-		ssnr = CFEManager::getInstance()->getLiveFE()->getSignalNoiseRatio();
+-
+-		sig = (ssig & 0xFFFF) * 100 / 65535;
+-		snr = (ssnr & 0xFFFF) * 100 / 65535;
+-		height = g_SignalFont->getHeight () - 1;
+-
+-		if (lastsig != sig) {
+-			lastsig = sig;
+-			posx = BoxStartX + (ChanWidth - (bar_width + 2 + (g_SignalFont->getWidth() * 4))) / 2;
+-			posy = freqStartY;
+-			sigscale->setDimensionsAll(posx, posy+4, bar_width, 10 * g_settings.screen_yres / 100);
+-			sigscale->setColorBody(COL_INFOBAR_PLUS_0);
+-			sigscale->setValues(sig, 100);
+-			sigscale->paint();
+-			snprintf (percent, sizeof(percent), "%d%%S", sig);
+-			posx = posx + bar_width + 2;
+-			sw = BoxStartX + ChanWidth - posx;
+-			frameBuffer->paintBoxRel (posx, posy, sw, height, COL_INFOBAR_PLUS_0);
+-			g_SignalFont->RenderString (posx, posy + height, sw, percent, COL_INFOBAR_TEXT);
+-		}
+-		if (lastsnr != snr) {
+-			lastsnr = snr;
+-			posx = BoxStartX + (ChanWidth - (bar_width + 2 + (g_SignalFont->getWidth() * 4))) / 2;
+-			posy = freqStartY + height - (2 * g_settings.screen_yres / 100);
+-			snrscale->setDimensionsAll(posx, posy+4, bar_width, 10 * g_settings.screen_yres / 100);
+-			snrscale->setColorBody(COL_INFOBAR_PLUS_0);
+-			snrscale->setValues(snr, 100);
+-			snrscale->paint();
+-			snprintf (percent, sizeof(percent), "%d%%Q", snr);
+-			posx = posx + bar_width + 2;
+-			sw = BoxStartX + ChanWidth - posx -4;
+-			frameBuffer->paintBoxRel (posx, posy, sw, height-2, COL_INFOBAR_PLUS_0);
+-			g_SignalFont->RenderString (posx, posy + height, sw, percent, COL_INFOBAR_TEXT);
++		if (sigbox == NULL){
++			sigbox = new CSignalBox(BoxStartX+4, BoxStartY+ChanHeight/2-4, ChanWidth-8, ChanHeight/2+2, CFEManager::getInstance()->getLiveFE());
++			sigbox->setTextColor(COL_INFOBAR_TEXT);
++			sigbox->doPaintBg(false);
+ 		}
++		sigbox->paint(CC_SAVE_SCREEN_NO);
+ 	}
+ 	if(showButtonBar)
+ 		infoViewerBB->showSysfsHdd();
+ }
+ 
+ void CInfoViewer::display_Info(const char *current, const char *next,
+-			       bool UTF8, bool starttimes, const int pb_pos,
++			       bool starttimes, const int pb_pos,
+ 			       const char *runningStart, const char *runningRest,
+ 			       const char *nextStart, const char *nextDuration,
+ 			       bool update_current, bool update_next)
+ {
+ 	/* dimensions of the two-line current-next "box":
+-	   top of box    == ChanNameY + time_height (bottom of channel name)
++	   top of box    == ChanNameY + header_height (bottom of channel name)
+ 	   bottom of box == BoxEndY
+-	   height of box == BoxEndY - (ChanNameY + time_height)
++	   height of box == BoxEndY - (ChanNameY + header_height)
+ 	   middle of box == top + height / 2
+-			 == ChanNameY + time_height + (BoxEndY - (ChanNameY + time_height))/2
+-			 == ChanNameY + time_height + (BoxEndY - ChanNameY - time_height)/2
+-			 == ChanNameY / 2 + time_height / 2 + BoxEndY / 2
+-			 == (BoxEndY + ChanNameY + time_height)/2
++			 == ChanNameY + header_height + (BoxEndY - (ChanNameY + header_height))/2
++			 == ChanNameY + header_height + (BoxEndY - ChanNameY - header_height)/2
++			 == ChanNameY / 2 + header_height / 2 + BoxEndY / 2
++			 == (BoxEndY + ChanNameY + header_height)/2
+ 	   The bottom of current info and the top of next info is == middle of box.
+ 	 */
+ 
+ 	int height = g_Font[SNeutrinoSettings::FONT_TYPE_INFOBAR_INFO]->getHeight();
+-	int CurrInfoY = (BoxEndY + ChanNameY + time_height) / 2;
+-	int NextInfoY = CurrInfoY + height;	// lower end of next info box
++	int CurrInfoY = (BoxEndY + ChanNameY + header_height) / 2;
++	int NextInfoY = CurrInfoY/* + height*/;	// lower end of next info box
+ 	int InfoX = ChanInfoX + 10;
+ 
+ 	int xStart = InfoX;
+@@ -1593,18 +1559,16 @@ void CInfoViewer::display_Info(const char *current, const char *next,
+ 		int pb_startx = BoxEndX - pb_w - SHADOW_OFFSET;
+ 		int pb_starty = ChanNameY - (pb_h + 10);
+ 		int pb_shadow = COL_INFOBAR_SHADOW_PLUS_0;
+-		timescale->setShadowOnOff(true);
++		timescale->enableShadow(!g_settings.infobar_progressbar);
+ 		int pb_color = (g_settings.progressbar_design == CProgressBar::PB_MONO) ? COL_INFOBAR_PLUS_0 : COL_INFOBAR_SHADOW_PLUS_0;
+ 		if(g_settings.infobar_progressbar){
+ 			pb_startx = xStart;
+ 			pb_w = BoxEndX - 10 - xStart;
+ 			pb_shadow = 0;
+-			timescale->setShadowOnOff(false);
+ 		}
+-		int tmpY = CurrInfoY - height - ChanNameY + time_height - 
+-			g_Font[SNeutrinoSettings::FONT_TYPE_INFOBAR_CHANNAME]->getDigitOffset()/3;
+-		switch(g_settings.infobar_progressbar) //set progressbar position
+-		{
++		int tmpY = CurrInfoY - height - ChanNameY + header_height -
++			g_Font[SNeutrinoSettings::FONT_TYPE_INFOBAR_CHANNAME]->getDigitOffset()/3+SHADOW_OFFSET;
++		switch(g_settings.infobar_progressbar){ //set progressbar position
+ 			case SNeutrinoSettings::INFOBAR_PROGRESSBAR_ARRANGEMENT_BELOW_CH_NAME:
+ 				pb_h = (pb_h/3);
+ 				pb_starty = ChanNameY + (tmpY-pb_h)/2;
+@@ -1628,52 +1592,82 @@ void CInfoViewer::display_Info(const char *current, const char *next,
+ 		timescale->setDimensionsAll(pb_startx, pb_starty, pb_w, pb_h);
+ 		timescale->setColorAll(pb_color, pb_color, pb_shadow);
+ 		timescale->setValues(pb_p, pb_w);
+-		timescale->paint();
++
+ 		//printf("paintProgressBar(%d, %d, %d, %d)\n", BoxEndX - pb_w - SHADOW_OFFSET, ChanNameY - (pb_h + 10) , pb_w, pb_h);
+ 	}
+ 
+ 	int currTimeW = 0;
+ 	int nextTimeW = 0;
+-	if (runningRest != NULL)
+-		currTimeW = g_Font[SNeutrinoSettings::FONT_TYPE_INFOBAR_INFO]->getRenderWidth(runningRest, UTF8);
+-	if (nextDuration != NULL)
+-		nextTimeW = g_Font[SNeutrinoSettings::FONT_TYPE_INFOBAR_INFO]->getRenderWidth(nextDuration, UTF8);
++	if (runningRest)
++		currTimeW = g_Font[SNeutrinoSettings::FONT_TYPE_INFOBAR_INFO]->getRenderWidth(runningRest)+10;
++	if (nextDuration)
++		nextTimeW = g_Font[SNeutrinoSettings::FONT_TYPE_INFOBAR_INFO]->getRenderWidth(nextDuration)+10;
+ 	int currTimeX = BoxEndX - currTimeW - 10;
+ 	int nextTimeX = BoxEndX - nextTimeW - 10;
+-	static int oldCurrTimeX = currTimeX; // remember the last pos. of remaining time, in case we change from 20/100min to 21/99min
+ 
+ 	//colored_events init
+ 	bool colored_event_C = (g_settings.theme.colored_events_infobar == 1);
+ 	bool colored_event_N = (g_settings.theme.colored_events_infobar == 2);
+ 
+-	if (current != NULL && update_current)
+-	{
+-		frameBuffer->paintBox(InfoX, CurrInfoY - height, currTimeX, CurrInfoY, COL_INFOBAR_PLUS_0);
+-		if (runningStart != NULL)
+-			g_Font[SNeutrinoSettings::FONT_TYPE_INFOBAR_INFO]->RenderString(InfoX, CurrInfoY, info_time_width, runningStart, colored_event_C ? COL_COLORED_EVENTS_TEXT : COL_INFOBAR_TEXT, 0, UTF8);
+-		g_Font[SNeutrinoSettings::FONT_TYPE_INFOBAR_INFO]->RenderString(xStart, CurrInfoY, currTimeX - xStart - 5, current, colored_event_C ? COL_COLORED_EVENTS_TEXT : COL_INFOBAR_TEXT, 0, UTF8);
+-		oldCurrTimeX = currTimeX;
+-	}
++	//current event
++	if (current && update_current){
++		if (txt_cur_event == NULL)
++			txt_cur_event = new CComponentsTextTransp(NULL, xStart, CurrInfoY - height, currTimeX - xStart - 5, height);
++		else
++			txt_cur_event->setDimensionsAll(xStart, CurrInfoY - height, currTimeX - xStart - 5, height);
++		txt_cur_event->setText(current, CTextBox::NO_AUTO_LINEBREAK, g_Font[SNeutrinoSettings::FONT_TYPE_INFOBAR_INFO], colored_event_C ? COL_COLORED_EVENTS_TEXT : COL_INFOBAR_TEXT);
++		txt_cur_event->paint(CC_SAVE_SCREEN_NO);
++		if (runningStart){
++			if (txt_cur_start == NULL)
++				txt_cur_start = new CComponentsTextTransp(NULL, InfoX, CurrInfoY - height, info_time_width, height);
++			else
++				txt_cur_start->setDimensionsAll(InfoX, CurrInfoY - height, info_time_width, height);
++			txt_cur_start->setText(runningStart, CTextBox::NO_AUTO_LINEBREAK, g_Font[SNeutrinoSettings::FONT_TYPE_INFOBAR_INFO], colored_event_C ? COL_COLORED_EVENTS_TEXT : COL_INFOBAR_TEXT);
++			txt_cur_start->paint(CC_SAVE_SCREEN_NO);
++		}
+ 
+-	if (currTimeX < oldCurrTimeX)
+-		oldCurrTimeX = currTimeX;
+-	frameBuffer->paintBox(oldCurrTimeX, CurrInfoY-height, BoxEndX, CurrInfoY, COL_INFOBAR_PLUS_0);
+-	oldCurrTimeX = currTimeX;
+-	if (currTimeW != 0)
+-		g_Font[SNeutrinoSettings::FONT_TYPE_INFOBAR_INFO]->RenderString(currTimeX, CurrInfoY, currTimeW, runningRest, colored_event_C ? COL_COLORED_EVENTS_TEXT : COL_INFOBAR_TEXT, 0, UTF8);
++		if (runningRest){
++			if (txt_cur_event_rest == NULL)
++				txt_cur_event_rest = new CComponentsTextTransp(NULL, currTimeX, CurrInfoY - height, currTimeW, height);
++			else
++				txt_cur_event_rest->setDimensionsAll(currTimeX, CurrInfoY - height, currTimeW, height);
++			txt_cur_event_rest->setText(runningRest, CTextBox::RIGHT, g_Font[SNeutrinoSettings::FONT_TYPE_INFOBAR_INFO], colored_event_C ? COL_COLORED_EVENTS_TEXT : COL_INFOBAR_TEXT);
++			txt_cur_event_rest->paint(CC_SAVE_SCREEN_NO);
++		}
++	}
+ 
+-	if (next != NULL && update_next)
++	//next event
++	if (next && update_next)
+ 	{
+-		frameBuffer->paintBox(InfoX, NextInfoY-height, BoxEndX, NextInfoY, COL_INFOBAR_PLUS_0);
+-		if (nextStart != NULL)
+-			g_Font[SNeutrinoSettings::FONT_TYPE_INFOBAR_INFO]->RenderString(InfoX, NextInfoY, info_time_width, nextStart, colored_event_N ? COL_COLORED_EVENTS_TEXT : COL_INFOBAR_TEXT, 0, UTF8);
+-		if (starttimes)
+-			g_Font[SNeutrinoSettings::FONT_TYPE_INFOBAR_INFO]->RenderString(xStart, NextInfoY, nextTimeX - xStart - 5, next, colored_event_N ? COL_COLORED_EVENTS_TEXT : COL_INFOBAR_TEXT, 0, UTF8);
++		if (txt_next_event == NULL)
++			txt_next_event = new CComponentsTextTransp(NULL, xStart, NextInfoY, nextTimeX - xStart - 5, height);
+ 		else
+-			g_Font[SNeutrinoSettings::FONT_TYPE_EPG_INFO1]->RenderString(xStart, NextInfoY, nextTimeX - xStart - 5, next, colored_event_N ? COL_COLORED_EVENTS_TEXT : COL_INFOBAR_TEXT, 0, UTF8);
+-		if (nextTimeW != 0)
+-			g_Font[SNeutrinoSettings::FONT_TYPE_INFOBAR_INFO]->RenderString(nextTimeX, NextInfoY, nextTimeW, nextDuration, colored_event_N ? COL_COLORED_EVENTS_TEXT : COL_INFOBAR_TEXT, 0, UTF8);
++			txt_next_event->setDimensionsAll(xStart, NextInfoY, nextTimeX - xStart - 5, height);
++		txt_next_event->setText(next, CTextBox::NO_AUTO_LINEBREAK, g_Font[SNeutrinoSettings::FONT_TYPE_INFOBAR_INFO], colored_event_N ? COL_COLORED_EVENTS_TEXT : COL_INFOBAR_TEXT);
++		txt_next_event->paint(CC_SAVE_SCREEN_NO);
++
++		if (nextStart){
++			if (txt_next_start == NULL)
++				txt_next_start = new CComponentsTextTransp(NULL, InfoX, NextInfoY, info_time_width, height);
++			else
++				txt_next_start->setDimensionsAll(InfoX, NextInfoY, info_time_width, height);
++			txt_next_start->setText(nextStart, CTextBox::NO_AUTO_LINEBREAK, g_Font[SNeutrinoSettings::FONT_TYPE_INFOBAR_INFO], colored_event_N ? COL_COLORED_EVENTS_TEXT : COL_INFOBAR_TEXT);
++			txt_next_start->paint(CC_SAVE_SCREEN_NO);
++		}
++
++		if (nextDuration){
++			if (txt_next_in == NULL)
++				txt_next_in = new CComponentsTextTransp(NULL, nextTimeX, NextInfoY, nextTimeW, height);
++			else
++				txt_next_in->setDimensionsAll(nextTimeX, NextInfoY, nextTimeW, height);
++			txt_next_in->setText(nextDuration, CTextBox::RIGHT, g_Font[SNeutrinoSettings::FONT_TYPE_INFOBAR_INFO], colored_event_N ? COL_COLORED_EVENTS_TEXT : COL_INFOBAR_TEXT);
++			txt_next_in->paint(CC_SAVE_SCREEN_NO);
++		}
+ 	}
++
++	//finally paint time scale
++	if (pb_pos > -1)
++		timescale->paint();
+ }
+ 
+ void CInfoViewer::show_Data (bool calledFromEvent)
+@@ -1818,7 +1812,7 @@ void CInfoViewer::show_Data (bool calledFromEvent)
+ 		else
+ 			next_upd = false;
+ 	}
+-	display_Info(current, next, true, true, runningPercent,
++	display_Info(current, next, true, runningPercent,
+ 		     curr_time, curr_rest, next_time, next_dur, curr_upd, next_upd);
+ 
+ #if 0
+@@ -1893,7 +1887,7 @@ void CInfoViewer::killInfobarText()
+ {
+ 	if (infobar_txt){
+ 		if (infobar_txt->isPainted())
+-			infobar_txt->hide();
++			infobar_txt->kill();
+ 		delete infobar_txt;
+ 	}
+ 	infobar_txt = NULL;
+@@ -1929,7 +1923,8 @@ void CInfoViewer::showInfoFile()
+ 		infobar_txt = new CComponentsInfoBox();
+ 
+ 	//get text from file and set it to info object, exit and delete object if failed
+-	if (!infobar_txt->setTextFromFile(infobar_file, CTextBox::CENTER, g_Font[SNeutrinoSettings::FONT_TYPE_INFOBAR_INFO])){
++	bool new_text = infobar_txt->setTextFromFile(infobar_file, CTextBox::CENTER, g_Font[SNeutrinoSettings::FONT_TYPE_INFOBAR_INFO]);
++	if (!new_text){
+ 		killInfobarText();
+ 		return;
+ 	}
+@@ -1937,14 +1932,14 @@ void CInfoViewer::showInfoFile()
+ 	//set some properties for info object
+ 	infobar_txt->setDimensionsAll(xStart, yStart, width, height);
+ 	infobar_txt->setCorner(RADIUS_SMALL);
+-	infobar_txt->setShadowOnOff(true);
++	infobar_txt->enableShadow(CC_SHADOW_ON, 3);
+ 	infobar_txt->setTextColor(COL_INFOBAR_TEXT);
+ 	infobar_txt->setColorBody(COL_INFOBAR_PLUS_0);
+ 	infobar_txt->doPaintTextBoxBg(false);
+ 
+ 	//paint info, don't save background, if already painted, global hide is also done by killTitle()
+ 	bool save_bg = !infobar_txt->isPainted();
+-	if (infobar_txt->textChanged() || virtual_zap_mode)
++	if (new_text || virtual_zap_mode)
+ 		infobar_txt->paint(save_bg);
+ 
+ }
+@@ -1958,16 +1953,52 @@ void CInfoViewer::killTitle()
+ 		int bottom = BoxEndY + SHADOW_OFFSET + infoViewerBB->bottom_bar_offset;
+ 		if (showButtonBar)
+ 			bottom += infoViewerBB->InfoHeightY_Info;
++		if (infoViewerBB->getFooter())
++			infoViewerBB->getFooter()->kill();
++		if (infoViewerBB->getCABar())
++			infoViewerBB->getCABar()->kill();
++		if (rec)
++			rec->kill();
+ 		//printf("killTitle(%d, %d, %d, %d)\n", BoxStartX, BoxStartY, BoxEndX+ SHADOW_OFFSET-BoxStartX, bottom-BoxStartY);
+-		frameBuffer->paintBackgroundBox(BoxStartX, BoxStartY, BoxEndX+ SHADOW_OFFSET, bottom);
++		//frameBuffer->paintBackgroundBox(BoxStartX, BoxStartY, BoxEndX+ SHADOW_OFFSET, bottom);
++		if (infobar_txt)
++			infobar_txt->kill();
++		numbox->kill();
++#if 0 //not really required to kill sigbox, numbox does this
++		if (sigbox)
++			sigbox->kill();
++#endif
++		header->kill();
++#if 0 //not really required to kill clock, body does this
++		if (clock)
++			clock->kill();
++#endif
++		body->kill();
++#if 0 //not really required to kill epg infos, body does this
++		if (txt_cur_start)
++			txt_cur_start->kill();
++		if (txt_cur_event)
++			txt_cur_event->kill();
++		if (txt_cur_event_rest)
++			txt_cur_event_rest->kill();
++		if (txt_next_start)
++			txt_next_start->kill();
++		if (txt_next_event)
++			txt_next_event->kill();
++		if (txt_next_in)
++			txt_next_in->kill();
++#endif
++		if (timescale)
++			if (g_settings.infobar_progressbar == SNeutrinoSettings::INFOBAR_PROGRESSBAR_ARRANGEMENT_DEFAULT)
++				timescale->kill();
+ 		if (g_settings.radiotext_enable && g_Radiotext) {
+ 			g_Radiotext->S_RtOsd = g_Radiotext->haveRadiotext() ? 1 : 0;
+ 			killRadiotext();
+ 		}
+-
+ 		killInfobarText();
+ 	}
+ 	showButtonBar = false;
++	InfoClock->getInstance()->enableInfoClock();
+ }
+ 
+ #if 0
+@@ -2031,11 +2062,11 @@ int CInfoViewer::showChannelLogo(const t_channel_id logo_channel_id, const int c
+ 	else if (g_settings.infobar_show_channellogo == 2 || g_settings.infobar_show_channellogo == 5 || g_settings.infobar_show_channellogo == 6) // paint logo in place of channel name
+ 	{
+ 		// check logo dimensions
+-		g_PicViewer->rescaleImageDimensions(&logo_w, &logo_h, chan_w, time_height);
++		g_PicViewer->rescaleImageDimensions(&logo_w, &logo_h, chan_w, header_height);
+ 		// hide channel name
+ // this is too ugly...		ChannelName = "";
+ 		// calculate logo position
+-		y_mid = ChanNameY + time_height / 2;
++		y_mid = ChanNameY + header_height / 2;
+ 		logo_x = start_x + 10 + channel_number_width;;
+ 		logo_y = y_mid - logo_h / 2;
+ 		if (g_settings.infobar_show_channellogo == 2)
+@@ -2047,9 +2078,9 @@ int CInfoViewer::showChannelLogo(const t_channel_id logo_channel_id, const int c
+ 	{
+ 		// check logo dimensions
+ 		int Logo_max_width = chan_w - logo_w - 10;
+-		g_PicViewer->rescaleImageDimensions(&logo_w, &logo_h, Logo_max_width, time_height);
++		g_PicViewer->rescaleImageDimensions(&logo_w, &logo_h, Logo_max_width, header_height);
+ 		// calculate logo position
+-		y_mid = ChanNameY + time_height / 2;
++		y_mid = ChanNameY + header_height / 2;
+ 		logo_x = start_x + 10;
+ 		logo_y = y_mid - logo_h / 2;
+ 		// set channel name x pos right of the logo
+@@ -2145,3 +2176,21 @@ int CInfoViewerHandler::exec (CMenuTarget * parent, const std::string & /*action
+ 	return res;
+ }
+ #endif
++
++void CInfoViewer::ResetModules()
++{
++	delete header; 			header 		= NULL;
++	delete body; 			body 		= NULL;
++	delete infobar_txt; 		infobar_txt 	= NULL;
++	delete clock; 			clock 		= NULL;
++	delete txt_cur_start; 		txt_cur_start 	= NULL;
++	delete txt_cur_event; 		txt_cur_event 	= NULL;
++	delete txt_cur_event_rest; 	txt_cur_event_rest = NULL;
++	delete txt_next_start; 		txt_next_start 	= NULL;
++	delete txt_next_event; 		txt_next_event 	= NULL;
++	delete txt_next_in; 		txt_next_in 	= NULL;
++	delete numbox; 			numbox 		= NULL;
++	ResetPB();
++	delete rec; 			rec 		= NULL;
++	infoViewerBB->ResetModules();
++}
+diff --git a/src/gui/infoviewer.h b/src/gui/infoviewer.h
+index c4283f3..176ce02 100644
+--- a/src/gui/infoviewer.h
++++ b/src/gui/infoviewer.h
+@@ -52,6 +52,8 @@ class CInfoViewer
+ 	CFrameBuffer * frameBuffer;
+ 	CInfoViewerBB* infoViewerBB;
+ 	CComponentsFrmClock *clock;
++	CComponentsShapeSquare *header , *numbox, *body, *rec;
++	CComponentsTextTransp *txt_cur_start, *txt_cur_event, *txt_cur_event_rest, *txt_next_start, *txt_next_event, *txt_next_in;
+ 
+ 	bool           gotTime;
+ 	bool           recordModeActive;
+@@ -90,7 +92,7 @@ class CInfoViewer
+ 	int time_width;
+ 	int time_height;
+ 	int info_time_width;
+-
++	int header_height;
+ 	bool newfreq ;
+ 	static const short bar_width = 72;
+ 	static event_id_t last_curr_id, last_next_id;
+@@ -101,15 +103,18 @@ class CInfoViewer
+ 	CChannelEventList::iterator     eli;
+ 
+ 	int lastsnr, lastsig, lasttime;
+-	CProgressBar *snrscale, *sigscale, *timescale;
++	CProgressBar *timescale;
++	CSignalBox *sigbox;
++
+ 	bool casysChange;
+ 	bool channellogoChange;
+ 	uint32_t lcdUpdateTimer;
+ 
+ 	void paintBackground(int col_Numbox);
+ 	void paintHead();
++	void paintBody();
+ 	void show_Data( bool calledFromEvent = false );
+-	void display_Info(const char *current, const char *next, bool UTF8 = true,
++	void display_Info(const char *current, const char *next,
+ 			  bool starttimes = true, const int pb_pos = -1,
+ 			  const char *runningStart = NULL, const char *runningRest = NULL,
+ 			  const char *nextStart = NULL, const char *nextDuration = NULL,
+@@ -174,12 +179,14 @@ class CInfoViewer
+ 	int     handleMsg(const neutrino_msg_t msg, neutrino_msg_data_t data);
+ 	void    clearVirtualZapMode() {virtual_zap_mode = false;}
+ 	void    changePB();
++	void 	ResetPB();
+ 	void    showSNR();
+ 	void    Init(void);
+ 	bool    SDT_freq_update;
+ 	void	setUpdateTimer(uint64_t interval);
+ 	uint32_t getUpdateTimer(void) { return lcdUpdateTimer; }
+ 	inline t_channel_id get_current_channel_id(void) { return current_channel_id; }
++	void 	ResetModules();
+ };
+ #if 0
+ class CInfoViewerHandler : public CMenuTarget
+diff --git a/src/gui/infoviewer_bb.cpp b/src/gui/infoviewer_bb.cpp
+index 3760a75..bd81e93 100644
+--- a/src/gui/infoviewer_bb.cpp
++++ b/src/gui/infoviewer_bb.cpp
+@@ -89,7 +89,7 @@ CInfoViewerBB::CInfoViewerBB()
+ 	bbIconInfo[0].h = 0;
+ 	BBarY = 0;
+ 	BBarFontY = 0;
+-
++	foot = cabar 		= NULL;
+ 	Init();
+ }
+ 
+@@ -109,7 +109,7 @@ void CInfoViewerBB::Init()
+ 	}
+ 
+ 	InfoHeightY_Info = g_Font[SNeutrinoSettings::FONT_TYPE_INFOBAR_SMALL]->getHeight() + 5;
+-	setBBOffset();
++	initBBOffset();
+ 
+ 	changePB();
+ }
+@@ -120,10 +120,7 @@ CInfoViewerBB::~CInfoViewerBB()
+ 		pthread_cancel(scrambledT);
+ 		scrambledT = 0;
+ 	}
+-	if (hddscale)
+-		delete hddscale;
+-	if (sysscale)
+-		delete sysscale;
++	ResetModules();
+ }
+ 
+ CInfoViewerBB* CInfoViewerBB::getInstance()
+@@ -181,7 +178,7 @@ void CInfoViewerBB::getBBIconInfo()
+ 				iconView = checkBBIcon(NEUTRINO_ICON_RESOLUTION_1280, &w, &h);
+ 			break;
+ 		case CInfoViewerBB::ICON_CA:
+-			if (g_settings.casystem_display == 2)
++			if (g_settings.infobar_casystem_display == 2)
+ 				iconView = checkBBIcon(NEUTRINO_ICON_SCRAMBLED2, &w, &h);
+ 			break;
+ 		case CInfoViewerBB::ICON_TUNER:
+@@ -409,7 +406,21 @@ void CInfoViewerBB::showBBButtons(const int modus)
+ 	}
+ 
+ 	if (paint) {
++		fb_pixel_t *pixbuf = NULL;
++		int buf_x = bbIconMinX;
++		int buf_y = BBarY;
++		int buf_w = g_InfoViewer->BoxEndX-bbIconMinX;
++		int buf_h = InfoHeightY_Info;
++		if (modus != -1) {
++			pixbuf = new fb_pixel_t[buf_w * buf_h];
++//printf("\nbuf_x: %d, buf_y: %d, buf_w: %d, buf_h: %d, pixbuf: %p\n \n", buf_x, buf_y, buf_w, buf_h, pixbuf);
++			frameBuffer->SaveScreen(buf_x, buf_y, buf_w, buf_h, pixbuf);
++		}
+ 		paintFoot(minX - g_InfoViewer->ChanInfoX);
++		if ((modus != -1) && (pixbuf != NULL)) {
++			frameBuffer->RestoreScreen(buf_x, buf_y, buf_w, buf_h, pixbuf);
++			delete [] pixbuf;
++		}
+ 		int last_x = minX;
+ 		for (i = BUTTON_MAX; i > 0;) {
+ 			--i;
+@@ -464,7 +475,7 @@ void CInfoViewerBB::paintshowButtonBar()
+ 	}
+ 	g_InfoViewer->sec_timer_id = g_RCInput->addTimer(1*1000*1000, false);
+ 
+-	if (g_settings.casystem_display < 2)
++	if (g_settings.infobar_casystem_display < 2)
+ 		paintCA_bar(0,0);
+ 
+ 	paintFoot();
+@@ -492,15 +503,14 @@ void CInfoViewerBB::paintFoot(int w)
+ {
+ 	int width = (w == 0) ? g_InfoViewer->BoxEndX - g_InfoViewer->ChanInfoX : w;
+ 
+-	CComponentsShapeSquare foot(g_InfoViewer->ChanInfoX, BBarY, width, InfoHeightY_Info);
++	if (foot == NULL)
++		foot = new CComponentsShapeSquare(g_InfoViewer->ChanInfoX, BBarY, width, InfoHeightY_Info, NULL, CC_SHADOW_ON);
+ 
+-	foot.setColorBody(COL_INFOBAR_BUTTONS_BACKGROUND);
+-	foot.enableColBodyGradient(g_settings.theme.infobar_gradient_bottom);
+-	foot.setColBodyGradient(CColorGradient::gradientDark2Light, CFrameBuffer::gradientVertical);
+-	foot.setCorner(RADIUS_LARGE, CORNER_BOTTOM);
+-	foot.set2ndColor(COL_INFOBAR_PLUS_0);
++	foot->setColorBody(COL_INFOBAR_BUTTONS_BACKGROUND);
++	foot->enableColBodyGradient(g_settings.theme.infobar_gradient_bottom, COL_INFOBAR_PLUS_0, g_settings.theme.infobar_gradient_bottom_direction);
++	foot->setCorner(RADIUS_LARGE, CORNER_BOTTOM);
+ 
+-	foot.paint(CC_SAVE_SCREEN_NO);
++	foot->paint(CC_SAVE_SCREEN_NO);
+ }
+ 
+ void CInfoViewerBB::showIcon_SubT()
+@@ -704,6 +714,7 @@ void CInfoViewerBB::showSysfsHdd()
+ void CInfoViewerBB::showBarSys(int percent)
+ {	
+ 	if (is_visible){
++		sysscale->doPaintBg(false);
+ 		sysscale->setDimensionsAll(bbIconMinX, BBarY + InfoHeightY_Info / 2 - 2 - 6, hddwidth, 6);
+ 		sysscale->setValues(percent, 100);
+ 		sysscale->paint();
+@@ -713,6 +724,7 @@ void CInfoViewerBB::showBarSys(int percent)
+ void CInfoViewerBB::showBarHdd(int percent)
+ {
+ 	if (is_visible) {
++		hddscale->doPaintBg(false);
+ 		if (percent >= 0){
+ 			hddscale->setDimensionsAll(bbIconMinX, BBarY + InfoHeightY_Info / 2 + 2 + 0, hddwidth, 6);
+ 			hddscale->setValues(percent, 100);
+@@ -727,8 +739,8 @@ void CInfoViewerBB::showBarHdd(int percent)
+ void CInfoViewerBB::paint_ca_icons(int caid, const char *icon, int &icon_space_offset)
+ {
+ 	char buf[20];
+-	int endx = g_InfoViewer->BoxEndX - (g_settings.casystem_frame ? 20 : 10);
+-	int py = g_InfoViewer->BoxEndY + (g_settings.casystem_frame ? 4 : 2); /* hand-crafted, should be automatic */
++	int endx = g_InfoViewer->BoxEndX - (g_settings.infobar_casystem_frame ? 20 : 10);
++	int py = g_InfoViewer->BoxEndY + (g_settings.infobar_casystem_frame ? 4 : 2); /* hand-crafted, should be automatic */
+ 	int px = 0;
+ 	static map<int, std::pair<int,const char*> > icon_map;
+ 	const int icon_space = 10, icon_number = 10;
+@@ -769,7 +781,7 @@ void CInfoViewerBB::paint_ca_icons(int caid, const char *icon, int &icon_space_o
+ 	if (icon_offset[icon_map[caid].first] == 0)
+ 		return;
+ 
+-	if (g_settings.casystem_display == 0) {
++	if (g_settings.infobar_casystem_display == 0) {
+ 		px = endx - (icon_offset[icon_map[caid].first] - icon_space );
+ 	} else {
+ 		icon_space_offset += icon_sizeW[icon_map[caid].first];
+@@ -789,10 +801,10 @@ void CInfoViewerBB::paint_ca_icons(int caid, const char *icon, int &icon_space_o
+ 
+ void CInfoViewerBB::showIcon_CA_Status(int notfirst)
+ {
+-	if (g_settings.casystem_display == 3)
++	if (g_settings.infobar_casystem_display == 3)
+ 		return;
+ 	if(NeutrinoMessages::mode_ts == CNeutrinoApp::getInstance()->getMode() && !CMoviePlayerGui::getInstance().timeshift){
+-		if (g_settings.casystem_display == 2) {
++		if (g_settings.infobar_casystem_display == 2) {
+ 			fta = true;
+ 			showOne_CAIcon();
+ 		}
+@@ -805,11 +817,11 @@ void CInfoViewerBB::showIcon_CA_Status(int notfirst)
+ 	int icon_space_offset = 0;
+ 
+ 	if(!g_InfoViewer->chanready) {
+-		if (g_settings.casystem_display == 2) {
++		if (g_settings.infobar_casystem_display == 2) {
+ 			fta = true;
+ 			showOne_CAIcon();
+ 		}
+-		else if(g_settings.casystem_display == 0) {
++		else if(g_settings.infobar_casystem_display == 0) {
+ 			for (int i = 0; i < (int)(sizeof(caids)/sizeof(int)); i++) {
+ 				paint_ca_icons(caids[i], white, icon_space_offset);
+ 			}
+@@ -821,7 +833,7 @@ void CInfoViewerBB::showIcon_CA_Status(int notfirst)
+ 	if(!channel)
+ 		return;
+ 
+-	if (g_settings.casystem_display == 2) {
++	if (g_settings.infobar_casystem_display == 2) {
+ 		fta = channel->camap.empty();
+ 		showOne_CAIcon();
+ 		return;
+@@ -830,7 +842,7 @@ void CInfoViewerBB::showIcon_CA_Status(int notfirst)
+ 	if(!notfirst) {
+ #if 0
+ 		static int icon_space_offset = 0;
+-		if ((g_settings.casystem_display == 1) && (icon_space_offset)) {
++		if ((g_settings.infobar_casystem_display == 1) && (icon_space_offset)) {
+ 			paintCA_bar(0,icon_space_offset);
+ 			icon_space_offset = 0;
+ 		}
+@@ -844,7 +856,7 @@ void CInfoViewerBB::showIcon_CA_Status(int notfirst)
+ 				if((found = (caid == caids[i])))
+ 					break;
+ 			}
+-			if(g_settings.casystem_display == 0)
++			if(g_settings.infobar_casystem_display == 0)
+ 				paint_ca_icons(caids[i], (found ? yellow : white), icon_space_offset);
+ 			else if(found)
+ 				paint_ca_icons(caids[i], yellow, icon_space_offset);
+@@ -854,32 +866,41 @@ void CInfoViewerBB::showIcon_CA_Status(int notfirst)
+ 
+ void CInfoViewerBB::paintCA_bar(int left, int right)
+ {
+-	int xcnt = (g_InfoViewer->BoxEndX - g_InfoViewer->ChanInfoX - (g_settings.casystem_frame ? 24 : 0)) / 4;
+-	int ycnt = (bottom_bar_offset - (g_settings.casystem_frame ? 14 : 0)) / 4;
++	int xcnt = (g_InfoViewer->BoxEndX - g_InfoViewer->ChanInfoX - (g_settings.infobar_casystem_frame ? 24 : 0)) / 4;
++	int ycnt = (bottom_bar_offset - (g_settings.infobar_casystem_frame ? 14 : 0)) / 4;
++	int ca_width = g_InfoViewer->BoxEndX - g_InfoViewer->ChanInfoX;
+ 
+ 	if (right)
+ 		right = xcnt - ((right/4)+1);
+ 	if (left)
+ 		left =  xcnt - ((left/4)-1);
+ 
+-	if (g_settings.casystem_frame) { // with highlighted frame
++	if (g_settings.infobar_casystem_frame) { // with highlighted frame
+ 		if (!right || !left) { // paint full bar
+-			// background
+-			frameBuffer->paintBox(g_InfoViewer->ChanInfoX     , g_InfoViewer->BoxEndY    , g_InfoViewer->BoxEndX     , g_InfoViewer->BoxEndY + bottom_bar_offset     , COL_INFOBAR_PLUS_0);
+-			// shadow
+-			frameBuffer->paintBox(g_InfoViewer->ChanInfoX + 14, g_InfoViewer->BoxEndY + 4, g_InfoViewer->BoxEndX - 6 , g_InfoViewer->BoxEndY + bottom_bar_offset - 6 , COL_INFOBAR_SHADOW_PLUS_0 , RADIUS_SMALL, CORNER_ALL);
+-			// ca bar
+-			frameBuffer->paintBox(g_InfoViewer->ChanInfoX + 11, g_InfoViewer->BoxEndY + 1, g_InfoViewer->BoxEndX - 11, g_InfoViewer->BoxEndY + bottom_bar_offset - 11, COL_INFOBAR_CASYSTEM_PLUS_0, RADIUS_SMALL, CORNER_ALL);
+-			// highlighed frame
+-			frameBuffer->paintBoxFrame(g_InfoViewer->ChanInfoX + 10, g_InfoViewer->BoxEndY, g_InfoViewer->BoxEndX - g_InfoViewer->ChanInfoX - 2*10, bottom_bar_offset - 10, 1, COL_INFOBAR_CASYSTEM_PLUS_2, RADIUS_SMALL, CORNER_ALL);
++			// framed ca bar
++			if (cabar == NULL)
++				cabar = new CComponentsShapeSquare(g_InfoViewer->ChanInfoX+11, g_InfoViewer->BoxEndY+1, ca_width-22 , bottom_bar_offset-11 , NULL, CC_SHADOW_ON, COL_INFOBAR_CASYSTEM_PLUS_2, COL_INFOBAR_CASYSTEM_PLUS_0);
++			//cabar->setCorner(RADIUS_SMALL, CORNER_ALL);
++			cabar->enableShadow(CC_SHADOW_ON, 3);
++			cabar->setFrameThickness(2);
++
++// 			cabar->paint(CC_SAVE_SCREEN_NO);
++		}else{  //TODO: remove this part, cabar object can do this
++			if (cabar == NULL)
++				cabar = new CComponentsShapeSquare(g_InfoViewer->ChanInfoX, g_InfoViewer->BoxEndY, ca_width , bottom_bar_offset-11, NULL, CC_SHADOW_OFF, COL_INFOBAR_CASYSTEM_PLUS_2);
++			//cabar->setCorner(RADIUS_SMALL, CORNER_ALL);
++			cabar->disableShadow();
++			cabar->setFrameThickness(2);
++			cabar->setColorBody(COL_INFOBAR_CASYSTEM_PLUS_0);
+ 		}
+-		else
+-			frameBuffer->paintBox(g_InfoViewer->ChanInfoX + 12 + (right*4), g_InfoViewer->BoxEndY + 2, g_InfoViewer->BoxEndX - 12 - (left*4), g_InfoViewer->BoxEndY + bottom_bar_offset - 12, COL_INFOBAR_CASYSTEM_PLUS_0);
++		cabar->setFrameThickness(2);
++		cabar->setCorner(RADIUS_SMALL, CORNER_ALL);
++		cabar->paint(CC_SAVE_SCREEN_NO);
+ 	}
+ 	else
+-		frameBuffer->paintBox(g_InfoViewer->ChanInfoX + (right*4), g_InfoViewer->BoxEndY, g_InfoViewer->BoxEndX - (left*4), g_InfoViewer->BoxEndY + bottom_bar_offset, COL_INFOBAR_CASYSTEM_PLUS_0);
+-
+-	if (!g_settings.casystem_dotmatrix) //don't show dotmatrix
++		paintBoxRel(g_InfoViewer->ChanInfoX, g_InfoViewer->BoxEndY, ca_width , bottom_bar_offset, COL_INFOBAR_CASYSTEM_PLUS_0);
++#if 1
++	if (!g_settings.infobar_casystem_dotmatrix) //don't show dotmatrix
+ 		return;
+ 
+ 	if (left)
+@@ -887,9 +908,10 @@ void CInfoViewerBB::paintCA_bar(int left, int right)
+ 
+ 	for (int i = 0  + right; i < xcnt - left; i++) {
+ 		for (int j = 0; j < ycnt; j++) {
+-			frameBuffer->paintBoxRel((g_InfoViewer->ChanInfoX + (g_settings.casystem_frame ? 14 : 2)) + i*4, g_InfoViewer->BoxEndY + (g_settings.casystem_frame ? 4 : 2) + j*4, 2, 2, COL_INFOBAR_PLUS_1);
++			frameBuffer->paintBoxRel((g_InfoViewer->ChanInfoX + (g_settings.infobar_casystem_frame ? 14 : 2)) + i*4, g_InfoViewer->BoxEndY + (g_settings.infobar_casystem_frame ? 4 : 2) + j*4, 2, 2, COL_INFOBAR_PLUS_1);
+ 		}
+ 	}
++#endif
+ }
+ 
+ void CInfoViewerBB::changePB()
+@@ -913,9 +935,25 @@ void CInfoViewerBB::reset_allScala()
+ 	//lasthdd = lastsys = -1;
+ }
+ 
+-void CInfoViewerBB::setBBOffset()
++void CInfoViewerBB::ResetModules()
++{
++	if (hddscale){
++		delete hddscale; hddscale = NULL;
++	}
++	if (sysscale){
++		delete sysscale; sysscale = NULL;
++	}
++	if (foot){
++		delete foot; foot = NULL;
++	}
++	if (cabar){
++		delete cabar; cabar = NULL;
++	}
++}
++
++void CInfoViewerBB::initBBOffset()
+ {
+-	bottom_bar_offset = (g_settings.casystem_display < 2) ? (g_settings.casystem_frame ? 36 : 22) : 0;
++	bottom_bar_offset = (g_settings.infobar_casystem_display < 2) ? (g_settings.infobar_casystem_frame ? 36 : 22) : 0;
+ }
+ 
+ void* CInfoViewerBB::scrambledThread(void *arg)
+diff --git a/src/gui/infoviewer_bb.h b/src/gui/infoviewer_bb.h
+index 03c752e..360898a 100644
+--- a/src/gui/infoviewer_bb.h
++++ b/src/gui/infoviewer_bb.h
+@@ -108,7 +108,7 @@ class CInfoViewerBB
+ 		pthread_t scrambledT;
+ 
+ 		CProgressBar *hddscale, *sysscale;
+-
++		CComponentsShapeSquare *foot, *cabar;
+ 		void paintFoot(int w = 0);
+ 		void showBBIcons(const int modus, const std::string & icon);
+ 		void getBBIconInfo(void);
+@@ -148,8 +148,11 @@ class CInfoViewerBB
+ 		void paintshowButtonBar();
+ 		void getBBButtonInfo(void);
+ 		void reset_allScala(void);
+-		void setBBOffset(void);
+-
++		void initBBOffset(void);
++		// modules
++		CComponentsShapeSquare* getFooter(void){return foot;}
++		CComponentsShapeSquare* getCABar(void){return cabar;}
++		void ResetModules(void);
+ };
+ 
+ #endif // __infoview_bb__
+diff --git a/src/gui/osd_setup.cpp b/src/gui/osd_setup.cpp
+index 2b3aa8f..398ce6f 100644
+--- a/src/gui/osd_setup.cpp
++++ b/src/gui/osd_setup.cpp
+@@ -82,10 +82,7 @@ COsdSetup::COsdSetup(int wizard_mode)
+ 	mfTtxFontFile = NULL;
+ 	mfWindowSize = NULL;
+ 	win_demo = NULL;
+-
+-	ca_dotmatrix = NULL;
+-	ca_frame = NULL;
+-
++	osd_menu_colors = NULL;
+ 	is_wizard = wizard_mode;
+ 
+ 	width = 40;
+@@ -98,6 +95,8 @@ COsdSetup::~COsdSetup()
+ 	delete colorSetupNotifier;
+ 	delete fontsizenotifier;
+ 	delete win_demo;
++	if (osd_menu_colors)
++		delete osd_menu_colors;
+ }
+ 
+ //font settings
+@@ -253,7 +252,8 @@ int COsdSetup::exec(CMenuTarget* parent, const std::string &actionKey)
+ 
+ 		if (xre != g_settings.screen_xres || yre != g_settings.screen_yres) {
+ 			printf("[neutrino] new font scale settings x: %d%% y: %d%%\n", g_settings.screen_xres, g_settings.screen_yres);
+-			CNeutrinoApp::getInstance()->SetupFonts(CNeutrinoFonts::FONTSETUP_NEUTRINO_FONT | CNeutrinoFonts::FONTSETUP_NEUTRINO_FONT_INST);
++			CNeutrinoApp::getInstance()->SetupFonts(CNeutrinoFonts::FONTSETUP_NEUTRINO_FONT | CNeutrinoFonts::FONTSETUP_NEUTRINO_FONT_INST | CNeutrinoFonts::FONTSETUP_DYN_FONT);
++			CNeutrinoApp::getInstance()->channelList->ResetModules(); //force re init of all modules
+ 		}
+ 		return res;
+ 	}
+@@ -464,6 +464,25 @@ const CMenuOptionChooser::keyval OPTIONS_COLORED_EVENTS_OPTIONS[OPTIONS_COLORED_
+ 	{ 2, LOCALE_MISCSETTINGS_COLORED_EVENTS_2 },	//next
+ };
+ 
++#define OPTIONS_COL_GRADIENT_OPTIONS_COUNT CC_COLGRAD_TYPES 	//TODO: add modes for intensity
++const CMenuOptionChooser::keyval OPTIONS_COL_GRADIENT_OPTIONS[OPTIONS_COL_GRADIENT_OPTIONS_COUNT] =
++{
++	{ CC_COLGRAD_OFF			, LOCALE_OPTIONS_OFF },
++	{ CC_COLGRAD_COL_A_2_COL_B		, LOCALE_COLOR_GRADIENT_A2B  }, //color A to color B
++	{ CC_COLGRAD_COL_B_2_COL_A		, LOCALE_COLOR_GRADIENT_B2A  }, //color B to color A
++	{ CC_COLGRAD_LIGHT_2_DARK		, LOCALE_COLOR_GRADIENT_L2D  }, //light to dark
++	{ CC_COLGRAD_DARK_2_LIGHT		, LOCALE_COLOR_GRADIENT_D2L  }, //dark to light
++	{ CC_COLGRAD_COL_LIGHT_DARK_LIGHT	, LOCALE_COLOR_GRADIENT_LDL  }, //light dark light
++	{ CC_COLGRAD_COL_DARK_LIGHT_DARK	, LOCALE_COLOR_GRADIENT_DLD  }, //dark light dark
++};
++
++#define OPTIONS_COL_GRADIENT_DIRECTION_OPTIONS_COUNT 2
++const CMenuOptionChooser::keyval OPTIONS_COL_GRADIENT_DIRECTION_OPTIONS[OPTIONS_COL_GRADIENT_DIRECTION_OPTIONS_COUNT] =
++{
++	{ CFrameBuffer::gradientHorizontal	, LOCALE_COLOR_GRADIENT_MODE_DIRECTION_HOR  }, 	//horizontal
++	{ CFrameBuffer::gradientVertical	, LOCALE_COLOR_GRADIENT_MODE_DIRECTION_VER }, 	//vertical
++};
++
+ /* these are more descriptive... */
+ #define _LOCALE_PROGRESSBAR_COLOR_MATRIX        LOCALE_MISCSETTINGS_PROGRESSBAR_DESIGN_0
+ #define _LOCALE_PROGRESSBAR_COLOR_VERTICAL      LOCALE_MISCSETTINGS_PROGRESSBAR_DESIGN_1
+@@ -492,14 +511,15 @@ int COsdSetup::showOsdSetup()
+ 	osd_menu->setWizardMode(is_wizard);
+ 
+ 	//menu colors
+-	CMenuWidget osd_menu_colors(LOCALE_MAINMENU_SETTINGS, NEUTRINO_ICON_COLORS, width, MN_WIDGET_ID_OSDSETUP_MENUCOLORS);
++	if (osd_menu_colors == NULL)
++		osd_menu_colors = new CMenuWidget(LOCALE_MAINMENU_SETTINGS, NEUTRINO_ICON_COLORS, width, MN_WIDGET_ID_OSDSETUP_MENUCOLORS);
+ 
+ 	//intro with subhead and back button
+ 	osd_menu->addIntroItems(LOCALE_MAINSETTINGS_OSD);
+ 
+ 	//item menu colors
+-	showOsdMenueColorSetup(&osd_menu_colors);
+-	CMenuForwarder * mf = new CMenuForwarder(LOCALE_COLORMENU_MENUCOLORS, true, NULL, &osd_menu_colors, NULL, CRCInput::RC_red);
++	showOsdMenueColorSetup(osd_menu_colors);
++	CMenuForwarder * mf = new CMenuForwarder(LOCALE_COLORMENU_MENUCOLORS, true, NULL, osd_menu_colors, NULL, CRCInput::RC_red);
+ 	mf->setHint("", LOCALE_MENU_HINT_COLORS);
+ 	osd_menu->addItem(mf);
+ 
+@@ -592,8 +612,7 @@ int COsdSetup::showOsdSetup()
+ 	osd_menu->addItem(mc);
+ 
+ 	// round corners
+-	int rounded_corners = g_settings.rounded_corners;
+-	mc = new CMenuOptionChooser(LOCALE_EXTRA_ROUNDED_CORNERS, &rounded_corners, MENU_CORNERSETTINGS_TYPE_OPTIONS, MENU_CORNERSETTINGS_TYPE_OPTION_COUNT, true, this);
++	mc = new CMenuOptionChooser(LOCALE_EXTRA_ROUNDED_CORNERS, &g_settings.rounded_corners, MENU_CORNERSETTINGS_TYPE_OPTIONS, MENU_CORNERSETTINGS_TYPE_OPTION_COUNT, true, this);
+ 	mc->setHint("", LOCALE_MENU_HINT_ROUNDED_CORNERS);
+ 	osd_menu->addItem(mc);
+ 
+@@ -630,7 +649,7 @@ int COsdSetup::showOsdSetup()
+ 		CVolumeHelper::getInstance()->refresh();
+ 
+ 	if (oldInfoClockSize != g_settings.infoClockFontSize) {
+-		CInfoClock::getInstance()->setClockFontSize(g_settings.infoClockFontSize);
++		CInfoClock::getInstance()->setHeight(g_settings.infoClockFontSize);
+ 		CVolumeHelper::getInstance()->refresh();
+ 		if (CNeutrinoApp::getInstance()->isMuted()) {
+ 			CAudioMute::getInstance()->enableMuteIcon(false);
+@@ -659,32 +678,34 @@ void COsdSetup::showOsdMenueColorSetup(CMenuWidget *menu_colors)
+ 	sigc::slot0<void> slot_repaint = sigc::mem_fun(menu_colors, &CMenuWidget::paint); //we want to repaint after changed Option
+ 
+ 	CColorChooser* chHeadcolor = new CColorChooser(LOCALE_COLORMENU_BACKGROUND, &t.menu_Head_red, &t.menu_Head_green, &t.menu_Head_blue,
+-			&t.menu_Head_alpha, colorSetupNotifier);
++			&t.menu_Head_alpha, &g_settings.theme.menu_Head_gradient, colorSetupNotifier);
+ 	chHeadcolor->setGradient(CColorChooser::gradient_head_body);
+ 	CColorChooser* chHeadTextcolor = new CColorChooser(LOCALE_COLORMENU_TEXTCOLOR, &t.menu_Head_Text_red, &t.menu_Head_Text_green, &t.menu_Head_Text_blue,
+-			NULL, colorSetupNotifier);
++			NULL, NULL, colorSetupNotifier);
+ 	chHeadTextcolor->setGradient(CColorChooser::gradient_head_text);
+ 	CColorChooser* chContentcolor = new CColorChooser(LOCALE_COLORMENU_BACKGROUND, &t.menu_Content_red, &t.menu_Content_green, &t.menu_Content_blue,
+-			&t.menu_Content_alpha, colorSetupNotifier);
++			&t.menu_Content_alpha, NULL, colorSetupNotifier);
+ 	CColorChooser* chContentTextcolor = new CColorChooser(LOCALE_COLORMENU_TEXTCOLOR, &t.menu_Content_Text_red, &t.menu_Content_Text_green, &t.menu_Content_Text_blue,
+-			NULL, colorSetupNotifier);
++			NULL, NULL, colorSetupNotifier);
+ 	CColorChooser* chContentSelectedcolor = new CColorChooser(LOCALE_COLORMENU_BACKGROUND, &t.menu_Content_Selected_red, &t.menu_Content_Selected_green, &t.menu_Content_Selected_blue,
+-			&t.menu_Content_Selected_alpha, colorSetupNotifier);
++			&t.menu_Content_Selected_alpha, NULL, colorSetupNotifier);
+ 	CColorChooser* chContentSelectedTextcolor = new CColorChooser(LOCALE_COLORMENU_TEXTCOLOR, &t.menu_Content_Selected_Text_red, &t.menu_Content_Selected_Text_green, &t.menu_Content_Selected_Text_blue,
+-			NULL, colorSetupNotifier);
++			NULL, NULL, colorSetupNotifier);
+ 	CColorChooser* chContentInactivecolor = new CColorChooser(LOCALE_COLORMENU_BACKGROUND, &t.menu_Content_inactive_red, &t.menu_Content_inactive_green, &t.menu_Content_inactive_blue,
+-			&t.menu_Content_inactive_alpha, colorSetupNotifier);
++			&t.menu_Content_inactive_alpha, NULL, colorSetupNotifier);
+ 	CColorChooser* chContentInactiveTextcolor = new CColorChooser(LOCALE_COLORMENU_TEXTCOLOR, &t.menu_Content_inactive_Text_red, &t.menu_Content_inactive_Text_green, &t.menu_Content_inactive_Text_blue,
+-			NULL, colorSetupNotifier);
++			NULL, NULL, colorSetupNotifier);
+ 
+ 	menu_colors->addItem( new CMenuSeparator(CMenuSeparator::LINE | CMenuSeparator::STRING, LOCALE_COLORMENUSETUP_MENUHEAD));
+ 
+ 	CMenuOptionChooser *oj;
++#if 0
+ 	oj = new CMenuOptionChooser(LOCALE_COLOR_GRADIENT_C2C, &g_settings.theme.gradient_c2c, OPTIONS_OFF0_ON1_OPTIONS, OPTIONS_OFF0_ON1_OPTION_COUNT, true );
+ 	oj->OnAfterChangeOption.connect(slot_repaint);
+ 	oj->setHint("", LOCALE_MENU_HINT_COLOR_GRADIENT_C2C);
+ 	menu_colors->addItem(oj);
+ 	menu_colors->addItem( new CMenuSeparator(CMenuSeparator::LINE));
++#endif
+ 
+ 	mf = new CMenuDForwarder(LOCALE_COLORMENU_BACKGROUND, true, NULL, chHeadcolor );
+ 	mf->setHint("", LOCALE_MENU_HINT_HEAD_BACK);
+@@ -694,12 +715,18 @@ void COsdSetup::showOsdMenueColorSetup(CMenuWidget *menu_colors)
+ 	mf->setHint("", LOCALE_MENU_HINT_HEAD_TEXTCOLOR);
+ 	menu_colors->addItem(mf);
+ 
+-	// head color gradient
+-	oj = new CMenuOptionChooser(LOCALE_COLOR_GRADIENT, &g_settings.theme.menu_Head_gradient, OPTIONS_OFF0_ON1_OPTIONS, OPTIONS_OFF0_ON1_OPTION_COUNT, true );
++	// head color gradient //TODO: disable sub options if head gradient is disabled
++	oj = new CMenuOptionChooser(LOCALE_COLOR_GRADIENT, &g_settings.theme.menu_Head_gradient, OPTIONS_COL_GRADIENT_OPTIONS, OPTIONS_COL_GRADIENT_OPTIONS_COUNT, true );
+ 	oj->OnAfterChangeOption.connect(slot_repaint);
+ 	oj->setHint("", LOCALE_MENU_HINT_COLOR_GRADIENT);
+ 	menu_colors->addItem(oj);
+ 
++	// head color gradient direction
++	oj = new CMenuOptionChooser(LOCALE_COLOR_GRADIENT_MODE_DIRECTION, &g_settings.theme.menu_Head_gradient_direction, OPTIONS_COL_GRADIENT_DIRECTION_OPTIONS, OPTIONS_COL_GRADIENT_DIRECTION_OPTIONS_COUNT, true );
++	oj->OnAfterChangeOption.connect(slot_repaint);
++	oj->setHint("", LOCALE_MENU_HINT_COLOR_GRADIENT_DIRECTION);
++	menu_colors->addItem(oj);
++
+ 	menu_colors->addItem( new CMenuSeparator(CMenuSeparator::LINE | CMenuSeparator::STRING, LOCALE_COLORMENUSETUP_MENUCONTENT));
+ 	mf = new CMenuDForwarder(LOCALE_COLORMENU_BACKGROUND, true, NULL, chContentcolor );
+ 	mf->setHint("", LOCALE_MENU_HINT_CONTENT_BACK);
+@@ -729,18 +756,31 @@ void COsdSetup::showOsdMenueColorSetup(CMenuWidget *menu_colors)
+ 
+ 	// hintbox color gradient
+ 	menu_colors->addItem( new CMenuSeparator(CMenuSeparator::LINE | CMenuSeparator::STRING, LOCALE_COLORTHEMEMENU_MENU_HINTS));
+-	oj = new CMenuOptionChooser(LOCALE_COLOR_GRADIENT, &t.menu_Hint_gradient, OPTIONS_OFF0_ON1_OPTIONS, OPTIONS_OFF0_ON1_OPTION_COUNT, true);
++	oj = new CMenuOptionChooser(LOCALE_COLOR_GRADIENT, &t.menu_Hint_gradient, OPTIONS_COL_GRADIENT_OPTIONS, OPTIONS_COL_GRADIENT_OPTIONS_COUNT, true);
+ 	oj->OnAfterChangeOption.connect(slot_repaint);
+ 	oj->setHint("", LOCALE_MENU_HINT_COLOR_GRADIENT);
+ 	menu_colors->addItem(oj);
+ 
++	// hintbox color gradient direction
++	oj = new CMenuOptionChooser(LOCALE_COLOR_GRADIENT_MODE_DIRECTION, &t.menu_Hint_gradient_direction, OPTIONS_COL_GRADIENT_DIRECTION_OPTIONS, OPTIONS_COL_GRADIENT_DIRECTION_OPTIONS_COUNT, true );
++	oj->OnAfterChangeOption.connect(slot_repaint);
++	oj->setHint("", LOCALE_MENU_HINT_COLOR_GRADIENT_DIRECTION);
++	menu_colors->addItem(oj);
++
++	// menue separator line gradient enable
++	menu_colors->addItem( new CMenuSeparator(CMenuSeparator::LINE));
++	oj = new CMenuOptionChooser(LOCALE_COLOR_GRADIENT_SEPARATOR_ENABLE, &t.menu_Separator_gradient_enable, OPTIONS_OFF0_ON1_OPTIONS, OPTIONS_OFF0_ON1_OPTION_COUNT, true );
++	oj->OnAfterChangeOption.connect(slot_repaint);
++	oj->setHint("", LOCALE_MENU_HINT_COLOR_GRADIENT_SEPARATOR_ENABLE);
++	menu_colors->addItem(oj);
++
+ 	// infoviewer color
+ 	CColorChooser* chInfobarcolor = new CColorChooser(LOCALE_COLORMENU_BACKGROUND, &t.infobar_red,
+-			&t.infobar_green, &t.infobar_blue, &t.infobar_alpha, colorSetupNotifier);
++			&t.infobar_green, &t.infobar_blue, &t.infobar_alpha, NULL, colorSetupNotifier);
+ 	CColorChooser* chInfobarTextcolor = new CColorChooser(LOCALE_COLORMENU_TEXTCOLOR, &t.infobar_Text_red,
+-			&t.infobar_Text_green, &t.infobar_Text_blue, NULL, colorSetupNotifier);
++			&t.infobar_Text_green, &t.infobar_Text_blue, NULL, NULL, colorSetupNotifier);
+ 	CColorChooser* chInfobarCASystem = new CColorChooser(LOCALE_COLORMENU_BACKGROUND, &t.infobar_casystem_red,
+-			&t.infobar_casystem_green, &t.infobar_casystem_blue, &t.infobar_casystem_alpha, colorSetupNotifier);
++			&t.infobar_casystem_green, &t.infobar_casystem_blue, &t.infobar_casystem_alpha, NULL, colorSetupNotifier);
+ 
+ 	menu_colors->addItem( new CMenuSeparator(CMenuSeparator::LINE | CMenuSeparator::STRING, LOCALE_COLORSTATUSBAR_TEXT));
+ 	mf = new CMenuDForwarder(LOCALE_COLORMENU_BACKGROUND, true, NULL, chInfobarcolor );
+@@ -751,23 +791,48 @@ void COsdSetup::showOsdMenueColorSetup(CMenuWidget *menu_colors)
+ 	mf->setHint("", LOCALE_MENU_HINT_INFOBAR_TEXTCOLOR);
+ 	menu_colors->addItem(mf);
+ 
+-	mf = new CMenuDForwarder(LOCALE_MISCSETTINGS_INFOBAR_CASYSTEM_DISPLAY, g_settings.casystem_display < 2, NULL, chInfobarCASystem );
+-	mf->setHint("", LOCALE_MENU_HINT_INFOBAR_CASYS_COLOR);
+-	menu_colors->addItem(mf);
+-
+ 	// infoviewer gradient top
+-	oj = new CMenuOptionChooser(LOCALE_MISCSETTINGS_INFOBAR_GRADIENT_TOP, &t.infobar_gradient_top, OPTIONS_OFF0_ON1_OPTIONS, OPTIONS_OFF0_ON1_OPTION_COUNT, true);
++	menu_colors->addItem( new CMenuSeparator(CMenuSeparator::LINE));
++	oj = new CMenuOptionChooser(LOCALE_MISCSETTINGS_INFOBAR_GRADIENT_TOP, &t.infobar_gradient_top, OPTIONS_COL_GRADIENT_OPTIONS, OPTIONS_COL_GRADIENT_OPTIONS_COUNT, true);
+ 	oj->setHint("", LOCALE_MENU_HINT_COLOR_GRADIENT);
+ 	menu_colors->addItem(oj);
+ 
++	// infoviewer gradient top direction
++	oj = new CMenuOptionChooser(LOCALE_COLOR_GRADIENT_MODE_DIRECTION, &t.infobar_gradient_top_direction, OPTIONS_COL_GRADIENT_DIRECTION_OPTIONS, OPTIONS_COL_GRADIENT_DIRECTION_OPTIONS_COUNT, true );
++	oj->setHint("", LOCALE_MENU_HINT_COLOR_GRADIENT_DIRECTION);
++	menu_colors->addItem(oj);
++
++	// infoviewer gradient body
++	menu_colors->addItem( new CMenuSeparator(CMenuSeparator::LINE));
++	oj = new CMenuOptionChooser(LOCALE_MISCSETTINGS_INFOBAR_GRADIENT_BODY, &t.infobar_gradient_body, OPTIONS_COL_GRADIENT_OPTIONS, OPTIONS_COL_GRADIENT_OPTIONS_COUNT, true);
++	oj->setHint("", LOCALE_MENU_HINT_COLOR_GRADIENT);
++	menu_colors->addItem(oj);
++
++	// infoviewer gradient body direction
++	oj = new CMenuOptionChooser(LOCALE_COLOR_GRADIENT_MODE_DIRECTION, &t.infobar_gradient_body_direction, OPTIONS_COL_GRADIENT_DIRECTION_OPTIONS, OPTIONS_COL_GRADIENT_DIRECTION_OPTIONS_COUNT, true );
++	oj->setHint("", LOCALE_MENU_HINT_COLOR_GRADIENT_DIRECTION);
++	menu_colors->addItem(oj);
++
+ 	// infoviewer gradient bottom
+-	oj = new CMenuOptionChooser(LOCALE_MISCSETTINGS_INFOBAR_GRADIENT_BOTTOM, &t.infobar_gradient_bottom, OPTIONS_OFF0_ON1_OPTIONS, OPTIONS_OFF0_ON1_OPTION_COUNT, true);
++	menu_colors->addItem( new CMenuSeparator(CMenuSeparator::LINE));
++	oj = new CMenuOptionChooser(LOCALE_MISCSETTINGS_INFOBAR_GRADIENT_BOTTOM, &t.infobar_gradient_bottom, OPTIONS_COL_GRADIENT_OPTIONS, OPTIONS_COL_GRADIENT_OPTIONS_COUNT, true);
+ 	oj->setHint("", LOCALE_MENU_HINT_COLOR_GRADIENT);
+ 	menu_colors->addItem(oj);
+ 
++	// infoviewer gradient bottom direction
++	oj = new CMenuOptionChooser(LOCALE_COLOR_GRADIENT_MODE_DIRECTION, &t.infobar_gradient_bottom_direction, OPTIONS_COL_GRADIENT_DIRECTION_OPTIONS, OPTIONS_COL_GRADIENT_DIRECTION_OPTIONS_COUNT, true );
++	oj->setHint("", LOCALE_MENU_HINT_COLOR_GRADIENT_DIRECTION);
++	menu_colors->addItem(oj);
++
++	// ca bar
++	menu_colors->addItem( new CMenuSeparator(CMenuSeparator::LINE));
++	mf = new CMenuDForwarder(LOCALE_MISCSETTINGS_INFOBAR_CASYSTEM_DISPLAY, g_settings.infobar_casystem_display < 2, NULL, chInfobarCASystem );
++	mf->setHint("", LOCALE_MENU_HINT_INFOBAR_CASYS_COLOR);
++	menu_colors->addItem(mf);
++
+ 	// colored events
+ 	CColorChooser* chColored_Events = new CColorChooser(LOCALE_COLORMENU_TEXTCOLOR,	&t.colored_events_red,
+-			&t.colored_events_green, &t.colored_events_blue, NULL, colorSetupNotifier);
++			&t.colored_events_green, &t.colored_events_blue, NULL, NULL, colorSetupNotifier);
+ 
+ 	menu_colors->addItem( new CMenuSeparator(CMenuSeparator::LINE | CMenuSeparator::STRING, LOCALE_MISCSETTINGS_COLORED_EVENTS));
+ 
+@@ -891,6 +956,7 @@ void COsdSetup::showOsdFontSizeSetup(CMenuWidget *menu_fonts)
+ 		fontSettings->addItem(mf);
+ 		w_index++;
+ 	}
++	g_InfoViewer->ResetModules();
+ }
+ 
+ //osd timeouts
+@@ -967,6 +1033,7 @@ void COsdSetup::showOsdInfobarSetup(CMenuWidget *menu_infobar)
+ 	menu_infobar->addIntroItems(LOCALE_MISCSETTINGS_INFOBAR);
+ 
+ 	infobarHddNotifier = new COnOffNotifier();
++	sigc::slot0<void> slot_ibar = sigc::mem_fun(g_InfoViewer, &CInfoViewer::ResetModules);
+ 
+ 	CMenuOptionChooser * mc;
+ 	CMenuForwarder * mf;
+@@ -985,6 +1052,7 @@ void COsdSetup::showOsdInfobarSetup(CMenuWidget *menu_infobar)
+ 
+ 	// display options
+ 	mc = new CMenuOptionChooser(LOCALE_MISCSETTINGS_INFOBAR_DISP, &g_settings.infobar_show_channellogo, LOCALE_MISCSETTINGS_INFOBAR_DISP_OPTIONS, LOCALE_MISCSETTINGS_INFOBAR_DISP_OPTIONS_COUNT, true);
++	mc->OnAfterChangeOption.connect(slot_ibar);
+ 	mc->setHint("", LOCALE_MENU_HINT_INFOBAR_LOGO);
+ 	menu_infobar->addItem(mc);
+ 
+@@ -995,25 +1063,32 @@ void COsdSetup::showOsdInfobarSetup(CMenuWidget *menu_infobar)
+ 
+ 	// satellite/cable provider
+ 	mc = new CMenuOptionChooser(LOCALE_MISCSETTINGS_INFOBAR_SAT_DISPLAY, &g_settings.infobar_sat_display, OPTIONS_OFF0_ON1_OPTIONS, OPTIONS_OFF0_ON1_OPTION_COUNT, true);
++	mc->OnAfterChangeOption.connect(slot_ibar);
+ 	mc->setHint("", LOCALE_MENU_HINT_INFOBAR_SAT);
+ 	menu_infobar->addItem(mc);
+ 
+ 	menu_infobar->addItem(GenericMenuSeparator);
+ 
+ 	// CA system
+-	mc = new CMenuOptionChooser(LOCALE_MISCSETTINGS_INFOBAR_CASYSTEM_DISPLAY, &g_settings.casystem_display, INFOBAR_CASYSTEM_MODE_OPTIONS, INFOBAR_CASYSTEM_MODE_OPTION_COUNT, true, this);
++	casystemActivate.Clear(); //ensure empty activator object -> cleanup before add new items, prevents possible segfault!
++	mc = new CMenuOptionChooser(LOCALE_MISCSETTINGS_INFOBAR_CASYSTEM_DISPLAY, &g_settings.infobar_casystem_display, INFOBAR_CASYSTEM_MODE_OPTIONS, INFOBAR_CASYSTEM_MODE_OPTION_COUNT, true, this);
++	mc->OnAfterChangeOption.connect(slot_ibar);
+ 	mc->setHint("", LOCALE_MENU_HINT_INFOBAR_CASYS);
+ 	menu_infobar->addItem(mc);
+-
++#if 1
+ 	// CA system dotmatrix
+-	ca_dotmatrix = new CMenuOptionChooser(LOCALE_MISCSETTINGS_INFOBAR_CASYSTEM_DOTMATRIX, &g_settings.casystem_dotmatrix, OPTIONS_OFF0_ON1_OPTIONS, OPTIONS_OFF0_ON1_OPTION_COUNT, g_settings.casystem_display < 2);
+-	ca_dotmatrix->setHint("", LOCALE_MENU_HINT_INFOBAR_CASYS_DOTMATRIX);
+-	menu_infobar->addItem(ca_dotmatrix);
+-
++	mc = new CMenuOptionChooser(LOCALE_MISCSETTINGS_INFOBAR_CASYSTEM_DOTMATRIX, &g_settings.infobar_casystem_dotmatrix, OPTIONS_OFF0_ON1_OPTIONS, OPTIONS_OFF0_ON1_OPTION_COUNT, g_settings.infobar_casystem_display < 2);
++	mc->setHint("", LOCALE_MENU_HINT_INFOBAR_CASYS_DOTMATRIX);
++	menu_infobar->addItem(mc);
++	casystemActivate.Add(mc);
++#endif
++	
+ 	// CA system frame
+-	ca_frame = new CMenuOptionChooser(LOCALE_MISCSETTINGS_INFOBAR_CASYSTEM_FRAME, &g_settings.casystem_frame, OPTIONS_OFF0_ON1_OPTIONS, OPTIONS_OFF0_ON1_OPTION_COUNT, g_settings.casystem_display < 2);
+-	ca_frame->setHint("", LOCALE_MENU_HINT_INFOBAR_CASYS_FRAME);
+-	menu_infobar->addItem(ca_frame);
++	mc = new CMenuOptionChooser(LOCALE_MISCSETTINGS_INFOBAR_CASYSTEM_FRAME, &g_settings.infobar_casystem_frame, OPTIONS_OFF0_ON1_OPTIONS, OPTIONS_OFF0_ON1_OPTION_COUNT, g_settings.infobar_casystem_display < 2);
++	mc->OnAfterChangeOption.connect(slot_ibar);
++	mc->setHint("", LOCALE_MENU_HINT_INFOBAR_CASYS_FRAME);
++	menu_infobar->addItem(mc);
++	casystemActivate.Add(mc);
+ 
+ 	menu_infobar->addItem(GenericMenuSeparator);
+ 
+@@ -1039,6 +1114,7 @@ void COsdSetup::showOsdInfobarSetup(CMenuWidget *menu_infobar)
+ 		p_show_tuner_icon = &g_settings.infobar_show_tuner;
+ 	}
+ 	mc = new CMenuOptionChooser(LOCALE_MISCSETTINGS_INFOBAR_SHOW_TUNER, p_show_tuner_icon, OPTIONS_OFF0_ON1_OPTIONS, OPTIONS_OFF0_ON1_OPTION_COUNT, mc_active);
++	mc->OnAfterChangeOption.connect(slot_ibar);
+ 	mc->setHint("", LOCALE_MENU_HINT_INFOBAR_TUNER);
+ 	menu_infobar->addItem(mc);
+ 
+@@ -1055,6 +1131,7 @@ void COsdSetup::showOsdInfobarSetup(CMenuWidget *menu_infobar)
+ 	menu_infobar->addItem(new CMenuSeparator(CMenuSeparator::LINE | CMenuSeparator::STRING, LOCALE_MISCSETTINGS_PROGRESSBAR));
+ 	// progressbar position
+ 	mc = new CMenuOptionChooser(LOCALE_MISCSETTINGS_PROGRESSBAR_INFOBAR_POSITION, &g_settings.infobar_progressbar, PROGRESSBAR_INFOBAR_POSITION_OPTIONS, PROGRESSBAR_INFOBAR_POSITION_COUNT, true);
++	mc->OnAfterChangeOption.connect(slot_ibar);
+ 	mc->setHint("", LOCALE_MENU_HINT_PROGRESSBAR_INFOBAR_POSITION);
+ 	menu_infobar->addItem(mc);
+ }
+@@ -1177,11 +1254,14 @@ void COsdSetup::showOsdInfoclockSetup(CMenuWidget *menu_infoclock)
+ 
+ 	// digit color
+ 	CColorChooser* cc = new CColorChooser(LOCALE_COLORMENU_CLOCK_TEXTCOLOR, &g_settings.theme.clock_Digit_red, &g_settings.theme.clock_Digit_green, &g_settings.theme.clock_Digit_blue,
+-			NULL, colorSetupNotifier);
++			NULL, NULL, colorSetupNotifier);
+ 	CMenuDForwarder* mf = new CMenuDForwarder(LOCALE_COLORMENU_CLOCK_TEXTCOLOR, !g_settings.infoClockBackground, NULL, cc);
+ 	mf->setHint("", LOCALE_MENU_HINT_CLOCK_TEXTCOLOR);
+ 	menu_infoclock->addItem(mf);
+ 	colorInfoclockNotifier->addItem(mf);
++
++	//ensure clock reinit after setup
++	CInfoClock::getInstance()->clear();
+ }
+ 
+ bool COsdSetup::changeNotify(const neutrino_locale_t OptionName, void * data)
+@@ -1198,16 +1278,14 @@ bool COsdSetup::changeNotify(const neutrino_locale_t OptionName, void * data)
+ 		g_settings.show_menu_hints = * (int*) data;
+ 		return true;
+ 	}
+-	else if((ARE_LOCALES_EQUAL(OptionName, LOCALE_MISCSETTINGS_INFOBAR_CASYSTEM_DISPLAY)) ||
+-		(ARE_LOCALES_EQUAL(OptionName, LOCALE_MISCSETTINGS_INFOBAR_SHOW_TUNER))) {
++	else if((ARE_LOCALES_EQUAL(OptionName, LOCALE_MISCSETTINGS_INFOBAR_CASYSTEM_DISPLAY))
++		||(ARE_LOCALES_EQUAL(OptionName, LOCALE_MISCSETTINGS_INFOBAR_SHOW_TUNER))) {
+ 		if (g_InfoViewer == NULL)
+ 			g_InfoViewer = new CInfoViewer;
+ 		g_InfoViewer->changePB();
+-		if (ARE_LOCALES_EQUAL(OptionName, LOCALE_MISCSETTINGS_INFOBAR_CASYSTEM_DISPLAY))
+-		{
+-			ca_dotmatrix->setActive(g_settings.casystem_display < 2);
+-			ca_frame->setActive(g_settings.casystem_display < 2);
+-			return true;
++		if (ARE_LOCALES_EQUAL(OptionName, LOCALE_MISCSETTINGS_INFOBAR_CASYSTEM_DISPLAY)){
++			casystemActivate.Activate(g_settings.infobar_casystem_display < 2);
++			return false;
+ 		}
+ 		return false;
+ 	}
+@@ -1250,11 +1328,16 @@ bool COsdSetup::changeNotify(const neutrino_locale_t OptionName, void * data)
+ 	return false;
+ }
+ 
+-int COsdSetup::showContextChanlistMenu()
++int COsdSetup::showContextChanlistMenu(CChannelList *parent_channellist)
+ {
+ 	static int cselected = -1;
+ 
+ 	CMenuWidget * menu_chanlist = new CMenuWidget(LOCALE_MAINMENU_SETTINGS, NEUTRINO_ICON_SETTINGS, width);
++
++	//using native callback to ensure stop header clock in parent channellist before paint this menu window
++	if (parent_channellist && g_settings.menu_pos == CMenuWidget::MENU_POS_TOP_RIGHT)
++		menu_chanlist->OnBeforePaint.connect(sigc::mem_fun(parent_channellist->getHeaderObject()->getClockObject(), &CComponentsFrmClock::block));
++
+ 	menu_chanlist->enableSaveScreen(true);
+ 	menu_chanlist->enableFade(false);
+ 	menu_chanlist->setSelected(cselected);
+@@ -1366,7 +1449,7 @@ void COsdSetup::paintWindowSize(int w, int h)
+ 	if (win_demo == NULL) {
+ 		win_demo = new CComponentsShapeSquare(0, 0, 0, 0);
+ 		win_demo->setFrameThickness(8);
+-		win_demo->setShadowOnOff(CC_SHADOW_OFF);
++		win_demo->disableShadow();
+ 		win_demo->setColorBody(COL_BACKGROUND);
+ 		win_demo->setColorFrame(COL_RED);
+ 		win_demo->doPaintBg(true);
+diff --git a/src/gui/osd_setup.h b/src/gui/osd_setup.h
+index 6075fdf..8c29e4f 100644
+--- a/src/gui/osd_setup.h
++++ b/src/gui/osd_setup.h
+@@ -48,7 +48,7 @@ class COsdSetup : public CMenuTarget, public CChangeObserver
+ 		CColorSetupNotifier *colorSetupNotifier;
+ 		CFontSizeNotifier *fontsizenotifier;
+ 		CMenuWidget *osd_menu;
+-		CMenuWidget *submenu_menus;
++		CMenuWidget *submenu_menus, *osd_menu_colors;
+ 		CMenuForwarder *mfFontFile, *mfTtxFontFile, *mfWindowSize;
+ 		char window_size_value[10];
+ 		std::string osdFontFile, osdTtxFontFile;
+@@ -57,9 +57,8 @@ class COsdSetup : public CMenuTarget, public CChangeObserver
+ 		COnOffNotifier* screensaverNotifier;
+ 		COnOffNotifier* channellistNotifier;
+ 		COnOffNotifier* infobarHddNotifier;
+-		CMenuOptionChooser * ca_dotmatrix;
+-		CMenuOptionChooser * ca_frame;
+-
++		CGenericMenuActivate casystemActivate;
++		CGenericMenuActivate gradentHeadDirection, gradentHintDirection, gradentInfobarTopDirection, gradentInfobarBodyDirection, gradentInfobarFootDirection;
+ 		int width;
+ 		int is_wizard;
+ 		int show_menu_hints;
+@@ -80,7 +79,7 @@ class COsdSetup : public CMenuTarget, public CChangeObserver
+ 		void paintWindowSize(int w, int h);
+ 
+  		void AddFontSettingItem(CMenuWidget &font_Settings, const SNeutrinoSettings::FONT_TYPES number_of_fontsize_entry);
+- 
++
+ 	public:
+ 		enum INFOBAR_CHANNEL_LOGO_POS_OPTIONS	
+ 		{
+@@ -101,7 +100,7 @@ class COsdSetup : public CMenuTarget, public CChangeObserver
+ 		~COsdSetup();
+ 		int exec(CMenuTarget* parent, const std::string & actionKey);
+ 		bool changeNotify(const neutrino_locale_t OptionName, void * /*data*/);
+-		int showContextChanlistMenu();
++		int showContextChanlistMenu(CChannelList *parent_channellist = NULL);
+ };
+ 
+ #endif
+diff --git a/src/gui/themes.cpp b/src/gui/themes.cpp
+index bef79a3..33dd961 100644
+--- a/src/gui/themes.cpp
++++ b/src/gui/themes.cpp
+@@ -52,7 +52,7 @@
+ 
+ #define USERDIR "/var" THEMESDIR
+ #define FILE_PREFIX ".theme"
+-
++static 	SNeutrinoTheme &t = g_settings.theme;
+ CThemes::CThemes()
+ : themefile('\t')
+ {
+@@ -191,9 +191,9 @@ int CThemes::Show()
+ void CThemes::rememberOldTheme(bool remember)
+ {
+ 	if ( remember ) {
+-		oldTheme = g_settings.theme;
++		oldTheme = t;
+ 	} else {
+-		g_settings.theme = oldTheme;
++		t = oldTheme;
+ 
+ 		notifier = new CColorSetupNotifier;
+ 		notifier->changeNotify(NONEXISTANT_LOCALE, NULL);
+@@ -221,8 +221,11 @@ void CThemes::saveFile(const char *themename)
+ {
+ 	setTheme(themefile);
+ 
+-	if (!themefile.saveConfig(themename))
+-		printf("[neutrino theme] %s write error\n", themename);
++	if (themefile.getModifiedFlag()){
++		printf("[neutrino theme] save theme into %s\n", themename);
++		if (!themefile.saveConfig(themename))
++			printf("[neutrino theme] %s write error\n", themename);
++	}
+ }
+ 
+ // setup default Colors
+@@ -234,7 +237,6 @@ void CThemes::setupDefaultColors()
+ 
+ void CThemes::setTheme(CConfigFile &configfile)
+ {
+-	SNeutrinoTheme &t = g_settings.theme;
+ 	configfile.setInt32( "menu_Head_alpha", t.menu_Head_alpha );
+ 	configfile.setInt32( "menu_Head_red", t.menu_Head_red );
+ 	configfile.setInt32( "menu_Head_green", t.menu_Head_green );
+@@ -243,7 +245,11 @@ void CThemes::setTheme(CConfigFile &configfile)
+ 	configfile.setInt32( "menu_Head_Text_red", t.menu_Head_Text_red );
+ 	configfile.setInt32( "menu_Head_Text_green", t.menu_Head_Text_green );
+ 	configfile.setInt32( "menu_Head_Text_blue", t.menu_Head_Text_blue );
++
+ 	configfile.setInt32( "menu_Head_gradient" , t.menu_Head_gradient);
++	configfile.setInt32( "menu_Head_gradient_direction" , t.menu_Head_gradient_direction);
++	configfile.setInt32( "menu_Separator_gradient_enable" , t.menu_Separator_gradient_enable);
++
+ 	configfile.setInt32( "menu_Content_alpha", t.menu_Content_alpha );
+ 	configfile.setInt32( "menu_Content_red", t.menu_Content_red );
+ 	configfile.setInt32( "menu_Content_green", t.menu_Content_green );
+@@ -268,7 +274,12 @@ void CThemes::setTheme(CConfigFile &configfile)
+ 	configfile.setInt32( "menu_Content_inactive_Text_red", t.menu_Content_inactive_Text_red );
+ 	configfile.setInt32( "menu_Content_inactive_Text_green", t.menu_Content_inactive_Text_green );
+ 	configfile.setInt32( "menu_Content_inactive_Text_blue", t.menu_Content_inactive_Text_blue );
++
+ 	configfile.setInt32( "menu_Hint_gradient" , t.menu_Hint_gradient);
++	configfile.setInt32( "menu_Hint_gradient_direction" , t.menu_Hint_gradient_direction);
++	configfile.setInt32( "menu_ButtonBar_gradient" , t.menu_ButtonBar_gradient);
++	configfile.setInt32( "menu_ButtonBar_gradient_direction" , t.menu_ButtonBar_gradient_direction);
++
+ 	configfile.setInt32( "infobar_alpha", t.infobar_alpha );
+ 	configfile.setInt32( "infobar_red", t.infobar_red );
+ 	configfile.setInt32( "infobar_green", t.infobar_green );
+@@ -277,12 +288,18 @@ void CThemes::setTheme(CConfigFile &configfile)
+ 	configfile.setInt32( "infobar_casystem_red", t.infobar_casystem_red );
+ 	configfile.setInt32( "infobar_casystem_green", t.infobar_casystem_green );
+ 	configfile.setInt32( "infobar_casystem_blue", t.infobar_casystem_blue );
+-	configfile.setInt32( "infobar_gradient_top", t.infobar_gradient_top );
+-	configfile.setInt32( "infobar_gradient_bottom", t.infobar_gradient_bottom );
+ 	configfile.setInt32( "infobar_Text_alpha", t.infobar_Text_alpha );
+ 	configfile.setInt32( "infobar_Text_red", t.infobar_Text_red );
+ 	configfile.setInt32( "infobar_Text_green", t.infobar_Text_green );
+ 	configfile.setInt32( "infobar_Text_blue", t.infobar_Text_blue );
++
++	configfile.setInt32( "infobar_gradient_top", t.infobar_gradient_top );
++	configfile.setInt32( "infobar_gradient_top_direction", t.infobar_gradient_top_direction );
++	configfile.setInt32( "infobar_gradient_body", t.infobar_gradient_body );
++	configfile.setInt32( "infobar_gradient_body_direction", t.infobar_gradient_body_direction );
++	configfile.setInt32( "infobar_gradient_bottom", t.infobar_gradient_bottom );
++	configfile.setInt32( "infobar_gradient_bottom_direction", t.infobar_gradient_bottom_direction );
++
+ 	configfile.setInt32( "colored_events_alpha", t.colored_events_alpha );
+ 	configfile.setInt32( "colored_events_red", t.colored_events_red );
+ 	configfile.setInt32( "colored_events_green", t.colored_events_green );
+@@ -294,12 +311,10 @@ void CThemes::setTheme(CConfigFile &configfile)
+ 	configfile.setInt32( "clock_Digit_red", t.clock_Digit_red );
+ 	configfile.setInt32( "clock_Digit_green", t.clock_Digit_green );
+ 	configfile.setInt32( "clock_Digit_blue", t.clock_Digit_blue );
+-	configfile.setInt32( "gradient_c2c", t.gradient_c2c );
+ }
+ 
+ void CThemes::getTheme(CConfigFile &configfile)
+ {
+-	SNeutrinoTheme &t = g_settings.theme;
+ 	t.menu_Head_alpha = configfile.getInt32( "menu_Head_alpha", 0x00 );
+ 	t.menu_Head_red = configfile.getInt32( "menu_Head_red", 0x00 );
+ 	t.menu_Head_green = configfile.getInt32( "menu_Head_green", 0x0A );
+@@ -308,7 +323,11 @@ void CThemes::getTheme(CConfigFile &configfile)
+ 	t.menu_Head_Text_red = configfile.getInt32( "menu_Head_Text_red", 0x5f );
+ 	t.menu_Head_Text_green = configfile.getInt32( "menu_Head_Text_green", 0x46 );
+ 	t.menu_Head_Text_blue = configfile.getInt32( "menu_Head_Text_blue", 0x00 );
+-	t.menu_Head_gradient = configfile.getInt32( "menu_Head_gradient", 1);
++
++	t.menu_Head_gradient = configfile.getInt32( "menu_Head_gradient", CC_COLGRAD_LIGHT_2_DARK);
++	t.menu_Head_gradient_direction = configfile.getInt32( "menu_Head_gradient_direction", CFrameBuffer::gradientVertical);
++	t.menu_Separator_gradient_enable = configfile.getInt32( "menu_Separator_gradient_enable", 0);
++
+ 	t.menu_Content_alpha = configfile.getInt32( "menu_Content_alpha", 0x14 );
+ 	t.menu_Content_red = configfile.getInt32( "menu_Content_red", 0x00 );
+ 	t.menu_Content_green = configfile.getInt32( "menu_Content_green", 0x0f );
+@@ -333,32 +352,44 @@ void CThemes::getTheme(CConfigFile &configfile)
+ 	t.menu_Content_inactive_Text_red = configfile.getInt32( "menu_Content_inactive_Text_red", 55 );
+ 	t.menu_Content_inactive_Text_green = configfile.getInt32( "menu_Content_inactive_Text_green", 70 );
+ 	t.menu_Content_inactive_Text_blue = configfile.getInt32( "menu_Content_inactive_Text_blue", 85 );
+-	t.menu_Hint_gradient = configfile.getInt32( "menu_Hint_gradient", 0);
++
++	t.menu_Hint_gradient = configfile.getInt32( "menu_Hint_gradient", CC_COLGRAD_OFF);
++	t.menu_Hint_gradient_direction = configfile.getInt32( "menu_Hint_gradient_direction", CFrameBuffer::gradientVertical);
++	t.menu_ButtonBar_gradient = configfile.getInt32( "menu_ButtonBar_gradient", CC_COLGRAD_OFF);
++	t.menu_ButtonBar_gradient_direction = configfile.getInt32( "menu_ButtonBar_gradient_direction", CFrameBuffer::gradientVertical);
++
+ 	t.infobar_alpha = configfile.getInt32( "infobar_alpha", 0x14 );
+ 	t.infobar_red = configfile.getInt32( "infobar_red", 0x00 );
+ 	t.infobar_green = configfile.getInt32( "infobar_green", 0x0e );
+ 	t.infobar_blue = configfile.getInt32( "infobar_blue", 0x23 );
++
++	t.infobar_gradient_top = configfile.getInt32( "infobar_gradient_top", CC_COLGRAD_OFF );
++	t.infobar_gradient_top_direction = configfile.getInt32( "infobar_gradient_top_direction", CFrameBuffer::gradientVertical );
++	t.infobar_gradient_body = configfile.getInt32( "infobar_gradient_body", CC_COLGRAD_OFF);
++	t.infobar_gradient_body_direction = configfile.getInt32( "infobar_gradient_body_direction", CFrameBuffer::gradientVertical );
++	t.infobar_gradient_bottom = configfile.getInt32( "infobar_gradient_bottom", CC_COLGRAD_OFF );
++	t.infobar_gradient_bottom_direction = configfile.getInt32( "infobar_gradient_bottom_direction", CFrameBuffer::gradientVertical );
++
+ 	t.infobar_casystem_alpha = configfile.getInt32( "infobar_casystem_alpha", 0x08 );
+ 	t.infobar_casystem_red = configfile.getInt32( "infobar_casystem_red", 0x00 );
+ 	t.infobar_casystem_green = configfile.getInt32( "infobar_casystem_green", 0x00 );
+ 	t.infobar_casystem_blue = configfile.getInt32( "infobar_casystem_blue", 0x00 );
+-	t.infobar_gradient_top = configfile.getInt32( "infobar_gradient_top", 0 );
+-	t.infobar_gradient_bottom = configfile.getInt32( "infobar_gradient_bottom", 0 );
+ 	t.infobar_Text_alpha = configfile.getInt32( "infobar_Text_alpha", 0x00 );
+ 	t.infobar_Text_red = configfile.getInt32( "infobar_Text_red", 0x64 );
+ 	t.infobar_Text_green = configfile.getInt32( "infobar_Text_green", 0x64 );
+ 	t.infobar_Text_blue = configfile.getInt32( "infobar_Text_blue", 0x64 );
++
+ 	t.colored_events_alpha = configfile.getInt32( "colored_events_alpha", 0x00 );
+ 	t.colored_events_red = configfile.getInt32( "colored_events_red", 95 );
+ 	t.colored_events_green = configfile.getInt32( "colored_events_green", 70 );
+ 	t.colored_events_blue = configfile.getInt32( "colored_events_blue", 0 );
+ 	t.colored_events_channellist = configfile.getInt32( "colored_events_channellist", 0 );
++
+ 	t.colored_events_infobar = configfile.getInt32( "colored_events_infobar", 2 );
+ 	t.clock_Digit_alpha = configfile.getInt32( "clock_Digit_alpha", t.menu_Content_Text_alpha );
+ 	t.clock_Digit_red = configfile.getInt32( "clock_Digit_red", t.menu_Content_Text_red );
+ 	t.clock_Digit_green = configfile.getInt32( "clock_Digit_green", t.menu_Content_Text_green );
+ 	t.clock_Digit_blue = configfile.getInt32( "clock_Digit_blue", t.menu_Content_Text_blue );
+-	t.gradient_c2c = configfile.getInt32( "gradient_c2c", 0 );
+ }
+ 
+ void CThemes::move_userDir()
+diff --git a/src/neutrino.cpp b/src/neutrino.cpp
+index 905ce3f..4b087eb 100644
+--- a/src/neutrino.cpp
++++ b/src/neutrino.cpp
+@@ -476,9 +476,9 @@ int CNeutrinoApp::loadSetup(const char * fname)
+ 	g_settings.infobar_show = configfile.getInt32("infobar_show", configfile.getInt32("infobar_cn", 1));
+ 	g_settings.infobar_show_channellogo   = configfile.getInt32("infobar_show_channellogo"  , 3 );
+ 	g_settings.infobar_progressbar   = configfile.getInt32("infobar_progressbar"  , 1 ); // below channel name
+-	g_settings.casystem_display = configfile.getInt32("casystem_display", 1 );//discreet ca mode default
+-	g_settings.casystem_dotmatrix = configfile.getInt32("casystem_dotmatrix", 1 );
+-	g_settings.casystem_frame = configfile.getInt32("casystem_frame", 0 );
++	g_settings.infobar_casystem_display = configfile.getInt32("infobar_casystem_display", 1 );//discreet ca mode default
++	g_settings.infobar_casystem_dotmatrix = configfile.getInt32("infobar_casystem_dotmatrix", 0 );
++	g_settings.infobar_casystem_frame = configfile.getInt32("infobar_casystem_frame", 1 );
+ 	g_settings.scrambled_message = configfile.getBool("scrambled_message", true );
+ 	g_settings.volume_pos = configfile.getInt32("volume_pos", CVolumeBar::VOLUMEBAR_POS_TOP_RIGHT );
+ 	g_settings.volume_digits = configfile.getBool("volume_digits", true);
+@@ -549,9 +549,9 @@ int CNeutrinoApp::loadSetup(const char * fname)
+ 	g_settings.widget_fade = false;
+ 	g_settings.widget_fade           = configfile.getBool("widget_fade"          , false );
+ 
++	//theme/color options
+ 	CThemes::getTheme(configfile);
+-
+-
++	g_settings.osd_colorsettings_advanced_mode = configfile.getBool("osd_colorsettings_advanced_mode", false);
+ 
+ 	//personalize
+ 	g_settings.personalize_pincode = configfile.getString( "personalize_pincode", "0000" );
+@@ -1016,9 +1016,9 @@ void CNeutrinoApp::saveSetup(const char * fname)
+ 	configfile.setInt32("infobar_show", g_settings.infobar_show);
+ 	configfile.setInt32("infobar_show_channellogo"  , g_settings.infobar_show_channellogo  );
+ 	configfile.setInt32("infobar_progressbar"  , g_settings.infobar_progressbar  );
+-	configfile.setInt32("casystem_display"  , g_settings.casystem_display  );
+-	configfile.setInt32("casystem_dotmatrix"  , g_settings.casystem_dotmatrix  );
+-	configfile.setInt32("casystem_frame"  , g_settings.casystem_frame  );
++	configfile.setInt32("infobar_casystem_display"  , g_settings.infobar_casystem_display  );
++	configfile.setInt32("infobar_casystem_dotmatrix"  , g_settings.infobar_casystem_dotmatrix  );
++	configfile.setInt32("infobar_casystem_frame"  , g_settings.infobar_casystem_frame  );
+ 	configfile.setBool("scrambled_message"  , g_settings.scrambled_message  );
+ 	configfile.setInt32("volume_pos"  , g_settings.volume_pos  );
+ 	configfile.setBool("volume_digits", g_settings.volume_digits);
+@@ -1080,9 +1080,9 @@ void CNeutrinoApp::saveSetup(const char * fname)
+ 	//widget settings
+ 	configfile.setBool("widget_fade"          , g_settings.widget_fade          );
+ 
++	//theme/color options
+ 	CThemes::setTheme(configfile);
+-
+-
++	configfile.setBool("osd_colorsettings_advanced_mode", g_settings.osd_colorsettings_advanced_mode);
+ 
+ 	//personalize
+ 	configfile.setString("personalize_pincode", g_settings.personalize_pincode);
+@@ -2186,6 +2186,7 @@ void CNeutrinoApp::screensaver(bool on)
+ 	if (on)
+ 	{
+ 		m_screensaver = true;
++		CInfoClock::getInstance()->block();
+ 		CScreenSaver::getInstance()->Start();
+ 	}
+ 	else
+@@ -2205,9 +2206,8 @@ void CNeutrinoApp::RealRun(CMenuWidget &_mainMenu)
+ 
+ 	dprintf(DEBUG_NORMAL, "initialized everything\n");
+ 
++	//activating infoclock
+ 	InfoClock = CInfoClock::getInstance();
+-	if(g_settings.mode_clock)
+-		g_settings.mode_clock = InfoClock->StartClock();
+ 
+ 	if(g_settings.power_standby || init_cec_setting)
+ 		standbyMode(true, true);
+@@ -2525,7 +2525,7 @@ int CNeutrinoApp::showChannelList(const neutrino_msg_t _msg, bool from_menu)
+ 	channelList_painted = true;
+ 
+ 	neutrino_msg_t msg = _msg;
+-	InfoClock->enableInfoClock(false);
++	InfoClock->enableInfoClock(false);//TODO: use callback in channel list class
+ 	StopSubtitles();
+ 
+ //_show:
+@@ -3819,17 +3819,6 @@ void CNeutrinoApp::switchTvRadioMode(const int prev_mode)
+ 	}
+ }
+ 
+-//switching clock on or off depends of current displayed or not
+-void CNeutrinoApp::switchClockOnOff()
+-{
+-	if(g_settings.mode_clock) {
+-		InfoClock->enableInfoClock(false);
+-		g_settings.mode_clock = false;
+-	} else {
+-		g_settings.mode_clock = true;
+-		InfoClock->enableInfoClock(true);
+-	}
+-}
+ 
+ /**************************************************************************************
+ *          CNeutrinoApp -  exec, menuitem callback (shutdown)                         *
+@@ -3856,7 +3845,7 @@ int CNeutrinoApp::exec(CMenuTarget* parent, const std::string & actionKey)
+ 	}
+ 	else if (actionKey=="clock_switch")
+ 	{
+-		switchClockOnOff();
++		InfoClock->switchClockOnOff();
+ 		returnval = menu_return::RETURN_EXIT_ALL;
+ 	}
+ 	else if (actionKey=="tv_radio_switch")//used in mainmenu
+diff --git a/src/system/locals.h b/src/system/locals.h
+index 2b7c5cf..52a6f9a 100644
+--- a/src/system/locals.h
++++ b/src/system/locals.h
+@@ -317,11 +317,23 @@ typedef enum
+ 	LOCALE_CLOCK_SWITCH_OFF,
+ 	LOCALE_CLOCK_SWITCH_ON,
+ 	LOCALE_COLOR_GRADIENT,
+-	LOCALE_COLOR_GRADIENT_C2C,
++	LOCALE_COLOR_GRADIENT_A2B,
++	LOCALE_COLOR_GRADIENT_B2A,
++	LOCALE_COLOR_GRADIENT_D2L,
++	LOCALE_COLOR_GRADIENT_DLD,
++	LOCALE_COLOR_GRADIENT_L2D,
++	LOCALE_COLOR_GRADIENT_LDL,
++	LOCALE_COLOR_GRADIENT_MODE_DIRECTION,
++	LOCALE_COLOR_GRADIENT_MODE_DIRECTION_HOR,
++	LOCALE_COLOR_GRADIENT_MODE_DIRECTION_VER,
++	LOCALE_COLOR_GRADIENT_SEPARATOR_ENABLE,
+ 	LOCALE_COLORCHOOSER_ALPHA,
+ 	LOCALE_COLORCHOOSER_BLUE,
+ 	LOCALE_COLORCHOOSER_GREEN,
+ 	LOCALE_COLORCHOOSER_RED,
++	LOCALE_COLORCHOOSER_SAVE,
++	LOCALE_COLORMENU_ADVANCED_MODE_OFF,
++	LOCALE_COLORMENU_ADVANCED_MODE_ON,
+ 	LOCALE_COLORMENU_BACKGROUND,
+ 	LOCALE_COLORMENU_CLOCK_TEXTCOLOR,
+ 	LOCALE_COLORMENU_CONTRAST_FONTS,
+@@ -1004,7 +1016,8 @@ typedef enum
+ 	LOCALE_MENU_HINT_CLOCK_SIZE,
+ 	LOCALE_MENU_HINT_CLOCK_TEXTCOLOR,
+ 	LOCALE_MENU_HINT_COLOR_GRADIENT,
+-	LOCALE_MENU_HINT_COLOR_GRADIENT_C2C,
++	LOCALE_MENU_HINT_COLOR_GRADIENT_DIRECTION,
++	LOCALE_MENU_HINT_COLOR_GRADIENT_SEPARATOR_ENABLE,
+ 	LOCALE_MENU_HINT_COLORED_EVENTS,
+ 	LOCALE_MENU_HINT_COLORED_EVENTS_TEXTCOLOR,
+ 	LOCALE_MENU_HINT_COLORS,
+@@ -1499,6 +1512,7 @@ typedef enum
+ 	LOCALE_MISCSETTINGS_INFOBAR_DISP_4,
+ 	LOCALE_MISCSETTINGS_INFOBAR_DISP_5,
+ 	LOCALE_MISCSETTINGS_INFOBAR_DISP_6,
++	LOCALE_MISCSETTINGS_INFOBAR_GRADIENT_BODY,
+ 	LOCALE_MISCSETTINGS_INFOBAR_GRADIENT_BOTTOM,
+ 	LOCALE_MISCSETTINGS_INFOBAR_GRADIENT_TOP,
+ 	LOCALE_MISCSETTINGS_INFOBAR_LOGO_HDD_DIR,
+diff --git a/src/system/locals_intern.h b/src/system/locals_intern.h
+index 4071598..0cab6e8 100644
+--- a/src/system/locals_intern.h
++++ b/src/system/locals_intern.h
+@@ -317,11 +317,23 @@ const char * locale_real_names[] =
+ 	"clock_switch_off",
+ 	"clock_switch_on",
+ 	"color.gradient",
+-	"color.gradient_c2c",
++	"color.gradient_a2b",
++	"color.gradient_b2a",
++	"color.gradient_d2l",
++	"color.gradient_dld",
++	"color.gradient_l2d",
++	"color.gradient_ldl",
++	"color.gradient_mode_direction",
++	"color.gradient_mode_direction_hor",
++	"color.gradient_mode_direction_ver",
++	"color.gradient_separator_enable",
+ 	"colorchooser.alpha",
+ 	"colorchooser.blue",
+ 	"colorchooser.green",
+ 	"colorchooser.red",
++	"colorchooser.save",
++	"colormenu.advanced_mode_off",
++	"colormenu.advanced_mode_on",
+ 	"colormenu.background",
+ 	"colormenu.clock_textcolor",
+ 	"colormenu.contrast_fonts",
+@@ -1004,7 +1016,8 @@ const char * locale_real_names[] =
+ 	"menu.hint_clock_size",
+ 	"menu.hint_clock_textcolor",
+ 	"menu.hint_color_gradient",
+-	"menu.hint_color_gradient_c2c",
++	"menu.hint_color_gradient_direction",
++	"menu.hint_color_gradient_separator_enable",
+ 	"menu.hint_colored_events",
+ 	"menu.hint_colored_events_textcolor",
+ 	"menu.hint_colors",
+@@ -1499,6 +1512,7 @@ const char * locale_real_names[] =
+ 	"miscsettings.infobar_disp_4",
+ 	"miscsettings.infobar_disp_5",
+ 	"miscsettings.infobar_disp_6",
++	"miscsettings.infobar_gradient_body",
+ 	"miscsettings.infobar_gradient_bottom",
+ 	"miscsettings.infobar_gradient_top",
+ 	"miscsettings.infobar_logo_hdd_dir",
+diff --git a/src/system/settings.h b/src/system/settings.h
+index b108142..775a110 100644
+--- a/src/system/settings.h
++++ b/src/system/settings.h
+@@ -61,6 +61,8 @@ struct SNeutrinoTheme
+ 	unsigned char menu_Head_Text_blue;
+ 
+ 	int menu_Head_gradient;
++	int menu_Head_gradient_direction;
++	int menu_Separator_gradient_enable;
+ 
+ 	unsigned char menu_Content_alpha;
+ 	unsigned char menu_Content_red;
+@@ -93,6 +95,9 @@ struct SNeutrinoTheme
+ 	unsigned char menu_Content_inactive_Text_blue;
+ 
+ 	int menu_Hint_gradient;
++	int menu_Hint_gradient_direction;
++	int menu_ButtonBar_gradient;
++	int menu_ButtonBar_gradient_direction;
+ 
+ 	unsigned char infobar_alpha;
+ 	unsigned char infobar_red;
+@@ -110,7 +115,11 @@ struct SNeutrinoTheme
+ 	unsigned char infobar_Text_blue;
+ 
+ 	int infobar_gradient_top;
++	int infobar_gradient_top_direction;
++	int infobar_gradient_body;
++	int infobar_gradient_body_direction;
+ 	int infobar_gradient_bottom;
++	int infobar_gradient_bottom_direction;
+ 
+ 	unsigned char colored_events_alpha;
+ 	unsigned char colored_events_red;
+@@ -124,7 +133,6 @@ struct SNeutrinoTheme
+ 	unsigned char clock_Digit_red;
+ 	unsigned char clock_Digit_green;
+ 	unsigned char clock_Digit_blue;
+-	int gradient_c2c;
+ };
+ 
+ struct SNeutrinoSettings
+@@ -171,9 +179,9 @@ struct SNeutrinoSettings
+ 	int progressbar_timescale_green;
+ 	int progressbar_timescale_yellow;
+ 	int progressbar_timescale_invert;
+-	int casystem_display;
+-	int casystem_dotmatrix;
+-	int casystem_frame;
++	int infobar_casystem_display;
++	int infobar_casystem_dotmatrix;
++	int infobar_casystem_frame;
+ 	int scrambled_message;
+ 	int volume_pos;
+ 	int volume_digits;
+@@ -382,7 +390,9 @@ struct SNeutrinoSettings
+ 	//widget settings
+ 	int widget_fade;
+ 
++	//theme/color options
+ 	SNeutrinoTheme theme;
++	bool osd_colorsettings_advanced_mode;
+ 
+ 	int contrast_fonts;
+ 
+-- 
+2.1.4
+

@@ -1,0 +1,56 @@
+From 76d95805e8e58f15b5ea8112af8686042d6f1702 Mon Sep 17 00:00:00 2001
+From: Thilo Graf <dbt@novatux.de>
+Date: Sun, 29 Nov 2015 16:24:58 +0100
+Subject: [PATCH 16/21] CComponentsWindow: add method to set header color
+
+---
+ src/gui/components/cc_frm_window.cpp | 2 ++
+ src/gui/components/cc_frm_window.h   | 5 ++++-
+ 2 files changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/src/gui/components/cc_frm_window.cpp b/src/gui/components/cc_frm_window.cpp
+index 4be33a4..7e39410 100644
+--- a/src/gui/components/cc_frm_window.cpp
++++ b/src/gui/components/cc_frm_window.cpp
+@@ -152,6 +152,7 @@ void CComponentsWindow::initVarWindow(	const int& x_pos, const int& y_pos, const
+ 	ccw_show_l_sideber = false;
+ 	ccw_show_r_sideber = false;
+ 	ccw_w_sidebar	= 40;
++	ccw_col_head = COL_MENUCONTENT_PLUS_0;
+ 
+ 	page_scroll_mode = PG_SCROLL_M_OFF; //permanent disabled here, only in body used!
+ 
+@@ -200,6 +201,7 @@ void CComponentsWindow::initHeader()
+ 		ccw_head->setCaption(ccw_caption, ccw_align_mode);
+ 		ccw_head->setContextButton(ccw_buttons);
+ 		ccw_head->setCorner(corner_rad, CORNER_TOP);
++		ccw_head->setColorBody(ccw_col_head);
+ 	}
+ }
+ 
+diff --git a/src/gui/components/cc_frm_window.h b/src/gui/components/cc_frm_window.h
+index 2ef5351..407d6b2 100644
+--- a/src/gui/components/cc_frm_window.h
++++ b/src/gui/components/cc_frm_window.h
+@@ -83,6 +83,8 @@ class CComponentsWindow : public CComponentsForm
+ 		bool ccw_show_r_sideber;
+ 		///width of sidebars
+ 		int ccw_w_sidebar;
++		///header bg color
++		fb_pixel_t ccw_col_head;
+ 
+ 		///initialze header object
+ 		void initHeader();
+@@ -159,7 +161,8 @@ class CComponentsWindow : public CComponentsForm
+ 
+ 		///set caption in header with string, see also getHeaderObject()
+ 		void setWindowCaption(const std::string& text, const int& align_mode = CTextBox::NO_AUTO_LINEBREAK){ccw_caption = text; ccw_align_mode = align_mode;};
+-
++		///set background to header
++		void setWindowHeaderColor(const fb_pixel_t& color){ccw_col_head = color;}
+ 		///set caption in header from locales, see also getHeaderObject()
+ 		void setWindowCaption(neutrino_locale_t locale_text, const int& align_mode = CTextBox::NO_AUTO_LINEBREAK);
+ 		///set caption alignment, see CTextBox for possible modes
+-- 
+2.1.4
+

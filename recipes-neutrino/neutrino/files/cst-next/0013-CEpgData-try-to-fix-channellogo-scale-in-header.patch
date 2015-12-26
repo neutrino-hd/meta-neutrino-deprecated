@@ -1,0 +1,25 @@
+From 302b7e81439d480ad00df07af208f6bcf14bf0a2 Mon Sep 17 00:00:00 2001
+From: Thilo Graf <dbt@novatux.de>
+Date: Wed, 18 Nov 2015 19:54:37 +0100
+Subject: [PATCH 13/21] CEpgData: try to fix channellogo scale in header
+
+---
+ src/gui/epgview.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/gui/epgview.cpp b/src/gui/epgview.cpp
+index 0c5bba7..97deca9 100644
+--- a/src/gui/epgview.cpp
++++ b/src/gui/epgview.cpp
+@@ -643,7 +643,7 @@ int CEpgData::show(const t_channel_id channel_id, uint64_t a_id, time_t* a_start
+ 	int header_h = std::max(toph, logo_h);
+ 	header = new CComponentsHeader(sx, sy, ox, header_h);
+ 	if (pic_offx > 0) {
+-		headerPic = new CComponentsPicture(sx+10, sy + (toph-logo_h)/2, logo_w, logo_h, lname);
++		headerPic = new CComponentsPicture(sx+10, sy + (header_h-logo_h)/2, logo_w, logo_h, lname);
+ 		headerPic->doPaintBg(false);
+ 	}
+ 	std::string textAll = (!text2.empty()) ? text1 + "\n" + text2 : text1;
+-- 
+2.1.4
+

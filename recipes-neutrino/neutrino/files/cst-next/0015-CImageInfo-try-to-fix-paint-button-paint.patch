@@ -1,0 +1,35 @@
+From ec5f4ad41e25d8bb490d7290cad9efb0aa6eaf83 Mon Sep 17 00:00:00 2001
+From: Thilo Graf <dbt@novatux.de>
+Date: Thu, 19 Nov 2015 15:54:14 +0100
+Subject: [PATCH 15/21] CImageInfo: try to fix paint button paint
+
+Handling with background and frame was changed
+---
+ src/gui/imageinfo.cpp | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/src/gui/imageinfo.cpp b/src/gui/imageinfo.cpp
+index 4bee68b..312b75e 100644
+--- a/src/gui/imageinfo.cpp
++++ b/src/gui/imageinfo.cpp
+@@ -148,6 +148,7 @@ int CImageInfo::exec(CMenuTarget* parent, const std::string &)
+ 			//paint items
+ 			cc_sub_caption->paint(false);
+ 			cc_lic->paint(false);
++			btn_red->kill();
+ 			btn_red->paint(false);
+ 		}
+ 		else if((msg == CRCInput::RC_sat) || (msg == CRCInput::RC_favorites)) {
+@@ -187,6 +188,9 @@ void CImageInfo::ShowWindow()
+ 		int h_footer = footer->getHeight();
+ 		fb_pixel_t btn_col = /*g_settings.theme.Button_gradient ?  COL_BUTTON_BODY :*/ footer->getColorBody(); //TODO: Button_gradient option
+ 		btn_red = new CComponentsButtonRed(10, CC_CENTERED, 250, h_footer-h_footer/4, LOCALE_BUILDINFO_MENU, footer, false , true, false, footer->getColorBody(), btn_col);
++		btn_red->doPaintBg(false);
++		btn_red->setButtonTextColor(COL_INFOBAR_SHADOW_TEXT);
++		btn_red->setColBodyGradient(CC_COLGRAD_OFF);
+ 	}
+ 
+ 	//prepare minitv
+-- 
+2.1.4
+

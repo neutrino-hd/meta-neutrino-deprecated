@@ -1,0 +1,38 @@
+From b50d6edd818cc0ee6144367cf1aa262ab26a1095 Mon Sep 17 00:00:00 2001
+From: Thilo Graf <dbt@novatux.de>
+Date: Thu, 24 Dec 2015 00:23:08 +0100
+Subject: [PATCH 18/21] CPersonalizeGui: try to fix disabled observer item
+
+This should avoid disabling observer items inside personalize menu,
+because it's possible to lock out an observer item itself.
+In This case it's not possible to
+enable this item on runtime. Neutrino restart is required.
+
+This effect was observed in mode_ts if an user has tried to change
+settings for tv/radio switch. If all three items were disabled, it was
+not possible to enable observed items.
+
+NOTE: I think it's not a good idea to enable certain items in main menu or
+full sub menus like settings in mode_ts. ...
+What should a user do with that during watch a movie? Play with tuner settings, bouquet-, network-, drive settings etc.?
+Some users could cause harm, therefore I can't recommend to hold this current state.
+---
+ src/gui/personalize.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/gui/personalize.cpp b/src/gui/personalize.cpp
+index 44a5f36..0e82548 100644
+--- a/src/gui/personalize.cpp
++++ b/src/gui/personalize.cpp
+@@ -630,7 +630,7 @@ int CPersonalizeGui::ShowMenuOptions(const int& widget)
+ 						//found observer item and if found, then define 'this' as observer for current option chooser and run changeNotify
+ 						bool is_observer = isObserver(v_item[i].widget, v_item[i].menuItem) ? true : false;
+ 						CChangeObserver* observer = is_observer ? this : NULL;
+-						CMenuOptionChooser * opt = new CMenuOptionChooser(name, p_mode, PERSONALIZE_MODE_OPTIONS, PERSONALIZE_MODE_MAX, v_item[i].menuItem->current_active, observer);
++						CMenuOptionChooser * opt = new CMenuOptionChooser(name, p_mode, PERSONALIZE_MODE_OPTIONS, PERSONALIZE_MODE_MAX, v_item[i].menuItem->current_active || is_observer, observer);
+ 						if (is_observer)
+ 							changeNotify(name, (void*)p_mode);
+ 
+-- 
+2.1.4
+

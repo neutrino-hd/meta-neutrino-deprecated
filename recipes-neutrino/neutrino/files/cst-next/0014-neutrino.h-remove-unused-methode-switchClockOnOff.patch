@@ -1,0 +1,25 @@
+From 6b4fceb9d745b0421bfe0551077737d45b2cc330 Mon Sep 17 00:00:00 2001
+From: Thilo Graf <dbt@novatux.de>
+Date: Thu, 19 Nov 2015 15:50:24 +0100
+Subject: [PATCH 14/21] neutrino.h: remove unused methode switchClockOnOff()
+
+---
+ src/neutrino.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/neutrino.h b/src/neutrino.h
+index 8714546..f2c1fc5 100644
+--- a/src/neutrino.h
++++ b/src/neutrino.h
+@@ -194,7 +194,7 @@ public:
+ 		return lastMode;
+ 	}
+ 	void switchTvRadioMode(const int prev_mode = mode_unknown);
+-	void switchClockOnOff();
++
+ 	
+ 	bool isMuted() {return current_muted; }
+ 	void setCurrentMuted(int m) { current_muted = m; }
+-- 
+2.1.4
+

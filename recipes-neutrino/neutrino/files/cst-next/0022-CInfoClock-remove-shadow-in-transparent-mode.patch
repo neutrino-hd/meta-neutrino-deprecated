@@ -1,0 +1,28 @@
+From 41ff94f55f9cc0d9859ea2ad566429e50188beb5 Mon Sep 17 00:00:00 2001
+From: Thilo Graf <dbt@novatux.de>
+Date: Fri, 25 Dec 2015 19:21:05 +0100
+Subject: [PATCH 22/22] CInfoClock: remove shadow in transparent mode
+
+---
+ src/gui/infoclock.cpp | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/src/gui/infoclock.cpp b/src/gui/infoclock.cpp
+index b41da69..bd28a7f 100644
+--- a/src/gui/infoclock.cpp
++++ b/src/gui/infoclock.cpp
+@@ -60,9 +60,11 @@ void CInfoClock::initCCLockItems()
+ 	if (paint_bg){
+ 		cl_col_text = COL_MENUCONTENT_TEXT;
+ 		setColorBody(COL_MENUCONTENT_PLUS_0);
++		enableShadow(CC_SHADOW_ON, 3);
+ 	}else{
+ 		cl_col_text = COL_INFOCLOCK_TEXT;
+ 		setColorBody(COL_BACKGROUND_PLUS_0);
++		disableShadow();
+ 	}
+ 
+ 	if (g_settings.infoClockSeconds)
+-- 
+2.1.4
+

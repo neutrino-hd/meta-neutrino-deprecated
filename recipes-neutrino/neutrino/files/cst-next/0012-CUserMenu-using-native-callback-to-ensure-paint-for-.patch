@@ -1,0 +1,50 @@
+From d8de3b9aea0b33809bd11fd5b78b6efa7060af02 Mon Sep 17 00:00:00 2001
+From: Thilo Graf <dbt@novatux.de>
+Date: Wed, 18 Nov 2015 19:53:30 +0100
+Subject: [PATCH 12/21] CUserMenu: using native callback to ensure paint for
+ info clock after hide of this menu window
+
+menu->hide() handler comes too early, nice to see if clock is transparent.
+---
+ src/gui/user_menue.cpp | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
+
+diff --git a/src/gui/user_menue.cpp b/src/gui/user_menue.cpp
+index 2ac1658..ac21a86 100644
+--- a/src/gui/user_menue.cpp
++++ b/src/gui/user_menue.cpp
+@@ -163,15 +163,21 @@ bool CUserMenu::showUserMenu(neutrino_msg_t msg)
+ 	if (menu == NULL)
+ 		return true;
+ 
++	/*
++	using native callback to ensure paint for info clock after hide of this menu window
++	menu->hide() handler comes too early, nice to see if clock is transparent.
++	*/
++	menu->OnAfterHide.connect(sigc::mem_fun(CInfoClock::getInstance(), &CInfoClock::block));
++
+ 	if (button < COL_BUTTONMAX)	
+ 		menu->setSelected(user_menu[button].selected);
+-	
++
+ 	//show cancel button if configured
+ 	if (g_settings.personalize[SNeutrinoSettings::P_UMENU_SHOW_CANCEL])
+ 		menu->addIntroItems(NONEXISTANT_LOCALE, NONEXISTANT_LOCALE, CMenuWidget::BTN_TYPE_CANCEL);
+ 	else
+ 		menu->addItem(GenericMenuSeparator);
+-	
++
+ 	bool _mode_ts = CNeutrinoApp::getInstance()->getMode() == NeutrinoMessages::mode_ts;
+ 
+ 	std::string itemstr_last("1");
+@@ -454,7 +460,6 @@ bool CUserMenu::showUserMenu(neutrino_msg_t msg)
+ 
+ 	extern CInfoClock *InfoClock;
+ 	InfoClock->enableInfoClock(false);
+-
+ 	// show menu if there are more than 2 items only
+ 	// otherwise, we start the item directly (must be the last one)
+ 	if (menu_items > 1 )
+-- 
+2.1.4
+
