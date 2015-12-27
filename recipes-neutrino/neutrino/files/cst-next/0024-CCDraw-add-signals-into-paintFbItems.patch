@@ -1,0 +1,91 @@
+From 6952d85ae912ca2e005e25b7460cd8aea62e7ddd Mon Sep 17 00:00:00 2001
+From: Thilo Graf <dbt@novatux.de>
+Date: Sun, 27 Dec 2015 13:40:33 +0100
+Subject: [PATCH 24/25] CCDraw: add signals into paintFbItems()
+
+---
+ src/gui/components/cc_base.h   | 3 +--
+ src/gui/components/cc_draw.cpp | 5 +++++
+ src/gui/components/cc_draw.h   | 8 +++++++-
+ 3 files changed, 13 insertions(+), 3 deletions(-)
+
+diff --git a/src/gui/components/cc_base.h b/src/gui/components/cc_base.h
+index b697ded..d6420f0 100644
+--- a/src/gui/components/cc_base.h
++++ b/src/gui/components/cc_base.h
+@@ -26,7 +26,6 @@
+ #define __CC_BASE__
+ 
+ #include "cc_types.h"
+-#include "cc_signals.h"
+ #include "cc_draw.h"
+ 
+ /// Basic component class.
+@@ -34,7 +33,7 @@
+ Basic attributes and member functions for component sub classes
+ */
+ 
+-class CComponents : public CComponentsSignals, public CCDraw
++class CComponents : public CCDraw
+ {
+ 	protected:
+ 	
+diff --git a/src/gui/components/cc_draw.cpp b/src/gui/components/cc_draw.cpp
+index 63f53f0..f5c283c 100644
+--- a/src/gui/components/cc_draw.cpp
++++ b/src/gui/components/cc_draw.cpp
+@@ -465,6 +465,9 @@ void CCDraw::enablePaintCache(bool enable)
+ //paint framebuffer layers
+ void CCDraw::paintFbItems(bool do_save_bg)
+ {
++	//pick up signal if filled
++	OnBeforePaintLayers();
++
+ 	//first modify background handling
+ 	enableSaveBg(do_save_bg);
+ 
+@@ -609,6 +612,8 @@ void CCDraw::paintFbItems(bool do_save_bg)
+ 			}
+ 		}
+ 	}
++	//pick up signal if filled
++	OnAfterPaintLayers();
+ }
+ 
+ 
+diff --git a/src/gui/components/cc_draw.h b/src/gui/components/cc_draw.h
+index 989a2ee..1381b0f 100644
+--- a/src/gui/components/cc_draw.h
++++ b/src/gui/components/cc_draw.h
+@@ -26,6 +26,7 @@
+ #define __CC_DRAW__
+ 
+ #include "cc_types.h"
++#include "cc_signals.h"
+ #include <driver/colorgradient.h>
+ #include <driver/fade.h>
+ #include <gui/color.h>
+@@ -35,7 +36,7 @@
+ Basic paint attributes and member functions for component classes
+ */
+ 
+-class CCDraw : public COSDFader
++class CCDraw : public COSDFader, public CComponentsSignals
+ {
+ 	protected:
+ 		///pixel buffer handling, returns pixel buffer depends of given parameters
+@@ -294,6 +295,11 @@ class CCDraw : public COSDFader
+ 		///paint item, same like paint(CC_SAVE_SCREEN_NO) but without any argument
+ 		virtual void paint0(){paint(CC_SAVE_SCREEN_NO);}
+ 
++		///signal on before paint fb layers, called inside paintFbItems()
++		sigc::signal<void> OnBeforePaintLayers;
++		///signal on after paint fb layers, called inside paintFbItems()
++		sigc::signal<void> OnAfterPaintLayers;
++
+ 		/*!
+ 		 Removes current item from screen and
+ 		 restore last displayed background before item was painted and
+-- 
+2.1.4
+

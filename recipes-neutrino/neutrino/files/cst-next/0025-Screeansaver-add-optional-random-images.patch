@@ -1,0 +1,165 @@
+From ff667dfef30163ab2a29ad6b316ee9629a3d1119 Mon Sep 17 00:00:00 2001
+From: Thilo Graf <dbt@novatux.de>
+Date: Sun, 27 Dec 2015 19:46:14 +0100
+Subject: [PATCH 25/25] Screeansaver: add optional random images
+
+---
+ data/locale/deutsch.locale | 2 ++
+ data/locale/english.locale | 2 ++
+ src/gui/osd_setup.cpp      | 6 ++++++
+ src/gui/screensaver.cpp    | 6 +++++-
+ src/neutrino.cpp           | 2 ++
+ src/system/locals.h        | 2 ++
+ src/system/locals_intern.h | 2 ++
+ src/system/settings.h      | 1 +
+ 8 files changed, 22 insertions(+), 1 deletion(-)
+
+diff --git a/data/locale/deutsch.locale b/data/locale/deutsch.locale
+index 81fbb79..182b19f 100644
+--- a/data/locale/deutsch.locale
++++ b/data/locale/deutsch.locale
+@@ -1344,6 +1344,7 @@ menu.hint_scrambled_message Bei aktivierter Option erscheint eine Meldung, wenn
+ menu.hint_screen_setup Konfigurieren Sie den Bildschirmbereich für die Menüanzeige
+ menu.hint_screensaver_delay Legen sie die Zeit (in Minuten) fest, nach der der Bildschirmschoner starten soll oder schaltet ihn aus
+ menu.hint_screensaver_dir Wählen Sie das Verzeichnis, in dem die Bilder für Ihren Bildschirmschoner gespeichert sind
++menu.hint_screensaver_random Aktviere/deaktiviere zufällige Bilderauswahl.
+ menu.hint_screensaver_timeout Wählen Sie Die Wartezeit bis zum Bilderwechsel des Bildschirmschoners
+ menu.hint_screensaver_setup Konfigurieren Sie die Optionen des Bildschirmschoners für den Audioplayer und den Radio-Modus
+ menu.hint_screenshot_count Wählen Sie, wie viele Screenshots erstellt werden sollen
+@@ -2145,6 +2146,7 @@ screensaver.delay Verzögerung
+ screensaver.dir Verzeichnis
+ screensaver.menu Bildschirmschoner
+ screensaver.off Bildschirmschoner aus
++screensaver.random Zufällige Bilderwahl
+ screensaver.timeout Bilderwechsel
+ screensetup.lowerright grün = Bildrand unten, rechts
+ screensetup.upperleft rot = Bildrand oben, links
+diff --git a/data/locale/english.locale b/data/locale/english.locale
+index 160a184..020747d 100644
+--- a/data/locale/english.locale
++++ b/data/locale/english.locale
+@@ -1344,6 +1344,7 @@ menu.hint_scrambled_message Show scrambled message, when channel cannot be decod
+ menu.hint_screen_setup Configure screen margins
+ menu.hint_screensaver_delay Set the time (in minutes) after which the screensaver has to start or turn it off
+ menu.hint_screensaver_dir Select directory in which the screensaver has to start
++menu.hint_screensaver_random Enable/disable random image selection.
+ menu.hint_screensaver_timeout Select the timeout to change pictures in screensavers
+ menu.hint_screensaver_setup Configure screensaver options for audioplayer and radio mode
+ menu.hint_screenshot_count When no GUI on screen, you can save 1-5\nscreenshot serie
+@@ -2145,6 +2146,7 @@ screensaver.delay Delay
+ screensaver.dir Directory
+ screensaver.menu Screensaver
+ screensaver.off Screensaver off
++screensaver.random Random Images
+ screensaver.timeout Change pictures
+ screensetup.lowerright green = setup lower right
+ screensetup.upperleft red = setup upper left
+diff --git a/src/gui/osd_setup.cpp b/src/gui/osd_setup.cpp
+index 74857f1..d96303e 100644
+--- a/src/gui/osd_setup.cpp
++++ b/src/gui/osd_setup.cpp
+@@ -1442,6 +1442,12 @@ void COsdSetup::showOsdScreensaverSetup(CMenuWidget *menu_screensaver)
+ 	mf->setHint("", LOCALE_MENU_HINT_SCREENSAVER_DIR);
+ 	menu_screensaver->addItem(mf);
+ 	screensaverNotifier->addItem(mf);
++
++	// screensaver random mode
++	CMenuOptionChooser* oc = new CMenuOptionChooser(LOCALE_SCREENSAVER_RANDOM, &g_settings.screensaver_random, OPTIONS_OFF0_ON1_OPTIONS, OPTIONS_OFF0_ON1_OPTION_COUNT, true);
++	oc->setHint("", LOCALE_MENU_HINT_SCREENSAVER_RANDOM);
++	menu_screensaver->addItem(oc);
++	screensaverNotifier->addItem(oc);
+ }
+ 
+ void COsdSetup::paintWindowSize(int w, int h)
+diff --git a/src/gui/screensaver.cpp b/src/gui/screensaver.cpp
+index a3a3c8e..c718b1d 100644
+--- a/src/gui/screensaver.cpp
++++ b/src/gui/screensaver.cpp
+@@ -234,7 +234,11 @@ void CScreenSaver::PaintPicture()
+ 	dprintf(DEBUG_INFO, "[CScreenSaver]  %s - %d : %s\n",  __func__, __LINE__, v_bg_files.at(index).c_str());
+ 	m_viewer->ShowImage(v_bg_files.at(index).c_str(), false /*unscaled*/);
+ 
+-	index++;
++	if (!g_settings.screensaver_random)
++		index++;
++	else
++		index = rand() % v_bg_files.size();
++
+ 	if(index ==  v_bg_files.size())
+ 		index = 0;
+ }
+diff --git a/src/neutrino.cpp b/src/neutrino.cpp
+index 4b087eb..1067b98 100644
+--- a/src/neutrino.cpp
++++ b/src/neutrino.cpp
+@@ -513,6 +513,7 @@ int CNeutrinoApp::loadSetup(const char * fname)
+ 	g_settings.screensaver_delay = configfile.getInt32("screensaver_delay", 1);
+ 	g_settings.screensaver_dir = configfile.getString("screensaver_dir", ICONSDIR);
+ 	g_settings.screensaver_timeout = configfile.getInt32("screensaver_timeout", 10);
++	g_settings.screensaver_random = configfile.getInt32("screensaver_random", false);
+ 
+ 	//vcr
+ 	g_settings.vcr_AutoSwitch = configfile.getBool("vcr_AutoSwitch"       , true );
+@@ -1049,6 +1050,7 @@ void CNeutrinoApp::saveSetup(const char * fname)
+ 	configfile.setInt32("screensaver_delay", g_settings.screensaver_delay);
+ 	configfile.setString("screensaver_dir", g_settings.screensaver_dir);
+ 	configfile.setInt32("screensaver_timeout", g_settings.screensaver_timeout);
++	configfile.setInt32("screensaver_random", g_settings.screensaver_random);
+ 
+ 	//vcr
+ 	configfile.setBool("vcr_AutoSwitch"       , g_settings.vcr_AutoSwitch       );
+diff --git a/src/system/locals.h b/src/system/locals.h
+index 52a6f9a..a5dbcbc 100644
+--- a/src/system/locals.h
++++ b/src/system/locals.h
+@@ -1371,6 +1371,7 @@ typedef enum
+ 	LOCALE_MENU_HINT_SCREEN_SETUP,
+ 	LOCALE_MENU_HINT_SCREENSAVER_DELAY,
+ 	LOCALE_MENU_HINT_SCREENSAVER_DIR,
++	LOCALE_MENU_HINT_SCREENSAVER_RANDOM,
+ 	LOCALE_MENU_HINT_SCREENSAVER_TIMEOUT,
+ 	LOCALE_MENU_HINT_SCREENSAVER_SETUP,
+ 	LOCALE_MENU_HINT_SCREENSHOT_COUNT,
+@@ -2172,6 +2173,7 @@ typedef enum
+ 	LOCALE_SCREENSAVER_DIR,
+ 	LOCALE_SCREENSAVER_MENU,
+ 	LOCALE_SCREENSAVER_OFF,
++	LOCALE_SCREENSAVER_RANDOM,
+ 	LOCALE_SCREENSAVER_TIMEOUT,
+ 	LOCALE_SCREENSETUP_LOWERRIGHT,
+ 	LOCALE_SCREENSETUP_UPPERLEFT,
+diff --git a/src/system/locals_intern.h b/src/system/locals_intern.h
+index 0cab6e8..5a0fdca 100644
+--- a/src/system/locals_intern.h
++++ b/src/system/locals_intern.h
+@@ -1371,6 +1371,7 @@ const char * locale_real_names[] =
+ 	"menu.hint_screen_setup",
+ 	"menu.hint_screensaver_delay",
+ 	"menu.hint_screensaver_dir",
++	"menu.hint_screensaver_random",
+ 	"menu.hint_screensaver_timeout",
+ 	"menu.hint_screensaver_setup",
+ 	"menu.hint_screenshot_count",
+@@ -2172,6 +2173,7 @@ const char * locale_real_names[] =
+ 	"screensaver.dir",
+ 	"screensaver.menu",
+ 	"screensaver.off",
++	"screensaver.random",
+ 	"screensaver.timeout",
+ 	"screensetup.lowerright",
+ 	"screensetup.upperleft",
+diff --git a/src/system/settings.h b/src/system/settings.h
+index 775a110..5615262 100644
+--- a/src/system/settings.h
++++ b/src/system/settings.h
+@@ -240,6 +240,7 @@ struct SNeutrinoSettings
+ 	int screensaver_delay;
+ 	std::string screensaver_dir;
+ 	int screensaver_timeout;
++	int screensaver_random;
+ 
+ 	//vcr
+ 	int vcr_AutoSwitch;
+-- 
+2.1.4
+

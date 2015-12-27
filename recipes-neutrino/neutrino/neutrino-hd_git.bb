@@ -78,6 +78,8 @@ SRC_URI = "git://git.slknet.de/git/cst-public-gui-neutrino.git;branch=cst-next \
 	file://cst-next/0021-CInfoViewerBB-try-to-fix-missing-sys-scales-in-infov.patch \
 	file://cst-next/0022-CStreamInfo2-try-to-fix-wrong-text-colors.patch \
 	file://cst-next/0023-CPersonalizeGui-try-to-fix-wrong-active-mode-after-c.patch \
+	file://cst-next/0024-CCDraw-add-signals-into-paintFbItems.patch \
+	file://cst-next/0025-Screeansaver-add-optional-random-images.patch \
 	file://update-olive.theme.patch \
 	file://0015-acinclude-fix-DVB_API_VERSION-check-for-gcc5.patch \
 	file://0016-dont-install-undotum.ttf-to-shrink-size.patch \
