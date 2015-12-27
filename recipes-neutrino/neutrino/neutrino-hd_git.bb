@@ -76,6 +76,8 @@ SRC_URI = "git://git.slknet.de/git/cst-public-gui-neutrino.git;branch=cst-next \
 	file://cst-next/0019-CCDraw-try-to-separate-parameter-paint_bg-from-shado.patch \
 	file://cst-next/0020-CInfoClock-remove-shadow-in-transparent-mode.patch \
 	file://cst-next/0021-CInfoViewerBB-try-to-fix-missing-sys-scales-in-infov.patch \
+	file://cst-next/0022-CStreamInfo2-try-to-fix-wrong-text-colors.patch \
+	file://cst-next/0023-CPersonalizeGui-try-to-fix-wrong-active-mode-after-c.patch \
 	file://update-olive.theme.patch \
 	file://0015-acinclude-fix-DVB_API_VERSION-check-for-gcc5.patch \
 	file://0016-dont-install-undotum.ttf-to-shrink-size.patch \
