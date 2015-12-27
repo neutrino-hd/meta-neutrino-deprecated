@@ -7,19 +7,18 @@ LIC_FILES_CHKSUM = "file://tmux.c;startline=3;endline=17;md5=75758f698fa88e72927
 
 DEPENDS = "ncurses libevent sed"
 
-SRC_URI = "${SOURCEFORGE_MIRROR}/tmux/${P}.tar.gz \
+SRC_URI = "git://github.com/tmux/tmux.git;branch=master \
 	   file://tmux.sh \
 	   file://tmux.conf \	
 "
 
-SRC_URI[md5sum] = "9fb6b443392c3978da5d599f1e814eaa"
-SRC_URI[sha256sum] = "795f4b4446b0ea968b9201c25e8c1ef8a6ade710ebca4657dd879c35916ad362"
+SRCREV = "${AUTOREV}"
+PV = "${SRCPV}"
+PR = "1"
+
+S = "${WORKDIR}/git"
 
 inherit autotools-brokensep pkgconfig
-
-do_configure_prepend () {
-    sed -i -e 's:-I/usr/local/include::' ${S}/Makefile.am || bb_fatal "sed failed"
-}
 
 do_install_append () {
 	install -d ${D}/${bindir} ${D}${sysconfdir}/
