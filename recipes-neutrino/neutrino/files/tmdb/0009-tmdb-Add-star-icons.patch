@@ -1,0 +1,129 @@
+From 3e4a3a8d068997b3533066fd0430fd3ea6abcf71 Mon Sep 17 00:00:00 2001
+From: "M. Liebmann" <tuxcode.bbg@gmail.com>
+Date: Tue, 29 Dec 2015 20:21:08 +0100
+Subject: [PATCH 9/9] tmdb: Add star icons
+
+---
+ data/icons/Makefile.am  |   2 ++
+ data/icons/star-off.png | Bin 0 -> 1152 bytes
+ data/icons/star-on.png  | Bin 0 -> 1198 bytes
+ src/gui/epgview.cpp     |   6 +++---
+ src/gui/widget/icons.h  |   2 ++
+ 5 files changed, 7 insertions(+), 3 deletions(-)
+ create mode 100644 data/icons/star-off.png
+ create mode 100644 data/icons/star-on.png
+
+diff --git a/data/icons/Makefile.am b/data/icons/Makefile.am
+index 3224dad..baa5676 100644
+--- a/data/icons/Makefile.am
++++ b/data/icons/Makefile.am
+@@ -242,6 +242,8 @@ install_DATA += \
+ 	shell.png \
+ 	shutdown.jpg \
+ 	softupdate.png \
++	star-off.png \
++	star-on.png \
+ 	start.jpg \
+ 	streaming.png \
+ 	subt.png \
+diff --git a/data/icons/star-off.png b/data/icons/star-off.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..00c712308da5d3093351997cd186f9cec901b781
+GIT binary patch
+literal 1152
+zcmV-`1b_R9P)<h;3K|Lk000e1NJLTq000&M000&U1^@s6#I$TX0000PbVXQnQ*UN;
+zcVTj606}DLVr3vnZDD6+Qe|Oed2z{QJOBU$B1uF+RCwB)Ra;0SXB0k}OuR+oU4pWT
+z4O+oVMWaI5uEAI;m1Whyx+w_Ws;t6dr4QnR2+f0nXeA1HC@3Q8Q&$vyP;u9X6>8%{
+z@e)xKFIX=SwNcR|>hzo+W_H|eYuOKeX6C<q=lth<=ZwN+GJ#&Nho+_`I6FIo>+5Ua
+zI1c3S_4S4R{{A0tZ*Tpps;Yi+yWP^7LZJYh2aQGpo12@^($WH2trmDWL2z&|sMTr^
+z1c4nO(7TV14~&eARH0E-LqmfF4GH2IBIS9W8Na)`leq2?6A5jcoScO7^K<4o4Sd%J
+z1_tVaf`XJC9UZy&d`o+8Zf+nVA_9twi{V53gIK9lGVA{S{>*E-L0@0r^P-|66&YDr
+zSa?=ZQStWj@{$o}W@fUz|4B?63HkZ?(%iwpLD1ph;nT9RGG@qbx4(#tjI`wB<T%AW
+z6mxP$4h|l`%F4>)&k=NxVjUhHuEiwfK6H)|f2aaECMG6|OG`@?;y0-XbMW+IdsQmc
+z`%oZhjK|~Q*4EZk6pE9R6X@;jRUp}CTU%RNr_=d7EiFwtkeZqbIA^k2t?!bOk{oey
+zaercN6qK9Y-CgkW^YdcJ1R|K8o0~J>CO$qs9zsJyAuKG6B~gqwk;$>Nv;<RAQ<B`a
+zx3^($Z;vG($%XXv^mi~nKcAAEoNTYGtQ1hEpFF%?uTWlIE}(<<nVFd{IF!?}#bWsy
+zwfefNs|!9AH8nMW5`5j-+WHM@{tpf<(G^ZRJ3C*XtgN&_l->UUg`%#m4gvxKtZi*=
+zW}I>oCnxF`wdiSYZ-0e?e~EGRxLmFWNvS%GMxzHq`Lesa`xO$pMW;BjNET=iYHMq4
+z1qB7>>gsA2CF9>fYuJ$fDl9DguD-tBM#-k0L6W0F;<1WY^9TtEkq%)3mM$(Xq(<~H
+z&>E`c4nr_c-_z66aD03W>+9=GSzL5<G^=+xF<$Y@l#~?BL!n4WNC@5E-+w~yS65f8
+zJ7#5NK~z)}a6>~wFgQ2}!^6YU0o1iIJ3IRx$;QS8>$h@H;o!}lh*c+sg9?SmW^!*c
+zUPX-!-w+!c%f2a00|NuFxVZQ`>Q#yH&nPJ=VWH6Jbbub`VI`_EGBUjKoN(0s#6ehH
+zT}?ylTC$9tje3I{NjsXGn{)B+kUKj&`?J|>zC|+D(Xb^vayT3bavmCdOiT>O+aG$H
+zg&j<V(u2{_Q3pQj6B85P&@YR;Z)|M*0f}bv^76W|(sY=7_0iFh-e54SV$XT+F?lA+
+zgn%V(7#|;p)6>%)o6YtWCg=?%hDd3UaqOZKxb}EwXXlr(u`$3~d`oIrUS5_4FE(fj
+zJQl?xJRH)~(__LI|4RLrNaeDlIMN)->=1uR-(v!QLl{w28dR8z>VojM00RIiT2Aq(
+S5TZT+0000<MNUMnLSTYc4Hx_X
+
+literal 0
+HcmV?d00001
+
+diff --git a/data/icons/star-on.png b/data/icons/star-on.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..c05d25e8c8ab114390cfdb144141d6c6c1f7acb5
+GIT binary patch
+literal 1198
+zcmV;f1X25mP)<h;3K|Lk000e1NJLTq000&M000&U1^@s6#I$TX0000PbVXQnQ*UN;
+zcVTj606}DLVr3vnZDD6+Qe|Oed2z{QJOBU$P)S5VRCwB?ReMOAR}??r=a-kp$C^Z3
+zGK@1d$*{Gt>S8IZVLlqjx+%Izq#Ln1`bXB`A7!;IxPTT6%GOZ@VNfkN9~%_0D7Z?8
+zf7Gd?2yIo+shcB;ql)BV-hMmx8%a#J5w;z;<bL;_^E)@^{LVR4O-&6H7Z*cIOAGAp
+z?}N|h1DdAcs0aiC=<n};5Dtfv8yg$T{C<D*j-n{Qb4W`|gSE9aXl-qUtgI|xjsm2o
+zr$b6g3a~8884w|RKA#W6!^4&6lxl8nrqR)1#D;(}48u7;Jd7U40}~LUI59B+E|-gY
+zIa#>>P%IYnQ&Ur+tE=l%{Jl+dL!l5zrBbM_u7;Q8FThDjNt}0)NW{IG{DZ!}zE7&E
+zsyHX}^Yb4yG&J1ycsv|%QBe`6`;WkWf9$fnJf^U{z5J@z`<t$*=|1<pxA)d5nM{_a
+z*PmaF*+zD=Q9BwE$l~H+lfjV6M{@!J3I&hGBz>I7jst#~1xICke7wH4c02lg;ldWl
+zLG|D1@_4*hC=j$L5C||E8w)}bv%S4N=;`U9>+0&>Twh;*T_E^DBNji48j!s}a7=aQ
+zPTM`LR{Nt;sa(R`P$V~-o4<lkDD+`&4k-lKot~aPrqik6%$W?3%NfYbq|rOe0hN|+
+zLUQu6xR)IqoP@`Zv$=gJM8Wgt0eJGn1#UM1-vpgb=Y*M=nX3H!d{0~3yR6SA{2wcY
+zwOA}H{tM64)YSVl(rL84z5T?C7lGd&Ju<<66}!C*kb+w_n@xwD|Bem@gM_~uSFe7p
+z+S&?k+`3gk((o@Jlc2M+5@a%Vy`!V!4Ln#SnDn1<3gJbb`{Kp#bEVSqA%h_woxPF}
+zl4aAtU^t06I5%|Z(nA#jItdoXG*ZIELqslLzE*EE8au7l6Ko=2tMwFXGMT!p)|>Sl
+z#js}(%8`ntv5Fu!H#g1z6Y%itS#iP_S5&0oYm>i;*4^wZDJW#k0nl=}oU8Yvf=%ax
+z)2G8!B4DjHNI4u1%hB#wQc{9+%>;UIa1aIt2I35m*Key-8*yiTzZwF8ytuQR90zjO
+zT^3Cv76}Ol;WDGw>*JJHR^~JJ_irfq{9mG3Us$L_XJN0)#ZqRoQh5CM6n7&M{R|FA
+zmU?%0Em<N_9TXN8#(D*5e`G~uX=&*_Oh6Jq5PP!%ES6HZdsq5XUENo&Su9`VV5?ra
+za^)O0bs5)`uqE)9mzTL$N3h6Z6bc0gh+eS|h;cj(86^@468<`jj*j~6_G{PGYW0_7
+zWRVGBGTAi<WGgJZdBbA)oF|j5!p_dlI}GD~AeRSXO^C!KGP{UiiI+}JPJ-ENe%jmH
+zTZ@TU^?JSB5Fo(Vut1~H*zoTD$jHdIV`F0)v^A12V7z0%WLiW5?{qr#Xe{dP?(WRa
+z&i;(dIszJT8ksWW3~BZhN0PRnpy1xz+?*jJBSV1<bC9|q@`nHe08HrsxQmRl!~g&Q
+M07*qoM6N<$f|=qq#{d8T
+
+literal 0
+HcmV?d00001
+
+diff --git a/src/gui/epgview.cpp b/src/gui/epgview.cpp
+index 25c6244..283a960 100644
+--- a/src/gui/epgview.cpp
++++ b/src/gui/epgview.cpp
+@@ -280,12 +280,12 @@ void CEpgData::showText( int startPos, int ypos, bool cover, bool fullClear)
+ 
+ 	if (stars > 0 && startPos == 0){
+ 		int icon_w,icon_h;
+-		frameBuffer->getIconSize(ICONSDIR"/star-off.png", &icon_w, &icon_h);
++		frameBuffer->getIconSize(NEUTRINO_ICON_STAR_OFF, &icon_w, &icon_h);
+ 		for (int i=1; i < 11;i++) {
+-			frameBuffer->paintIcon(ICONSDIR"/star-off.png", sx+3+cover_offset+i*icon_w+3, ypos+3);
++			frameBuffer->paintIcon(NEUTRINO_ICON_STAR_OFF, sx+3+cover_offset+i*icon_w+3, ypos+3);
+ 		}
+ 		for (int i=1; i < stars+1;i++) {
+-			frameBuffer->paintIcon(ICONSDIR"/star-on.png", sx+3+cover_offset+i*icon_w+3, ypos+3);
++			frameBuffer->paintIcon(NEUTRINO_ICON_STAR_ON, sx+3+cover_offset+i*icon_w+3, ypos+3);
+ 		}
+ 	}
+ 
+diff --git a/src/gui/widget/icons.h b/src/gui/widget/icons.h
+index 60e2cf9..0810569 100644
+--- a/src/gui/widget/icons.h
++++ b/src/gui/widget/icons.h
+@@ -178,6 +178,8 @@
+ #define NEUTRINO_ICON_RECORDING_EVENT_MARKER	"rec_event_marker"
+ #define NEUTRINO_ICON_ZAP		"zap"
+ #define NEUTRINO_ICON_PIP		"pip"
++#define NEUTRINO_ICON_STAR_ON		"star-on"
++#define NEUTRINO_ICON_STAR_OFF		"star-off"
+ 
+ #define DUMMY_ICON			"dummy"
+ 
+-- 
+2.6.4
+
