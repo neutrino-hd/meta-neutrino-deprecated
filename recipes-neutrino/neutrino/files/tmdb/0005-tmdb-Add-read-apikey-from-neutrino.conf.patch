@@ -1,7 +1,7 @@
-From 7cf83c5cef5aab834e8e93cae6f3009bbcd22bae Mon Sep 17 00:00:00 2001
+From 6d7001d97b42a646cf95f75183fdfad93cb7a4f7 Mon Sep 17 00:00:00 2001
 From: bazi98 <bazi98@web.de>
 Date: Sun, 27 Dec 2015 15:10:31 +0100
-Subject: [PATCH] tmdb: Add read apikey from neutrino.conf
+Subject: [PATCH 5/8] tmdb: Add read apikey from neutrino.conf
 
 ---
  src/gui/tmdb.cpp      | 20 +++++++-------------
@@ -11,7 +11,7 @@ Subject: [PATCH] tmdb: Add read apikey from neutrino.conf
  4 files changed, 11 insertions(+), 14 deletions(-)
 
 diff --git a/src/gui/tmdb.cpp b/src/gui/tmdb.cpp
-index 4ade62b..d3ae2da 100644
+index 2dc19a4..0f7096e 100644
 --- a/src/gui/tmdb.cpp
 +++ b/src/gui/tmdb.cpp
 @@ -49,10 +49,6 @@
@@ -58,19 +58,19 @@ index 4ade62b..d3ae2da 100644
  	if (!getUrl(url, answer))
  		return false;
 @@ -224,7 +218,7 @@ bool cTmdb::GetMovieDetails()
- 	    minfo.id = elements[0].get("id",-1).asInt();
+ 		minfo.id = elements[0].get("id",-1).asInt();
  		minfo.media_type = elements[0].get("media_type","").asString();
  		if (minfo.id > -1) {
--				url	= "http://api.themoviedb.org/3/"+minfo.media_type+"/"+to_string(minfo.id)+"?api_key="+random_API_KEY()+"&language=de&append_to_response=credits";
-+				url	= "http://api.themoviedb.org/3/"+minfo.media_type+"/"+to_string(minfo.id)+"?api_key="+key+"&language=de&append_to_response=credits";
- 				answer.clear();
- 				if (!getUrl(url, answer))
- 					return false;
+-			url	= "http://api.themoviedb.org/3/"+minfo.media_type+"/"+to_string(minfo.id)+"?api_key="+random_API_KEY()+"&language=de&append_to_response=credits";
++			url = "http://api.themoviedb.org/3/"+minfo.media_type+"/"+to_string(minfo.id)+"?api_key="+key+"&language=de&append_to_response=credits";
+ 			answer.clear();
+ 			if (!getUrl(url, answer))
+ 				return false;
 diff --git a/src/gui/tmdb.h b/src/gui/tmdb.h
-index 4104c52..53704b0 100644
+index 2e5e82a..fc7d841 100644
 --- a/src/gui/tmdb.h
 +++ b/src/gui/tmdb.h
-@@ -59,7 +59,7 @@ class cTmdb
+@@ -58,7 +58,7 @@ class cTmdb
  		static size_t CurlWriteToString(void *ptr, size_t size, size_t nmemb, void *data);
  		std::string encodeUrl(std::string txt);
  		std::string decodeUrl(std::string url);
@@ -80,10 +80,10 @@ index 4104c52..53704b0 100644
  		bool DownloadUrl(std::string url, std::string file, CURL *_curl_handle = NULL);
  		bool GetMovieDetails();
 diff --git a/src/neutrino.cpp b/src/neutrino.cpp
-index 0ac14bd..56bea60 100644
+index 0828adc..a95597b 100644
 --- a/src/neutrino.cpp
 +++ b/src/neutrino.cpp
-@@ -806,6 +806,7 @@ int CNeutrinoApp::loadSetup(const char * fname)
+@@ -810,6 +810,7 @@ int CNeutrinoApp::loadSetup(const char * fname)
  	//Movie-Player
  	g_settings.movieplayer_repeat_on = configfile.getInt32("movieplayer_repeat_on", CMoviePlayerGui::REPEAT_OFF);
  	g_settings.youtube_dev_id = configfile.getString("youtube_dev_id","XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
@@ -91,7 +91,7 @@ index 0ac14bd..56bea60 100644
  
  	//Filebrowser
  	g_settings.filebrowser_showrights =  configfile.getInt32("filebrowser_showrights", 1);
-@@ -1274,6 +1275,7 @@ void CNeutrinoApp::saveSetup(const char * fname)
+@@ -1282,6 +1283,7 @@ void CNeutrinoApp::saveSetup(const char * fname)
  	//Movie-Player
  	configfile.setInt32( "movieplayer_repeat_on", g_settings.movieplayer_repeat_on );
  	configfile.setString( "youtube_dev_id", g_settings.youtube_dev_id );
@@ -100,10 +100,10 @@ index 0ac14bd..56bea60 100644
  	//Filebrowser
  	configfile.setInt32("filebrowser_showrights", g_settings.filebrowser_showrights);
 diff --git a/src/system/settings.h b/src/system/settings.h
-index 737abcd..518cda1 100644
+index 594f885..4ac2a67 100644
 --- a/src/system/settings.h
 +++ b/src/system/settings.h
-@@ -705,6 +705,7 @@ struct SNeutrinoSettings
+@@ -710,6 +710,7 @@ struct SNeutrinoSettings
  	//movieplayer
  	int   movieplayer_repeat_on;
  	std::string youtube_dev_id;

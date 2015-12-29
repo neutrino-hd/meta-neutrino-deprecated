@@ -1,7 +1,7 @@
-From c31a4dd40f5113b77ed038877649a0c19887e67e Mon Sep 17 00:00:00 2001
+From 4eec37be2a70c28bcde0bf48da1f102c435a1cbd Mon Sep 17 00:00:00 2001
 From: "M. Liebmann" <tuxcode.bbg@gmail.com>
 Date: Wed, 25 Nov 2015 08:50:19 +0100
-Subject: [PATCH 4/5] tmdb: Suppress cover flickering when scrolling
+Subject: [PATCH 4/8] tmdb: Suppress cover flickering when scrolling
 
 ---
  src/gui/epgview.cpp | 16 ++++++++++------
@@ -9,7 +9,7 @@ Subject: [PATCH 4/5] tmdb: Suppress cover flickering when scrolling
  2 files changed, 11 insertions(+), 7 deletions(-)
 
 diff --git a/src/gui/epgview.cpp b/src/gui/epgview.cpp
-index 9a5174d..d907f76 100644
+index 02bce94..25c6244 100644
 --- a/src/gui/epgview.cpp
 +++ b/src/gui/epgview.cpp
 @@ -219,7 +219,7 @@ void CEpgData::processTextToArray(std::string text, int screening) // UTF-8

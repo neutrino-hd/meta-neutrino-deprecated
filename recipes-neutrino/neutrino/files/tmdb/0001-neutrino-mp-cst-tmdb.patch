@@ -1,16 +1,16 @@
-From b407310d143ae9aaa4ee74f9b1d49a21eb3fa411 Mon Sep 17 00:00:00 2001
+From cb932db36f804565e7cda7740d4559a5a99953bf Mon Sep 17 00:00:00 2001
 From: TangoCash <eric@loxat.de>
 Date: Tue, 24 Nov 2015 18:24:02 +0100
-Subject: [PATCH 1/5] neutrino-mp cst tmdb
+Subject: [PATCH 1/8] neutrino-mp cst tmdb
 
 ---
  src/gui/Makefile.am      |   2 +
  src/gui/epgview.cpp      |  74 ++++++++--
  src/gui/epgview.h        |   5 +-
- src/gui/moviebrowser.cpp |  30 ++++
- src/gui/tmdb.cpp         | 346 +++++++++++++++++++++++++++++++++++++++++++++++
+ src/gui/moviebrowser.cpp |  30 +++++
+ src/gui/tmdb.cpp         | 345 +++++++++++++++++++++++++++++++++++++++++++++++
  src/gui/tmdb.h           |  84 ++++++++++++
- 6 files changed, 532 insertions(+), 9 deletions(-)
+ 6 files changed, 531 insertions(+), 9 deletions(-)
  create mode 100644 src/gui/tmdb.cpp
  create mode 100644 src/gui/tmdb.h
 
@@ -35,7 +35,7 @@ index fb5f20e..7f6d384 100644
  	update_ext.cpp \
  	update_menue.cpp \
 diff --git a/src/gui/epgview.cpp b/src/gui/epgview.cpp
-index 97deca9..9a5174d 100644
+index 97deca9..02bce94 100644
 --- a/src/gui/epgview.cpp
 +++ b/src/gui/epgview.cpp
 @@ -47,6 +47,8 @@
@@ -102,7 +102,7 @@ index 97deca9..9a5174d 100644
 +
 +	if (stars > 0 && startPos == 0){
 +		int icon_w,icon_h;
-+		frameBuffer->getIconSize(ICONSDIR"/star-off.png", &icon_w, &icon_h); 
++		frameBuffer->getIconSize(ICONSDIR"/star-off.png", &icon_w, &icon_h);
 +		for (int i=1; i < 11;i++) {
 +			frameBuffer->paintIcon(ICONSDIR"/star-off.png", sx+3+cover_offset+i*icon_w+3, ypos+3);
 +		}
@@ -295,27 +295,27 @@ index 590c5ed..94d9da1 100644
  	else
 diff --git a/src/gui/tmdb.cpp b/src/gui/tmdb.cpp
 new file mode 100644
-index 0000000..25b4835
+index 0000000..688ecac
 --- /dev/null
 +++ b/src/gui/tmdb.cpp
-@@ -0,0 +1,346 @@
+@@ -0,0 +1,345 @@
 +/*
-+        Copyright (C) 2015 TangoCash
++	Copyright (C) 2015 TangoCash
 +
-+        License: GPLv2
++	License: GPLv2
 +
-+        This program is free software; you can redistribute it and/or modify
-+        it under the terms of the GNU General Public License as published by
-+        the Free Software Foundation;
++	This program is free software; you can redistribute it and/or modify
++	it under the terms of the GNU General Public License as published by
++	the Free Software Foundation;
 +
-+        This program is distributed in the hope that it will be useful,
-+        but WITHOUT ANY WARRANTY; without even the implied warranty of
-+        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+        GNU General Public License for more details.
++	This program is distributed in the hope that it will be useful,
++	but WITHOUT ANY WARRANTY; without even the implied warranty of
++	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++	GNU General Public License for more details.
 +
-+        You should have received a copy of the GNU General Public License
-+        along with this program; if not, write to the Free Software
-+        Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
++	You should have received a copy of the GNU General Public License
++	along with this program; if not, write to the Free Software
++	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 +*/
 +
 +
@@ -388,13 +388,13 @@ index 0000000..25b4835
 +		std::string* pStr = (std::string*) data;
 +		pStr->append((char*) ptr, nmemb);
 +	}
-+        return size*nmemb;
++	return size*nmemb;
 +}
 +
 +std::string cTmdb::decodeUrl(std::string url)
 +{
 +	char * str = curl_easy_unescape(curl_handle, url.c_str(), 0, NULL);
-+	if(str)
++	if (str)
 +		url = str;
 +	curl_free(str);
 +	return url;
@@ -403,7 +403,7 @@ index 0000000..25b4835
 +std::string cTmdb::encodeUrl(std::string txt)
 +{
 +	char * str = curl_easy_escape(curl_handle, txt.c_str(), txt.length());
-+	if(str)
++	if (str)
 +		txt = str;
 +	curl_free(str);
 +	return txt;
@@ -423,9 +423,9 @@ index 0000000..25b4835
 +	curl_easy_setopt(_curl_handle, CURLOPT_NOSIGNAL, (long)1);
 +	curl_easy_setopt(_curl_handle, CURLOPT_SSL_VERIFYPEER, false);
 +
-+	if(!g_settings.softupdate_proxyserver.empty()) {
++	if (!g_settings.softupdate_proxyserver.empty()) {
 +		curl_easy_setopt(_curl_handle, CURLOPT_PROXY, g_settings.softupdate_proxyserver.c_str());
-+		if(!g_settings.softupdate_proxyusername.empty()) {
++		if (!g_settings.softupdate_proxyusername.empty()) {
 +			std::string tmp = g_settings.softupdate_proxyusername + ":" + g_settings.softupdate_proxypassword;
 +			curl_easy_setopt(_curl_handle, CURLOPT_PROXYUSERPWD, tmp.c_str());
 +		}
@@ -464,9 +464,9 @@ index 0000000..25b4835
 +	curl_easy_setopt(_curl_handle, CURLOPT_NOSIGNAL, (long)1);
 +	curl_easy_setopt(_curl_handle, CURLOPT_SSL_VERIFYPEER, false);
 +
-+	if(!g_settings.softupdate_proxyserver.empty()) {
++	if (!g_settings.softupdate_proxyserver.empty()) {
 +		curl_easy_setopt(_curl_handle, CURLOPT_PROXY, g_settings.softupdate_proxyserver.c_str());
-+		if(!g_settings.softupdate_proxyusername.empty()) {
++		if (!g_settings.softupdate_proxyusername.empty()) {
 +			std::string tmp = g_settings.softupdate_proxyusername + ":" + g_settings.softupdate_proxypassword;
 +			curl_easy_setopt(_curl_handle, CURLOPT_PROXYUSERPWD, tmp.c_str());
 +		}
@@ -522,60 +522,60 @@ index 0000000..25b4835
 +
 +	if (minfo.result > 0) {
 +		Json::Value elements = root["results"];
-+	    minfo.id = elements[0].get("id",-1).asInt();
++		minfo.id = elements[0].get("id",-1).asInt();
 +		minfo.media_type = elements[0].get("media_type","").asString();
 +		if (minfo.id > -1) {
-+				url	= "http://api.themoviedb.org/3/"+minfo.media_type+"/"+to_string(minfo.id)+"?api_key="+random_API_KEY()+"&language=de&append_to_response=credits";
-+				answer.clear();
-+				if (!getUrl(url, answer))
-+					return false;
-+				parsedSuccess = reader.parse(answer, root, false);
-+				if (!parsedSuccess) {
-+					printf("Failed to parse JSON\n");
-+					printf("%s\n", reader.getFormattedErrorMessages().c_str());
-+					return false;
-+				}
++			url	= "http://api.themoviedb.org/3/"+minfo.media_type+"/"+to_string(minfo.id)+"?api_key="+random_API_KEY()+"&language=de&append_to_response=credits";
++			answer.clear();
++			if (!getUrl(url, answer))
++				return false;
++			parsedSuccess = reader.parse(answer, root, false);
++			if (!parsedSuccess) {
++				printf("Failed to parse JSON\n");
++				printf("%s\n", reader.getFormattedErrorMessages().c_str());
++				return false;
++			}
 +
-+				minfo.overview = root.get("overview","").asString();
-+				minfo.poster_path = root.get("poster_path","").asString();
-+				minfo.original_title = root.get("original_title","").asString();;
-+				minfo.release_date = root.get("release_date","").asString();;
-+				minfo.vote_average = root.get("vote_average","").asString();;
-+				minfo.vote_count = root.get("vote_count",0).asInt();;
-+				minfo.runtime = root.get("runtime",0).asInt();;
-+				if (minfo.media_type == "tv") {
-+					minfo.original_title = root.get("original_name","").asString();;
-+					minfo.episodes = root.get("number_of_episodes",0).asInt();;
-+					minfo.seasons = root.get("number_of_seasons",0).asInt();;
-+					minfo.release_date = root.get("first_air_date","").asString();;
-+					elements = root["episode_run_time"];
-+					minfo.runtimes = elements[0].asString();
-+					for (unsigned int i= 1; i<elements.size();i++) {
-+						minfo.runtimes +=  + ", "+elements[i].asString();
-+					}
-+				}
-+
-+				elements = root["genres"];
-+				minfo.genres = elements[0].get("name","").asString();
++			minfo.overview = root.get("overview","").asString();
++			minfo.poster_path = root.get("poster_path","").asString();
++			minfo.original_title = root.get("original_title","").asString();;
++			minfo.release_date = root.get("release_date","").asString();;
++			minfo.vote_average = root.get("vote_average","").asString();;
++			minfo.vote_count = root.get("vote_count",0).asInt();;
++			minfo.runtime = root.get("runtime",0).asInt();;
++			if (minfo.media_type == "tv") {
++				minfo.original_title = root.get("original_name","").asString();;
++				minfo.episodes = root.get("number_of_episodes",0).asInt();;
++				minfo.seasons = root.get("number_of_seasons",0).asInt();;
++				minfo.release_date = root.get("first_air_date","").asString();;
++				elements = root["episode_run_time"];
++				minfo.runtimes = elements[0].asString();
 +				for (unsigned int i= 1; i<elements.size();i++) {
-+					minfo.genres += ", " + elements[i].get("name","").asString();
++					minfo.runtimes +=  + ", "+elements[i].asString();
 +				}
++			}
 +
-+				elements = root["credits"]["cast"];
-+				for (unsigned int i= 0; i<elements.size() && i<10;i++) {
-+					minfo.cast +=  "  "+elements[i].get("character","").asString()+" ("+elements[i].get("name","").asString() + ")\n";
-+					//printf("test: %s (%s)\n",elements[i].get("character","").asString().c_str(),elements[i].get("name","").asString().c_str());
-+				}
++			elements = root["genres"];
++			minfo.genres = elements[0].get("name","").asString();
++			for (unsigned int i= 1; i<elements.size();i++) {
++				minfo.genres += ", " + elements[i].get("name","").asString();
++			}
 +
-+				unlink(TMDB_COVER);
-+				if (hasCover())
-+					getBigCover(TMDB_COVER);
-+				//printf("[TMDB]: %s (%s) %s\n %s\n %d\n",minfo.epgtitle.c_str(),minfo.original_title.c_str(),minfo.release_date.c_str(),minfo.overview.c_str(),minfo.found);
++			elements = root["credits"]["cast"];
++			for (unsigned int i= 0; i<elements.size() && i<10;i++) {
++				minfo.cast +=  "  "+elements[i].get("character","").asString()+" ("+elements[i].get("name","").asString() + ")\n";
++				//printf("test: %s (%s)\n",elements[i].get("character","").asString().c_str(),elements[i].get("name","").asString().c_str());
++			}
 +
-+				return true;
++			unlink(TMDB_COVER);
++			if (hasCover())
++				getBigCover(TMDB_COVER);
++			//printf("[TMDB]: %s (%s) %s\n %s\n %d\n",minfo.epgtitle.c_str(),minfo.original_title.c_str(),minfo.release_date.c_str(),minfo.overview.c_str(),minfo.found);
++
++			return true;
 +		}
 +	} else
-+	return false;
++		return false;
 +}
 +
 +std::string cTmdb::CreateEPGText()
@@ -602,72 +602,71 @@ index 0000000..25b4835
 +
 +int cTmdb::exec()
 +{
-+		neutrino_msg_t      msg;
-+		neutrino_msg_data_t data;
++	neutrino_msg_t      msg;
++	neutrino_msg_data_t data;
 +
-+		if (form == NULL)
-+			form = new CComponentsForm();
-+		form->setDimensionsAll(sx, sy, ox, oy);
++	if (form == NULL)
++		form = new CComponentsForm();
++	form->setDimensionsAll(sx, sy, ox, oy);
 +
-+		CComponentsHeader *header  = new CComponentsHeader(0, 0, ox, toph);
-+		CComponentsText *headerText = new CComponentsText(15, 0, ox-15, toph, getTitle(), CTextBox::NO_AUTO_LINEBREAK, g_Font[SNeutrinoSettings::FONT_TYPE_EPG_TITLE]);;
-+		headerText->doPaintBg(false);
-+		headerText->setTextColor(COL_MENUHEAD_TEXT);
-+		form->addCCItem(header);
-+		form->addCCItem(headerText);
++	CComponentsHeader *header  = new CComponentsHeader(0, 0, ox, toph);
++	CComponentsText *headerText = new CComponentsText(15, 0, ox-15, toph, getTitle(), CTextBox::NO_AUTO_LINEBREAK, g_Font[SNeutrinoSettings::FONT_TYPE_EPG_TITLE]);;
++	headerText->doPaintBg(false);
++	headerText->setTextColor(COL_MENUHEAD_TEXT);
++	form->addCCItem(header);
++	form->addCCItem(headerText);
 +
 +
-+		CComponentsPicture *ptmp = new CComponentsPicture(5, toph+5, "/tmp/tmdb.jpg");
-+		ptmp->setWidth(342);
-+		ptmp->setHeight(513);
-+		ptmp->setColorBody(COL_BLUE);
-+		ptmp->setCorner(RADIUS_MID, CORNER_TOP_LEFT);
-+		form->addCCItem(ptmp);
++	CComponentsPicture *ptmp = new CComponentsPicture(5, toph+5, "/tmp/tmdb.jpg");
++	ptmp->setWidth(342);
++	ptmp->setHeight(513);
++	ptmp->setColorBody(COL_BLUE);
++	ptmp->setCorner(RADIUS_MID, CORNER_TOP_LEFT);
++	form->addCCItem(ptmp);
 +
-+		CComponentsText *des = new CComponentsText(ptmp->getWidth()+10, toph+5, form->getWidth()-ptmp->getWidth()-10, form->getHeight(), CreateEPGText(), CTextBox::AUTO_LINEBREAK_NO_BREAKCHARS | CTextBox::TOP);
-+		des->setCorner(RADIUS_MID, CORNER_BOTTOM_RIGHT);
-+		des->setTextFont(g_Font[SNeutrinoSettings::FONT_TYPE_EPG_INFO1]);
-+		form->addCCItem(des);
++	CComponentsText *des = new CComponentsText(ptmp->getWidth()+10, toph+5, form->getWidth()-ptmp->getWidth()-10, form->getHeight(), CreateEPGText(), CTextBox::AUTO_LINEBREAK_NO_BREAKCHARS | CTextBox::TOP);
++	des->setCorner(RADIUS_MID, CORNER_BOTTOM_RIGHT);
++	des->setTextFont(g_Font[SNeutrinoSettings::FONT_TYPE_EPG_INFO1]);
++	form->addCCItem(des);
 +
-+		form->paint();
-+		frameBuffer->blit();
++	form->paint();
++	frameBuffer->blit();
 +
-+		while (1)
-+		{
-+			g_RCInput->getMsg(&msg, &data, 100);
-+			if (msg == CRCInput::RC_home)
-+				break;
-+        }
++	while (1) {
++		g_RCInput->getMsg(&msg, &data, 100);
++		if (msg == CRCInput::RC_home)
++			break;
++	}
 +
-+		if (form->isPainted()) {
-+			form->hide();
-+			delete form;
-+			form = NULL;
-+		}
++	if (form->isPainted()) {
++		form->hide();
++		delete form;
++		form = NULL;
++	}
 +}
 diff --git a/src/gui/tmdb.h b/src/gui/tmdb.h
 new file mode 100644
-index 0000000..e2b5527
+index 0000000..751b485
 --- /dev/null
 +++ b/src/gui/tmdb.h
 @@ -0,0 +1,84 @@
 +/*
-+        Copyright (C) 2015 TangoCash
++	Copyright (C) 2015 TangoCash
 +
-+        License: GPLv2
++	License: GPLv2
 +
-+        This program is free software; you can redistribute it and/or modify
-+        it under the terms of the GNU General Public License as published by
-+        the Free Software Foundation;
++	This program is free software; you can redistribute it and/or modify
++	it under the terms of the GNU General Public License as published by
++	the Free Software Foundation;
 +
-+        This program is distributed in the hope that it will be useful,
-+        but WITHOUT ANY WARRANTY; without even the implied warranty of
-+        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+        GNU General Public License for more details.
++	This program is distributed in the hope that it will be useful,
++	but WITHOUT ANY WARRANTY; without even the implied warranty of
++	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++	GNU General Public License for more details.
 +
-+        You should have received a copy of the GNU General Public License
-+        along with this program; if not, write to the Free Software
-+        Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
++	You should have received a copy of the GNU General Public License
++	along with this program; if not, write to the Free Software
++	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 +*/
 +
 +#ifndef __TMDB__
@@ -679,24 +678,23 @@ index 0000000..e2b5527
 +#include <string>
 +#include <gui/components/cc.h>
 +
-+typedef struct
-+{
++typedef struct {
 +	std::string epgtitle;
 +	std::string poster_path;
 +	std::string overview;
 +	std::string original_title;
 +	std::string release_date;
-+	std::string	vote_average;
-+	int			vote_count;
-+	int			id;
++	std::string vote_average;
++	int         vote_count;
++	int         id;
 +	std::string media_type;
-+	int			result;
-+	int			runtime;
++	int         result;
++	int         runtime;
 +	std::string runtimes;
-+	std::string	genres;
-+	int			episodes;
-+	int			seasons;
-+	std::string	cast;
++	std::string genres;
++	int         episodes;
++	int         seasons;
++	std::string cast;
 +}tmdbinfo;
 +
 +class cTmdb
@@ -706,8 +704,8 @@ index 0000000..e2b5527
 +		CComponentsForm *form;
 +		tmdbinfo minfo;
 +
-+		CFrameBuffer		*frameBuffer;
-+		int			ox, oy, sx, sy, toph, sb;
++		CFrameBuffer *frameBuffer;
++		int           ox, oy, sx, sy, toph;
 +
 +		static size_t CurlWriteToString(void *ptr, size_t size, size_t nmemb, void *data);
 +		std::string encodeUrl(std::string txt);
@@ -716,22 +714,23 @@ index 0000000..e2b5527
 +		bool getUrl(std::string &url, std::string &answer, CURL *_curl_handle = NULL);
 +		bool DownloadUrl(std::string url, std::string file, CURL *_curl_handle = NULL);
 +		bool GetMovieDetails();
++
 +	public:
 +		cTmdb(std::string epgtitle);
 +		~cTmdb();
 +		int exec();
 +		std::string CreateEPGText();
 +
-+		std::string getTitle()							{ return minfo.epgtitle;}
-+		std::string getOrgTitle()						{ return minfo.original_title;}
-+		std::string getReleaseDate()					{ return minfo.release_date;}
-+		std::string getDescription()					{ return minfo.overview;}
-+		std::string getVote()							{ return minfo.vote_average;}
-+		bool		hasCover()							{ return !minfo.poster_path.empty();}
-+		bool		getBigCover(std::string cover)		{ return DownloadUrl("http://image.tmdb.org/t/p/w342" + minfo.poster_path, cover);}
-+		bool		getSmallCover(std::string cover)	{ return DownloadUrl("http://image.tmdb.org/t/p/w185" + minfo.poster_path, cover);}
-+		int			getResults()						{ return minfo.result;}
-+		int			getStars()							{ return (int) (atof(minfo.vote_average.c_str())+0.5);}
++		std::string getTitle()				{ return minfo.epgtitle;}
++		std::string getOrgTitle()			{ return minfo.original_title;}
++		std::string getReleaseDate()			{ return minfo.release_date;}
++		std::string getDescription()			{ return minfo.overview;}
++		std::string getVote()				{ return minfo.vote_average;}
++		bool        hasCover()				{ return !minfo.poster_path.empty();}
++		bool        getBigCover(std::string cover)	{ return DownloadUrl("http://image.tmdb.org/t/p/w342" + minfo.poster_path, cover);}
++		bool        getSmallCover(std::string cover)	{ return DownloadUrl("http://image.tmdb.org/t/p/w185" + minfo.poster_path, cover);}
++		int         getResults()			{ return minfo.result;}
++		int         getStars()				{ return (int) (atof(minfo.vote_average.c_str())+0.5);}
 +};
 +
 +#endif
