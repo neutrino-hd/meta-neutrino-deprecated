@@ -58,6 +58,11 @@ SRC_URI = "git://git.slknet.de/git/cst-public-gui-neutrino.git;branch=cst-next \
 	file://0015-acinclude-fix-DVB_API_VERSION-check-for-gcc5.patch \
 	file://0016-dont-install-undotum.ttf-to-shrink-size.patch \
 	file://0017-sectionsd-remove-ifdef-unneeded-for-uclibc-ng.patch \
+	file://tmdb/0001-neutrino-mp-cst-tmdb.patch \
+	file://tmdb/0002-tmdb-fix-function-type.patch \
+	file://tmdb/0003-tmdb-fix-return-value.patch \
+	file://tmdb/0004-tmdb-Suppress-cover-flickering-when-scrolling.patch \
+	file://tmdb/0005-tmdb-Add-read-apikey-from-neutrino.conf.patch \
 "
 
 SRC_URI_append_coolstream-hd1 = " \
@@ -80,6 +85,8 @@ do_configure_prepend() {
 	export INSTALL
 	ln -sf ${WORKDIR}/build/src/gui/version.h ${S}/src/gui/
 	sed -i "s|XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX|${YT_DEV_KEY}|" ${S}/src/neutrino.cpp
+	sed -i "s|XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX|${TMDB_DEV_KEY}|" ${S}/src/neutrino.cpp
+	sed -i "s|XXXXXXXXXXXXXXXX|${SHOUTCAST_DEV_KEY}|" ${S}/src/neutrino.cpp
 }
 
 do_compile () {
