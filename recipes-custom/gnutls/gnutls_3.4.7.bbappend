@@ -1,1 +1,1 @@
-LDFLAGS_append_libc-uclibc += "-largp "
+LDFLAGS_append_libc-uclibc += "-luargp "
