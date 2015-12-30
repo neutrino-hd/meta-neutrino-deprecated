@@ -1,7 +1,7 @@
-From 65c404eb17c5ff3e53b9e4cf9a74964afe266a91 Mon Sep 17 00:00:00 2001
+From 74a9c61bc6ec5e7f81d01cddd80ace77960d38ba Mon Sep 17 00:00:00 2001
 From: "M. Liebmann" <tuxcode.bbg@gmail.com>
 Date: Tue, 29 Dec 2015 18:28:30 +0100
-Subject: [PATCH 7/8] tmdb: Use osd language for search & display data
+Subject: [PATCH 7/9] tmdb: Use osd language for search & display data
 
 ---
  src/gui/tmdb.cpp | 11 +++++++----

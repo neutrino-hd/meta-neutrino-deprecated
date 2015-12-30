@@ -1,7 +1,7 @@
-From 1c5688c8a400e53fa10469f451e72ec8b4e723a2 Mon Sep 17 00:00:00 2001
+From dd14e236d1699ad7f5ad3b98f10705404f73f2b6 Mon Sep 17 00:00:00 2001
 From: vanhofen <vanhofen@gmx.de>
 Date: Tue, 24 Nov 2015 15:14:22 +0100
-Subject: [PATCH 3/8] - tmdb: fix return value
+Subject: [PATCH 3/9] - tmdb: fix return value
 
 ---
  src/gui/tmdb.cpp | 2 ++

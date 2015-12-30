@@ -1,7 +1,7 @@
-From 6d7001d97b42a646cf95f75183fdfad93cb7a4f7 Mon Sep 17 00:00:00 2001
+From f78a6268583cf4e5448cec83eabfc3b48d77f82c Mon Sep 17 00:00:00 2001
 From: bazi98 <bazi98@web.de>
 Date: Sun, 27 Dec 2015 15:10:31 +0100
-Subject: [PATCH 5/8] tmdb: Add read apikey from neutrino.conf
+Subject: [PATCH 5/9] tmdb: Add read apikey from neutrino.conf
 
 ---
  src/gui/tmdb.cpp      | 20 +++++++-------------
@@ -80,10 +80,10 @@ index 2e5e82a..fc7d841 100644
  		bool DownloadUrl(std::string url, std::string file, CURL *_curl_handle = NULL);
  		bool GetMovieDetails();
 diff --git a/src/neutrino.cpp b/src/neutrino.cpp
-index 0828adc..a95597b 100644
+index 8fc18e9..4c1a005 100644
 --- a/src/neutrino.cpp
 +++ b/src/neutrino.cpp
-@@ -810,6 +810,7 @@ int CNeutrinoApp::loadSetup(const char * fname)
+@@ -811,6 +811,7 @@ int CNeutrinoApp::loadSetup(const char * fname)
  	//Movie-Player
  	g_settings.movieplayer_repeat_on = configfile.getInt32("movieplayer_repeat_on", CMoviePlayerGui::REPEAT_OFF);
  	g_settings.youtube_dev_id = configfile.getString("youtube_dev_id","XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
@@ -91,7 +91,7 @@ index 0828adc..a95597b 100644
  
  	//Filebrowser
  	g_settings.filebrowser_showrights =  configfile.getInt32("filebrowser_showrights", 1);
-@@ -1282,6 +1283,7 @@ void CNeutrinoApp::saveSetup(const char * fname)
+@@ -1284,6 +1285,7 @@ void CNeutrinoApp::saveSetup(const char * fname)
  	//Movie-Player
  	configfile.setInt32( "movieplayer_repeat_on", g_settings.movieplayer_repeat_on );
  	configfile.setString( "youtube_dev_id", g_settings.youtube_dev_id );
@@ -100,10 +100,10 @@ index 0828adc..a95597b 100644
  	//Filebrowser
  	configfile.setInt32("filebrowser_showrights", g_settings.filebrowser_showrights);
 diff --git a/src/system/settings.h b/src/system/settings.h
-index 594f885..4ac2a67 100644
+index 0c6c9c6..383b3bf 100644
 --- a/src/system/settings.h
 +++ b/src/system/settings.h
-@@ -710,6 +710,7 @@ struct SNeutrinoSettings
+@@ -711,6 +711,7 @@ struct SNeutrinoSettings
  	//movieplayer
  	int   movieplayer_repeat_on;
  	std::string youtube_dev_id;

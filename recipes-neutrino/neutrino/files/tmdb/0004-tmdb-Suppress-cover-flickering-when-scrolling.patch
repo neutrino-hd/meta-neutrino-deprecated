@@ -1,7 +1,7 @@
-From 4eec37be2a70c28bcde0bf48da1f102c435a1cbd Mon Sep 17 00:00:00 2001
+From 0c7c9d6089df5e744d05f61b304b99d2c32b8c65 Mon Sep 17 00:00:00 2001
 From: "M. Liebmann" <tuxcode.bbg@gmail.com>
 Date: Wed, 25 Nov 2015 08:50:19 +0100
-Subject: [PATCH 4/8] tmdb: Suppress cover flickering when scrolling
+Subject: [PATCH 4/9] tmdb: Suppress cover flickering when scrolling
 
 ---
  src/gui/epgview.cpp | 16 ++++++++++------

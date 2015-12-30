@@ -1,7 +1,7 @@
-From ca3b62cfe37bc2dec0ff96891170a653e22d4c2b Mon Sep 17 00:00:00 2001
-From: "[priv] M. Liebmann" <tuxcode.bbg@gmail.com>
+From e88e5128d05b9e45d1d37d70a6f2f74aabafb791 Mon Sep 17 00:00:00 2001
+From: "M. Liebmann" <tuxcode.bbg@gmail.com>
 Date: Tue, 29 Dec 2015 18:28:21 +0100
-Subject: [PATCH 6/8] src/system/helpers.cpp: Add function Lang2ISO639_1()
+Subject: [PATCH 6/9] src/system/helpers.cpp: Add function Lang2ISO639_1()
 
 ---
  src/system/helpers.cpp | 33 +++++++++++++++++++++++++++++++++

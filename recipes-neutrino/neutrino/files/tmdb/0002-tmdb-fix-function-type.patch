@@ -1,7 +1,7 @@
-From a5438f0dca3606c6dc5df6860b58b27698f97885 Mon Sep 17 00:00:00 2001
+From 808d28f2c06a65179dff4db8fadbae0005946cb1 Mon Sep 17 00:00:00 2001
 From: vanhofen <vanhofen@gmx.de>
 Date: Tue, 24 Nov 2015 15:08:43 +0100
-Subject: [PATCH 2/8] - tmdb: fix function type
+Subject: [PATCH 2/9] - tmdb: fix function type
 
 ---
  src/gui/tmdb.cpp | 2 +-

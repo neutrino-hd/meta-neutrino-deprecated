@@ -1,7 +1,7 @@
-From cb932db36f804565e7cda7740d4559a5a99953bf Mon Sep 17 00:00:00 2001
+From ab677051e419f3164716e8bc20dd834e458051de Mon Sep 17 00:00:00 2001
 From: TangoCash <eric@loxat.de>
 Date: Tue, 24 Nov 2015 18:24:02 +0100
-Subject: [PATCH 1/8] neutrino-mp cst tmdb
+Subject: [PATCH 1/9] neutrino-mp cst tmdb
 
 ---
  src/gui/Makefile.am      |   2 +

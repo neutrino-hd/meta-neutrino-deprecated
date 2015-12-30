@@ -1,7 +1,7 @@
-From ed0daa6c125c45740f8bf9406feabddb6c1d0599 Mon Sep 17 00:00:00 2001
+From e4b91e737d289a6a7cf36e4c5cadb34fdb1975a9 Mon Sep 17 00:00:00 2001
 From: "M. Liebmann" <tuxcode.bbg@gmail.com>
 Date: Tue, 29 Dec 2015 18:28:33 +0100
-Subject: [PATCH 8/8] tmdb: Add hintbox when search data
+Subject: [PATCH 8/9] tmdb: Add hintbox when search data
 
 ---
  data/locale/deutsch.locale    | 1 +
@@ -14,10 +14,10 @@ Subject: [PATCH 8/8] tmdb: Add hintbox when search data
  7 files changed, 15 insertions(+)
 
 diff --git a/data/locale/deutsch.locale b/data/locale/deutsch.locale
-index bc01eb6..6f307af 100644
+index 9ef8bc9..217eb07 100644
 --- a/data/locale/deutsch.locale
 +++ b/data/locale/deutsch.locale
-@@ -2324,6 +2324,7 @@ timing.infobar_radio Infobar (Radiobetrieb)
+@@ -2326,6 +2326,7 @@ timing.infobar_radio Infobar (Radiobetrieb)
  timing.menu Menü
  timing.numericzap Umschalten mit Zifferntasten
  timing.volumebar Lautstärkeanzeige
@@ -26,10 +26,10 @@ index bc01eb6..6f307af 100644
  unicable.qrg Unicable Frequenz
  unicable.scr Unicable SCR
 diff --git a/data/locale/english.locale b/data/locale/english.locale
-index 50e955d..6332636 100644
+index f34879a..de70a67 100644
 --- a/data/locale/english.locale
 +++ b/data/locale/english.locale
-@@ -2324,6 +2324,7 @@ timing.infobar_radio Infobar (radio mode)
+@@ -2326,6 +2326,7 @@ timing.infobar_radio Infobar (radio mode)
  timing.menu Menu
  timing.numericzap Numeric Zap
  timing.volumebar Volume bar
@@ -93,10 +93,10 @@ index 05e08d7..f295d2d 100644
  
  cTmdb::~cTmdb()
 diff --git a/src/system/locals.h b/src/system/locals.h
-index 1276004..94384fd 100644
+index 40592c0..8a09062 100644
 --- a/src/system/locals.h
 +++ b/src/system/locals.h
-@@ -2351,6 +2351,7 @@ typedef enum
+@@ -2353,6 +2353,7 @@ typedef enum
  	LOCALE_TIMING_MENU,
  	LOCALE_TIMING_NUMERICZAP,
  	LOCALE_TIMING_VOLUMEBAR,
@@ -105,10 +105,10 @@ index 1276004..94384fd 100644
  	LOCALE_UNICABLE_QRG,
  	LOCALE_UNICABLE_SCR,
 diff --git a/src/system/locals_intern.h b/src/system/locals_intern.h
-index bbca01a..5aa4db7 100644
+index 41fb6f9..1105b3e 100644
 --- a/src/system/locals_intern.h
 +++ b/src/system/locals_intern.h
-@@ -2351,6 +2351,7 @@ const char * locale_real_names[] =
+@@ -2353,6 +2353,7 @@ const char * locale_real_names[] =
  	"timing.menu",
  	"timing.numericzap",
  	"timing.volumebar",

@@ -63,6 +63,12 @@ SRC_URI = "git://git.slknet.de/git/cst-public-gui-neutrino.git;branch=cst-next \
 	file://tmdb/0003-tmdb-fix-return-value.patch \
 	file://tmdb/0004-tmdb-Suppress-cover-flickering-when-scrolling.patch \
 	file://tmdb/0005-tmdb-Add-read-apikey-from-neutrino.conf.patch \
+	file://tmdb/0006-src-system-helpers.cpp-Add-function-Lang2ISO639_1.patch \
+	file://tmdb/0007-tmdb-Use-osd-language-for-search-display-data.patch \
+	file://tmdb/0008-tmdb-Add-hintbox-when-search-data.patch \
+	file://tmdb/0009-tmdb-Add-star-icons.patch \
+	file://tmdb/star-off.png \
+	file://tmdb/star-on.png \
 "
 
 SRC_URI_append_coolstream-hd1 = " \
@@ -102,7 +108,10 @@ do_install_prepend () {
 	install -m 755 ${WORKDIR}/custom-poweroff.init ${D}${sysconfdir}/init.d/custom-poweroff
 	install -m 755 ${WORKDIR}/pre-wlan0.sh ${D}${sysconfdir}/network/
 	install -m 755 ${WORKDIR}/post-wlan0.sh ${D}${sysconfdir}/network/
-	install -m 644 ${WORKDIR}/timezone.xml ${D}${sysconfdir}/timezone.xml 
+	install -m 644 ${WORKDIR}/timezone.xml ${D}${sysconfdir}/timezone.xml
+	install -d ${D}/usr/share/tuxbox/neutrino/icons
+	install -m 644 ${WORKDIR}/tmdb/star-off.png ${D}/usr/share/tuxbox/neutrino/icons/star-off.png
+	install -m 644 ${WORKDIR}/tmdb/star-on.png ${D}/usr/share/tuxbox/neutrino/icons/star-on.png
 	install -d ${D}${localstatedir}/cache
 	install -d ${D}${localstatedir}/tuxbox
 	install -d ${D}/lib/mdev/fs
