@@ -1,0 +1,25 @@
+From dd14e236d1699ad7f5ad3b98f10705404f73f2b6 Mon Sep 17 00:00:00 2001
+From: vanhofen <vanhofen@gmx.de>
+Date: Tue, 24 Nov 2015 15:14:22 +0100
+Subject: [PATCH 3/9] - tmdb: fix return value
+
+---
+ src/gui/tmdb.cpp | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/src/gui/tmdb.cpp b/src/gui/tmdb.cpp
+index 292f4d0..2dc19a4 100644
+--- a/src/gui/tmdb.cpp
++++ b/src/gui/tmdb.cpp
+@@ -275,6 +275,8 @@ bool cTmdb::GetMovieDetails()
+ 		}
+ 	} else
+ 		return false;
++
++	return false;
+ }
+ 
+ std::string cTmdb::CreateEPGText()
+-- 
+2.6.4
+

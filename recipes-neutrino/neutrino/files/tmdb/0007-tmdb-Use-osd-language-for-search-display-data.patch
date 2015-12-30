@@ -1,0 +1,64 @@
+From 74a9c61bc6ec5e7f81d01cddd80ace77960d38ba Mon Sep 17 00:00:00 2001
+From: "M. Liebmann" <tuxcode.bbg@gmail.com>
+Date: Tue, 29 Dec 2015 18:28:30 +0100
+Subject: [PATCH 7/9] tmdb: Use osd language for search & display data
+
+---
+ src/gui/tmdb.cpp | 11 +++++++----
+ src/gui/tmdb.h   |  2 +-
+ 2 files changed, 8 insertions(+), 5 deletions(-)
+
+diff --git a/src/gui/tmdb.cpp b/src/gui/tmdb.cpp
+index 0f7096e..05e08d7 100644
+--- a/src/gui/tmdb.cpp
++++ b/src/gui/tmdb.cpp
+@@ -73,7 +73,10 @@ cTmdb::cTmdb(std::string epgtitle)
+ 	key = g_settings.tmdb_api_key;
+ #endif
+ 
+-	GetMovieDetails();
++	std::string lang = Lang2ISO639_1(g_settings.language);
++	GetMovieDetails(lang);
++	if ((minfo.result < 1 || minfo.overview.empty()) && lang != "en")
++		GetMovieDetails("en");
+ }
+ 
+ cTmdb::~cTmdb()
+@@ -192,10 +195,10 @@ bool cTmdb::DownloadUrl(std::string url, std::string file, CURL *_curl_handle)
+ 	return true;
+ }
+ 
+-bool cTmdb::GetMovieDetails()
++bool cTmdb::GetMovieDetails(std::string lang)
+ {
+ 	printf("[TMDB]: %s\n",__func__);
+-	std::string url	= "http://api.themoviedb.org/3/search/multi?api_key="+key+"&language=de&query=" + encodeUrl(minfo.epgtitle);
++	std::string url	= "http://api.themoviedb.org/3/search/multi?api_key="+key+"&language="+lang+"&query=" + encodeUrl(minfo.epgtitle);
+ 	std::string answer;
+ 	if (!getUrl(url, answer))
+ 		return false;
+@@ -218,7 +221,7 @@ bool cTmdb::GetMovieDetails()
+ 		minfo.id = elements[0].get("id",-1).asInt();
+ 		minfo.media_type = elements[0].get("media_type","").asString();
+ 		if (minfo.id > -1) {
+-			url = "http://api.themoviedb.org/3/"+minfo.media_type+"/"+to_string(minfo.id)+"?api_key="+key+"&language=de&append_to_response=credits";
++			url = "http://api.themoviedb.org/3/"+minfo.media_type+"/"+to_string(minfo.id)+"?api_key="+key+"&language="+lang+"&append_to_response=credits";
+ 			answer.clear();
+ 			if (!getUrl(url, answer))
+ 				return false;
+diff --git a/src/gui/tmdb.h b/src/gui/tmdb.h
+index fc7d841..0c4a454 100644
+--- a/src/gui/tmdb.h
++++ b/src/gui/tmdb.h
+@@ -61,7 +61,7 @@ class cTmdb
+ 		std::string key; // tmdb api key
+ 		bool getUrl(std::string &url, std::string &answer, CURL *_curl_handle = NULL);
+ 		bool DownloadUrl(std::string url, std::string file, CURL *_curl_handle = NULL);
+-		bool GetMovieDetails();
++		bool GetMovieDetails(std::string lang);
+ 
+ 	public:
+ 		cTmdb(std::string epgtitle);
+-- 
+2.6.4
+
