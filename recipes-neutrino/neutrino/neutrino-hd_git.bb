@@ -55,7 +55,6 @@ SRC_URI = "git://git.slknet.de/git/cst-public-gui-neutrino.git;branch=cst-next \
 	file://0010-nhttpd-adjust-some-paths.patch \
 	file://0012-import-proper-working-format-device-function.patch \
 	file://0013-disable-network_services-menu.patch \
-	file://0015-acinclude-fix-DVB_API_VERSION-check-for-gcc5.patch \
 	file://0016-dont-install-undotum.ttf-to-shrink-size.patch \
 	file://tmdb/0001-neutrino-mp-cst-tmdb.patch \
 	file://tmdb/0002-tmdb-fix-function-type.patch \
