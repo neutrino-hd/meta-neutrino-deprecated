@@ -7,7 +7,8 @@ SRC_URI += "file://logrotate.conf \
 "	
 
 do_install_prepend() {
-		sed -i "s|/usr/sbin|/usr/bin|" ${S}/examples/logrotate.cron
+		sed -i "s|/usr/sbin/||" ${S}/examples/logrotate.cron
+		sed -i "s|/usr/bin/||" ${S}/examples/logrotate.cron
 		sed -i "s|MAIL|${MAIL}|" ${WORKDIR}/logrotate.conf
 }
 
