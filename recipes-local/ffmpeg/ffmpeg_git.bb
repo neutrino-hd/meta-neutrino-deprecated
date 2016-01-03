@@ -1,7 +1,7 @@
 require ffmpeg.inc
 
 SRCREV = "${AUTOREV}"
-#SRCREV = "676a93f2d86d704ab6a973a19000e265c14e37d5"
+#SRCREV = "753930bc7300dd595c4bab51c5a70d1da9083da4"
 PV = "${SRCPV}"
 PR = "1"
 
@@ -9,6 +9,8 @@ SRC_URI = "git://github.com/FFmpeg/FFmpeg.git;branch=master \
 	   file://0001-add-HDS-ro.patch \
 	   file://0004-add-ASF-VC1-Annex-G-and-RCV-bitstream-filters.patch \
 	   file://0001-Revert-lavc-Switch-bitrate-to-64bit-unless-compatibi.patch \
+"
+SRC_URI_append_coolstream-hd1 = "file://0005-Revert-arm-add-a-cpu-flag-for-the-VFPv2-vector-mode.patch \
 "
 
 LIC_FILES_CHKSUM = " \
