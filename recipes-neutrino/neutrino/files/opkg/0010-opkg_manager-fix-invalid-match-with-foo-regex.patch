@@ -1,0 +1,34 @@
+From b9a5a30c528bcd91d7e172d456cdce471ff83c99 Mon Sep 17 00:00:00 2001
+From: Stefan Seyfried <seife@tuxbox-git.slipkontur.de>
+Date: Fri, 1 Jan 2016 23:18:19 +0100
+Subject: [PATCH 8002/8016] opkg_manager: fix invalid match with -foo$ "regex"
+
+Signed-off-by: MarkusVolk <f_l_k@t-online.de>
+---
+ src/gui/opkg_manager.cpp | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/src/gui/opkg_manager.cpp b/src/gui/opkg_manager.cpp
+index aef4bb9..2597dc7 100644
+--- a/src/gui/opkg_manager.cpp
++++ b/src/gui/opkg_manager.cpp
+@@ -369,13 +369,14 @@ bool COPKGManager::badpackage(std::string &s)
+ 		bool res = false;
+ 		/* poor man's regex :-) only supported are "^" and "$" */
+ 		if (p.substr(patlen, 1) == "$") { /* match at end */
+-			if (s.rfind(p.substr(0, patlen)) == (s.length() - patlen))
++			size_t pos = s.rfind(p.substr(0, patlen)); /* s.len-patlen can be -1 == npos */
++			if (pos != string::npos && pos == (s.length() - patlen))
+ 				res = true;
+ 		} else if (p.substr(0, 1) == "^") { /* match at beginning */
+ 			if (s.find(p.substr(1)) == 0)
+ 				res = true;
+ 		} else { /* match everywhere */
+-			if (s.find(p) != std::string::npos)
++			if (s.find(p) != string::npos)
+ 				res = true;
+ 		}
+ 		if (res)
+-- 
+2.1.4
+

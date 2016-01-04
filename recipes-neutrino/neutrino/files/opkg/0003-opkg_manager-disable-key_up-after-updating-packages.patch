@@ -1,0 +1,28 @@
+From e3d845cec4faad8bab774efc7110ec0614844f63 Mon Sep 17 00:00:00 2001
+From: Stefan Seyfried <seife@tuxbox-git.slipkontur.de>
+Date: Fri, 1 Jan 2016 19:29:57 +0100
+Subject: [PATCH 7994/8016] opkg_manager: disable "key_up" after updating
+ packages
+
+Signed-off-by: MarkusVolk <f_l_k@t-online.de>
+---
+ src/gui/opkg_manager.cpp | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/src/gui/opkg_manager.cpp b/src/gui/opkg_manager.cpp
+index ae8ac7f..56933ea 100644
+--- a/src/gui/opkg_manager.cpp
++++ b/src/gui/opkg_manager.cpp
+@@ -212,7 +212,9 @@ int COPKGManager::exec(CMenuTarget* parent, const string &actionKey)
+ 		} else
+ 			installed = true;
+ 		refreshMenu();
++		/* I don't think ending up at the last package in the list is a good idea...
+ 		g_RCInput->postMsg((neutrino_msg_t) CRCInput::RC_up, 0);
++		 */
+ 		return res;
+ 	}
+ 
+-- 
+2.1.4
+

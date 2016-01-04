@@ -1,0 +1,29 @@
+From 407c15f3f1d7903f140daafbf95a306d17b0672e Mon Sep 17 00:00:00 2001
+From: Stefan Seyfried <seife@tuxbox-git.slipkontur.de>
+Date: Fri, 1 Jan 2016 19:29:10 +0100
+Subject: [PATCH 7993/8016] opkg_manager: remove reboot and restart trigger
+ files
+
+Signed-off-by: MarkusVolk <f_l_k@t-online.de>
+---
+ src/gui/opkg_manager.cpp | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/src/gui/opkg_manager.cpp b/src/gui/opkg_manager.cpp
+index c2901c8..ae8ac7f 100644
+--- a/src/gui/opkg_manager.cpp
++++ b/src/gui/opkg_manager.cpp
+@@ -555,6 +555,10 @@ int COPKGManager::showMenu()
+ 			res = menu_return::RETURN_EXIT_ALL;
+ 		}
+ 	}
++	/* remove the package-generated files... */
++	unlink("/tmp/.restart");
++	unlink("/tmp/.force_restart");
++	unlink("/tmp/.reboot");
+ 
+ 	delete menu;
+ 
+-- 
+2.1.4
+

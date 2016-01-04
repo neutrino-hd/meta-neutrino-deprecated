@@ -1,0 +1,52 @@
+From 9eeeb087437d925cc3a598ecb2b83356058c520a Mon Sep 17 00:00:00 2001
+From: Stefan Seyfried <seife@tuxbox-git.slipkontur.de>
+Date: Fri, 1 Jan 2016 22:06:02 +0100
+Subject: [PATCH 7999/8016] opkg_manager: do not put bad packages into package
+ list
+
+"bad" packages will be ignored later anyway, so to speed things
+up and save memory, do not even put them into the package list.
+
+Signed-off-by: MarkusVolk <f_l_k@t-online.de>
+---
+ src/gui/opkg_manager.cpp | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/src/gui/opkg_manager.cpp b/src/gui/opkg_manager.cpp
+index 4b46626..45c51c5 100644
+--- a/src/gui/opkg_manager.cpp
++++ b/src/gui/opkg_manager.cpp
+@@ -396,6 +396,7 @@ void COPKGManager::updateMenu()
+ 	getPkgData(OM_LIST_INSTALLED);
+ 	getPkgData(OM_LIST_UPGRADEABLE);
+ 	for (map<string, struct pkg>::iterator it = pkg_map.begin(); it != pkg_map.end(); it++) {
++		/* this should no longer trigger at all */
+ 		if (badpackage(it->second.name))
+ 			continue;
+ 		it->second.forwarder->iconName_Info_right = "";
+@@ -528,6 +529,7 @@ int COPKGManager::showMenu()
+ 
+ 	pkg_vec.clear();
+ 	for (map<string, struct pkg>::iterator it = pkg_map.begin(); it != pkg_map.end(); it++) {
++		/* this should no longer trigger at all */
+ 		if (badpackage(it->second.name))
+ 			continue;
+ 		it->second.forwarder = new CMenuForwarder(it->second.desc, true, NULL , this, it->second.name.c_str());
+@@ -647,10 +649,12 @@ void COPKGManager::getPkgData(const int pkg_content_id)
+ 			continue;
+ 
+ 		switch (pkg_content_id) {
+-			case OM_LIST: {
++			case OM_LIST:
++				/* do not even put "bad" packages into the list to save memory */
++				if (badpackage(name))
++					continue;
+ 				pkg_map[name] = pkg(name, line, line);
+ 				break;
+-			}
+ 			case OM_LIST_INSTALLED: {
+ 				map<string, struct pkg>::iterator it = pkg_map.find(name);
+ 				if (it != pkg_map.end())
+-- 
+2.1.4
+
