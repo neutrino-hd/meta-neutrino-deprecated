@@ -1,0 +1,29 @@
+From bb8ce41abfe540a08de201620d26b49841ae7f71 Mon Sep 17 00:00:00 2001
+From: Stefan Seyfried <seife@tuxbox-git.slipkontur.de>
+Date: Fri, 1 Jan 2016 23:12:36 +0100
+Subject: [PATCH 8001/8016] opkg_manager: don't overwrite opkg.conf
+
+overwriting the user's configuration with strange stuff is
+not nice, so disarm this by renaming the config file :-)
+
+Signed-off-by: MarkusVolk <f_l_k@t-online.de>
+---
+ src/gui/opkg_manager.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/gui/opkg_manager.cpp b/src/gui/opkg_manager.cpp
+index 45c51c5..aef4bb9 100644
+--- a/src/gui/opkg_manager.cpp
++++ b/src/gui/opkg_manager.cpp
+@@ -72,7 +72,7 @@
+ #endif
+ 
+ #define OPKG_BAD_PATTERN_LIST_FILE CONFIGDIR "/bad_package_pattern.list"
+-#define OPKG_CONFIG_FILE "/etc/opkg/opkg.conf"
++#define OPKG_CONFIG_FILE "/etc/opkg/opkg.conf.borken"
+ 
+ using namespace std;
+ 
+-- 
+2.1.4
+

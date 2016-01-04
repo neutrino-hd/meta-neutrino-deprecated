@@ -67,6 +67,20 @@ SRC_URI = "git://git.slknet.de/git/cst-public-gui-neutrino.git;branch=cst-next \
 	file://tmdb/0009-tmdb-Add-star-icons.patch \
 	file://tmdb/star-off.png \
 	file://tmdb/star-on.png \
+	file://opkg/0001-opkg_manager-don-t-use-hardcoded-path.patch \
+	file://opkg/0002-opkg_manager-remove-reboot-and-restart-trigger-files.patch \
+	file://opkg/0003-opkg_manager-disable-key_up-after-updating-packages.patch \
+	file://opkg/0004-opkg_manager-disarm-checkSize-function.patch \
+	file://opkg/0005-opkg_manager-tone-down-diagnostics-in-badpackage.patch \
+	file://opkg/0006-opkg_manager-remove-opkg-options.patch \
+	file://opkg/0007-opkg_manager-do-not-put-bad-packages-into-package-li.patch \
+	file://opkg/0008-update_menu-don-t-leak-COPKGManager-objects.patch \
+	file://opkg/0009-opkg_manager-don-t-overwrite-opkg.conf.patch \
+	file://opkg/0010-opkg_manager-fix-invalid-match-with-foo-regex.patch \
+	file://opkg/0011-opkg_manager-explicitly-clear-pkg_map-in-destructor.patch \
+	file://opkg/0012-opkg_manager-do-not-read-package-list-twice-on-start.patch \
+	file://opkg/0013-update_menu-put-opkg-update-in-front.patch \
+	file://opkg/0014-opkg_manager-make-progress-reports-on-startup-more-p.patch \
 "
 
 SRC_URI_append_coolstream-hd1 = " \

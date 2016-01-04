@@ -1,0 +1,26 @@
+From 03a3ced68f4ffa0879788442660c8c9bf8aa418b Mon Sep 17 00:00:00 2001
+From: Stefan Seyfried <seife@tuxbox-git.slipkontur.de>
+Date: Fri, 1 Jan 2016 23:09:48 +0100
+Subject: [PATCH 8000/8016] update_menu: don't leak COPKGManager objects
+
+Signed-off-by: MarkusVolk <f_l_k@t-online.de>
+---
+ src/gui/update_menue.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/gui/update_menue.cpp b/src/gui/update_menue.cpp
+index 5c54266..383a625 100644
+--- a/src/gui/update_menue.cpp
++++ b/src/gui/update_menue.cpp
+@@ -106,7 +106,7 @@ int CSoftwareUpdate::showSoftwareUpdate()
+ 		softUpdate.addItem(mf);
+ 
+ 		//firmware update via opkg
+-		mf = new CMenuForwarder(LOCALE_OPKG_TITLE, COPKGManager::hasOpkgSupport(), NULL, new COPKGManager());
++		mf = new CMenuDForwarder(LOCALE_OPKG_TITLE, COPKGManager::hasOpkgSupport(), NULL, new COPKGManager());
+ 		mf->setHint(NEUTRINO_ICON_HINT_SW_UPDATE, LOCALE_MENU_HINT_OPKG);
+ 		softUpdate.addItem(mf);
+ 	}
+-- 
+2.1.4
+

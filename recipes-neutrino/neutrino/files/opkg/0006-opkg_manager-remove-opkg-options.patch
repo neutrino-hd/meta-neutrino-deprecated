@@ -1,0 +1,32 @@
+From 361556a1e350292ba4d32eb13c0aefc2476b999b Mon Sep 17 00:00:00 2001
+From: Stefan Seyfried <seife@tuxbox-git.slipkontur.de>
+Date: Fri, 1 Jan 2016 19:55:10 +0100
+Subject: [PATCH 7997/8016] opkg_manager: remove opkg options
+
+Just use standard options. If someone wants to change them,
+/etc/opkg/opkg.conf is available for that purpose.
+
+Signed-off-by: MarkusVolk <f_l_k@t-online.de>
+---
+ src/gui/opkg_manager.cpp | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/src/gui/opkg_manager.cpp b/src/gui/opkg_manager.cpp
+index aa3d7f0..4b46626 100644
+--- a/src/gui/opkg_manager.cpp
++++ b/src/gui/opkg_manager.cpp
+@@ -65,7 +65,11 @@
+ 
+ #define OPKG_TMP_DIR "/tmp/.opkg"
+ #define OPKG_TEST_DIR OPKG_TMP_DIR "/test"
++#if 0
+ #define OPKG_CL_CONFIG_OPTIONS " -V2 --tmp-dir=/tmp --cache=" OPKG_TMP_DIR
++#else
++#define OPKG_CL_CONFIG_OPTIONS ""
++#endif
+ 
+ #define OPKG_BAD_PATTERN_LIST_FILE CONFIGDIR "/bad_package_pattern.list"
+ #define OPKG_CONFIG_FILE "/etc/opkg/opkg.conf"
+-- 
+2.1.4
+

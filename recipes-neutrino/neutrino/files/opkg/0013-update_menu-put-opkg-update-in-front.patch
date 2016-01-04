@@ -1,0 +1,70 @@
+From aa08aeb1ca0f9c43c4237d8323e5e9687cecd7ca Mon Sep 17 00:00:00 2001
+From: Stefan Seyfried <seife@tuxbox-git.slipkontur.de>
+Date: Sat, 2 Jan 2016 00:17:28 +0100
+Subject: [PATCH 8005/8016] update_menu: put opkg update in front
+
+Signed-off-by: MarkusVolk <f_l_k@t-online.de>
+---
+ src/gui/update_menue.cpp | 21 +++++++++++++++++----
+ 1 file changed, 17 insertions(+), 4 deletions(-)
+
+diff --git a/src/gui/update_menue.cpp b/src/gui/update_menue.cpp
+index 383a625..e0af074 100644
+--- a/src/gui/update_menue.cpp
++++ b/src/gui/update_menue.cpp
+@@ -46,6 +46,7 @@
+ #include <driver/screen_max.h>
+ #include <system/debug.h>
+ #include <system/flashtool.h>
++#include <system/helpers.h>
+ 
+ CSoftwareUpdate::CSoftwareUpdate()
+ {
+@@ -73,17 +74,27 @@ int CSoftwareUpdate::exec(CMenuTarget* parent, const std::string &/*actionKey*/)
+ int CSoftwareUpdate::showSoftwareUpdate()
+ /* shows the menue and options for software update */
+ {
+-	CMenuForwarder * mf;
++	CMenuForwarder * mf, *update_item;
+ 	CMenuWidget softUpdate(LOCALE_MAINMENU_SERVICE, NEUTRINO_ICON_UPDATE, width, MN_WIDGET_ID_SOFTWAREUPDATE);
+ 
+ 	softUpdate.addIntroItems(LOCALE_SERVICEMENU_UPDATE);
+ 
+ 	//flashing
+ 	CFlashUpdate flash;
++	unsigned int inetkey = CRCInput::RC_red;
++	if (COPKGManager::hasOpkgSupport()) {
++		//firmware update via opkg
++		mf = new CMenuDForwarder(LOCALE_OPKG_TITLE, true, NULL, new COPKGManager(), NULL, CRCInput::RC_red);
++		mf->setHint(NEUTRINO_ICON_HINT_SW_UPDATE, LOCALE_MENU_HINT_OPKG);
++		softUpdate.addItem(mf);
++		inetkey = CRCInput::convertDigitToKey(1);
++	}
+ 
+-	CMenuForwarder *update_item = new CMenuForwarder(LOCALE_FLASHUPDATE_CHECKUPDATE_INTERNET, true, NULL, &flash, "inet", CRCInput::RC_red);
+-	update_item->setHint("", LOCALE_MENU_HINT_SOFTUPDATE_CHECK);
+-	softUpdate.addItem(update_item);
++	if (file_exists(g_settings.softupdate_url_file.c_str())) {
++		update_item = new CMenuForwarder(LOCALE_FLASHUPDATE_CHECKUPDATE_INTERNET, true, NULL, &flash, "inet", inetkey);
++		update_item->setHint("", LOCALE_MENU_HINT_SOFTUPDATE_CHECK);
++		softUpdate.addItem(update_item);
++	}
+ 
+ 	update_item = new CMenuForwarder(LOCALE_FLASHUPDATE_CHECKUPDATE_LOCAL, true, NULL, &flash, "local", CRCInput::RC_green);
+ 	update_item->setHint("", LOCALE_MENU_HINT_SOFTUPDATE_CHECK_LOCAL);
+@@ -105,10 +116,12 @@ int CSoftwareUpdate::showSoftwareUpdate()
+ 		mf->setHint("", LOCALE_MENU_HINT_SOFTUPDATE_EXPERT);
+ 		softUpdate.addItem(mf);
+ 
++#if 0
+ 		//firmware update via opkg
+ 		mf = new CMenuDForwarder(LOCALE_OPKG_TITLE, COPKGManager::hasOpkgSupport(), NULL, new COPKGManager());
+ 		mf->setHint(NEUTRINO_ICON_HINT_SW_UPDATE, LOCALE_MENU_HINT_OPKG);
+ 		softUpdate.addItem(mf);
++#endif
+ 	}
+ 
+ #ifdef BOXMODEL_APOLLO
+-- 
+2.1.4
+
