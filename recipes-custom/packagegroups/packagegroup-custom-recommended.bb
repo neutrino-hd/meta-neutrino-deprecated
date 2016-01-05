@@ -18,6 +18,7 @@ RDEPENDS_packagegroup-custom-recommended ?= "\
     autofs \
     cifs-utils \
     dosfstools \
+    etckeeper \
     exfat-utils \
     fuse-exfat \
     htop \
