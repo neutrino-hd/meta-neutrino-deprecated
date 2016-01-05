@@ -73,7 +73,8 @@ SRC_URI = "git://git.slknet.de/git/cst-public-gui-neutrino.git;branch=cst-next \
 "
 
 SRC_URI_append_coolstream-hd1 = " \
-	file://0005-remove-unneeded-mp3.jpg-files.patch;apply=yes \
+	file://0005-remove-unneeded-mp3.jpg-files.patch \
+	${@'' if IMAGETYPE != 'tiny' else 'file://0004-dont-install-unmaintained-locale.patch'} \
 "
 
 SRC_URI_append_libc-glibc = "file://0006-Makefile.am-we-don-t-need-liconv-for-glibc.patch\
@@ -124,13 +125,8 @@ do_install_prepend () {
 	update-rc.d -r ${D} custom-poweroff start 89 0 .
 }
 
-do_install_append () {
-	install -d ${D}/${sysconfdir}/neutrino/bin
-}
-
-# compatibility with binaries hand-built with --prefix=
 do_install_append() {
-	install -d ${D}/share
+	install -d ${D}/share ${D}/${sysconfdir}/neutrino/bin 
 	ln -s ${datadir}/tuxbox ${D}/share/
 	ln -s ${datadir}/fonts  ${D}/share/
 	ln -s ${sysconfdir}/neutrino/config ${D}${localstatedir}/tuxbox/config
