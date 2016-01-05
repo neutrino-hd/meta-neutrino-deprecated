@@ -74,7 +74,8 @@ SRC_URI = "git://git.slknet.de/git/cst-public-gui-neutrino.git;branch=cst-next \
 "
 
 SRC_URI_append_coolstream-hd1 = " \
-	file://0005-remove-unneeded-mp3.jpg-files.patch;apply=yes \
+	file://0005-remove-unneeded-mp3.jpg-files.patch \
+	${@'' if IMAGETYPE != 'tiny' else 'file://0004-dont-install-unmaintained-locale.patch'} \
 "
 
 SRC_URI_append_libc-glibc = "file://0006-Makefile.am-we-don-t-need-liconv-for-glibc.patch\
@@ -117,7 +118,7 @@ do_install_prepend () {
 	install -d ${D}${localstatedir}/cache
 	install -d ${D}${localstatedir}/tuxbox
 	install -d ${D}/lib/mdev/fs
-	install -m 755 ${WORKDIR}/mount.mdev ${D}/lib/mdev/fs/mount 
+	install -m 755 ${WORKDIR}/mount.mdev ${D}/lib/mdev/fs/mount
 	echo "version=${DISTRO_VERSION}  `date +%Y-%m-%d` `date +%H:%M`"    > ${D}/.version 
 	echo "creator=${CREATOR}"             >> ${D}/.version 
 	echo "imagename=Neutrino-HD"             >> ${D}/.version 
@@ -125,16 +126,12 @@ do_install_prepend () {
 	update-rc.d -r ${D} custom-poweroff start 89 0 .
 }
 
-do_install_append () {
-	install -d ${D}/${sysconfdir}/neutrino/bin
-}
-
-# compatibility with binaries hand-built with --prefix=
 do_install_append() {
-	install -d ${D}/share
+	install -d ${D}/share ${D}/${sysconfdir}/neutrino/bin
 	ln -s ${datadir}/tuxbox ${D}/share/
 	ln -s ${datadir}/fonts  ${D}/share/
 	ln -s ${sysconfdir}/neutrino/config ${D}${localstatedir}/tuxbox/config
+	install -d ${D}/${sysconfdir}/neutrino/bin
 }
 
 FILES_${PN} += "\
