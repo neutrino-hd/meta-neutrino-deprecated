@@ -131,7 +131,6 @@ do_install_append() {
 	ln -s ${datadir}/tuxbox ${D}/share/
 	ln -s ${datadir}/fonts  ${D}/share/
 	ln -s ${sysconfdir}/neutrino/config ${D}${localstatedir}/tuxbox/config
-	install -d ${D}/${sysconfdir}/neutrino/bin
 }
 
 FILES_${PN} += "\
