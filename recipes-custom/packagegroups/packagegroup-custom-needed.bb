@@ -15,7 +15,6 @@ RDEPENDS_packagegroup-custom-needed = "\
 	e2fsprogs-mke2fs \
 	e2fsprogs-e2fsck \
 	e2fsprogs-tune2fs \
-	etckeeper \
 	fbshot \
 	procps \
 	resolvconf \
