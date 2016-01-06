@@ -49,7 +49,6 @@ SRC_URI = "git://git.slknet.de/git/cst-public-gui-neutrino.git;branch=cst-next \
 	file://0001-configure_fix.patch \
 	file://0002-write_nameserver_into_interfaces.patch \
 	file://0003-opkg-0.3.x-uses-opkg-instead-of-opkg-cl-as-binary-na.patch \
-	file://0007-set-image-version.patch \
 	file://0008-rcsim.c-fix-eventdev-for-yocto.patch \
 	file://0009-src-nhttpd-tuxboxapi-controlapi.cpp-fix-eventdev-for.patch \
 	file://0010-nhttpd-adjust-some-paths.patch \
@@ -118,7 +117,9 @@ do_install_prepend () {
 	install -d ${D}${localstatedir}/tuxbox
 	install -d ${D}/lib/mdev/fs
 	install -m 755 ${WORKDIR}/mount.mdev ${D}/lib/mdev/fs/mount 
-	echo "version=${DISTRO_VERSION}  `date +%Y-%m-%d` `date +%H:%M`"    > ${D}/.version 
+	echo "version=${RELEASE_STATE}${DISTRO_VERSION_NUMBER_MAJOR}${DISTRO_VERSION_NUMBER_MINOR}"0"`date +%Y%m%d%H%M`"    > ${D}/.version
+	echo "poky=${DISTRO_VERSION}"	>> ${D}/.version
+	echo "release=${DISTRO_VERSION_NUMBER}" >> ${D}/.version 
 	echo "creator=${CREATOR}"             >> ${D}/.version 
 	echo "imagename=Neutrino-HD"             >> ${D}/.version 
 	echo "homepage=${HOMEPAGE}"              >> ${D}/.version 
