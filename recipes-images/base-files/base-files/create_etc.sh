@@ -13,8 +13,8 @@ elif mountpoint -q $DEST;then
 	git config --system user.email "MAIL"
 	git config --system core.editor "nano"
 	git config --system http.sslverify false
+	fi	
 	etckeeper init
-	fi
 	mkdir -p $GIT__URL
 	git init --bare $GIT__URL
 	cd /etc && git remote add -f origin $GIT__URL
