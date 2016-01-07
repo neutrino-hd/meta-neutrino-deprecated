@@ -5,12 +5,6 @@
 # > update-rc.d samba defaults 60
 #
 
-if pdbedit -L | grep root >> /dev/null;then
-break
-else
-(echo root; echo root) | smbpasswd -s -a root
-fi
-
 smbd=/usr/sbin/smbd
 test -x "$smbd" || exit 0
 nmbd=/usr/sbin/nmbd
