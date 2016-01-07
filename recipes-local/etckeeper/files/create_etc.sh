@@ -1,10 +1,9 @@
 #!/bin/sh
 
 GIT__URL='GIT_URL'
-GIT_EXIST=$(echo $GIT__URL"/HEAD")
 DEST=$(echo $GIT__URL | cut -d"/" -f1,2,3)
 
-if [ -e $GIT_EXIST ];then
+if [ -e $GIT__URL ];then
 	exit
 elif mountpoint -q $DEST;then
 	cd /etc
@@ -13,7 +12,7 @@ elif mountpoint -q $DEST;then
 	git config --system user.email "MAIL"
 	git config --system core.editor "nano"
 	git config --system http.sslverify false
-	fi	
+	fi
 	etckeeper init
 	mkdir -p $GIT__URL
 	git init --bare $GIT__URL

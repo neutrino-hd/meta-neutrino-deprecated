@@ -5,14 +5,10 @@ SRC_URI += "file://profile \
 	    file://local.sh \
 	    file://stb_update.sh \
 	    file://stb_update-hd1.sh \
-	    file://create_etc.sh \
-	    file://update_etc.sh \
 	    file://cam.sh \
 "
 
 BASEFILESISSUEINSTALL = "do_custom_baseissueinstall"
-
-INITSCRIPT_NAME = "update_etc"
 
 do_custom_baseissueinstall() {
 	do_install_basefilesissue
@@ -38,33 +34,6 @@ do_custom_baseissueinstall() {
 	echo >> ${D}${sysconfdir}/issue.net
 }
 
-
-do_configure_prepend () {
-	sed -i "s|GIT_USER|${GIT_USER}|" ${WORKDIR}/update_etc.sh
-	sed -i "s|MAIL|${MAIL}|" ${WORKDIR}/update_etc.sh
-	sed -i "s|GIT_URL|${GIT_URL}|" ${WORKDIR}/update_etc.sh
-	sed -i "s|GIT_USER|${GIT_USER}|" ${WORKDIR}/create_etc.sh
-	sed -i "s|MAIL|${MAIL}|" ${WORKDIR}/create_etc.sh
-	sed -i "s|GIT_URL|${GIT_URL}|" ${WORKDIR}/create_etc.sh
-	if [ ${DISTRO} = "coolstream-hd1_flash" ];then
-		sed -i "s|nano|vi|" ${WORKDIR}/create_etc.sh
-		sed -i "s|nano|vi|" ${WORKDIR}/update_etc.sh
-	fi
-	if [ ${DISTRO} = "coolstream-hd1" ];then
-		sed -i "s|/media/sda1|/media/sdb1|" ${WORKDIR}/create_etc.sh
-		sed -i "s|/media/sda1|/media/sdb1|" ${WORKDIR}/update_etc.sh
-	fi
-}
-
-# compatibility links for prebuild binaries that have been built with smelly old software
-do_install_append_libc-uclibc () {
-	ln -s ./librt.so.1 ${D}${base_libdir}/librt.so.0
-	ln -s ./libc.so.1 ${D}${base_libdir}/libc.so.0
-	ln -s ./libpthread.so.1 ${D}${base_libdir}/libpthread.so.0
-	ln -s ./libcrypt.so.1 ${D}${base_libdir}/libcrypt.so.0
-	ln -s ./libdl.so.1 ${D}${base_libdir}/libdl.so.0
-}
-
 do_install_prepend_coolstream-hd2 () {
 	install -d ${D}${sysconfdir}/init.d  ${D}${localstatedir}/update
 	install -m 755 ${S}/local.sh ${D}${sysconfdir}/init.d/local.sh
@@ -74,9 +43,6 @@ do_install_prepend_coolstream-hd2 () {
 	update-rc.d -r ${D} bb_stb_update.sh start 03 S .
 	update-rc.d -r ${D} cam.sh start 60 5 .
 	touch ${D}${localstatedir}/update/.newimage
-	install -m 755 ${S}/update_etc.sh ${D}${sysconfdir}/init.d/update_etc.sh
-	install -m 755 ${S}/create_etc.sh ${D}${sysconfdir}/init.d/create_etc.sh
-	update-rc.d -r ${D} update_etc.sh start 08 5 .
  	if [ ${CLEAN_ENV} = "yes" ];then
 		touch ${D}${localstatedir}/update/.erase_env 
 	fi
@@ -91,9 +57,15 @@ do_install_append_coolstream-hd1 () {
 	# hack to get better compatibility for precompiled binaries on the nevis platform
 	ln -s ./libcrypto.so.1.0.0 ${D}${base_libdir}/libcrypto.so.0.9.8
 	ln -s ./libssl.so.1.0.0 ${D}${libdir}/libssl.so.0.9.8
-	install -m 755 ${S}/update_etc.sh ${D}${sysconfdir}/init.d/update_etc.sh
-	install -m 755 ${S}/create_etc.sh ${D}${sysconfdir}/init.d/create_etc.sh
 	install -m 755 ${S}/stb_update-hd1.sh ${D}${sysconfdir}/init.d/bb_stb_update.sh
 	update-rc.d -r ${D} bb_stb_update.sh start 03 S .
-	update-rc.d -r ${D} update_etc.sh start 08 5 .
+}
+
+# compatibility links for prebuild binaries that have been built with smelly old software
+do_install_append_libc-uclibc () {
+	ln -s ./librt.so.1 ${D}${base_libdir}/librt.so.0
+	ln -s ./libc.so.1 ${D}${base_libdir}/libc.so.0
+	ln -s ./libpthread.so.1 ${D}${base_libdir}/libpthread.so.0
+	ln -s ./libcrypt.so.1 ${D}${base_libdir}/libcrypt.so.0
+	ln -s ./libdl.so.1 ${D}${base_libdir}/libdl.so.0
 }
