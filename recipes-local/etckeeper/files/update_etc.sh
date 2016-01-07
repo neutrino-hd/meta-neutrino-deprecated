@@ -1,8 +1,9 @@
 #!/bin/sh
 
 GIT__URL='GIT_URL'
+GIT_EXIST=$(echo $GIT__URL"/HEAD")
 
-if [ -e $GIT__URL ];then
+if [ -e $GIT_EXIST ];then
 	if [ ! -e /etc/gitconfig ];then
 		git config --system user.name "GIT_USER"
 		git config --system user.email "MAIL"
