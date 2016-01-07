@@ -17,15 +17,15 @@ SRC_URI = "file://smbd \
 inherit update-rc.d
 
 CONFFILES_${PN} = "${sysconfdir}/smb.conf"
-
 INITSCRIPT_NAME = "samba"
+INITSCRIPT_PARAMS = "start 60 S . stop 20 0 1 2 3 4 6 ."
 
 S = "${WORKDIR}/"
 
 do_install () {
 	install -d ${D}${sysconfdir}/samba/private ${D}${sysconfdir}/init.d ${D}${sbindir}
-	install -m 644 ${S}smbd ${D}${sbindir}
-	install -m 644 ${S}nmbd ${D}${sbindir}
+	install -m 755 ${S}smbd ${D}${sbindir}
+	install -m 755 ${S}nmbd ${D}${sbindir}
 	install -m 644 ${S}smb.conf ${D}${sysconfdir}/smb.conf
-	install -m 644 ${S}samba ${D}${sysconfdir}/init.d/samba
+	install -m 755 ${S}samba ${D}${sysconfdir}/init.d/samba
 }
