@@ -18,7 +18,7 @@ inherit update-rc.d
 
 CONFFILES_${PN} = "${sysconfdir}/smb.conf"
 INITSCRIPT_NAME = "samba"
-INITSCRIPT_PARAMS = "start 60 S . stop 20 0 1 2 3 4 6 ."
+INITSCRIPT_PARAMS = "start 60 d . stop 20 0 1 2 3 4 6 ."
 
 S = "${WORKDIR}/"
 
