@@ -1,0 +1,27 @@
+From 4dcee9e4a48cd279a2ea57bb120779f126121e6a Mon Sep 17 00:00:00 2001
+From: MarkusVolk <f_l_k@t-online.de>
+Date: Thu, 7 Jan 2016 07:13:44 +0100
+Subject: [PATCH 284/284] imageinfo.cpp: change version output
+
+Signed-off-by: MarkusVolk <f_l_k@t-online.de>
+---
+ src/gui/imageinfo.cpp | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/src/gui/imageinfo.cpp b/src/gui/imageinfo.cpp
+index 5964199..4f45e6d 100644
+--- a/src/gui/imageinfo.cpp
++++ b/src/gui/imageinfo.cpp
+@@ -268,7 +268,8 @@ void CImageInfo::InitInfoData()
+ 
+ 	image_info_t imagename 	= {LOCALE_IMAGEINFO_IMAGE,	config.getString("imagename", "Neutrino-HD")};
+ 	v_info.push_back(imagename);
+-	image_info_t version	= {LOCALE_IMAGEINFO_VERSION,	version_string};
++//	image_info_t version	= {LOCALE_IMAGEINFO_VERSION,	version_string};
++	image_info_t version	= {LOCALE_IMAGEINFO_VERSION,	config.getString("poky", "n/a")};
+ 	v_info.push_back(version);
+ #ifdef VCS
+ 	image_info_t vcs	= {LOCALE_IMAGEINFO_VCS,	VCS};
+-- 
+2.1.4
+
