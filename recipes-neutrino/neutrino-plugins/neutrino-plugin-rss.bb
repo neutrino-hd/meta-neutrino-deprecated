@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/GPL-2.0;md5=80
 HOMEPAGE = ""
 MAINTAINER = "Jacek Jendrzej"
 DEPENDS = "lua5.2 expat"
-RDEPENDS_${PN} = "lua-expat lua-feedparser"
+RDEPENDS_${PN} = "lua-expat lua-feedparser lua-curl"
 
 PV = "0.09c"
 PR = "1"
