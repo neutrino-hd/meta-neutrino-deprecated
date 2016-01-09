@@ -80,9 +80,11 @@ function main()
 	m:addItem{type="back"}
 	m:addItem{type="separatorline"}
 	local d = 0 -- directkey
-	local ch_feeds= { "mtv-schweiz-live", "srf-1-tv-live", "srf-zwei-live", "3-plus-tv-live"
-		, "4-plus-tv-live", "5-plus-tv-live","orf-eins-live","orf-2-live", "das-erste-live", "zdf-live"
-		, "kabel-eins-live", "prosieben-pro7-live", "srf-info-live"}
+	local ch_feeds= { "das-erste-live", "zdf-live", "3sat-live", "arte-germany-live"
+	  , "zdf-infokanal-live", "zdf-neo-live", "kika-live", "nickelodeon-germany-live"
+		, "kabel-eins-live", "prosieben-pro7-live", "prosieben-pro7-maxx-live"
+		, "orf-eins-live", "orf-2-live", "srf-1-tv-live", "srf-zwei-live", "3-plus-tv-live"
+		, "4-plus-tv-live", "5-plus-tv-live", "srf-info-live", "mtv-schweiz-live" }
 	for i, feed in ipairs(ch_feeds) do
 		d = d + 1
 		local dkey = godirectkey(d)
