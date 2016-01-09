@@ -16,4 +16,5 @@ IMAGE_INSTALL += " \
 	neutrino-plugin-mytvpro \
 	neutrino-plugin-myspass \
 	neutrino-plugin-mediathek \
+	neutrino-plugin-oklivetv \
 	"
