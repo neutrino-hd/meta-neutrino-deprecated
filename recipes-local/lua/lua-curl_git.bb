@@ -25,3 +25,4 @@ do_install () {
 }
 
 FILES_${PN} += "${libdir}/lua/5.2/cURL.so"
+FILES-dbg_${PN} += "${libdir}/lua/5.2/.debug/cURL.so"
