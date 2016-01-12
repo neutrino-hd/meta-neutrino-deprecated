@@ -17,7 +17,6 @@ RDEPENDS_packagegroup-custom-needed = "\
 	e2fsprogs-tune2fs \
 	fbshot \
 	procps \
-	resolvconf \
 	udpxy \
 	vsftpd \
 	xupnpd \
