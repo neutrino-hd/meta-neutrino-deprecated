@@ -44,7 +44,6 @@ SRC_URI = " \
 	file://custom-poweroff.init \
 	file://COPYING.GPL \
 	file://0001-uncooloff.c-add-include-stdbool.h.patch \
-	file://0002-write_nameserver_into_interfaces.patch \
 	file://0007-imageinfo.cpp-change-version-output.patch \
 	file://hardware_caps.cpp \
 	file://hardware_caps.h \
