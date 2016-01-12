@@ -47,7 +47,6 @@ SRC_URI = "git://git.slknet.de/git/cst-public-gui-neutrino.git;branch=cst-next \
 	file://mount.mdev \
 	file://COPYING.GPL \
 	file://0001-configure_fix.patch \
-	file://0002-write_nameserver_into_interfaces.patch \
 	file://0003-opkg-0.3.x-uses-opkg-instead-of-opkg-cl-as-binary-na.patch \
 	file://0007-imageinfo.cpp-change-version-output.patch \
 	file://0008-rcsim.c-fix-eventdev-for-yocto.patch \
