@@ -1,8 +1,6 @@
 # Base this image on core-image-minimal
 include recipes-core/images/core-image-minimal.bb
 
-inherit image
-
 # 488M + 20MB /boot +4MB alignment = 512M
 IMAGE_ROOTFS_SIZE = "499712"
 
