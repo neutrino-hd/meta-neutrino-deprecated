@@ -14,8 +14,23 @@ set_root_passwd() {
    mv ${IMAGE_ROOTFS}/etc/shadow.new ${IMAGE_ROOTFS}/etc/shadow ;
 }
 
-IMAGE_POSTPROCESS_COMMAND += "copy_image;"
-copy_image() {
+IMAGE_POSTPROCESS_COMMAND_coolstream-hd1 += "copy_image_hd1;"
+copy_image_hd1() {
+	mkdir -p ${DEPLOY_DIR_IMAGE}/flashimage/coolstream
+	if [ ${IMAGETYPE} = "tiny" ]; then
+	rm -rf ${DEPLOY_DIR_IMAGE}/flashimage/coolstream/*
+	cp ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.jffs2.sum ${DEPLOY_DIR_IMAGE}/flashimage/coolstream/system.img
+	cp ${DEPLOY_DIR_IMAGE}/zImage ${DEPLOY_DIR_IMAGE}/flashimage/coolstream/kernel.img
+			if [ ${INCLUDE_KERNEL} = "yes" ];then
+			mv ${DEPLOY_DIR_IMAGE}/flashimage/coolstream/system.img ${DEPLOY_DIR_IMAGE}/flashimage/coolstream/flashimage.img
+			fi
+	else rm -rf ${DEPLOY_DIR_IMAGE}/flashimage/coolstream/*
+	touch ${DEPLOY_DIR_IMAGE}/flashimage/coolstream/"please select IMAGETYPE ?= \"tiny\" in local.conf"
+	fi
+}
+
+IMAGE_POSTPROCESS_COMMAND_coolstream-hd2 += "copy_image_hd2;"
+copy_image_hd2() {
 	mkdir -p ${DEPLOY_DIR_IMAGE}/flashimage;
 	cp ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.jffs2.sum ${DEPLOY_DIR_IMAGE}/flashimage/rootfs.arm.jffs2.nand;
 	cp ${DEPLOY_DIR_IMAGE}/zImage ${DEPLOY_DIR_IMAGE}/flashimage/vmlinux.ub.gz;
