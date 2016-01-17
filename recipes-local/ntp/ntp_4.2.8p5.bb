@@ -8,8 +8,8 @@ SRC_URI = "http://www.eecis.udel.edu/~ntp/ntp_spool/ntp4/ntp-4.2/${P}.tar.gz \
         file://ntp.conf \
         file://ntpdate"
 
-SRC_URI[md5sum] = "fa37049383316322d060ec9061ac23a9"
-SRC_URI[sha256sum] = "0d69bc0e95caad43ea04fdad410e756bae1a71e67b1c2bd799b76b55e04c9b31"
+SRC_URI[md5sum] = "9f02b2a0acc1617ce2716d529a58d2d8"
+SRC_URI[sha256sum] = "ca28baf4f6bb6fabdc1b62fd1dcec412be2e621192b40466a469a2496164f696"
 
 INITSCRIPT_NAME = "ntpd"
 
