@@ -34,42 +34,34 @@ DEPENDS += " \
 
 RCONFLICTS_${PN} = "neutrino-mp"
 
-SRCREV = "${AUTOREV}"
+SRCREV_FORMAT ?= "cst-next"
+SRCREV_cst-next ?= "${AUTOREV}"
+SRCREV_tmdb ?= "${AUTOREV}"
 PV = "${SRCPV}"
 PR = "4"
 
-SRC_URI = "git://git.slknet.de/git/cst-public-gui-neutrino.git;branch=cst-next \
-	file://neutrino.init \
-	file://timezone.xml \
-	file://custom-poweroff.init \
-	file://pre-wlan0.sh \
-	file://post-wlan0.sh \
-	file://mount.mdev \
-	file://COPYING.GPL \
-	file://0001-configure_fix.patch \
-	file://0003-opkg-0.3.x-uses-opkg-instead-of-opkg-cl-as-binary-na.patch \
-	file://0007-imageinfo.cpp-change-version-output.patch \
-	file://0008-rcsim.c-fix-eventdev-for-yocto.patch \
-	file://0009-src-nhttpd-tuxboxapi-controlapi.cpp-fix-eventdev-for.patch \
-	file://0010-nhttpd-adjust-some-paths.patch \
-	file://0012-import-proper-working-format-device-function.patch \
-	file://0013-disable-network_services-menu.patch \
-	file://0016-dont-install-undotum.ttf-to-shrink-size.patch \
-	file://0017-sectionsd-remove-ifdef-unneeded-for-uclibc-ng.patch \
-	file://tmdb/0001-neutrino-mp-cst-tmdb.patch \
-	file://tmdb/0002-tmdb-fix-function-type.patch \
-	file://tmdb/0003-tmdb-fix-return-value.patch \
-	file://tmdb/0004-tmdb-Suppress-cover-flickering-when-scrolling.patch \
-	file://tmdb/0005-tmdb-Add-read-apikey-from-neutrino.conf.patch \
-	file://tmdb/0006-src-system-helpers.cpp-Add-function-Lang2ISO639_1.patch \
-	file://tmdb/0007-tmdb-Use-osd-language-for-search-display-data.patch \
-	file://tmdb/0008-tmdb-Add-hintbox-when-search-data.patch \
-	file://tmdb/0009-tmdb-Add-star-icons.patch \
-	file://tmdb/star-off.png \
-	file://tmdb/star-on.png \
-	file://opkg/0001-opkg_manager-remove-reboot-and-restart-trigger-files.patch \
-	file://opkg/0002-opkg_manager-remove-opkg-options.patch \
-	file://opkg/0003-opkg_manager-don-t-overwrite-opkg.conf.patch \
+SRC_URI = "git://git.slknet.de/git/cst-public-gui-neutrino.git;name=cst-next;branch=cst-next \
+	   git://git.slknet.de/git/tmdb-neutrino.git;name=tmdb;branch=master;destsuffix=tmdb \
+	   file://neutrino.init \
+	   file://timezone.xml \
+	   file://custom-poweroff.init \
+	   file://pre-wlan0.sh \
+	   file://post-wlan0.sh \
+	   file://mount.mdev \
+	   file://COPYING.GPL \
+	   file://0001-configure_fix.patch \
+	   file://0003-opkg-0.3.x-uses-opkg-instead-of-opkg-cl-as-binary-na.patch \
+	   file://0007-imageinfo.cpp-change-version-output.patch \
+	   file://0008-rcsim.c-fix-eventdev-for-yocto.patch \
+	   file://0009-src-nhttpd-tuxboxapi-controlapi.cpp-fix-eventdev-for.patch \
+	   file://0010-nhttpd-adjust-some-paths.patch \
+	   file://0012-import-proper-working-format-device-function.patch \
+	   file://0013-disable-network_services-menu.patch \
+	   file://0016-dont-install-undotum.ttf-to-shrink-size.patch \
+	   file://0017-sectionsd-remove-ifdef-unneeded-for-uclibc-ng.patch \
+	   file://opkg/0001-opkg_manager-remove-reboot-and-restart-trigger-files.patch \
+	   file://opkg/0002-opkg_manager-remove-opkg-options.patch \
+	   file://opkg/0003-opkg_manager-don-t-overwrite-opkg.conf.patch \
 "
 
 SRC_URI_append_coolstream-hd1 = " \
@@ -87,6 +79,12 @@ INITSCRIPT_NAME_${PN} = "neutrino"
 INITSCRIPT_PARAMS_${PN} = "start 99 5 . stop 20 0 1 2 3 4 6 ."
 
 include neutrino-hd.inc
+
+addtask gitpatch after do_fetch before do_patch
+do_gitpatch() {	
+	cp ${WORKDIR}/tmdb/patches/*.patch ${S}
+	cd ${S} && git reset --hard origin/cst-next && git am *.patch	
+}
 
 do_configure_prepend() {
 	INSTALL="`which install` -p"
@@ -111,9 +109,6 @@ do_install_prepend () {
 	install -m 755 ${WORKDIR}/pre-wlan0.sh ${D}${sysconfdir}/network/
 	install -m 755 ${WORKDIR}/post-wlan0.sh ${D}${sysconfdir}/network/
 	install -m 644 ${WORKDIR}/timezone.xml ${D}${sysconfdir}/timezone.xml
-	install -d ${D}/usr/share/tuxbox/neutrino/icons
-	install -m 644 ${WORKDIR}/tmdb/star-off.png ${D}/usr/share/tuxbox/neutrino/icons/star-off.png
-	install -m 644 ${WORKDIR}/tmdb/star-on.png ${D}/usr/share/tuxbox/neutrino/icons/star-on.png
 	install -d ${D}${localstatedir}/cache
 	install -d ${D}${localstatedir}/tuxbox
 	install -d ${D}/lib/mdev/fs
