@@ -9,6 +9,7 @@ SRC_URI = "git://github.com/FFmpeg/FFmpeg.git;branch=master \
 	   file://0001-add-HDS-ro.patch \
 	   file://0004-add-ASF-VC1-Annex-G-and-RCV-bitstream-filters.patch \
 	   file://0001-Revert-lavc-Switch-bitrate-to-64bit-unless-compatibi.patch \
+	   file://0006-ffmpeg-fixed-memleak-in-mpegts-demuxer-on-some-malformed-mp.patch \
 "
 SRC_URI_append_coolstream-hd1 = "file://0005-Revert-arm-add-a-cpu-flag-for-the-VFPv2-vector-mode.patch \
 "
