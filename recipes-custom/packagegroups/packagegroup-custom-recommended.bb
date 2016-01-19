@@ -20,7 +20,6 @@ RDEPENDS_packagegroup-custom-recommended ?= "\
     dosfstools \
     etckeeper \
     exfat-utils \
-    fuse-exfat \
     htop \
     inotify-tools \
     libevent \

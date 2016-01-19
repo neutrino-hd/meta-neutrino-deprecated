@@ -11,8 +11,6 @@ SRC_URI = "git://github.com/FFmpeg/FFmpeg.git;branch=master \
 	   file://0001-Revert-lavc-Switch-bitrate-to-64bit-unless-compatibi.patch \
 	   file://0006-ffmpeg-fixed-memleak-in-mpegts-demuxer-on-some-malformed-mp.patch \
 "
-SRC_URI_append_coolstream-hd1 = "file://0005-Revert-arm-add-a-cpu-flag-for-the-VFPv2-vector-mode.patch \
-"
 
 LIC_FILES_CHKSUM = " \
 	file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \

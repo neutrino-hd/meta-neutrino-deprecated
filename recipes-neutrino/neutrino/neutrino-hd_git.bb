@@ -62,11 +62,8 @@ SRC_URI = "git://git.slknet.de/git/cst-public-gui-neutrino.git;name=cst-next;bra
 	   file://opkg/0001-opkg_manager-remove-reboot-and-restart-trigger-files.patch \
 	   file://opkg/0002-opkg_manager-remove-opkg-options.patch \
 	   file://opkg/0003-opkg_manager-don-t-overwrite-opkg.conf.patch \
-"
-
-SRC_URI_append_coolstream-hd1 = " \
-	file://0005-remove-unneeded-mp3.jpg-files.patch \
-	${@'' if IMAGETYPE != 'tiny' else 'file://0004-dont-install-unmaintained-locale.patch'} \
+	   ${@'' if IMAGETYPE != 'tiny' else 'file://0004-dont-install-unmaintained-locale.patch \
+					      file://0005-remove-unneeded-mp3.jpg-files.patch'} \
 "
 
 SRC_URI_append_libc-glibc = "file://0006-Makefile.am-we-don-t-need-liconv-for-glibc.patch\
