@@ -5,7 +5,7 @@ SECTION = "libs"
 LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://${WORKDIR}/COPYING.GPL;md5=751419260aa954499f7abaabaa882bbe"
 
-inherit autotools pkgconfig update-rc.d
+inherit autotools-brokensep pkgconfig update-rc.d
 
 DEPENDS += " \
 	curl \
@@ -38,7 +38,7 @@ SRCREV_FORMAT ?= "cst-next"
 SRCREV_cst-next ?= "${AUTOREV}"
 SRCREV_tmdb ?= "${AUTOREV}"
 PV = "${SRCPV}"
-PR = "4"
+PR = "5"
 
 SRC_URI = "git://git.slknet.de/git/cst-public-gui-neutrino.git;name=cst-next;branch=cst-next \
 	   git://git.slknet.de/git/tmdb-neutrino.git;name=tmdb;branch=master;destsuffix=tmdb \
@@ -77,10 +77,10 @@ INITSCRIPT_PARAMS_${PN} = "start 99 5 . stop 20 0 1 2 3 4 6 ."
 
 include neutrino-hd.inc
 
-addtask gitpatch after do_fetch before do_patch
+addtask gitpatch before do_patch
 do_gitpatch() {	
 	cp ${WORKDIR}/tmdb/patches/*.patch ${S}
-	cd ${S} && git reset --hard origin/cst-next && git am *.patch	
+	cd ${S} && git reset --hard origin/cst-next && git pull && git am *.patch	
 }
 
 do_configure_prepend() {
