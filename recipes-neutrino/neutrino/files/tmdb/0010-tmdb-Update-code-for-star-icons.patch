@@ -1,0 +1,50 @@
+From 9b86b997214c1e8fcf8c526de5183dd83c0e8ab5 Mon Sep 17 00:00:00 2001
+From: "M. Liebmann" <tuxcode.bbg@gmail.com>
+Date: Tue, 29 Dec 2015 20:21:08 +0100
+Subject: [PATCH 2/2] tmdb: Update code for star icons
+
+---
+ data/icons/Makefile.am |  2 ++
+ src/gui/epgview.cpp    | 12 +++++-------
+ src/gui/widget/icons.h |  2 ++
+ 3 files changed, 9 insertions(+), 7 deletions(-)
+
+diff --git a/src/gui/epgview.cpp b/src/gui/epgview.cpp
+index 25c6244..c1ae4cf 100644
+--- a/src/gui/epgview.cpp
++++ b/src/gui/epgview.cpp
+@@ -280,13 +280,11 @@ void CEpgData::showText( int startPos, int ypos, bool cover, bool fullClear)
+ 
+ 	if (stars > 0 && startPos == 0){
+ 		int icon_w,icon_h;
+-		frameBuffer->getIconSize(ICONSDIR"/star-off.png", &icon_w, &icon_h);
+-		for (int i=1; i < 11;i++) {
+-			frameBuffer->paintIcon(ICONSDIR"/star-off.png", sx+3+cover_offset+i*icon_w+3, ypos+3);
+-		}
+-		for (int i=1; i < stars+1;i++) {
+-			frameBuffer->paintIcon(ICONSDIR"/star-on.png", sx+3+cover_offset+i*icon_w+3, ypos+3);
+-		}
++		frameBuffer->getIconSize(NEUTRINO_ICON_STAR_OFF, &icon_w, &icon_h);
++		for (int i = 0; i < 10; i++)
++			frameBuffer->paintIcon(NEUTRINO_ICON_STAR_OFF, sx+10+cover_offset + i*(icon_w+3), ypos+3);
++		for (int i = 0; i < stars; i++)
++			frameBuffer->paintIcon(NEUTRINO_ICON_STAR_ON, sx+10+cover_offset + i*(icon_w+3), ypos+3);
+ 	}
+ 
+ 	int sbc = ((textSize - 1)/ medlinecount) + 1;
+diff --git a/src/gui/widget/icons.h b/src/gui/widget/icons.h
+index 60e2cf9..0810569 100644
+--- a/src/gui/widget/icons.h
++++ b/src/gui/widget/icons.h
+@@ -178,6 +178,8 @@
+ #define NEUTRINO_ICON_RECORDING_EVENT_MARKER	"rec_event_marker"
+ #define NEUTRINO_ICON_ZAP		"zap"
+ #define NEUTRINO_ICON_PIP		"pip"
++#define NEUTRINO_ICON_STAR_ON		"star-on"
++#define NEUTRINO_ICON_STAR_OFF		"star-off"
+ 
+ #define DUMMY_ICON			"dummy"
+ 
+-- 
+2.6.4
+

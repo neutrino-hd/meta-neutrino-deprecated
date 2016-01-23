@@ -1,0 +1,77 @@
+From 830cdd9d4ad9b54d9555392cf81fb65ca3be099e Mon Sep 17 00:00:00 2001
+From: "M. Liebmann" <tuxcode.bbg@gmail.com>
+Date: Sun, 17 Jan 2016 10:39:31 +0100
+Subject: [PATCH 1/2] tmdb: Add star icons (THX flk)
+
+---
+ data/icons/star-off.png | Bin 0 -> 1034 bytes
+ data/icons/star-on.png  | Bin 0 -> 1139 bytes
+ 2 files changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 data/icons/star-off.png
+ create mode 100644 data/icons/star-on.png
+
+diff --git a/data/icons/star-off.png b/data/icons/star-off.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..d40be7f27af0bb2b6ad9c585494933b6d2ea3724
+GIT binary patch
+literal 1034
+zcmV+l1oiugP)<h;3K|Lk000e1NJLTq000&M000&U1^@s6#I$TX00006VoOIv0RI60
+z0RN!9r;`8x010qNS#tmY3ljhU3ljkVnw%H_000McNliru-wYlQ4IPjKcoP5s1D8oe
+zK~y-)t(8qkYey8v|C9SMNxYgwV~h)J7A~YbL9B~lyRcADVh}7{w2RVK=v%n%;_V9E
+zxp)tX3%e;1SKSCfl7QkzU4)<u4K7?rRY;=Jr{dF_=3ej2o#~<`_^c?U{$XG~&iT!m
+zuQR}ZRH0D7vniQOdbYN<=2uo$zQuEDd3m|tG|j&b4-b!~r>DKyZ1(>F>wxX;?Kg}u
+zS*=!iKA#_cu7JtG!GRP)NY1$|7K`a;p{}m3{%l#6bX`|6#$=^Zk*QQF_LQIc*fx~Q
+z<+kqb?yo7Oa2y9h2!ui*^z`)n0$}vfW!5XRv$L&+VT26B2pWbFqLhZbUhikUy}jQz
+zH#Za0G$Ew~Ap{o}7pz<^zv7%9*tY%7w(U#DaV~4M+PlfgNfQ9b+S=NSa5%hX7=}tI
+zRaI406-7}sO;ahQMAvmN#!#(RA%p+`NGahs4mjt+bzROF<BsES%d)s_+kZ$Y6RHrx
+zqLlK^&dzqP*9!m;LNv<F%?(V`gb)H!%EtI@^d3Tp-qh5jx3#rF*L74XmAA*o$BY2L
+z;^JaQM@PqIEEfBKQVK!{q?F*CgE96VlraXzSfd?{M&bAS;kqvN_V!+<QmI!nGc(+i
+z&1Nw^KK|$C=4Q{)(b3k`)fKAMDooRaWm#|>rva<gYH%C}Qc9?*imt9Mw6wH<bB^8J
+z-PZ#H13x4Z3EnuoOeTY5GKsmlIe#n``!yPken}~Xl(MlU^#}og5Q5g$Rs;e8n5K#S
+z{rzv^@%a4RTj9CQ1pt6ZBvKn59{%d&<YeLI<_3&0xUTyiR7wf2*9%2a;JU6X7K<<A
+z@%Vfulfl2hbtMuBEG#TQ2yt{5c3&RPKW>+om-71hx^y?V2f+ZK>$;+8T7TX7AqgSi
+zx-Jw&@dN^a{s$+&|JpQ7BdV(Q-R<}Jd<X`E&~+WEsy1!~r4*FXzH~ZG9tDq$jR8PV
+z)3gpk2sBMYBoaY;dppYI^6#gor)P{Y5JKQM4irU!-|v5+>$>tN_;#6Nnx-Kb3?dv3
+z!?LXHjg5^j1_uW}9U2;nluD(a&d<-^nx+Zcw&C;n`g}g0=Si@lD4$0n5m=Umot>TU
+z3WdTaqobn>_3@FBksr^_&OR)aN^_-B3Bh2{!x;PM$uybE<=*7;`QN6dru<LYrqk(<
+zi^XDLX=!QTQN#81^#^~D`^sc8$mMbXfQg9-&qKC<0|k%Y@LR1C`v3p{07*qoM6N<$
+Ef{`rjJpcdz
+
+literal 0
+HcmV?d00001
+
+diff --git a/data/icons/star-on.png b/data/icons/star-on.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..dec69042896661000e54fc10fedd1548a175be0a
+GIT binary patch
+literal 1139
+zcmV-(1dRKMP)<h;3K|Lk000e1NJLTq000&M000&U1^@s6#I$TX00006VoOIv0RI60
+z0RN!9r;`8x010qNS#tmY3ljhU3ljkVnw%H_000McNliru-wYlQ3@1+$kl+9S1OQ1y
+zK~y-)t(8k`RCN@_fA=}}PG{~+TWBk^g0_XymXtsQ0wEAoVqB2gf@wvGx-f*5X=0*a
+zqB}!kOo+1a5g}k(&{lSWBx)k>NGweSY_(8=v`Fi;^S+P&y)LE;P$-Rfw&(o6|H*g0
+z^BtIFe6||>la*+*tygDTShH#M0q_Oq&%en36-Qdbb$@)@F*SDVwZ!4)j776~BhQrV
+zZMOiZs9(G#Hm}x-#`Sn*Q)Ba;xrd6rea|}X_3l7i+!^%m+n9dnjscEtpZiu-Q-daX
+zNdh;^g8F$yUvDdU{XYTsv_%1UTgI$fUe{rj%_qoS$M-Tsq7DmJ)a-fz^qDA;0Cs~>
+zxtvlnPI0uNByPs7;!s2{)^%lF{Zs2-ja4?t;`T`pQ^*KXNzeb~<jAM_yf|g2okTvF
+zPoxw1gp>0pZw}cL?~am}zS+58RatG#@mR$iLSb3ev_Mr=NmVpm(ZX?bGYsA&{?sK1
+zJir5A;Mg8+-ox{J;X1-|Y~f|6a$f2$H%N}VPpZQ85~h*KR#rduh#D@1K*INJ5H|QJ
+z$c^J?u7OBHARzD|@X(|@TF3z<qew+zMX~0G)bd6~2Y<V9`S`U-381?*Qof*}?0n;z
+z@<&6aL7;>SAR>$JBtYZ}fCvyd0%sC@7lHs~?pm~}4M^4q7ke-KK6qke_47U1akaPI
+zqNOW&>z$M7Y6<7m;$`Ma(-Z{02l&$+iUN?AA@J?#>8L0b8`0<0A=J|h9UncjcgK}=
+zpM&Uaw@?lb*z~kT*?G?KmrNu(WlgFnin@)a?iRZ9GT@~^WD6fm&s??|(JQL3<s0-L
+zy?U^7$I#Y~!0Bm=(%PLW$gQ<I1wi#OE4$%?iMC&VPJd}<#tGc1X&S`cTGA|J-2@}Y
+z;IaPBCpw0=uYI{VcPG|eI&MCc1i-d~0U_?A`~W1yDA1H1!y6kL0NA`gG4p~P*%FhB
+zB7T#0KZBG2-^KTQ5MfM{rq1TLJmco|wp(b1kj-$gRF<c^19VHqTxemIOK2eo+%!Sp
+zA_WFU+*lg5T=}0Hco%R>R}v#E)KDm>l_by%Flyq+4J#SCGH2?_IW6VbV1^xJcO2pR
+z=+St6X_+UtbR}n|!p^Geiz0$hMFhFNp4*w)iL(br-&^$3aLJN47M1*XBD`ntlA7?c
+zH&N_iB6ErvzooBwpb06e-&|T7As27pY-g(Lr-Q>w*6beHRhZU*_sqxHH!t@Yb*H~G
+zzZ&VkO6+kPBPz8#@H9zspx?Zz^qtvrq2rYwyzlQdzve^fKY^`ZY>qwc$FlDmaYKjX
+zgU(Q~{^5!uv*5+Cd)i`8Ta=^Q3f8)JsTtnC(fpT&{swZyxUA*)riK6j002ovPDHLk
+FV1nTaC_MlG
+
+literal 0
+HcmV?d00001
+
+-- 
+2.6.4
+

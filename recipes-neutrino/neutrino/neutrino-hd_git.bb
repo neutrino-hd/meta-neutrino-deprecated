@@ -5,7 +5,7 @@ SECTION = "libs"
 LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://${WORKDIR}/COPYING.GPL;md5=751419260aa954499f7abaabaa882bbe"
 
-inherit autotools-brokensep pkgconfig update-rc.d
+inherit autotools pkgconfig update-rc.d
 
 DEPENDS += " \
 	curl \
@@ -24,24 +24,19 @@ DEPENDS += " \
 	libsigc++ \
 	lua5.2 \
 	luaposix \
-	openssl \
 	openthreads \
 	pugixml \
-	tremor \
 	virtual/stb-hal-libs \
 	virtual/libiconv \
 "
 
 RCONFLICTS_${PN} = "neutrino-mp"
 
-SRCREV_FORMAT ?= "cst-next"
-SRCREV_cst-next ?= "${AUTOREV}"
-SRCREV_tmdb ?= "${AUTOREV}"
+SRCREV ?= "${AUTOREV}"
 PV = "${SRCPV}"
 PR = "5"
 
 SRC_URI = "git://git.slknet.de/git/cst-public-gui-neutrino.git;name=cst-next;branch=cst-next \
-	   git://git.slknet.de/git/tmdb-neutrino.git;name=tmdb;branch=master;destsuffix=tmdb \
 	   file://neutrino.init \
 	   file://timezone.xml \
 	   file://custom-poweroff.init \
@@ -62,6 +57,17 @@ SRC_URI = "git://git.slknet.de/git/cst-public-gui-neutrino.git;name=cst-next;bra
 	   file://opkg/0001-opkg_manager-remove-reboot-and-restart-trigger-files.patch \
 	   file://opkg/0002-opkg_manager-remove-opkg-options.patch \
 	   file://opkg/0003-opkg_manager-don-t-overwrite-opkg.conf.patch \
+	   file://tmdb/0001-neutrino-mp-cst-tmdb.patch \
+	   file://tmdb/0002-tmdb-fix-function-type.patch \
+	   file://tmdb/0003-tmdb-fix-return-value.patch \
+	   file://tmdb/0004-tmdb-Suppress-cover-flickering-when-scrolling.patch \
+	   file://tmdb/0005-tmdb-Add-read-apikey-from-neutrino.conf.patch \
+	   file://tmdb/0006-src-system-helpers.cpp-Add-function-Lang2ISO639_1.patch \
+	   file://tmdb/0007-tmdb-Use-osd-language-for-search-display-data.patch \
+	   file://tmdb/0008-tmdb-Add-hintbox-when-search-data.patch \
+	   file://tmdb/0010-tmdb-Update-code-for-star-icons.patch \
+	   file://tmdb/star-on.png \
+	   file://tmdb/star-off.png \
 	   ${@'' if IMAGETYPE != 'tiny' else 'file://0004-dont-install-unmaintained-locale.patch \
 					      file://0005-remove-unneeded-mp3.jpg-files.patch'} \
 "
@@ -76,12 +82,6 @@ INITSCRIPT_NAME_${PN} = "neutrino"
 INITSCRIPT_PARAMS_${PN} = "start 99 5 . stop 20 0 1 2 3 4 6 ."
 
 include neutrino-hd.inc
-
-addtask gitpatch before do_patch
-do_gitpatch() {	
-	cp ${WORKDIR}/tmdb/patches/*.patch ${S}
-	cd ${S} && git reset --hard origin/cst-next && git pull && git am *.patch	
-}
 
 do_configure_prepend() {
 	INSTALL="`which install` -p"
@@ -124,6 +124,8 @@ do_install_append() {
 	ln -s ${datadir}/tuxbox ${D}/share/
 	ln -s ${datadir}/fonts  ${D}/share/
 	ln -s ${sysconfdir}/neutrino/config ${D}${localstatedir}/tuxbox/config
+	install -m 644 ${WORKDIR}/tmdb/*.png ${D}/usr/share/tuxbox/neutrino/icons/
+	install -m 644 ${WORKDIR}/icons/* ${D}/usr/share/tuxbox/neutrino/icons/
 }
 
 FILES_${PN} += "\

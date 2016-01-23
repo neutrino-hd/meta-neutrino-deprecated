@@ -1,0 +1,39 @@
+From 39f4226cce0f1f4ac058d822708bbca3cbcea80e Mon Sep 17 00:00:00 2001
+From: vanhofen <vanhofen@gmx.de>
+Date: Tue, 24 Nov 2015 15:08:43 +0100
+Subject: [PATCH 2/9] - tmdb: fix function type
+
+---
+ src/gui/tmdb.cpp | 2 +-
+ src/gui/tmdb.h   | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/gui/tmdb.cpp b/src/gui/tmdb.cpp
+index 688ecac..292f4d0 100644
+--- a/src/gui/tmdb.cpp
++++ b/src/gui/tmdb.cpp
+@@ -299,7 +299,7 @@ std::string cTmdb::CreateEPGText()
+ 	return epgtext;
+ }
+ 
+-int cTmdb::exec()
++void cTmdb::exec()
+ {
+ 	neutrino_msg_t      msg;
+ 	neutrino_msg_data_t data;
+diff --git a/src/gui/tmdb.h b/src/gui/tmdb.h
+index 751b485..2e5e82a 100644
+--- a/src/gui/tmdb.h
++++ b/src/gui/tmdb.h
+@@ -66,7 +66,7 @@ class cTmdb
+ 	public:
+ 		cTmdb(std::string epgtitle);
+ 		~cTmdb();
+-		int exec();
++		void exec();
+ 		std::string CreateEPGText();
+ 
+ 		std::string getTitle()				{ return minfo.epgtitle;}
+-- 
+2.6.4
+
