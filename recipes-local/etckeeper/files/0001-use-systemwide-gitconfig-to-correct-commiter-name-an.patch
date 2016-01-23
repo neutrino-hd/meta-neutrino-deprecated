@@ -1,19 +1,18 @@
-From 7b51735163ffcb636e70bb48e7f96d843974ca39 Mon Sep 17 00:00:00 2001
-From: MarkusVolk <f_l_k@gmx.net>
-Date: Sun, 7 Jun 2015 08:44:31 +0200
-Subject: [PATCH] use systemwide gitconfig to correct commiter name and mail
- ... drop getent dependency
+From 12faf7e1885110b69bd83e9042990a10de9fdcc2 Mon Sep 17 00:00:00 2001
+From: MarkusVolk <f_l_k@t-online.de>
+Date: Fri, 22 Jan 2016 22:34:58 +0100
+Subject: [PATCH] fix
 
-Signed-off-by: MarkusVolk <f_l_k@gmx.net>
+Signed-off-by: MarkusVolk <f_l_k@t-online.de>
 ---
  commit.d/50vcs-commit | 10 +++++-----
  1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/commit.d/50vcs-commit b/commit.d/50vcs-commit
-index 1d9ade4..7fb8b36 100755
+index 55f0db2..2aa698e 100755
 --- a/commit.d/50vcs-commit
 +++ b/commit.d/50vcs-commit
-@@ -43,19 +43,19 @@ if [ "$VCS" = git ] && [ -d .git ]; then
+@@ -44,14 +44,14 @@ if [ "$VCS" = git ] && [ -d .git ]; then
  	if [ -n "$USER" ]; then
  		# Use user.name and user.email from the gitconfig belonging
  		# to the user who became root.
@@ -32,12 +31,14 @@ index 1d9ade4..7fb8b36 100755
  				export GIT_AUTHOR_EMAIL
  			fi
  		fi
- 		if [ -z "$GIT_COMMITTER_EMAIL" ]; then
--			GIT_COMMITTER_EMAIL="$(git config --global user.email)" || true
-+			GIT_COMMITTER_EMAIL="$(git config --system user.email)" || true
- 			export GIT_COMMITTER_EMAIL
+@@ -69,7 +69,7 @@ if [ "$VCS" = git ] && [ -d .git ]; then
  		fi
  
+ 		if [ -z "$GIT_COMMITTER_EMAIL" ]; then
+-			GIT_COMMITTER_EMAIL="$(git config --global user.email)" || true
++GIT_COMMITTER_EMAIL="$(git config --system user.email)" || true
+ 			export GIT_COMMITTER_EMAIL
+ 		fi
+ 		if [ -z "$GIT_AUTHOR_NAME" ]; then
 -- 
 2.1.4
-
