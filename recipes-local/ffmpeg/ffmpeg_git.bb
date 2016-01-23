@@ -1,7 +1,7 @@
 require ffmpeg.inc
 
 SRCREV = "${AUTOREV}"
-#SRCREV = "7404f3bdb90e6a5dcb59bc0a091e2c5c038e557d"
+SRCREV = "509c9e74e548139285f30ed8dcc9baf1d64359fa"
 PV = "${SRCPV}"
 PR = "1"
 

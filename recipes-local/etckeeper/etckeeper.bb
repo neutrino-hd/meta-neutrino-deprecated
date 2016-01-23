@@ -17,7 +17,7 @@ SRC_URI_append_coolstream-hd1 = "${@'' if DISTRO != 'coolstream-hd1_flash' else 
 SRC_URI[md5sum] = "439d65fc487910a30b686788b7c6fc99"
 SRC_URI[sha256sum] = "76fd0349ff138b98a4dde831a23a13d3fc6608147ef4fef35ce58ebf48f18f23"
 
-SRCREV = "${AUTOREV}"
+SRCREV = "1490c8d6dd94f1b58718f6bc61ba78cf8a0a2e26"
 PV = "${SRCPV}"
 PR = "1"
 
