@@ -110,9 +110,6 @@ do_install_prepend () {
 	install -m 755 ${WORKDIR}/pre-wlan0.sh ${D}${sysconfdir}/network/
 	install -m 755 ${WORKDIR}/post-wlan0.sh ${D}${sysconfdir}/network/
 	install -m 644 ${WORKDIR}/timezone.xml ${D}${sysconfdir}/timezone.xml
-	install -d ${D}/usr/share/tuxbox/neutrino/icons
-	install -m 644 ${WORKDIR}/tmdb/*.png ${D}/usr/share/tuxbox/neutrino/icons/
-	install -m 644 ${WORKDIR}/icons/* ${D}/usr/share/tuxbox/neutrino/icons/
 	install -d ${D}${localstatedir}/cache
 	install -d ${D}${localstatedir}/tuxbox
 	install -d ${D}/lib/mdev/fs
@@ -131,6 +128,9 @@ do_install_append() {
 	ln -s ${datadir}/tuxbox ${D}/share/
 	ln -s ${datadir}/fonts  ${D}/share/
 	ln -s ${sysconfdir}/neutrino/config ${D}${localstatedir}/tuxbox/config
+	install -d ${D}/usr/share/tuxbox/neutrino/icons
+	install -m 644 ${WORKDIR}/tmdb/*.png ${D}/usr/share/tuxbox/neutrino/icons/
+	install -m 644 ${WORKDIR}/icons/* ${D}/usr/share/tuxbox/neutrino/icons/
 }
 
 FILES_${PN} += "\
