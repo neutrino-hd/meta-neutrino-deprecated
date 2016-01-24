@@ -10,7 +10,6 @@ SRC_URI = "git://github.com/FFmpeg/FFmpeg.git;branch=master \
 	   file://0004-add-ASF-VC1-Annex-G-and-RCV-bitstream-filters.patch \
 	   file://0001-Revert-lavc-Switch-bitrate-to-64bit-unless-compatibi.patch \
 	   file://0006-ffmpeg-fixed-memleak-in-mpegts-demuxer-on-some-malformed-mp.patch \
-	   file://0001-Revert-build-make-out-of-tree-builds-bit-identical-t.patch \
 "
 
 LIC_FILES_CHKSUM = " \
