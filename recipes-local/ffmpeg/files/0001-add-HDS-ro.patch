@@ -42,14 +42,14 @@ index 2eada0e..30f75e0 100755
  
  Toolchain options:
    --arch=ARCH              select architecture [$arch]
-@@ -1385,6 +1386,7 @@ EXTERNAL_LIBRARY_LIST="
+@@ -1466,6 +1466,7 @@ EXTERNAL_LIBRARY_LIST="
+     libopenjpeg
      libopus
      libpulse
-     libquvi
 +    libroxml
      librtmp
+     librubberband
      libschroedinger
-     libshine
 @@ -2483,6 +2485,7 @@ dxa_demuxer_select="riffdec"
  eac3_demuxer_select="ac3_parser"
  f4v_muxer_select="mov_muxer"
