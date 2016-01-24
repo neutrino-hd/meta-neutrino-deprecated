@@ -111,8 +111,8 @@ do_install_prepend () {
 	install -m 755 ${WORKDIR}/post-wlan0.sh ${D}${sysconfdir}/network/
 	install -m 644 ${WORKDIR}/timezone.xml ${D}${sysconfdir}/timezone.xml
 	install -d ${D}/usr/share/tuxbox/neutrino/icons
-	install -m 644 ${WORKDIR}/tmdb/star-off.png ${D}/usr/share/tuxbox/neutrino/icons/star-off.png
-	install -m 644 ${WORKDIR}/tmdb/star-on.png ${D}/usr/share/tuxbox/neutrino/icons/star-on.png
+	install -m 644 ${WORKDIR}/tmdb/*.png ${D}/usr/share/tuxbox/neutrino/icons/
+	install -m 644 ${WORKDIR}/icons/* ${D}/usr/share/tuxbox/neutrino/icons/
 	install -d ${D}${localstatedir}/cache
 	install -d ${D}${localstatedir}/tuxbox
 	install -d ${D}/lib/mdev/fs
