@@ -1,0 +1,1 @@
+EXTRA_OECONF += "-DUSE_NLS=0"
