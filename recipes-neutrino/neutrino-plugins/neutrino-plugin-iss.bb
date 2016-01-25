@@ -1,5 +1,6 @@
 DESCRIPTION = "ISS-Position Lua Plugin"
 MAINTAINER = "theobald123"
+LICENSE = "proprietary"
 HOMEPAGE = "http://www.dbox2world.net/board293-cst-coolstream/board313-cst-coolstream-downloads/board319-coolstream-plugins/12664-lua-iss-position/"
 
 S = "${WORKDIR}"
