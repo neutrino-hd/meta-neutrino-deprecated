@@ -1,0 +1,25 @@
+From 12d662142ed2547827ac86d60e506f12d3b48a16 Mon Sep 17 00:00:00 2001
+From: Thilo Graf <dbt@novatux.de>
+Date: Mon, 25 Jan 2016 21:03:37 +0100
+Subject: [PATCH] opkg-manager: use --force-depends for package remove
+
+---
+ src/gui/opkg_manager.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/gui/opkg_manager.cpp b/src/gui/opkg_manager.cpp
+index 46c1ad0..038d944 100644
+--- a/src/gui/opkg_manager.cpp
++++ b/src/gui/opkg_manager.cpp
+@@ -96,7 +96,7 @@ static const string pkg_types[OM_MAX] =
+ 	OPKG_CL " list-upgradable ",
+ 	OPKG_CL " -A update ",
+ 	OPKG_CL OPKG_CL_CONFIG_OPTIONS " upgrade ",
+-	OPKG_CL OPKG_CL_CONFIG_OPTIONS " remove ",
++	OPKG_CL OPKG_CL_CONFIG_OPTIONS " --force-depends remove ",
+ 	OPKG_CL " info ",
+ 	OPKG_CL OPKG_CL_CONFIG_OPTIONS " install ",
+ 	OPKG_CL " status ",
+-- 
+2.1.4
+

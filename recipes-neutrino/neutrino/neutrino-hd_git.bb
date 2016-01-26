@@ -67,6 +67,7 @@ SRC_URI = "git://git.slknet.de/git/cst-public-gui-neutrino.git;branch=cst-next \
 	file://tmdb/star-off.png \
 	file://tmdb/star-on.png \
 	file://opkg/0001-opkg_manager-remove-reboot-and-restart-trigger-files.patch \
+	file://0001-opkg-manager-use-force-depends-for-package-remove.patch \
 	file://opkg/0002-opkg_manager-remove-opkg-options.patch \
 	file://opkg/0003-opkg_manager-don-t-overwrite-opkg.conf.patch \
 "
