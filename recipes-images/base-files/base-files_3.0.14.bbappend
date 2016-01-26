@@ -59,6 +59,9 @@ do_install_append_coolstream-hd1 () {
 	ln -s ./libssl.so.1.0.0 ${D}${libdir}/libssl.so.0.9.8
 	install -m 755 ${S}/stb_update-hd1.sh ${D}${sysconfdir}/init.d/bb_stb_update.sh
 	update-rc.d -r ${D} bb_stb_update.sh start 03 S .
+	if [ ${IMAGETYPE} = "tiny" ]; then
+		sed -i "s|/usr/bin/opkg|/usr/bin/opkg --cache=/tmp --tmp-dir=/tmp|" ${D}${sysconfdir}/profile
+	fi
 }
 
 # compatibility links for prebuild binaries that have been built with smelly old software
