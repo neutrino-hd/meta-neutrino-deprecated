@@ -1,1 +1,5 @@
-EXTRA_OECONF += "-DUSE_NLS=0"
+FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+
+SRC_URI_append +=" \
+		file://locale.cfg \
+"
