@@ -10,17 +10,12 @@ inherit autotools pkgconfig update-rc.d
 DEPENDS += " \
 	curl \
 	ffmpeg \
-	flac \
 	freetype \
-	freetype-native \
-	gettext \
 	giflib \
+	libpng \
 	libbluray \
 	libdvbsi++ \
-	libid3tag \
-	libjpeg-turbo \
-	libmad \
-	libpng \
+	jpeg \
 	libsigc++ \
 	lua5.2 \
 	luaposix \
@@ -57,7 +52,6 @@ SRC_URI = "git://git.slknet.de/git/cst-public-gui-neutrino.git;name=cst-next;bra
 	   file://opkg/0001-opkg_manager-remove-reboot-and-restart-trigger-files.patch \
 	   file://opkg/0002-opkg_manager-remove-opkg-options.patch \
 	   file://opkg/0003-opkg_manager-don-t-overwrite-opkg.conf.patch \
-	   file://opkg/0001-opkg-manager-use-force-depends-for-package-remove.patch \
 	   file://tmdb/0001-neutrino-mp-cst-tmdb.patch \
 	   file://tmdb/0002-tmdb-fix-function-type.patch \
 	   file://tmdb/0003-tmdb-fix-return-value.patch \
@@ -67,6 +61,7 @@ SRC_URI = "git://git.slknet.de/git/cst-public-gui-neutrino.git;name=cst-next;bra
 	   file://tmdb/0007-tmdb-Use-osd-language-for-search-display-data.patch \
 	   file://tmdb/0008-tmdb-Add-hintbox-when-search-data.patch \
 	   file://tmdb/0010-tmdb-Update-code-for-star-icons.patch \
+	   file://icons.tar.gz \
 	   file://tmdb/star-on.png \
 	   file://tmdb/star-off.png \
 	   ${@'' if IMAGETYPE != 'tiny' else 'file://0004-dont-install-unmaintained-locale.patch \
@@ -100,7 +95,7 @@ do_compile () {
 
 
 do_install_prepend () {
-# change number to force rebuild "1"
+# change number to force rebuild "3"
 	install -d ${D}/${sysconfdir}/init.d ${D}${sysconfdir}/network
 	install -m 755 ${WORKDIR}/neutrino.init ${D}${sysconfdir}/init.d/neutrino
 	install -m 755 ${WORKDIR}/custom-poweroff.init ${D}${sysconfdir}/init.d/custom-poweroff
