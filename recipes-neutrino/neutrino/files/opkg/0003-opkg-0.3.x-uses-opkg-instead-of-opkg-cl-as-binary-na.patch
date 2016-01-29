@@ -28,7 +28,7 @@ index 46c1ad0..b75451b 100644
  
  #define OPKG_BAD_PATTERN_LIST_FILE CONFIGDIR "/bad_package_pattern.list"
 -#define OPKG_CONFIG_FILE "/etc/opkg/opkg.conf"
-+#define OPKG_CONFIG_FILE "/etc/opkg/base-feeds.conf"
++#define OPKG_CONFIG_FILE "/etc/opkg/opkg.conf.broken"
  
  using namespace std;
  
@@ -38,11 +38,11 @@ index 46c1ad0..b75451b 100644
  	OPKG_CL " -A update ",
 -	OPKG_CL OPKG_CL_CONFIG_OPTIONS " upgrade ",
 -	OPKG_CL OPKG_CL_CONFIG_OPTIONS " remove ",
-+	OPKG_CL OPKG_CL_CONFIG_OPTIONS " --force-depends  upgrade ",
-+	OPKG_CL OPKG_CL_CONFIG_OPTIONS " --force-depends  remove ",
++	OPKG_CL OPKG_CL_CONFIG_OPTIONS " --tmp-dir=/tmp --cache=/tmp --force-depends upgrade ",
++	OPKG_CL OPKG_CL_CONFIG_OPTIONS " --tmp-dir=/tmp --cache=/tmp --force-depends  remove ",
  	OPKG_CL " info ",
 -	OPKG_CL OPKG_CL_CONFIG_OPTIONS " install ",
-+	OPKG_CL OPKG_CL_CONFIG_OPTIONS " --force-depends --force-reinstall install ",
++	OPKG_CL OPKG_CL_CONFIG_OPTIONS "  --tmp-dir=/tmp --cache=/tmp  --force-depends --force-reinstall install ",
  	OPKG_CL " status ",
  	OPKG_CL " configure ",
  	OPKG_CL " download "
