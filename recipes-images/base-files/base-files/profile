@@ -58,7 +58,7 @@ opkg () {
                         COL="yes";
                         break;
                 elif [ $arg == "upgrade" -o $arg == "install" -o $arg == "remove" ]; then
-                        KEEP="yes";
+                        KEEP='yes';
                         break;
                 fi
         done

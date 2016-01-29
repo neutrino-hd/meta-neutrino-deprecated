@@ -61,7 +61,7 @@ do_install_append_coolstream-hd1 () {
 	update-rc.d -r ${D} bb_stb_update.sh start 03 S .
 	if [ ${IMAGETYPE} = "tiny" ]; then
 		sed -i "s|/usr/bin/opkg|/usr/bin/opkg --cache=/tmp --tmp-dir=/tmp --force-depends --force-reinstall |" ${D}${sysconfdir}/profile
-		sed -i "s|KEEP="yes"|KEEP="no"|" ${D}${sysconfdir}/profile
+		sed -i "s|KEEP='yes'|KEEP='no'|" ${D}${sysconfdir}/profile
 	fi
 }
 
