@@ -68,7 +68,7 @@ function main()
 		else
 			start_x = math.random(x_beg, x_end)
 			start_y = math.random(y_beg, y_end)
-			p:hide()
+			p:hide{no_restore=true}
 			p = cpicture.new{x=start_x, y=start_y, dx=size_x, dy=size_y, image='/tmp/iss-location.jpg'}
 			p:paint()
 		end
