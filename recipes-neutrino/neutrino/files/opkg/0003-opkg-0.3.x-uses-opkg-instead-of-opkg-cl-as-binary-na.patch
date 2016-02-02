@@ -1,15 +1,15 @@
-From d875ca0f03073e3903cabe5b6d8e4c873b790a77 Mon Sep 17 00:00:00 2001
+From 9937b75a0b4b77422f4c1e1f692b781abd1b4591 Mon Sep 17 00:00:00 2001
 From: MarkusVolk <f_l_k@t-online.de>
-Date: Fri, 29 Jan 2016 13:32:49 +0100
+Date: Tue, 2 Feb 2016 15:44:14 +0100
 Subject: [PATCH] fix
 
 Signed-off-by: MarkusVolk <f_l_k@t-online.de>
 ---
- src/gui/opkg_manager.cpp | 13 ++++---------
- 1 file changed, 4 insertions(+), 9 deletions(-)
+ src/gui/opkg_manager.cpp | 21 ++++++++++-----------
+ 1 file changed, 10 insertions(+), 11 deletions(-)
 
 diff --git a/src/gui/opkg_manager.cpp b/src/gui/opkg_manager.cpp
-index 46c1ad0..b75451b 100644
+index 46c1ad0..7e0d657 100644
 --- a/src/gui/opkg_manager.cpp
 +++ b/src/gui/opkg_manager.cpp
 @@ -58,18 +58,13 @@
@@ -46,6 +46,20 @@ index 46c1ad0..b75451b 100644
  	OPKG_CL " status ",
  	OPKG_CL " configure ",
  	OPKG_CL " download "
+@@ -526,11 +521,11 @@ int COPKGManager::showMenu()
+ 	menu->addItem(fw);
+ 
+ 	//feed setup
+-	CMenuWidget feeds_menu(LOCALE_OPKG_TITLE, NEUTRINO_ICON_UPDATE, w_max (100, 10));
++	/*CMenuWidget feeds_menu(LOCALE_OPKG_TITLE, NEUTRINO_ICON_UPDATE, w_max (100, 10));
+ 	showMenuConfigFeed(&feeds_menu);
+ 	fw = new CMenuForwarder(LOCALE_OPKG_FEED_ADDRESSES, true, NULL, &feeds_menu, NULL, CRCInput::RC_www);
+ 	fw->setHint(NEUTRINO_ICON_HINT_SW_UPDATE, LOCALE_MENU_HINT_OPKG_FEED_ADDRESSES_EDIT);
+-	menu->addItem(fw);
++	menu->addItem(fw);*/
+ 
+ 	menu->addItem(GenericMenuSeparatorLine);
+ 
 -- 
 2.1.4
 
