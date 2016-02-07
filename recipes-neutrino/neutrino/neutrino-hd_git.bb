@@ -60,8 +60,6 @@ SRC_URI = "git://git.slknet.de/git/cst-public-gui-neutrino.git;name=cst-next;bra
 	   file://tmdb/0008-tmdb-Add-hintbox-when-search-data.patch \
 	   file://tmdb/0010-tmdb-Update-code-for-star-icons.patch \
 	   file://icons.tar.gz \
-	   file://tmdb/star-on.png \
-	   file://tmdb/star-off.png \
 	   ${@'' if IMAGETYPE != 'tiny' else 'file://0004-dont-install-unmaintained-locale.patch \
 					      file://0005-remove-unneeded-mp3.jpg-files.patch'} \
 "
@@ -118,7 +116,6 @@ do_install_append() {
 	ln -s ${datadir}/tuxbox ${D}/share/
 	ln -s ${datadir}/fonts  ${D}/share/
 	ln -s ${sysconfdir}/neutrino/config ${D}${localstatedir}/tuxbox/config
-	install -m 644 ${WORKDIR}/tmdb/*.png ${D}/usr/share/tuxbox/neutrino/icons/
 	install -m 644 ${WORKDIR}/icons/* ${D}/usr/share/tuxbox/neutrino/icons/
 }
 
