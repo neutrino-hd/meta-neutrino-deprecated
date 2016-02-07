@@ -63,8 +63,7 @@ SRC_URI = "git://git.slknet.de/git/cst-public-gui-neutrino.git;branch=cst-next \
 	file://tmdb/0007-tmdb-Use-osd-language-for-search-display-data.patch \
 	file://tmdb/0008-tmdb-Add-hintbox-when-search-data.patch \
 	file://tmdb/0009-tmdb-Add-star-icons.patch \
-	file://tmdb/star-off.png \
-	file://tmdb/star-on.png \
+	file://icons.tar.gz \
 	file://opkg/0001-opkg_manager-remove-reboot-and-restart-trigger-files.patch \
 	file://opkg/0003-opkg-0.3.x-uses-opkg-instead-of-opkg-cl-as-binary-na.patch \
 "
@@ -127,7 +126,6 @@ do_install_append() {
 	ln -s ${datadir}/fonts  ${D}/share/
 	ln -s ${sysconfdir}/neutrino/config ${D}${localstatedir}/tuxbox/config
 	install -d ${D}/usr/share/tuxbox/neutrino/icons
-	install -m 644 ${WORKDIR}/tmdb/*.png ${D}/usr/share/tuxbox/neutrino/icons/
 	install -m 644 ${WORKDIR}/icons/* ${D}/usr/share/tuxbox/neutrino/icons/
 }
 
