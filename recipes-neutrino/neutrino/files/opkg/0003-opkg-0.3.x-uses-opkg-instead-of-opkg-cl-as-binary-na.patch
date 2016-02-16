@@ -1,18 +1,18 @@
-From 9937b75a0b4b77422f4c1e1f692b781abd1b4591 Mon Sep 17 00:00:00 2001
-From: MarkusVolk <f_l_k@t-online.de>
-Date: Tue, 2 Feb 2016 15:44:14 +0100
-Subject: [PATCH] fix
+From 5ebea66cdfaeab45915d6971d7cdc29d039f75f3 Mon Sep 17 00:00:00 2001
+From: flk <f_l_k@t-online.de>
+Date: Tue, 16 Feb 2016 16:15:41 +0100
+Subject: [PATCH 1/2] opkg-0.3.x-uses-opkg-instead-of-opkg-cl-as-binary-name
 
-Signed-off-by: MarkusVolk <f_l_k@t-online.de>
+Signed-off-by: flk <f_l_k@t-online.de>
 ---
- src/gui/opkg_manager.cpp | 21 ++++++++++-----------
- 1 file changed, 10 insertions(+), 11 deletions(-)
+ src/gui/opkg_manager.cpp | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/src/gui/opkg_manager.cpp b/src/gui/opkg_manager.cpp
-index 46c1ad0..7e0d657 100644
+index 4afbe1d..889fd4d 100644
 --- a/src/gui/opkg_manager.cpp
 +++ b/src/gui/opkg_manager.cpp
-@@ -58,18 +58,13 @@
+@@ -58,18 +58,14 @@
  #include <sys/wait.h>
  #include <fstream>
  
@@ -21,7 +21,7 @@ index 46c1ad0..7e0d657 100644
 -#else
 -#define OPKG_CL "opkg-cl"
 -#endif
--
+ 
  #define OPKG_TMP_DIR "/tmp/.opkg"
  #define OPKG_TEST_DIR OPKG_TMP_DIR "/test"
  #define OPKG_CL_CONFIG_OPTIONS " -V2 --tmp-dir=/tmp --cache=" OPKG_TMP_DIR
@@ -32,7 +32,7 @@ index 46c1ad0..7e0d657 100644
  
  using namespace std;
  
-@@ -95,10 +90,10 @@ static const string pkg_types[OM_MAX] =
+@@ -91,10 +91,10 @@ static const string pkg_types[OM_MAX] =
  	OPKG_CL " list-installed ",
  	OPKG_CL " list-upgradable ",
  	OPKG_CL " -A update ",
@@ -46,20 +46,7 @@ index 46c1ad0..7e0d657 100644
  	OPKG_CL " status ",
  	OPKG_CL " configure ",
  	OPKG_CL " download "
-@@ -526,11 +521,11 @@ int COPKGManager::showMenu()
- 	menu->addItem(fw);
- 
- 	//feed setup
--	CMenuWidget feeds_menu(LOCALE_OPKG_TITLE, NEUTRINO_ICON_UPDATE, w_max (100, 10));
-+	/*CMenuWidget feeds_menu(LOCALE_OPKG_TITLE, NEUTRINO_ICON_UPDATE, w_max (100, 10));
- 	showMenuConfigFeed(&feeds_menu);
- 	fw = new CMenuForwarder(LOCALE_OPKG_FEED_ADDRESSES, true, NULL, &feeds_menu, NULL, CRCInput::RC_www);
- 	fw->setHint(NEUTRINO_ICON_HINT_SW_UPDATE, LOCALE_MENU_HINT_OPKG_FEED_ADDRESSES_EDIT);
--	menu->addItem(fw);
-+	menu->addItem(fw);*/
- 
- 	menu->addItem(GenericMenuSeparatorLine);
- 
 -- 
 2.1.4
+
 
