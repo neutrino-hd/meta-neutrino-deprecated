@@ -18,7 +18,7 @@ RDEPENDS_packagegroup-custom-needed = "\
 	fbshot \
 	procps \
 	udpxy \
-	vsftpd \
+	proftpd \
 	xupnpd \
 	tzdata \
 	tzdata-europe \
