@@ -20,7 +20,7 @@ DAEMON=/usr/sbin/proftpd
 NAME=proftpd
 
 # Defaults
-RUN="no"
+RUN="yes"
 OPTIONS=""
 CONFIG_FILE=/etc/proftpd.conf
 
