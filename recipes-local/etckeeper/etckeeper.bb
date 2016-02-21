@@ -53,3 +53,4 @@ do_install_append () {
 	update-rc.d -r ${D} update_etc.sh start 08 5 .
 }
 
+FILES_${PN}_append += "/usr/share/bash-completion"
