@@ -47,7 +47,7 @@ function getvideourl(url)
 		feed_data=download(urlvid)
 		local url_m3u8 = feed_data:match('|URL|%d+|%d+|%d+|%d+|m3u8|(.-)|bottom')
 		if url_m3u8 then
-			feed_data=download("http://46.101.171.43/live/" .. url_m3u8 .. ".m3u8")
+                        feed_data=download("http://46.101.231.222/live/" .. url_m3u8 .. ".m3u8")
 			if feed_data == nil then
 				return
 			end
