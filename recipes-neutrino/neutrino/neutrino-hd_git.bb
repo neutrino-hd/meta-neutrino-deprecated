@@ -115,7 +115,6 @@ do_install_append() {
 	install -d ${D}/share ${D}/${sysconfdir}/neutrino/bin
 	ln -s ${datadir}/tuxbox ${D}/share/
 	ln -s ${datadir}/fonts  ${D}/share/
-	ln -s ${sysconfdir}/neutrino/config ${D}${localstatedir}/tuxbox/config
 	install -m 644 ${WORKDIR}/icons/* ${D}/usr/share/tuxbox/neutrino/icons/
 }
 
