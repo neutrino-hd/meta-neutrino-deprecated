@@ -10,7 +10,7 @@ SRC_URI = "https://security.appspot.com/downloads/vsftpd-${PV}.tar.gz \
            file://makefile-destdir.patch \
            file://makefile-libs.patch \
            file://makefile-strip.patch \
-           file://init \
+           file://vsftpd \
            file://vsftpd.conf \
            file://vsftpd.user_list \
            file://vsftpd.ftpusers \
