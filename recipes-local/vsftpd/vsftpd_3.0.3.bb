@@ -42,6 +42,7 @@ inherit update-rc.d useradd
 
 CONFFILES_${PN} = "${sysconfdir}/vsftpd.conf"
 LDFLAGS_append =" -lcrypt -lcap"
+EXTRA_OEMAKE = "-e MAKEFLAGS="
 
 do_configure() {
     # Fix hardcoded /usr, /etc, /var mess.

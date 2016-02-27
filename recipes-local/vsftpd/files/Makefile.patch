@@ -1,0 +1,9 @@
+--- a/Makefile	2016-02-19 10:52:06.708671625 +0100
++++ b/Makefile	2016-02-19 10:51:56.496899325 +0100
+@@ -1,5 +1,5 @@
+ # Makefile for systems with GNU tools
+-CC 	=	gcc
++CC 	=	arm-oe-linux-uclibceabi-gcc
+ INSTALL	=	install
+ IFLAGS  = -idirafter dummyinc
+ #CFLAGS = -g
