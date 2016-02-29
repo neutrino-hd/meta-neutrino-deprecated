@@ -12,7 +12,7 @@ ${SAMBA_MIRROR}    http://www.mirrorservice.org/sites/ftp.samba.org \n \
 "
 
 SRC_URI = "${SAMBA_MIRROR}/stable/samba-${PV}.tar.gz \
-           file://00-fix-typos-in-man-pages.patch \
+	   file://00-fix-typos-in-man-pages.patch \
            file://01-fix-force-user-sec-ads.patch  \
            file://02-fix-ipv6-join.patch  \
            file://03-net-ads-kerberos-pac.patch  \
@@ -33,6 +33,14 @@ SRC_URI = "${SAMBA_MIRROR}/stable/samba-${PV}.tar.gz \
            file://18-avoid-get-config-by-native-ncurses.patch \
            file://19-systemd-daemon-is-contained-by-libsystemd.patch \
            file://20-do-not-import-target-module-while-cross-compile.patch \
+           file://21-add-config-option-without-valgrind.patch \
+           file://0001-waf-sanitize-and-fix-added-cross-answer.patch \
+           file://0002-Adds-a-new-mode-to-samba-cross-compiling.patch \
+           file://0003-waf-improve-readability-of-cross-answers-generated-b.patch \
+           file://0004-build-make-wafsamba-CHECK_SIZEOF-cross-compile-frien.patch \
+           file://0005-build-unify-and-fix-endian-tests.patch \
+           file://0006-avoid-using-colon-in-the-checking-msg.patch \
+           file://0007-waf-Fix-parsing-of-cross-answers-file-in-case-answer.patch \
 	   file://smb.conf \
 	   file://init.samba \
 	   file://init.winbind \

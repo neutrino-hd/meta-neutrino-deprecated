@@ -22,16 +22,15 @@ CONFIGUREOPTS = " --prefix=${prefix} \
 
 do_configure() {
     qemu_binary="${@qemu_target_binary(d)}"
-    if [ ${qemu_binary} == "qemu-allarch" ]; then
+    if [ "${qemu_binary}" = "qemu-allarch" ]; then
         qemu_binary="qemuwrapper"
     fi
 
     libdir_qemu="${STAGING_DIR_HOST}/${libdir}"
     base_libdir_qemu="${STAGING_DIR_HOST}/${base_libdir}"
-    oldest_kernel_qemu=${OLDEST_KERNEL}
 
     CROSS_EXEC="${qemu_binary} \
-                -r ${oldest_kernel_qemu} \
+                ${QEMU_OPTIONS} \
                 -L ${STAGING_DIR_HOST} \
                 -E LD_LIBRARY_PATH=${libdir_qemu}:${base_libdir_qemu}"
 
@@ -44,6 +43,10 @@ do_configure() {
     export PYTHONPATH=${STAGING_DIR_HOST}${PYTHON_SITEPACKAGES_DIR}
 
     ./configure ${CONFIGUREOPTS} ${EXTRA_OECONF} --cross-compile --cross-execute="${CROSS_EXEC}"
+}
+
+do_compile () {
+    python ./buildtools/bin/waf ${PARALLEL_MAKE}
 }
 
 do_install() {
