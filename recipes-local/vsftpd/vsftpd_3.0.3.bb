@@ -65,7 +65,7 @@ do_install() {
     sed -i "s|yocto|${MACHINE}|" ${WORKDIR}/vsftpd_banner
     install -m 600 ${WORKDIR}/vsftpd_banner ${D}${sysconfdir}/vsftpd_banner
     install -d ${D}${sysconfdir}/init.d/
-    install -m 755 ${WORKDIR}/init ${D}${sysconfdir}/init.d/vsftpd
+    install -m 755 ${WORKDIR}/vsftpd ${D}${sysconfdir}/init.d/vsftpd
     install -d ${D}/${sysconfdir}/default/volatiles
     install -m 644 ${WORKDIR}/volatiles.99_vsftpd ${D}/${sysconfdir}/default/volatiles/99_vsftpd
 
