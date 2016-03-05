@@ -51,6 +51,7 @@ SRC_URI = "git://git.slknet.de/git/cst-public-gui-neutrino.git;name=cst-next;bra
 	   file://opkg/0001-opkg_manager-remove-reboot-and-restart-trigger-files.patch \
 	   file://opkg/0003-opkg-0.3.x-uses-opkg-instead-of-opkg-cl-as-binary-na.patch \
 	   file://icons.tar.gz \
+	   file://var.tar.gz \
 	   ${@'' if IMAGETYPE != 'tiny' else 'file://0004-dont-install-unmaintained-locale.patch \
 					      file://0005-remove-unneeded-mp3.jpg-files.patch'} \
 "
