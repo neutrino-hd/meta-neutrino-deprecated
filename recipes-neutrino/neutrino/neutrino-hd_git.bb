@@ -50,15 +50,6 @@ SRC_URI = "git://git.slknet.de/git/cst-public-gui-neutrino.git;name=cst-next;bra
 	   file://0017-sectionsd-remove-ifdef-unneeded-for-uclibc-ng.patch \
 	   file://opkg/0001-opkg_manager-remove-reboot-and-restart-trigger-files.patch \
 	   file://opkg/0003-opkg-0.3.x-uses-opkg-instead-of-opkg-cl-as-binary-na.patch \
-	   file://tmdb/0001-neutrino-mp-cst-tmdb.patch \
-	   file://tmdb/0002-tmdb-fix-function-type.patch \
-	   file://tmdb/0003-tmdb-fix-return-value.patch \
-	   file://tmdb/0004-tmdb-Suppress-cover-flickering-when-scrolling.patch \
-	   file://tmdb/0005-tmdb-Add-read-apikey-from-neutrino.conf.patch \
-	   file://tmdb/0006-src-system-helpers.cpp-Add-function-Lang2ISO639_1.patch \
-	   file://tmdb/0007-tmdb-Use-osd-language-for-search-display-data.patch \
-	   file://tmdb/0008-tmdb-Add-hintbox-when-search-data.patch \
-	   file://tmdb/0010-tmdb-Update-code-for-star-icons.patch \
 	   file://icons.tar.gz \
 	   ${@'' if IMAGETYPE != 'tiny' else 'file://0004-dont-install-unmaintained-locale.patch \
 					      file://0005-remove-unneeded-mp3.jpg-files.patch'} \
@@ -112,10 +103,12 @@ do_install_prepend () {
 }
 
 do_install_append() {
-	install -d ${D}/share ${D}/${sysconfdir}/neutrino/bin
+	install -d ${D}/share ${D}/${sysconfdir}/neutrino/bin ${D}/var/tuxbox/plugins/webtv
 	ln -s ${datadir}/tuxbox ${D}/share/
 	ln -s ${datadir}/fonts  ${D}/share/
 	install -m 644 ${WORKDIR}/icons/* ${D}/usr/share/tuxbox/neutrino/icons/
+	install -m 644 ${WORKDIR}/var/tuxbox/config/* ${D}/etc/neutrino/config/
+	install -m 644 ${WORKDIR}/var/tuxbox/plugins/webtv/* ${D}/var/tuxbox/plugins/webtv
 }
 
 FILES_${PN} += "\
@@ -132,8 +125,6 @@ FILES_${PN} += "\
 	/share/fonts \
 	/share/tuxbox \
 	/var/cache \
-	/var/tuxbox/plugins \
-	/var/tuxbox/config \
 	/var/httpd/styles \
 "
 
