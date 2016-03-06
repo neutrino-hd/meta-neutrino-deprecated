@@ -12,7 +12,7 @@ SRC_URI = "git://github.com/tmux/tmux.git;branch=master \
 	   file://tmux.conf \	
 "
 
-SRCREV = "${AUTOREV}"
+SRCREV = "6c35d17800b5d745272c45bb4c71bde80780c415"
 PV = "${SRCPV}"
 PR = "1"
 
