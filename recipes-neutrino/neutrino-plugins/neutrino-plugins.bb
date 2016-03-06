@@ -36,6 +36,10 @@ do_install () {
 	for i in ${PLUGIN_INSTALL}; do
 		oe_runmake install SUBDIRS="$i" DESTDIR=${D}
 	done
+}
+
+do_install_append() {
+	rm -f ${D}/var/tuxbox/plugins/*.la
 }			
 
 FILES_${PN}-dbg += "/var/tuxbox/plugins/.debug"
