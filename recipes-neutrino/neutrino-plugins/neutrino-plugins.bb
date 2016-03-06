@@ -38,6 +38,10 @@ do_install () {
 	done
 }			
 
+do_install_append() {
+	rm ${D}/var/tuxbox/plugins/*.la
+}
+
 FILES_${PN}-dbg += "/var/tuxbox/plugins/.debug"
 
 SRC_URI[md5sum] = "f04cf2dddc22af9f12685f4d4dda0067"
