@@ -39,7 +39,7 @@ do_install () {
 }			
 
 do_install_append() {
-	rm ${D}/var/tuxbox/plugins/*.la
+	rm -f ${D}/var/tuxbox/plugins/*.la
 }
 
 FILES_${PN}-dbg += "/var/tuxbox/plugins/.debug"
