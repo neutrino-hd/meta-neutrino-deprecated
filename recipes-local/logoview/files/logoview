@@ -13,4 +13,4 @@ rm /usr/share/tuxbox/neutrino/icons/shutdown.jpg
 ln -sf /usr/share/tuxbox/neutrino/icons/logo_down.jpg /usr/share/tuxbox/neutrino/icons/shutdown.jpg
 fi
 
-/usr/bin/logoview --background -t 10 -c --logo=/usr/share/tuxbox/neutrino/icons/logo.jpg
+/usr/bin/logoview --background -t 10 -c --logo=/usr/share/tuxbox/neutrino/icons/start.jpg
