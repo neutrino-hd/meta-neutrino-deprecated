@@ -1,0 +1,16 @@
+#!/bin/sh
+#
+# Logoview
+#
+
+if [ ! -L /usr/share/tuxbox/neutrino/icons/start.jpg ];then
+rm /usr/share/tuxbox/neutrino/icons/start.jpg
+ln -sf /usr/share/tuxbox/neutrino/icons/logo_up.jpg /usr/share/tuxbox/neutrino/icons/start.jpg
+fi
+
+if [ ! -L /usr/share/tuxbox/neutrino/icons/shutdown.jpg ];then
+rm /usr/share/tuxbox/neutrino/icons/shutdown.jpg
+ln -sf /usr/share/tuxbox/neutrino/icons/logo_down.jpg /usr/share/tuxbox/neutrino/icons/shutdown.jpg
+fi
+
+/usr/bin/logoview --background -t 10 -c --logo=/usr/share/tuxbox/neutrino/icons/logo.jpg
