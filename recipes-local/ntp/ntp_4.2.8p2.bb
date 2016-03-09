@@ -41,7 +41,7 @@ RDEPENDS_${PN} = "${PN}-tickadj libcap perl"
 pkg_postinst_ntpdate() {
 if test "x$D" != "x"; then
         exit 1
-elif [ ! -f /usr/bin/crontab ];then
+elif [ ! -e /usr/bin/crontab ];then
 	exit 0
 else
         if ! grep -q -s ntpdate /var/spool/cron/root; then
