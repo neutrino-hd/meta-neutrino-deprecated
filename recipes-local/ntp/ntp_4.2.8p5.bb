@@ -41,11 +41,13 @@ RDEPENDS_${PN} = "${PN}-tickadj libcap perl"
 pkg_postinst_ntpdate() {
 if test "x$D" != "x"; then
         exit 1
+elif [ ! -f /usr/bin/crontab ];then
+	exit 0
 else
         if ! grep -q -s ntpdate /var/spool/cron/root; then
-                echo "adding cronjob"
+		echo "adding cronjob"
 		(crontab -l 2>/dev/null; echo "30  * 	* * *	root	/usr/bin/ntpdate -b -s -u 0.de.pool.ntp.org") | crontab -
-        fi
+       	fi
 fi
 }
 
