@@ -8,8 +8,8 @@ SRC_URI += "file://*.nanorc \
 
 inherit pkgconfig
 
-SRC_URI[md5sum] = "751ed96457017572bab15be18cb873ba"
-SRC_URI[sha256sum] = "ff323e6fef74caf0a924304841c07ac65ec30db99dc5c1f8272b4c536a5c89ee"
+SRC_URI[md5sum] = "a04d77611422ab4b6a7b489650c7a793"
+SRC_URI[sha256sum] = "b2b060129b9feff2d4870d803a441178c96531de9aed144ec0b83bd63ccb12ee"
 
 do_install(){
 	install -d ${D}/${datadir}/nano ${D}/${sysconfdir} ${D}/${bindir}
