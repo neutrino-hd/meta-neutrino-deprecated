@@ -8,8 +8,8 @@ SRC_URI = "http://www.eecis.udel.edu/~ntp/ntp_spool/ntp4/ntp-4.2/${P}.tar.gz \
         file://ntp.conf \
         file://ntpdate"
 
-SRC_URI[md5sum] = "9f02b2a0acc1617ce2716d529a58d2d8"
-SRC_URI[sha256sum] = "ca28baf4f6bb6fabdc1b62fd1dcec412be2e621192b40466a469a2496164f696"
+SRC_URI[md5sum] = "60049f51e9c8305afe30eb22b711c5c6"
+SRC_URI[sha256sum] = "583d0e1c573ace30a9c6afbea0fc52cae9c8c916dbc15c026e485a0dda4ba048"
 
 INITSCRIPT_NAME = "ntpd"
 
@@ -25,17 +25,11 @@ do_install_append() {
         install -m 755 ${WORKDIR}/ntpdate ${D}/${sysconfdir}/network/if-up.d
 }
 
-FILES_${PN}-bin = "${bindir}/ntp-wait ${bindir}/ntpdc ${bindir}/ntpq ${bindir}/ntptime ${bindir}/ntptrace ${bindir}/ntpsweep ${bindir}/sntp ${sbindir}"
-FILES_${PN} = "${bindir}/ntpd ${sysconfdir}/ntp.conf ${sysconfdir}/init.d/ntpd"
-FILES_${PN}-tickadj = "${bindir}/tickadj ${bindir}/calc_tickadj"
-FILES_ntp-utils = "${bindir}/* ${libdir}/ntp ${datadir}/ntp"
-FILES_ntpdate = "${bindir}/ntpdate ${sysconfdir}/network/if-up.d/ntpdate"
+FILES_${PN} = "${bindir}/ntpd ${sbindir}/ntpd ${sysconfdir}/ntp.conf ${sysconfdir}/init.d/ntpd"
+FILES_ntpdate = "${bindir}/ntpdate ${sbindir}/ntpdate ${sysconfdir}/network/if-up.d/ntpdate"
+FILES_ntp-utils = "${bindir} ${sbindir} ${libdir}/ntp ${datadir}/ntp"
 
-# ntp originally includes tickadj. It's split off for inclusion in small firmware images on platforms
-# with wonky clocks (e.g. OpenSlug)
-RDEPENDS_${PN}-tickadj = "perl"
-RDEPENDS_${PN}-utils = "perl libevent bash"
-RDEPENDS_${PN}-bin = "perl perl-module-lib perl-module-version perl-module-socket perl-module-getopt-long"
+RDEPENDS_${PN}-utils = "perl libevent bash perl-module-lib perl-module-version perl-module-socket perl-module-getopt-long"
 RDEPENDS_${PN} = "${PN}-tickadj libcap perl"
 
 pkg_postinst_ntpdate() {
