@@ -72,4 +72,5 @@ do_install_append_libc-uclibc () {
 	ln -s ./libpthread.so.1 ${D}${base_libdir}/libpthread.so.0
 	ln -s ./libcrypt.so.1 ${D}${base_libdir}/libcrypt.so.0
 	ln -s ./libdl.so.1 ${D}${base_libdir}/libdl.so.0
+	ln -s ./libm.so.1 ${D}${base_libdir}/libm.so.0
 }
