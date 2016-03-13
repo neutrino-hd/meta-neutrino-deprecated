@@ -6,8 +6,6 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/GPL-2.0;md5=80
 
 SRC_URI = "git://coolstreamtech.de/cst-public-plugins-logoview.git \
 	   file://logoview \
-	   file://start.jpg \
-	   file://shutdown.jpg \
 "
 
 DEPENDS = "libjpeg-turbo"
