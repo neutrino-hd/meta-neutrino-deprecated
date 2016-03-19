@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<!-- (c) bazi98, Bearbeitungstand 18.03.2016 -->
+<webtvs>
+<!--  OK-TV-und Regional TV Berlin -->
+<webtv title="Alex TV" url="http://alex-stream.rosebud-media.de/live/_definst_/alexlivetv.smil/playlist.m3u8" description="Lokal-TV" />
+<webtv title="tv.berlin" url="http://stream.der-hauptstadt-sender.de:80/hls/Themeh4g.m3u8" description="Lokal-TV" />
+<!-- OK-TV- und ReginalTV übriger Osten -->
+<webtv title="OK Dessau" url="rtmp://62.113.210.250/medienasa-live/ok-dessau_high" description="Lokal-TV" />
+<webtv title="OK Magdeburg" url="rtmp://62.113.210.250/medienasa-live/ok-magdeburg_high" description="Lokal-TV" />
+<webtv title="OK Merseburg" url="rtmp://62.113.210.250/medienasa-live/ok-merseburg_high" description="Lokal-TV" />
+<webtv title="OK Salzwedel" url="rtmp://62.113.210.250/medienasa-live/ok-salzwedel_high" description="Lokal-TV" />
+<webtv title="OK Stendal" url="rtmp://62.113.210.250/medienasa-live/ok-stendal_high" description="Lokal-TV" />
+<webtv title="OK Wernigerode" url="rtmp://62.113.210.250/medienasa-live/ok-wernigerode_high" description="Lokal-TV" />
+<webtv title="OK Wettin" url="rtmp://62.113.210.250/medienasa-live/ok-wettin_high" description="Lokal-TV" />
+<webtv title="Elbekanal" url="rtmp://62.113.210.250/medienasa-live/elbe_high" description="Lokal-TV" />
+<webtv title="PUNKTum" url="rtmp://62.113.210.250/medienasa-live/punktum_high" description="Lokal-TV" />
+<webtv title="RAN 1" url="rtmp://62.113.210.250/medienasa-live/ran1_high" description="Lokal-TV" />
+<webtv title="RBW" url="rtmp://62.113.210.250/medienasa-live/rbw_high" description="Lokal-TV" />
+<webtv title="RFH" url="rtmp://62.113.210.250/medienasa-live/RFH_high" description="Lokal-TV" />
+<webtv title="Halle.tv" url="rtmp://62.113.210.250/medienasa-live/tvhalle_high" description="Lokal-TV" />
+<webtv title="BLKonlineTV" url="rtmp://62.113.210.250/medienasa-live/BLKonline_high" description="Lokal-TV" />
+<webtv title="MDF 1" url="rtmp://62.113.210.250/medienasa-live/mdf1_high" description="Lokal-TV" />
+<webtv title="kulturmd" url="rtmp://62.113.210.250/medienasa-live/kulturmd_high" description="Lokal-TV" />
+<webtv title="Chemnitz Fernsehen" url="http://video01.kanal8.de:1935/sachsenfernsehenlive/desktop/playlist.m3u8" description="Lokal-TV" />
+<webtv title="Dresden Fernsehen" url="http://video07.kanal8.de:1935/dresdenfernsehenlive/desktop/playlist.m3u8" description="Lokal-TV" />
+<webtv title="Leipzig Fernsehen" url="rtmp://video61.kanal8.de/leipzigfernsehenlive/myStream.sdp" description="Lokal TV Leipzig" />
+<webtv title="Sachsen Fernsehen" url="http://video01.kanal8.de:1935/sachsenfernsehenlive/desktop/playlist.m3u8" description="Lokal-TV" />
+<webtv title="Seenland TV" url="rtmp://62.67.13.53:1935/wmzsenftenberg/live.stream" description="Lokal-TV" />
+<!-- LokalTV-Nord -->
+<webtv title="DRF1" url="http://62.67.13.54:1935/drf1/drf1_livestream_3/playlist.m3u8" description="Deutsches Regionalfernsehen" />
+<webtv title="Tide TV" url="rtmp://62.113.210.8/tide-rtplive/liveplayout.stream" description="Lokal TV aus Hamburg" />
+<!-- LokalTV-Rheinland-Pfalz und NRW -->
+<webtv title="OK 4" url="http://stream-cdn.ok54.de/hls/ok4.m3u8" epgid="" description="LokalTV RLP Region Adenau, Andernach, Neuwied u. Koblenz" />
+<webtv title="OK 54" url="http://stream-cdn.ok54.de/hls/ok54.m3u8" description="LokalTV RLP Region Trier/Bitburg" />
+<webtv title="OK Ludwigshafen" url="http://vstream.twl-kom.de:1935/live/demo.stream_480p/playlist.m3u8" description="LokalTV RLP" />
+<webtv title="OK Kaiserslautern" url="http://stream-cdn.ok54.de/hls/ok-kl.m3u8" description="LokalTV RLP" /> 
+<webtv title="OK Mainz" url="http://streaming.ok54.de/hls/oktvmainz.m3u8" description="LokalTV RLP" />
+<webtv title="OK Speyer" url="http://s2.fairprice-streams.de:9420/" description="LokalTV RLP" />
+<webtv title="OK Weinstrasse" url="http://stream-cdn.ok54.de/hls/okweinstrasse.m3u8" description="LokalTV RLP" /> 
+<webtv title="OK Worms" url="http://iphone-streaming.ustream.tv/ustreamVideo/18783531/streams/live/playlist.m3u8" description="LokalTV RLP" />
+<webtv title="TV Mittelrhein" url="http://62.67.13.54:1935/tvm/tvm_livestream_3.stream/playlist.m3u8" epgid="" description="LokalTV RLP" />
+<webtv title="Westerwald-TV" url="http://62.67.13.54:1935/wwtv/wwtv_livestream_3.stream/playlist.m3u8" epgid="" description="LokalTV RLP" />
+<webtv title="Center.TV HD" url="http://sdn-global-live-http-cache.3qsdn.com/live/_definst_/smil:3045-mbr.smil/chunklist_b2500000.m3u8" description="Lokal TV" />
+<webtv title="nrwision" url="rtmp://fms.nrwision.de/live/livestream live=1" description="Livestream" />
+<webtv title="nrw.tv" url="http://streaming001.broadcast.tneg.de:1935/nrwtv/_definst_/nrwtv.stream/playlist.m3u8" description="Fernsehen aus Nordrhein-Westfalen" />
+<!-- Lokal- & Regional-TV Bayern, Baden-Würtenberg & Hessen -->
+<webtv title="Allgäu TV" url="http://tvallgaeu.iptv-playoutcenter.de:1935/tvallgaeu/tvallgaeu.stream_2/master.m3u8" description="LokalTV Bayern" />
+<webtv title="Augsburg TV" url="http://augsburgtv.iptv-playoutcenter.de:1935/augsburgtv/augsburgtv.stream_1/master.m3u8" description="LokalTV Bayern" />
+<webtv title="Donau TV" url="http://donautv.iptv-playoutcenter.de:1935/donautv/donautv.stream_1/master.m3u8" description="LokalTV Bayern" />
+<webtv title="Franken Fernsehen" url="http://frankentv.iptv-playoutcenter.de:1935/frankentv/frankentv.stream_1/master.m3u8" description="LokalTV Bayern" />
+<webtv title="intv" url="http://ingolstadttv.iptv-playoutcenter.de:1935/ingolstadttv/ingolstadttv.stream_1/master.m3u8" description="LokalTV Bayern" />
+<webtv title="isar.tv" url="http://isar-tv.iptv-playoutcenter.de:1935/isar-tv/isar-tv.stream_1/master.m3u8" description="LokalTV Bayern" />
+<webtv title="main.tv" url="http://maintv.iptv-playoutcenter.de:1935/maintv/maintv.stream/master.m3u8" description="LokalTV Bayern" />
+<webtv title="münchen.tv" url="http://muenchentv.iptv-playoutcenter.de:1935/muenchentv/muenchentv.stream_1/master.m3u8" description="LokalTV Bayern" />
+<webtv title="Oberpfalz TV" url="http://oberpfalztv.iptv-playoutcenter.de:1935/oberpfalztv/oberpfalztv.stream_1/master.m3u8" description="LokalTV Bayern" />
+<webtv title="Regio TV" url="http://regiotv.iptv-playoutcenter.de:1935/regiotv/regiotv.stream/master.m3u8" description="LokalTV Bayern" />
+<webtv title="rfo" url="http://rfo.iptv-playoutcenter.de:1935/rfo/rfo.stream_1/master.m3u8" description="LokalTV Bayern" />
+<webtv title="TRP1" url="http://teleregionalpassau1.iptv-playoutcenter.de:1935/teleregionalpassau1/teleregionalpassau1.stream_1/master.m3u8" description="LokalTV Bayern" />
+<webtv title="TVA Ostbayern" url="http://tvaktuellr.iptv-playoutcenter.de:1935/tvaktuellr/tvaktuellr.stream_1/playlist.m3u8" description="LokalTV Bayern" />
+<webtv title="TV Oberfranken" url="http://tvoberfranken.iptv-playoutcenter.de:1935/tvoberfranken/tvoberfranken.stream_1/master.m3u8" description="LokalTV Bayern" />
+<webtv title="TV Touring Schweinfurt" url="http://tvtourings.iptv-playoutcenter.de:1935/tvtourings/tvtourings.stream_1/master.m3u8" description="LokalTV Bayern" />
+<webtv title="TV Touring Würzburg" url="http://tvtouringw.iptv-playoutcenter.de:1935/tvtouringw/tvtouringw.stream_1/master.m3u8" description="LokalTV Bayern" />
+<webtv title="Baden TV" url="rtmp://badentv-stream2.siebnich.info/rtplive/vlc.sdp" description="Lokal TV" />
+<webtv title="campus.tv HD" url="http://xgrid04.ruf.uni-freiburg.de:1935/unitv/_definst_/unitv/manifest.m3u8" description="Livestream" />
+<webtv title="LTV" url="http://62.113.210.105/ltv-live/_definst_/mp4:livestream/playlist.m3u8" description="Ludwigsburg TV" />
+<webtv title="rheinmain.tv" url="rtmp://217.23.11.44/live/myStream" description="Lokal-TV" />
+<webtv title="RNF" url="rtmp://rnf.iptv-playoutcenter.de:1935/rnf/rnf.stream_2" description="Lokal TV" />
+<webtv title="spontv" url="rtmp://62.113.221.4/tv2000plus-live/livestream" description="Regional-Sport aus BW" />
+</webtvs>
