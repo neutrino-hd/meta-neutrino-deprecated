@@ -1,0 +1,40 @@
+From d534fa6141c0b2de3aaba42efb54ffdd80c14520 Mon Sep 17 00:00:00 2001
+From: flk <f_l_k@t-online.de>
+Date: Sun, 20 Mar 2016 09:39:34 +0100
+Subject: [PATCH] use AV_CODEC_ID_H264 for ffmpeg-3.0 compatibiliy
+
+Signed-off-by: flk <f_l_k@t-online.de>
+---
+ src/driver/record.cpp   | 2 +-
+ src/driver/streamts.cpp | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/driver/record.cpp b/src/driver/record.cpp
+index b608b2a..519da02 100644
+--- a/src/driver/record.cpp
++++ b/src/driver/record.cpp
+@@ -2167,7 +2167,7 @@ void CStreamRec::run()
+ 			continue;
+ 
+ 		AVCodecContext *codec = ifcx->streams[pkt.stream_index]->codec;
+-		if (bsfc && codec->codec_id == CODEC_ID_H264) {
++		if (bsfc && codec->codec_id == AV_CODEC_ID_H264) {
+ 			AVPacket newpkt = pkt;
+ 
+ 			int len;
+diff --git a/src/driver/streamts.cpp b/src/driver/streamts.cpp
+index e5a6b1e..1f4cb8b 100644
+--- a/src/driver/streamts.cpp
++++ b/src/driver/streamts.cpp
+@@ -888,7 +888,7 @@ void CStreamStream::run()
+ 			continue;
+ 
+ 		AVCodecContext *codec = ifcx->streams[pkt.stream_index]->codec;
+-		if (bsfc && codec->codec_id == CODEC_ID_H264 ) {
++		if (bsfc && codec->codec_id == AV_CODEC_ID_H264 ) {
+ 			AVPacket newpkt = pkt;
+ 
+ 			int len;
+-- 
+2.1.4
+

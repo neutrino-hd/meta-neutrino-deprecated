@@ -11,6 +11,7 @@ DEPENDS += " \
 	curl \
 	ffmpeg \
 	freetype \
+	gettext \
 	giflib \
 	libpng \
 	libbluray \
@@ -48,6 +49,7 @@ SRC_URI = "git://git.slknet.de/git/cst-public-gui-neutrino.git;name=cst-next;bra
 	   file://0013-disable-network_services-menu.patch \
 	   file://0016-dont-install-undotum.ttf-to-shrink-size.patch \
 	   file://0017-sectionsd-remove-ifdef-unneeded-for-uclibc-ng.patch \
+	   file://0018-use-AV_CODEC_ID_H264-for-ffmpeg-3.0-compatibiliy.patch \
 	   file://opkg/0001-opkg_manager-remove-reboot-and-restart-trigger-files.patch \
 	   file://opkg/0003-opkg-0.3.x-uses-opkg-instead-of-opkg-cl-as-binary-na.patch \
 	   file://icons.tar.gz \
