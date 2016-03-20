@@ -7,13 +7,12 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
 
 DEPENDS = "openssl zlib"
 
-SRCREV = "3121324046e4ca1934e7e28293fc8326475d5053"
-PV = "2.4"
-PR = "4"
+SRCREV ?= "${AUTOREV}"
+PV = "${SRCPV}"
+PR = "1"
 
 SRC_URI = " \
     git://git.ffmpeg.org/rtmpdump \
-    file://fix-racing-build-issue.patch \
 "
 
 S = "${WORKDIR}/git"
@@ -25,3 +24,6 @@ EXTRA_OEMAKE = " \
     SYS=posix INC=-I=/usr/include DESTDIR=${D} \
     prefix=${prefix} libdir=${libdir} incdir=${includedir}/librtmp bindir=${bindir} mandir=${mandir}"
 
+do_install_prepend() {
+	install -d ${D}/usr/lib
+}
