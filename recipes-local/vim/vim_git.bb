@@ -5,19 +5,19 @@ DEPENDS = "ncurses gettext-native"
 RSUGGESTS_${PN} = "diffutils"
 LICENSE_PATH += "${THISDIR}/files:"
 LICENSE = "vim"
-LIC_FILES_CHKSUM = "file://../runtime/doc/uganda.txt;md5=b779e18be6ed77facc770691c967b8f8"
-SRC_URI = "hg://vim.googlecode.com/hg/;protocol=https;module=vim \
+LIC_FILES_CHKSUM = "file://../runtime/doc/uganda.txt;md5=c74ec0ada9a68354f9461e81d3596f61"
+SRC_URI = "git://github.com/vim/vim.git \
            file://disable_acl_header_check.patch;patchdir=.. \
            file://vim-add-knob-whether-elf.h-are-checked.patch;patchdir=.. \
 "
-SRCREV = "v7-4-373"
 
-S = "${WORKDIR}/${BPN}/src"
+SRCREV = "${AUTOREV}"
 
-VIMDIR = "${BPN}${@d.getVar('PV',1).split('.')[0]}${@d.getVar('PV',1).split('.')[1]}"
+S = "${WORKDIR}/git/src"
+PV = "${SRCPV}"
+VIMDIR = "vim74"
 
-inherit autotools update-alternatives
-inherit autotools-brokensep
+inherit autotools-brokensep update-alternatives pkgconfig
 
 # vim configure.in contains functions which got 'dropped' by autotools.bbclass
 do_configure () {
@@ -31,7 +31,7 @@ do_configure () {
 }
 
 #Available PACKAGECONFIG options are gtkgui, acl, x11, tiny
-PACKAGECONFIG ??= ""
+PACKAGECONFIG ??= "tiny"
 PACKAGECONFIG += "${@base_contains('DISTRO_FEATURES', 'acl', 'acl', '', d)}"
 PACKAGECONFIG += "${@base_contains('DISTRO_FEATURES', 'selinux', 'selinux', '', d)}"
 
@@ -58,7 +58,6 @@ EXTRA_OECONF = " \
     vim_cv_tty_group=world \
     STRIP=/bin/true \
 "
-
 do_install_append() {
     # Work around rpm picking up csh or awk or perl as a dep
     chmod -x ${D}${datadir}/${BPN}/${VIMDIR}/tools/vim132
@@ -68,8 +67,6 @@ do_install_append() {
     # Install example vimrc from runtime files
     install -m 0644 ../runtime/vimrc_example.vim ${D}/${datadir}/${BPN}/vimrc
 }
-
-PARALLEL_MAKEINST = ""
 
 PACKAGES =+ "${PN}-common ${PN}-syntax ${PN}-help ${PN}-tutor ${PN}-vimrc"
 FILES_${PN}-syntax = "${datadir}/${BPN}/${VIMDIR}/syntax"
@@ -100,3 +97,6 @@ ALTERNATIVE_${PN} = "vi"
 ALTERNATIVE_TARGET[vi] = "${bindir}/${BPN}"
 ALTERNATIVE_LINK_NAME[vi] = "${base_bindir}/vi"
 ALTERNATIVE_PRIORITY[vi] = "100"
+
+PARALLEL_MAKEINST = ""
+
