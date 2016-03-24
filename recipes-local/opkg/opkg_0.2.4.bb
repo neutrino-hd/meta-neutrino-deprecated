@@ -1,3 +1,4 @@
+COMPATIBLE_MACHINE = "coolstream-hd1"
 SUMMARY = "Open Package Manager"
 SUMMARY_libopkg = "Open Package Manager library"
 SECTION = "base"
