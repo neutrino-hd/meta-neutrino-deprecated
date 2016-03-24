@@ -24,24 +24,19 @@ do_compile() {
 }
 
 do_install_coolstream-hd1() {
-	install -d ${D}/${bindir} ${D}/usr/share/tuxbox/neutrino/icons ${D}${sysconfdir}/init.d
+	install -d ${D}/${bindir} ${D}${sysconfdir}/init.d
 	install -m 0755 ${S}/bin/logoview.nevis ${D}${bindir}/logoview
-	install -m 0644 ${WORKDIR}/start.jpg ${D}/usr/share/tuxbox/neutrino/icons/logo_up.jpg
-	install -m 0644 ${WORKDIR}/shutdown.jpg ${D}/usr/share/tuxbox/neutrino/icons/logo_down.jpg
 	install -m 755 ${WORKDIR}/logoview ${D}${sysconfdir}/init.d/logoview
 }
 
 do_install_coolstream-hd2() {
-	install -d ${D}/${bindir} ${D}/usr/share/tuxbox/neutrino/icons ${D}${sysconfdir}/init.d
+	install -d ${D}/${bindir} ${D}${sysconfdir}/init.d
 	install -m 0755 ${S}/bin/logoview.apollo ${D}${bindir}/logoview
-	install -m 0644 ${WORKDIR}/start.jpg ${D}/usr/share/tuxbox/neutrino/icons/logo_up.jpg
-	install -m 0644 ${WORKDIR}/shutdown.jpg ${D}/usr/share/tuxbox/neutrino/icons/logo_down.jpg
 	install -m 755 ${WORKDIR}/logoview ${D}${sysconfdir}/init.d/logoview
 }
 
 FILES_${PN} = "/etc/init.d \
 	       /usr/bin \
-	       /usr/share/tuxbox/neutrino/icons \
 "
 
 SRC_URI[md5sum] = "17e6a3996de2942629dce65db1a701c5"
