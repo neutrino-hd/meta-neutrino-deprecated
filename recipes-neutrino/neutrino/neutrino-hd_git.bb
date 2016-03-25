@@ -103,7 +103,9 @@ do_install_prepend () {
 	echo "imagename=Neutrino-HD"             >> ${D}/.version 
 	echo "homepage=${HOMEPAGE}"              >> ${D}/.version 
 	HASH=$(cd ${S} && echo `git rev-parse --abbrev-ref HEAD` `git describe --always --tags --dirty`)
-	echo "${IMAGE_LOCATION} ${RELEASE_STATE}${DISTRO_VERSION_NUMBER_MAJOR}${DISTRO_VERSION_NUMBER_MINOR}"0"`date +%Y%m%d%H%M` MD5 ${HASH} ${DISTRO_VERSION}" > ${RELEASE_TEXT_LOCATION_HOST}
+	if [ ! -z ${RELEASE_TEXT_LOCATION_HOST} ];then 
+		echo "${IMAGE_LOCATION} ${RELEASE_STATE}${DISTRO_VERSION_NUMBER_MAJOR}${DISTRO_VERSION_NUMBER_MINOR}"0"`date +%Y%m%d%H%M` MD5 ${HASH} ${DISTRO_VERSION}" > ${RELEASE_TEXT_LOCATION_HOST}
+	fi
 	update-rc.d -r ${D} custom-poweroff start 89 0 .
 }
 
@@ -114,7 +116,9 @@ do_install_append() {
 	install -m 644 ${WORKDIR}/icons/* ${D}/usr/share/tuxbox/neutrino/icons/
 	install -m 644 ${WORKDIR}/var/tuxbox/config/* ${D}/etc/neutrino/config/
 	install -m 644 ${WORKDIR}/var/tuxbox/plugins/webtv/* ${D}/var/tuxbox/plugins/webtv
-	echo "${RELEASE_TEXT_LOCATION}" > ${D}/etc/update.urls
+	if [ ! -z ${RELEASE_TEXT_LOCATION} ];then
+		echo "${RELEASE_TEXT_LOCATION}" > ${D}/etc/update.urls
+	fi
 }
 
 FILES_${PN} += "\
