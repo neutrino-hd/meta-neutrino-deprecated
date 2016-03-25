@@ -32,7 +32,7 @@ SRCREV ?= "${AUTOREV}"
 PV = "${SRCPV}"
 PR = "5"
 
-SRC_URI = "git://git.slknet.de/git/cst-public-gui-neutrino.git;name=cst-next;branch=cst-next \
+SRC_URI = "git://github.com/coolstreamtech/cst-public-gui-neutrino.git;branch=cst-next \
 	   file://neutrino.init \
 	   file://timezone.xml \
 	   file://custom-poweroff.init \
@@ -54,6 +54,7 @@ SRC_URI = "git://git.slknet.de/git/cst-public-gui-neutrino.git;name=cst-next;bra
 	   file://opkg/0003-opkg-0.3.x-uses-opkg-instead-of-opkg-cl-as-binary-na.patch \
 	   file://icons.tar.gz \
 	   file://var.tar.gz \
+	   file://update.urls  \
 	   ${@'' if IMAGETYPE != 'tiny' else 'file://0004-dont-install-unmaintained-locale.patch \
 					      file://0005-remove-unneeded-mp3.jpg-files.patch'} \
 "
@@ -96,12 +97,14 @@ do_install_prepend () {
 	install -d ${D}${localstatedir}/tuxbox
 	install -d ${D}/lib/mdev/fs
 	install -m 755 ${WORKDIR}/mount.mdev ${D}/lib/mdev/fs/mount
-	echo "version=${RELEASE_STATE}${DISTRO_VERSION_NUMBER_MAJOR}"0"${DISTRO_VERSION_NUMBER_MINOR}`date +%Y%m%d%H%M`"    > ${D}/.version
+	echo "version=${RELEASE_STATE}${DISTRO_VERSION_NUMBER_MAJOR}${DISTRO_VERSION_NUMBER_MINOR}"0"`date +%Y%m%d%H%M`"    > ${D}/.version
 	echo "poky=Yocto Poky ${DISTRO_VERSION} ${DISTRO_VERSION_NUMBER}"	>> ${D}/.version
 	echo "release=${DISTRO_VERSION_NUMBER}" >> ${D}/.version 
 	echo "creator=${CREATOR}"             >> ${D}/.version 
 	echo "imagename=Neutrino-HD"             >> ${D}/.version 
 	echo "homepage=${HOMEPAGE}"              >> ${D}/.version 
+	HASH=$(cd ${S} && echo `git rev-parse --abbrev-ref HEAD` `git describe --always --tags --dirty`)
+	echo "${IMAGE_LOCATION} ${RELEASE_STATE}${DISTRO_VERSION_NUMBER_MAJOR}${DISTRO_VERSION_NUMBER_MINOR}"0"`date +%Y%m%d%H%M` MD5 ${HASH} ${DISTRO_VERSION}" > ${RELEASE_TEXT_LOCATION}
 	update-rc.d -r ${D} custom-poweroff start 89 0 .
 }
 
@@ -112,6 +115,7 @@ do_install_append() {
 	install -m 644 ${WORKDIR}/icons/* ${D}/usr/share/tuxbox/neutrino/icons/
 	install -m 644 ${WORKDIR}/var/tuxbox/config/* ${D}/etc/neutrino/config/
 	install -m 644 ${WORKDIR}/var/tuxbox/plugins/webtv/* ${D}/var/tuxbox/plugins/webtv
+	install -m 644 ${WORKDIR}/update.urls ${D}/etc/update.urls
 }
 
 FILES_${PN} += "\
