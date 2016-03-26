@@ -1,0 +1,30 @@
+From f2dc0c3fd69a2e75feb9b573e58fb1c62bdfe306 Mon Sep 17 00:00:00 2001
+From: flk <f_l_k@t-online.de>
+Date: Sat, 26 Mar 2016 12:47:06 +0100
+Subject: [PATCH] workaround nevis build
+
+Signed-off-by: flk <f_l_k@t-online.de>
+---
+ src/gui/movieplayer.cpp | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/src/gui/movieplayer.cpp b/src/gui/movieplayer.cpp
+index b33d2de..d78fc56 100644
+--- a/src/gui/movieplayer.cpp
++++ b/src/gui/movieplayer.cpp
+@@ -1087,7 +1087,12 @@ bool CMoviePlayerGui::PlayFileStart(void)
+ 	if(cookie_header.empty()){
+ 		res = playback->Start((char *) file_name.c_str(), vpid, vtype, currentapid, currentac3, duration);
+ 	}else{
++#ifndef BOXMODEL_NEVIS
+ 		res = playback->Start((char *) file_name.c_str(), cookie_header);//url with cookies
++#endif
++#ifdef BOXMODEL_NEVIS
++		res = playback->Start((char *) file_name.c_str(), vpid, vtype, currentapid, currentac3, duration);
++#endif
+ 	}
+ 
+ 	if (thrStartHint) {
+-- 
+2.1.4
+
