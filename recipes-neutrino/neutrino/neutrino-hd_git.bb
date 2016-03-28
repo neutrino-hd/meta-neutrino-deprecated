@@ -50,7 +50,6 @@ SRC_URI = "git://github.com/coolstreamtech/cst-public-gui-neutrino.git;branch=cs
 	   file://0016-dont-install-undotum.ttf-to-shrink-size.patch \
 	   file://0017-sectionsd-remove-ifdef-unneeded-for-uclibc-ng.patch \
 	   file://0018-use-AV_CODEC_ID_H264-for-ffmpeg-3.0-compatibiliy.patch \
-	   file://0019-workaround-nevis-build.patch \
 	   file://opkg/0001-opkg_manager-remove-reboot-and-restart-trigger-files.patch \
 	   file://opkg/0003-opkg-0.3.x-uses-opkg-instead-of-opkg-cl-as-binary-na.patch \
 	   file://icons.tar.gz \
