@@ -1,7 +1,7 @@
 require ffmpeg.inc
 
 SRCREV = "${AUTOREV}"
-PV = "2.6"
+PV = "2.8.6"
 SRC_URI = "git://git.slknet.de/git/cst-public-libraries-ffmpeg.git;protocol=git;branch=ffmpeg-head \
 	   file://0001-switch-HDS-to-roxml.patch \
 "
