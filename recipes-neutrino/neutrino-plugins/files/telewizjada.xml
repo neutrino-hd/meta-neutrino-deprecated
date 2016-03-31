@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<webtvs>
+	<webtv title="TVP 1" url="1" epgid="2e7c013e12c7" description="TVP 1" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="TVP 2" url="2" epgid="2e7c013e12c8" description="TVP 2" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="Polsat" url="3" epgid="33900071332d" description="Polsat" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="TVN" url="5" epgid="03e8013e10d7" description="TVN" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="TVN 24" url="6" epgid="03e8013e10d8" description="TVN 24" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="TVN24 Biznes i Świat" url="75" epgid="03e8013e10e2" description="TVN24 Biznes i Świat" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="Polsat News" url="4" epgid="339000713335" description="Polsat News" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="TVP Info" url="13" epgid="2af8013e113a" description="TVP Info" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="TV Republika" url="20" epgid="2bc0013e4289" description="TV Republika" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="Super Stacja" url="77" epgid="1ce800711cbe" description="Super Stacja" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="TV4" url="26" epgid="33900071332f" description="TV4" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="TV6" url="85" epgid="1ce800711cbd" description="TV6" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="TVN 7" url="27" epgid="03e8013e10d9" description="TVN 7" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="TV Puls" url="18" epgid="2af8013e116e" description="TV Puls" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="Ale Kino+" url="17" epgid="044c013e379f" description="Ale Kino+" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="AXN" url="28" epgid="1ce800711c96" description="AXN" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="AXN White" url="29" epgid="1ce800711c86" description="AXN White" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="AXN Black" url="30" epgid="1ce800711c87" description="AXN Black" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="Canal+" url="8" epgid="0190013e32dc" description="Canal+" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="Canal+ Film" url="31" epgid="044c013e3779" description="Canal+ Film" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="Canal+ Seriale" url="74" epgid="044c013e3782" description="Canal+ Seriale" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="Canal+ Family" url="9" epgid="044c013e377b" description="Canal+ Family" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="Cinemax" url="33" epgid="012c013e3b67" description="Cinemax" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="Cinemax 2" url="63" epgid="1e7800710c26" description="Cinemax 2" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="FilmBox" url="60" epgid="" description="FilmBox" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="FilmBox Action" url="66" epgid="2c88013e3d65" description="FilmBox Action" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="HBO" url="7" epgid="1edc0071290f" description="HBO" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="HBO 2" url="34" epgid="2d50013e0e09" description="HBO 2" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="HBO Comedy" url="35" epgid="" description="HBO Comedy" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="13 Ulica" url="72" epgid="2ee0013e3e26" description="13 Ulica" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="Fox" url="68" epgid="205dc013e13f4" description="Fox" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="Kino Polska" url="12" epgid="2af8013e1135" description="Kino Polska" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="Polsat Film" url="36" epgid="339000713334" description="Polsat Film" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="Sci Fi" url="71" epgid="02bc013e0002" description="Sci Fi" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="TNT" url="84" epgid="1ce800711cbf" description="TNT" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="Universal Channel" url="69" epgid="02bc013e0001" description="Universal Channel" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="Canal+ Sport" url="10" epgid="0190013e32de" description="Canal+ Sport" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="Canal+ Sport 2" url="73" epgid="012c013e3b6a" description="Canal+ Sport 2" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="Eleven" url="83" epgid="05dc013e13f3" description="Eleven" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="Eleven Sport" url="82" epgid="05dc013e13f5" description="Eleven Sport" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="Eurosport" url="37" epgid="1ce800711c8a" description="Eurosport" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="Eurosport 2" url="59" epgid="1edc0071290c" description="Eurosport 2" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="Extreme Sports" url="93" epgid="" description="Extreme Sports" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="nSport" url="38" epgid="2af8013e1138" description="nSport" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="Orange Sport" url="64" epgid="2c88013e3d5f" description="Orange Sport" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="Polsat Sport" url="45" epgid="339000713330" description="Polsat Sport" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="Polsat Sport Extra" url="44" epgid="339000713331" description="Polsat Sport Extra" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="TVP Sport" url="22" epgid="2af8013e1132" description="TVP Sport" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="Boomerang Central" url="100" epgid="" description="Boomerang Central" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="Disney Junior" url="94" epgid="" description="Disney Junior" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="MiniMini+" url="47" epgid="" description="MiniMini+" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="Nickelodeon" url="97" epgid="" description="Nickelodeon" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="TVP ABC" url="24" epgid="2d50013e0db5" description="TVP ABC" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="Discovery" url="19" epgid="2af8013e1140" description="Discovery" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="Discovery Science" url="65" epgid="1ce800711cc2" description="Discovery Science" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="Discovery Historia" url="23" epgid="2d50013e0db2" description="Discovery Historia" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="Domo+" url="92" epgid="" description="Domo+" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="History" url="51" epgid="" description="History" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="Investigation Discovery" url="98" epgid="" description="Investigation Discovery" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="Kuchnia+" url="91" epgid="" description="Kuchnia+" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="National Geographic" url="76" epgid="" description="National Geographic" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="Nat Geo Wild" url="50" epgid="" description="Nat Geo Wild" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="Planete+" url="52" epgid="" description="Planete+" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="Polsat 2" url="55" epgid="" description="Polsat 2" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="Comedy Central" url="95" epgid="" description="Comedy Central" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="Comedy Central Family" url="96" epgid="" description="Comedy Central Family" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="Polsat Cafe" url="16" epgid="" description="Polsat Cafe" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="Polsat Play" url="43" epgid="33900071332e" description="Polsat Play" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="TVN Style" url="15" epgid="" description="TVN Style" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="TVN Turbo" url="57" epgid="" description="TVN Turbo" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="TVP Historia" url="25" epgid="" description="TVP Historia" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="Polsat Viasat Explore" url="88" epgid="" description="Polsat Viasat Explore" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="Polsat Viasat Nature" url="90" epgid="" description="Polsat Viasat Nature" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="TTV" url="99" epgid="" description="TTV" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="TVP Polonia" url="11" epgid="e33f4013e132b" description="TVP Polonia" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="TVP Rozrywka" url="40" epgid="" description="TVP Rozrywka" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="TVP Seriale" url="62" epgid="" description="TVP Seriale" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="Hustler" url="78" epgid="3db8013e4225" description="Hustler" genre="telewizjada" script="telewizjada.lua" />
+	<webtv title="Private TV" url="79" epgid="33f4013e1360" description="Private TV" genre="telewizjada" script="telewizjada.lua" />
+</webtvs>
