@@ -12,9 +12,7 @@ PV = "${SRCPV}"
 
 S = "${WORKDIR}/git/plugins/mtv"
 
-PR = "1"
-
-SRC_URI = "git://git.slknet.de/git/cst-public-plugins-scripts-lua.git \
+SRC_URI = "git://github.com/coolstreamtech/cst-public-plugins-scripts-lua.git \
 "
 
 do_install () {
@@ -27,3 +25,5 @@ do_install () {
 FILES_${PN} = "\
     /var/tuxbox/plugins \
 "
+SRC_URI[md5sum] = "f9b7e6c21a6b55245f84e591a2151773"
+SRC_URI[sha256sum] = "c5ed25d014a9fcc3c8b8e9fb1af47cd05269424b1ac1e416d770b9956216c29d"
