@@ -36,7 +36,7 @@ RDEPENDS_packagegroup-custom-recommended ?= "\
     nfs-utils-client \
     ntfs-3g \
     ntfsprogs \
-    ng-logos \
+    ni-logos \
     openssh \
     openssl \
     parted \
