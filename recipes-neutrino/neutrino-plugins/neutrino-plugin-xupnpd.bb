@@ -7,8 +7,7 @@ RDEPENDS_${PN} = "xupnpd curl"
 SRCREV = "${AUTOREV}"
 PV = "${SRCPV}"
 
-
-SRC_URI = "git://git.slknet.de/git/cst-public-plugins-scripts-lua.git \
+SRC_URI = "git://github.com/coolstreamtech/cst-public-plugins-scripts-lua.git \
 "
 
 S = "${WORKDIR}/git"

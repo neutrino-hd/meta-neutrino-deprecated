@@ -30,9 +30,9 @@ RCONFLICTS_${PN} = "neutrino-mp"
 
 SRCREV ?= "${AUTOREV}"
 PV = "${SRCPV}"
-PR = "5"
+PR = "6"
 
-SRC_URI = "git://github.com/coolstreamtech/cst-public-gui-neutrino.git;branch=cst-next \
+SRC_URI = "git://coolstreamtech.de/cst-public-gui-neutrino.git;branch=cst-next \
 	   file://neutrino.init \
 	   file://timezone.xml \
 	   file://custom-poweroff.init \
