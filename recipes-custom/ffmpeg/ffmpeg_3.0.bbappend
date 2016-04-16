@@ -7,7 +7,8 @@ SRC_URI_append += " \
 		   file://0002-add-HDS-ro_new.patch \
 "
 
-PACKAGECONFIG ??= "avdevice avfilter bzlib gpl lzma libroxml librtmp libvorbis openssl theora x264 ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11 xv', '', d)}"
+PACKAGECONFIG ??= "avdevice avfilter avcodec avformat swresample bzlib gpl lzma libroxml librtmp libvorbis openssl theora x264 ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11 xv', '', d)}"
+
 PACKAGECONFIG[librtmp] = "--enable-librtmp,--disable-librtmp,rtmpdump"
 PACKAGECONFIG[libroxml] = "--enable-libroxml,--disable-libroxml,libroxml"
 
