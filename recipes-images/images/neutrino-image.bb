@@ -17,4 +17,5 @@ IMAGE_INSTALL += " \
 	neutrino-plugin-mediathek \
 	neutrino-plugin-youtube \
 	neutrino-plugin-webtv \
+	neutrino-plugin-telewizjada \	
 	"
