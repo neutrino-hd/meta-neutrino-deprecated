@@ -1,0 +1,10 @@
+[Unit]
+Description=configure networking
+
+[Service]
+ExecStart=/sbin/ifup -a
+ExecStop=/sbin/ifdown -a
+RemainAfterExit=true
+
+[Install]
+WantedBy=multi-user.target

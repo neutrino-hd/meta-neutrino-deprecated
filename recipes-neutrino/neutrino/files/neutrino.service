@@ -1,0 +1,11 @@
+[Unit]
+Description=Neutrino HD
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/neutrino
+ExecStop=killall /usr/bin/neutrino
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target

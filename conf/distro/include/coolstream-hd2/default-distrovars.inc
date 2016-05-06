@@ -4,7 +4,7 @@ OEINCLUDELOGS ?= "yes"
 KERNEL_CONSOLE ?= "ttyS0"
 KEEPUIMAGE ??= "yes"
 
-IMAGE_LINGUAS ?= "en-us en-gb"
+IMAGE_LINGUAS ?= "de-de en-us"
 ENABLE_BINARY_LOCALE_GENERATION ?= "1"
 LOCALE_UTF8_ONLY ?= "0"
 
@@ -20,6 +20,11 @@ DISTRO_FEATURES_LIBC_class-nativesdk = "${DISTRO_FEATURES_LIBC_DEFAULT}"
 DISTRO_FEATURES ?= "${DISTRO_FEATURES_DEFAULT} ${DISTRO_FEATURES_LIBC}"
 
 IMAGE_FEATURES ?= ""
+
+DISTRO_FEATURES_append = " systemd"
+VIRTUAL-RUNTIME_init_manager = "systemd"
+DISTRO_FEATURES_BACKFILL_CONSIDERED = "sysvinit"
+VIRTUAL-RUNTIME_initscripts = ""
 
 # This is a list of packages that are used by the build system to build the distribution, they are not
 # directly part of the distribution. 

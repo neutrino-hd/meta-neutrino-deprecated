@@ -1,0 +1,241 @@
+From f93cffede134c64750d92ea87805ffa6526059c0 Mon Sep 17 00:00:00 2001
+From: flk <f_l_k@t-online.de>
+Date: Sat, 30 Apr 2016 16:24:49 +0200
+Subject: [PATCH] build_fix
+
+Signed-off-by: flk <f_l_k@t-online.de>
+---
+ src/basic/btrfs-util.c    | 12 ++++++------
+ src/basic/parse-util.c    |  5 ++---
+ src/bootchart/bootchart.c | 12 ++++++------
+ src/bootchart/store.c     |  2 +-
+ src/shared/conf-parser.c  |  2 +-
+ 5 files changed, 16 insertions(+), 17 deletions(-)
+
+diff --git a/src/basic/btrfs-util.c b/src/basic/btrfs-util.c
+index 359d85f..8286b39 100644
+--- a/src/basic/btrfs-util.c
++++ b/src/basic/btrfs-util.c
+@@ -858,7 +858,7 @@ int btrfs_qgroup_set_limit_fd(int fd, uint64_t qgroupid, uint64_t referenced_max
+                 if (ioctl(fd, BTRFS_IOC_QGROUP_LIMIT, &args) < 0) {
+ 
+                         if (errno == EBUSY && c < 10) {
+-                                (void) btrfs_quota_scan_wait(fd);
++//                                (void) btrfs_quota_scan_wait(fd);
+                                 continue;
+                         }
+ 
+@@ -1043,7 +1043,7 @@ static int qgroup_create_or_destroy(int fd, bool b, uint64_t qgroupid) {
+                                 return -ENOPROTOOPT;
+ 
+                         if (errno == EBUSY && c < 10) {
+-                                (void) btrfs_quota_scan_wait(fd);
++//                                (void) btrfs_quota_scan_wait(fd);
+                                 continue;
+                         }
+ 
+@@ -1116,14 +1116,14 @@ int btrfs_quota_scan_start(int fd) {
+         return 0;
+ }
+ 
+-int btrfs_quota_scan_wait(int fd) {
++/*int btrfs_quota_scan_wait(int fd) {
+         assert(fd >= 0);
+ 
+         if (ioctl(fd, BTRFS_IOC_QUOTA_RESCAN_WAIT) < 0)
+                 return -errno;
+ 
+         return 0;
+-}
++}*/
+ 
+ int btrfs_quota_scan_ongoing(int fd) {
+         struct btrfs_ioctl_quota_rescan_args args = {};
+@@ -1155,7 +1155,7 @@ static int qgroup_assign_or_unassign(int fd, bool b, uint64_t child, uint64_t pa
+                 r = ioctl(fd, BTRFS_IOC_QGROUP_ASSIGN, &args);
+                 if (r < 0) {
+                         if (errno == EBUSY && c < 10) {
+-                                (void) btrfs_quota_scan_wait(fd);
++//                                (void) btrfs_quota_scan_wait(fd);
+                                 continue;
+                         }
+ 
+@@ -1415,7 +1415,7 @@ int btrfs_qgroup_copy_limits(int fd, uint64_t old_qgroupid, uint64_t new_qgroupi
+                         for (c = 0;; c++) {
+                                 if (ioctl(fd, BTRFS_IOC_QGROUP_LIMIT, &qargs) < 0) {
+                                         if (errno == EBUSY && c < 10) {
+-                                                (void) btrfs_quota_scan_wait(fd);
++//                                                (void) btrfs_quota_scan_wait(fd);
+                                                 continue;
+                                         }
+                                         return -errno;
+diff --git a/src/basic/parse-util.c b/src/basic/parse-util.c
+index a3cb81b..fca743d 100644
+--- a/src/basic/parse-util.c
++++ b/src/basic/parse-util.c
+@@ -23,7 +23,6 @@
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <string.h>
+-#include <xlocale.h>
+ 
+ #include "alloc-util.h"
+ #include "extract-word.h"
+@@ -469,7 +468,7 @@ int safe_atoi16(const char *s, int16_t *ret) {
+         return 0;
+ }
+ 
+-int safe_atod(const char *s, double *ret_d) {
++/*int safe_atod(const char *s, double *ret_d) {
+         char *x = NULL;
+         double d = 0;
+         locale_t loc;
+@@ -495,7 +494,7 @@ int safe_atod(const char *s, double *ret_d) {
+         freelocale(loc);
+         *ret_d = (double) d;
+         return 0;
+-}
++}*/
+ 
+ int parse_fractional_part_u(const char **p, size_t digits, unsigned *res) {
+         size_t i;
+diff --git a/src/bootchart/bootchart.c b/src/bootchart/bootchart.c
+index 77d158f..686fc0a 100644
+--- a/src/bootchart/bootchart.c
++++ b/src/bootchart/bootchart.c
+@@ -99,15 +99,15 @@ static void parse_conf(void) {
+         char *init = NULL, *output = NULL;
+         const ConfigTableItem items[] = {
+                 { "Bootchart", "Samples",          config_parse_int,    0, &arg_samples_len },
+-                { "Bootchart", "Frequency",        config_parse_double, 0, &arg_hz          },
++//                { "Bootchart", "Frequency",        config_parse_double, 0, &arg_hz          },
+                 { "Bootchart", "Relative",         config_parse_bool,   0, &arg_relative    },
+                 { "Bootchart", "Filter",           config_parse_bool,   0, &arg_filter      },
+                 { "Bootchart", "Output",           config_parse_path,   0, &output          },
+                 { "Bootchart", "Init",             config_parse_path,   0, &init            },
+                 { "Bootchart", "PlotMemoryUsage",  config_parse_bool,   0, &arg_pss         },
+                 { "Bootchart", "PlotEntropyGraph", config_parse_bool,   0, &arg_entropy     },
+-                { "Bootchart", "ScaleX",           config_parse_double, 0, &arg_scale_x     },
+-                { "Bootchart", "ScaleY",           config_parse_double, 0, &arg_scale_y     },
++//                { "Bootchart", "ScaleX",           config_parse_double, 0, &arg_scale_x     },
++//                { "Bootchart", "ScaleY",           config_parse_double, 0, &arg_scale_y     },
+                 { "Bootchart", "ControlGroup",     config_parse_bool,   0, &arg_show_cgroup },
+                 { "Bootchart", "PerCPU",           config_parse_bool,   0, &arg_percpu      },
+                 { NULL, NULL, NULL, 0, NULL }
+@@ -185,7 +185,7 @@ static int parse_argv(int argc, char *argv[]) {
+                         arg_relative = true;
+                         break;
+                 case 'f':
+-                        r = safe_atod(optarg, &arg_hz);
++//                        r = safe_atod(optarg, &arg_hz);
+                         if (r < 0)
+                                 log_warning_errno(r, "failed to parse --freq/-f argument '%s': %m",
+                                                   optarg);
+@@ -217,13 +217,13 @@ static int parse_argv(int argc, char *argv[]) {
+                         arg_pss = true;
+                         break;
+                 case 'x':
+-                        r = safe_atod(optarg, &arg_scale_x);
++//                        r = safe_atod(optarg, &arg_scale_x);
+                         if (r < 0)
+                                 log_warning_errno(r, "failed to parse --scale-x/-x argument '%s': %m",
+                                                   optarg);
+                         break;
+                 case 'y':
+-                        r = safe_atod(optarg, &arg_scale_y);
++//                        r = safe_atod(optarg, &arg_scale_y);
+                         if (r < 0)
+                                 log_warning_errno(r, "failed to parse --scale-y/-y argument '%s': %m",
+                                                   optarg);
+diff --git a/src/bootchart/store.c b/src/bootchart/store.c
+index 42cb804..e4173d2 100644
+--- a/src/bootchart/store.c
++++ b/src/bootchart/store.c
+@@ -288,7 +288,7 @@ schedstat_next:
+                         if (!sscanf(m, "%*s %*s %s", t))
+                                 continue;
+ 
+-                        r = safe_atod(t, &ps->starttime);
++//                        r = safe_atod(t, &ps->starttime);
+                         if (r < 0)
+                                 continue;
+ 
+diff --git a/src/shared/conf-parser.c b/src/shared/conf-parser.c
+index e7fe9ac..e9dcd0e 100644
+--- a/src/shared/conf-parser.c
++++ b/src/shared/conf-parser.c
+@@ -458,7 +458,7 @@ DEFINE_PARSER(long, long, safe_atoli);
+ DEFINE_PARSER(uint32, uint32_t, safe_atou32);
+ DEFINE_PARSER(uint64, uint64_t, safe_atou64);
+ DEFINE_PARSER(unsigned, unsigned, safe_atou);
+-DEFINE_PARSER(double, double, safe_atod);
++//DEFINE_PARSER(double, double, safe_atod);
+ DEFINE_PARSER(nsec, nsec_t, parse_nsec);
+ DEFINE_PARSER(sec, usec_t, parse_sec);
+ DEFINE_PARSER(mode, mode_t, parse_mode);
+diff --git a/src/libsystemd/sd-bus/busctl.c b/src/libsystemd/sd-bus/busctl.c
+index 772ab62..c9839ad 100644
+--- a/src/libsystemd/sd-bus/busctl.c
++++ b/src/libsystemd/sd-bus/busctl.c
+@@ -1375,7 +1375,7 @@ static int message_append_cmdline(sd_bus_message *m, const char *signature, char
+                 case SD_BUS_TYPE_DOUBLE: {
+                         double z;
+ 
+-                        r = safe_atod(v, &z);
++//                        r = safe_atod(v, &z);
+                         if (r < 0) {
+                                 log_error("Failed to parse as double precision floating point: %s", v);
+                                 return r;
+diff --git a/src/test/test-parse-util.c b/src/test/test-parse-util.c
+index 7d8677e..fe39fc3 100644
+--- a/src/test/test-parse-util.c
++++ b/src/test/test-parse-util.c
+@@ -432,14 +432,14 @@ static void test_safe_atod(void) {
+         double d;
+         char *e;
+ 
+-        r = safe_atod("junk", &d);
++//        r = safe_atod("junk", &d);
+         assert_se(r == -EINVAL);
+ 
+-        r = safe_atod("0.2244", &d);
++//        r = safe_atod("0.2244", &d);
+         assert_se(r == 0);
+         assert_se(fabs(d - 0.2244) < 0.000001);
+ 
+-        r = safe_atod("0,5", &d);
++//        r = safe_atod("0,5", &d);
+         assert_se(r == -EINVAL);
+ 
+         errno = 0;
+@@ -449,11 +449,11 @@ static void test_safe_atod(void) {
+         /* Check if this really is locale independent */
+         if (setlocale(LC_NUMERIC, "de_DE.utf8")) {
+ 
+-                r = safe_atod("0.2244", &d);
++//                r = safe_atod("0.2244", &d);
+                 assert_se(r == 0);
+                 assert_se(fabs(d - 0.2244) < 0.000001);
+ 
+-                r = safe_atod("0,5", &d);
++//                r = safe_atod("0,5", &d);
+                 assert_se(r == -EINVAL);
+ 
+                 errno = 0;
+@@ -463,11 +463,11 @@ static void test_safe_atod(void) {
+         /* And check again, reset */
+         assert_se(setlocale(LC_NUMERIC, "C"));
+ 
+-        r = safe_atod("0.2244", &d);
++//        r = safe_atod("0.2244", &d);
+         assert_se(r == 0);
+         assert_se(fabs(d - 0.2244) < 0.000001);
+ 
+-        r = safe_atod("0,5", &d);
++//        r = safe_atod("0,5", &d);
+         assert_se(r == -EINVAL);
+ 
+         errno = 0;
+-- 
+2.1.4
+

@@ -33,12 +33,13 @@ PV = "${SRCPV}"
 PR = "6"
 
 SRC_URI = "git://coolstreamtech.de/cst-public-gui-neutrino.git;branch=cst-next \
-	   file://neutrino.init \
+	   file://neutrino.service \
 	   file://timezone.xml \
 	   file://custom-poweroff.init \
 	   file://pre-wlan0.sh \
 	   file://post-wlan0.sh \
 	   file://mount.mdev \
+	   file://interfaces \
 	   file://COPYING.GPL \
 	   file://0001-configure_fix.patch \
 	   file://0007-imageinfo.cpp-change-version-output.patch \
@@ -86,11 +87,13 @@ do_compile () {
 
 do_install_prepend () {
 # change number to force rebuild "3"
-	install -d ${D}/${sysconfdir}/init.d ${D}${sysconfdir}/network
-	install -m 755 ${WORKDIR}/neutrino.init ${D}${sysconfdir}/init.d/neutrino
+	install -d ${D}/${sysconfdir}/init.d ${D}${sysconfdir}/network ${D}${sysconfdir}/systemd/system/multi-user.target.wants
+	install -m 755 ${WORKDIR}/neutrino.service ${D}${sysconfdir}/systemd/system/neutrino.service
+	ln -s /lib/systemd/system/neutrino.service ${D}${sysconfdir}/systemd/system/multi-user.target.wants/
 	install -m 755 ${WORKDIR}/custom-poweroff.init ${D}${sysconfdir}/init.d/custom-poweroff
 	install -m 755 ${WORKDIR}/pre-wlan0.sh ${D}${sysconfdir}/network/
 	install -m 755 ${WORKDIR}/post-wlan0.sh ${D}${sysconfdir}/network/
+	install -m 644 ${WORKDIR}/interfaces ${D}${sysconfdir}/network/
 	install -m 644 ${WORKDIR}/timezone.xml ${D}${sysconfdir}/timezone.xml
 	install -d ${D}${localstatedir}/cache
 	install -d ${D}${localstatedir}/tuxbox
