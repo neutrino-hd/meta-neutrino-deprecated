@@ -1,0 +1,26 @@
+From fa48d943eed61e2d485e593b36d5bb9b01ad06c7 Mon Sep 17 00:00:00 2001
+From: flk <f_l_k@t-online.de>
+Date: Sat, 7 May 2016 19:50:01 +0200
+Subject: [PATCH] src/core/device.c: fix freeze when unplugging without unmount
+
+Signed-off-by: flk <f_l_k@t-online.de>
+---
+ src/core/device.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/core/device.c b/src/core/device.c
+index d201dc5..c64e01c 100644
+--- a/src/core/device.c
++++ b/src/core/device.c
+@@ -318,7 +318,7 @@ static int device_setup_unit(Manager *m, struct udev_device *dev, const char *pa
+          * the GC to have garbaged it. That's desired since the device
+          * unit may have a dependency on the mount unit which was
+          * added during the loading of the later. */
+-        if (u && DEVICE(u)->state == DEVICE_PLUGGED) {
++        if (sysfs && u && DEVICE(u)->state == DEVICE_PLUGGED) {
+                 /* This unit is in plugged state: we're sure it's
+                  * attached to a device. */
+                 if (!path_equal(DEVICE(u)->sysfs, sysfs)) {
+-- 
+2.1.4
+
