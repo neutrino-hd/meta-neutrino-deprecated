@@ -2,6 +2,7 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/base-files:"
 
 SRC_URI += "file://profile \
 	    file://inputrc \
+	    file://nsswitch.conf \
 	    file://local.sh \
 	    file://stb_update.sh \
 	    file://stb_update-hd1.sh \

@@ -1,4 +1,4 @@
-movies  -rw,soft,intr 192.168.2.21:/srv/nfs/sda1/movies
-pictures  -rw,soft,intr 192.168.2.21:/srv/nfs/sda1/pictures
-music  -rw,soft,intr 192.168.2.21:/srv/nfs/sda1/music
+movies  -rw,soft,intr,vers=3 192.168.2.21:/srv/nfs/sda1/movies
+pictures  -rw,soft,intr,vers=3 192.168.2.21:/srv/nfs/sda1/pictures
+music  -rw,soft,intr,vers=3 192.168.2.21:/srv/nfs/sda1/music
 
