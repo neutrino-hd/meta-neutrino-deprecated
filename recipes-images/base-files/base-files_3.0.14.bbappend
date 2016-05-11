@@ -35,6 +35,7 @@ do_custom_baseissueinstall() {
 	echo >> ${D}${sysconfdir}/issue.net
 }
 
+
 do_install_prepend_coolstream-hd2 () {
 	install -d ${D}${sysconfdir}/init.d  ${D}${localstatedir}/update
 	install -m 755 ${S}/local.sh ${D}${sysconfdir}/init.d/local.sh

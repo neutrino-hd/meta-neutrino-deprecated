@@ -2,9 +2,10 @@
 LICENSE = "GPL-2.0"
 LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
 
-RDEPENDS_${PN} += "git findutils cronie ${@'perl-module-file-glob' if DISTRO != 'coolstream-hd1_flash' else ''}"
+RDEPENDS_${PN} += "git findutils cronie util-linux-mountpoint ${@'perl-module-file-glob' if DISTRO != 'coolstream-hd1_flash' else ''}"
 
 SRC_URI = "git://github.com/joeyh/etckeeper.git;branch=master \
+	   file://etckeeper.service \
 	   file://etckeeper \
 	   file://etckeeper.conf \
 	   file://create_etc.sh \
@@ -21,8 +22,6 @@ SRCREV = "${AUTOREV}"
 PV = "${SRCPV}"
 PR = "1"
 
-INITSCRIPT_NAME = "update_etc"
-
 S = "${WORKDIR}/git"
 
 inherit autotools-brokensep 
@@ -34,23 +33,18 @@ do_configure_prepend () {
 	sed -i "s|GIT_USER|${GIT_USER}|" ${WORKDIR}/create_etc.sh
 	sed -i "s|MAIL|${MAIL}|" ${WORKDIR}/create_etc.sh
 	sed -i "s|GIT_URL|${GIT_URL}|" ${WORKDIR}/create_etc.sh
-	if [ ${DISTRO} = "coolstream-hd1_flash" ];then
-		sed -i "s|nano|vi|" ${WORKDIR}/create_etc.sh
-		sed -i "s|nano|vi|" ${WORKDIR}/update_etc.sh
-	fi
-	if [ ${DISTRO} = "coolstream-hd1" ];then
-		sed -i "s|/media/sda1|/media/sdb1|" ${WORKDIR}/create_etc.sh
-		sed -i "s|/media/sda1|/media/sdb1|" ${WORKDIR}/update_etc.sh
-	fi
 }
 	
 do_install_append () {
-	install -d ${D}${sysconfdir}/cron.daily/ ${D}${sysconfdir}/init.d
+	install -d ${D}${sysconfdir}/cron.daily ${D}${sysconfdir}/systemd/system/multi-user.target.wants ${D}/lib/systemd/system/
 	install -m755 ${WORKDIR}/etckeeper ${D}/etc/cron.daily/etckeeper
 	install -m644 ${WORKDIR}/etckeeper.conf ${D}/etc/etckeeper
-	install -m 755 ${WORKDIR}/update_etc.sh ${D}${sysconfdir}/init.d/update_etc.sh
-	install -m 755 ${WORKDIR}/create_etc.sh ${D}${sysconfdir}/init.d/create_etc.sh
-	update-rc.d -r ${D} update_etc.sh start 08 5 .
+	install -m 755 ${WORKDIR}/update_etc.sh ${D}/usr/bin/update_etc.sh
+	install -m 755 ${WORKDIR}/create_etc.sh ${D}/usr/bin/create_etc.sh
+	install -m 755 ${WORKDIR}/etckeeper.service ${D}/lib/systemd/system/etckeeper.service
+	ln -s /lib/systemd/system/etckeeper.service ${D}${sysconfdir}/systemd/system/multi-user.target.wants/
 }
 
-FILES_${PN}_append += "/usr/share/bash-completion"
+FILES_${PN}_append += "/usr/share/bash-completion \
+		       /lib/systemd \
+"
