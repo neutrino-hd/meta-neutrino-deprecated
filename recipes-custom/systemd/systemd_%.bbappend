@@ -8,6 +8,8 @@ SRC_URI_append += "file://0001-build_fix.patch \
 	  	   file://framebuffer.conf \
 		   file://ifup.service \
 "
+PACKAGECONFIG_append += ""
+PACKAGECONFIG_remove_libc-uclibc = "localed resolved"
 
 do_install_append() {
 	install -d ${D}/${sysconfdir}/modprobe.d
@@ -20,6 +22,7 @@ do_install_append() {
 	install -m 644 ${WORKDIR}/ifup.service  ${D}/lib/systemd/system/ifup.service
 	ln -s /lib/systemd/system/ifup.service ${D}/etc/systemd/system/multi-user.target.wants/ifup.service
 	sed -i "s|slave|shared|" ${D}/lib/systemd/system/systemd-udevd.service
+	rm ${D}/etc/resolv.conf && touch ${D}/etc/resolv.conf
 }
 
 
