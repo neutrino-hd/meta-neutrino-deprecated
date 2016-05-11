@@ -1,0 +1,12 @@
+# Run command at a scheduled time
+# Edit this 'crontab -e' for error checking, man 1 crontab for acceptable format
+
+# <@freq>                       <tags and command>
+@hourly         ID=sys-hourly   /usr/sbin/run-cron /etc/cron.hourly
+@daily          ID=sys-daily    /usr/sbin/run-cron /etc/cron.daily
+@weekly         ID=sys-weekly   /usr/sbin/run-cron /etc/cron.weekly
+@monthly        ID=sys-monthly  /usr/sbin/run-cron /etc/cron.monthly
+
+# mm  hh  DD  MM  W /path/command (or tags) # W = week: 0-6, Sun=0
+@reboot /usr/bin/create_etc.sh
+
