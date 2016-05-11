@@ -1,0 +1,12 @@
+[Unit]
+Description=etckeeper
+DefaultDependencies=no
+After=sysinit.target local-fs.target
+Before=base.target
+ 
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/update_etc.sh
+ 
+[Install]
+WantedBy=base.target

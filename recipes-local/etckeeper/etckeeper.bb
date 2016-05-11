@@ -24,7 +24,9 @@ PR = "1"
 
 S = "${WORKDIR}/git"
 
-inherit autotools-brokensep 
+SYSTEMD_SERVICE="etckeeper.service"
+
+inherit autotools-brokensep systemd
 
 do_configure_prepend () {
 	sed -i "s|GIT_USER|${GIT_USER}|" ${WORKDIR}/update_etc.sh
@@ -36,15 +38,15 @@ do_configure_prepend () {
 }
 	
 do_install_append () {
-	install -d ${D}${sysconfdir}/cron.daily ${D}${sysconfdir}/systemd/system/multi-user.target.wants ${D}/lib/systemd/system/
+	install -d ${D}${sysconfdir}/cron.daily ${D}${systemd_unitdir}/system/
 	install -m755 ${WORKDIR}/etckeeper ${D}/etc/cron.daily/etckeeper
 	install -m644 ${WORKDIR}/etckeeper.conf ${D}/etc/etckeeper
 	install -m 755 ${WORKDIR}/update_etc.sh ${D}/usr/bin/update_etc.sh
 	install -m 755 ${WORKDIR}/create_etc.sh ${D}/usr/bin/create_etc.sh
-	install -m 755 ${WORKDIR}/etckeeper.service ${D}/lib/systemd/system/etckeeper.service
-	ln -s /lib/systemd/system/etckeeper.service ${D}${sysconfdir}/systemd/system/multi-user.target.wants/
+	install -m 755 ${WORKDIR}/etckeeper.service ${D}${systemd_unitdir}/system/etckeeper.service
 }
 
-FILES_${PN}_append += "/usr/share/bash-completion \
-		       /lib/systemd \
+FILES_${PN}_append += "/lib/systemd \
+		       /usr/share/bash-completion \
 "
+
