@@ -1,0 +1,14 @@
+
+[Unit]
+Description=update Kernel
+Before=systemd-modules-load
+DefaultDependencies=false
+
+[Service]
+Type=oneshot
+ExecStart=/etc/update_kernel.sh
+
+[Install]
+WantedBy=sysinit.target
+
+

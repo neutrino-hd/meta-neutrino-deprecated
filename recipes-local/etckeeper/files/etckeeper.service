@@ -1,12 +1,10 @@
 [Unit]
-Description=etckeeper
-DefaultDependencies=no
-After=sysinit.target local-fs.target
-Before=base.target
+Description=write back etckeeper remote
+After=update-kernel.service
  
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/update_etc.sh
+ExecStart=/etc/etckeeper/update_etc.sh
  
 [Install]
-WantedBy=base.target
+WantedBy=multi-user.target

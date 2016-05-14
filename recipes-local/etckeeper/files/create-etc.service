@@ -1,0 +1,10 @@
+[Unit]
+Description=create etc git remote for etckeeper
+After=neutrino.service
+DefaultDependencies=false
+
+[Service]
+Nice=19
+IOSchedulingClass=2
+IOSchedulingPriority=7
+ExecStart=/etc/etckeeper/create_etc.sh

@@ -1,0 +1,9 @@
+[Unit]
+Description=etckeeper autocommit
+
+[Timer]
+OnBootSec=1h
+OnUnitInactiveSec=1d
+
+[Install]
+WantedBy=basic.target

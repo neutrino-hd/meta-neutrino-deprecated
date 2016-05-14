@@ -3,12 +3,14 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/base-files:"
 SRC_URI += "file://profile \
 	    file://inputrc \
 	    file://nsswitch.conf \
-	    file://local.sh \
-	    file://stb_update.sh \
-	    file://stb_update-hd1.sh \
-	    file://cam.sh \
+	    file://update_kernel.sh \
+	    file://update-kernel.service \
+	    file://cam.service \
 "
 
+inherit systemd
+
+SYSTEMD_SERVICE_${PN} = "update-kernel.service"
 BASEFILESISSUEINSTALL = "do_custom_baseissueinstall"
 
 do_custom_baseissueinstall() {
@@ -36,39 +38,16 @@ do_custom_baseissueinstall() {
 }
 
 
-do_install_prepend_coolstream-hd2 () {
-	install -d ${D}${sysconfdir}/init.d  ${D}${localstatedir}/update
-	install -m 755 ${S}/local.sh ${D}${sysconfdir}/init.d/local.sh
-	install -m 755 ${S}/stb_update.sh ${D}${sysconfdir}/init.d/bb_stb_update.sh
-	install -m 755 ${S}/cam.sh ${D}${sysconfdir}/init.d/cam.sh
-	update-rc.d -r ${D} local.sh start 40 S .
-	update-rc.d -r ${D} bb_stb_update.sh start 03 S .
-	update-rc.d -r ${D} cam.sh start 60 5 .
+do_install_append () {
+	install -d ${D}${localstatedir}/update ${D}${systemd_unitdir}/system/multi-user.target.wants
+	install -m 755 ${S}/update_kernel.sh ${D}${sysconfdir}/update_kernel.sh
+	install -m 644 ${S}/update-kernel.service ${D}${systemd_unitdir}/system/update-kernel.service
+	install -m 644 ${S}/cam.service ${D}${systemd_unitdir}/system/cam.service
+	ln -s /lib/systemd/system/cam.service ${D}${systemd_unitdir}/system/multi-user.target.wants/cam.service
 	touch ${D}${localstatedir}/update/.newimage
  	if [ ${CLEAN_ENV} = "yes" ];then
 		touch ${D}${localstatedir}/update/.erase_env 
 	fi
-}
-
-do_install_append_coolstream-hd1 () {
-	install -d ${D}${base_libdir} ${D}${libdir} ${D}${localstatedir}/update ${D}${sysconfdir}/init.d
-	install -m 755 ${S}/local.sh ${D}${sysconfdir}/init.d/local.sh
-	install -m 755 ${S}/cam.sh ${D}${sysconfdir}/init.d/cam.sh
-	update-rc.d -r ${D} local.sh start 40 S .
-	update-rc.d -r ${D} cam.sh start 60 5 .
-	# hack to get better compatibility for precompiled binaries on the nevis platform
-	ln -s ./libcrypto.so.1.0.0 ${D}${base_libdir}/libcrypto.so.0.9.8
-	ln -s ./libssl.so.1.0.0 ${D}${libdir}/libssl.so.0.9.8
-	install -m 755 ${S}/stb_update-hd1.sh ${D}${sysconfdir}/init.d/bb_stb_update.sh
-	update-rc.d -r ${D} bb_stb_update.sh start 03 S .
-	if [ ${IMAGETYPE} = "tiny" ]; then
-		sed -i "s|/usr/bin/opkg|/usr/bin/opkg --cache=/tmp --tmp-dir=/tmp --force-depends --force-reinstall |" ${D}${sysconfdir}/profile
-		sed -i "s|KEEP='yes'|KEEP='no'|" ${D}${sysconfdir}/profile
-	fi
-}
-
-# compatibility links for prebuild binaries that have been built with smelly old software
-do_install_append_libc-uclibc () {
 	ln -s ./librt.so.1 ${D}${base_libdir}/librt.so.0
 	ln -s ./libc.so.1 ${D}${base_libdir}/libc.so.0
 	ln -s ./libpthread.so.1 ${D}${base_libdir}/libpthread.so.0

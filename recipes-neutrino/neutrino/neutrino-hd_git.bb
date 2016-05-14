@@ -88,7 +88,7 @@ do_compile () {
 do_install_prepend () {
 # change number to force rebuild "3"
 	install -d ${D}/${sysconfdir}/init.d ${D}${sysconfdir}/network ${D}${sysconfdir}/systemd/system/multi-user.target.wants ${D}/lib/systemd/system/
-	install -m 755 ${WORKDIR}/neutrino.service ${D}/lib/systemd/system/neutrino.service
+	install -m 644 ${WORKDIR}/neutrino.service ${D}/lib/systemd/system/neutrino.service
 	ln -s /lib/systemd/system/neutrino.service ${D}${sysconfdir}/systemd/system/multi-user.target.wants/
 	install -m 755 ${WORKDIR}/custom-poweroff.init ${D}${sysconfdir}/init.d/custom-poweroff
 	install -m 755 ${WORKDIR}/pre-wlan0.sh ${D}${sysconfdir}/network/

@@ -8,6 +8,7 @@ SRC_URI_append += "file://0001-build_fix.patch \
 	  	   file://framebuffer.conf \
 		   file://ifup.service \
 "
+
 PACKAGECONFIG_append += ""
 PACKAGECONFIG_remove_libc-uclibc = "localed resolved"
 

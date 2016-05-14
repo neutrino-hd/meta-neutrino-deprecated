@@ -1,9 +1,8 @@
 #!/bin/sh
 
-cat /sys/class/net/eth0/operstate | grep -qi "up" && exit
-
 DO_REBOOT=0
 
+# Update Kernel or bootloader, if available
 if [ -f /var/update/vmlinux.ub.gz ]; then
 	# check if we are using gnu coreutils
 	if [ -e /usr/bin/cut.coreutils ]; then

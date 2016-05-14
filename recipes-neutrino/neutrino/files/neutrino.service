@@ -1,5 +1,6 @@
 [Unit]
 Description=Neutrino HD
+After=update-kernel.service etckeeper.service
 
 [Service]
 Type=simple

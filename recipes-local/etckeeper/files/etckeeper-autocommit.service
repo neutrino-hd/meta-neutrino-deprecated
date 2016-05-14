@@ -1,0 +1,8 @@
+[Unit]
+Description=create an autocommit every hour
+
+[Service]
+Nice=19
+IOSchedulingClass=2
+IOSchedulingPriority=7
+ExecStart=/etc/etckeeper/etckeeper.sh
