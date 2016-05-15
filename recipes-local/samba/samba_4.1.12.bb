@@ -56,8 +56,8 @@ DEPENDS += "readline virtual/libiconv zlib popt talloc libtdb libtevent libldb k
 DEPENDS_libc-uclibc += "readline virtual/libiconv zlib popt talloc libtdb libtevent libldb krb5 ctdb ncurses attr libcap openldap gettext"
 RDEPENDS_${PN} += "openldap libtalloc libtevent krb5 ncurses libldb libattr libtdb"
 RDEPENDS_${PN}_libc-uclibc += "openldap libtalloc libtevent krb5 ncurses libldb libattr libtdb libiconv"
-PACKAGECONFIG = "${@base_contains('DISTRO_FEATURES', 'pam', 'pam', '', d)}"
-PACKAGECONFIG += "${@base_contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)}"
+PACKAGECONFIG = "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam', '', d)}"
+PACKAGECONFIG += "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)}"
 
 PACKAGECONFIG[pam] = "--with-pam,--without-pam,libpam"
 PACKAGECONFIG[fam] = "--with-fam,--without-fam,gamin"

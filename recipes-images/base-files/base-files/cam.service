@@ -3,7 +3,7 @@ Description=doscam
 
 [Service]
 Type=forking
-ExecStart=/usr/bin/doscam -b
+ExecStart=-/usr/bin/doscam -b
 ExecReload=/bin/kill -HUP $MAINPID
  
 [Install]
