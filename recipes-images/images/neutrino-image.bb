@@ -5,7 +5,6 @@ include neutrino-image-base.inc
 IMAGE_INSTALL += " \
 	${NEUTRINO_FLAVOUR} \
 	neutrino-plugins \
-	neutrino-plugin-ard \
 	neutrino-plugin-xupnpd \
 	neutrino-plugin-netzkino \
 	neutrino-plugin-rss \
@@ -15,4 +14,9 @@ IMAGE_INSTALL += " \
 	neutrino-plugin-mtv \
 	neutrino-plugin-mytvpro \
 	neutrino-plugin-myspass \
+	neutrino-plugin-mediathek \
+	neutrino-plugin-youtube \
+	neutrino-plugin-webtv \
+	neutrino-plugin-telewizjada \
+	neutrino-plugin-ard-mediathek \
 	"
