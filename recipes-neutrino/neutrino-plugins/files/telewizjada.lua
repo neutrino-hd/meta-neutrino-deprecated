@@ -1,4 +1,4 @@
--- satbaby 25.03.2016
+-- satbaby 17.05.2016
 local json = require "json"
 
 if #arg < 1 then return nil end
@@ -25,7 +25,7 @@ function getVideoData(id)
 	local hosturl = 'http://www.telewizjada.net/'
 
 	data= getdata(hosturl .. 'get_mainchannel.php','cid='..id,0)
-	if data == false then
+	if data == false or data:match('^%s*<') then
 		return 0
 	end
 	jnTab = json:decode(data)
@@ -50,7 +50,7 @@ function getVideoData(id)
 	end
 
 	data= getdata(hosturl .. 'get_channel_url.php','cid='..id,0)
-	if data == false then
+	if data == false or data:match('^%s*<') then
 		return 0
 	end
 	jnTab = json:decode(data)
