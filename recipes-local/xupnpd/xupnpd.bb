@@ -2,12 +2,12 @@ DESCRIPTION = "xupnpd - eXtensible UPnP agent"
 HOMEPAGE = "http://xupnpd.org"
 
 LICENSE = "GPLv2"
-LIC_FILES_CHKSUM = "file://../LICENSE;md5=a48952524590c590e498b5eece5ed3d9"
+LIC_FILES_CHKSUM = "file://../LICENSE;md5=193ff0a3bc8b0d2cb0d1d881586d3388"
 
 DEPENDS += "lua5.2"
-SRCREV = "405"
+SRCREV = "${AUTOREV}"
 SRC_URI = "\
-	svn://tsdemuxer.googlecode.com/svn/trunk;protocol=http;module=xupnpd \
+	git://github.com/clark15b/xupnpd.git;branch=master \
 	file://0002-ui_restart-fix-xupnpd-install-path.patch \
 	file://xupnpd.init \
 	file://xupnpd-dont-bind-daemon-to-specific-ip-address.patch \
@@ -15,9 +15,9 @@ SRC_URI = "\
 	file://xupnpd-fix-memleak-on-coolstream-boxes.patch \
 "
 
-PV = "0.0+svn${SRCREV}"
-PR = "r1"
-S = "${WORKDIR}/xupnpd/src"
+PV = "${SRCPV}"
+PR = "1"
+S = "${WORKDIR}/git/src"
 
 inherit base update-rc.d
 
