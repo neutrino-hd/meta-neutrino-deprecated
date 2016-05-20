@@ -5,7 +5,7 @@ SECTION = "libs"
 LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://${WORKDIR}/COPYING.GPL;md5=751419260aa954499f7abaabaa882bbe"
 
-inherit autotools pkgconfig update-rc.d
+inherit autotools pkgconfig
 
 DEPENDS += " \
 	curl \
@@ -41,6 +41,7 @@ SRC_URI = "git://coolstreamtech.de/cst-public-gui-neutrino.git;branch=cst-next \
 	   file://mount.mdev \
 	   file://interfaces \
 	   file://COPYING.GPL \
+	   file://0001-fix-for-gcc-6.x.patch \
 	   file://0001-configure_fix.patch \
 	   file://0007-imageinfo.cpp-change-version-output.patch \
 	   file://0008-rcsim.c-fix-eventdev-for-yocto.patch \
@@ -59,14 +60,10 @@ SRC_URI = "git://coolstreamtech.de/cst-public-gui-neutrino.git;branch=cst-next \
 					      file://0005-remove-unneeded-mp3.jpg-files.patch'} \
 "
 
-SRC_URI_append_libc-glibc = "file://0006-Makefile.am-we-don-t-need-liconv-for-glibc.patch\
+SRC_URI_append_libc-glibc = "file://0006-Makefile.am-we-don-t-need-liconv-for-glibc.patch \
 "
 
 S = "${WORKDIR}/git"
-
-INITSCRIPT_PACKAGES   = "${PN}"
-INITSCRIPT_NAME_${PN} = "neutrino"
-INITSCRIPT_PARAMS_${PN} = "start 99 5 . stop 20 0 1 2 3 4 6 ."
 
 include neutrino-hd.inc
 
@@ -109,7 +106,6 @@ do_install_prepend () {
 	if [ ! -z ${RELEASE_TEXT_LOCATION_HOST} ];then 
 		echo "${IMAGE_LOCATION} ${RELEASE_STATE}${DISTRO_VERSION_NUMBER_MAJOR}${DISTRO_VERSION_NUMBER_MINOR}"0"`date +%Y%m%d%H%M` MD5 ${HASH} ${DISTRO_VERSION}" > ${RELEASE_TEXT_LOCATION_HOST}
 	fi
-	update-rc.d -r ${D} custom-poweroff start 89 0 .
 }
 
 do_install_append() {

@@ -6,12 +6,10 @@ N_CXXFLAGS = "${N_CFLAGS}"
 
 N_LDFLAGS += "-Wl,-rpath-link,${STAGING_DIR_HOST}/usr/lib -lcurl -ldl"
 
-N_CPPFLAGS = "-DDYNAMIC_LUAPOSIX -D__KERNEL_STRICT_NAMES -D_GLIBCXX_USE_CXX11_ABI=0 -D__STDC_CONSTANT_MACROS"
-N_CPPFLAGS_append_coolstream-hd2 = "-DFB_HW_ACCELERATION -mcpu=cortex-a9 -mfpu=vfpv3-d16 -mfloat-abi=hard" 
-
+N_CPPFLAGS = "-DDYNAMIC_LUAPOSIX -D__KERNEL_STRICT_NAMES -D_GLIBCXX_USE_CXX11_ABI=0 -D__STDC_CONSTANT_MACROS -DFB_HW_ACCELERATION -mcpu=cortex-a9 -mfpu=vfpv3-d16 -mfloat-abi=hard -std=c++14"
 
 CPPFLAGS = "${N_CPPFLAGS}"
-
+ 
 EXTRA_OECONF = " \
 	--enable-maintainer-mode \
 	--enable-pip \
@@ -25,19 +23,10 @@ EXTRA_OECONF = " \
 	--enable-pugixml \
 	--enable-ffmpegdec \
 	--with-boxtype=coolstream \
-"
-
-EXTRA_OECONF += "--prefix=/ \
-		 --exec_prefix=/usr \
-		 --includedir=${exec_prefix}/include \
-		 --with-configdir=${sysconfdir}/neutrino/config \
-"
-
-EXTRA_OECONF_append_coolstream-hd1 = " \
-	--with-boxmodel=nevis \
-"
-
-EXTRA_OECONF_append_coolstream-hd2 = " \
+	--prefix=/ \
+	--exec_prefix=/usr \
+	--includedir=${exec_prefix}/include \
+	--with-configdir=${sysconfdir}/neutrino/config \
 	--with-boxmodel=apollo \
 "
 

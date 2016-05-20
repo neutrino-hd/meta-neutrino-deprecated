@@ -1,0 +1,341 @@
+From ff453d3182fcce7cc9e7b2b519137a787aad72ed Mon Sep 17 00:00:00 2001
+From: flk <f_l_k@t-online.de>
+Date: Wed, 18 May 2016 16:55:00 +0200
+Subject: [PATCH] fix-for-gcc-6.x
+
+Signed-off-by: flk <f_l_k@t-online.de>
+---
+ src/driver/audiodec/ffmpegdec.cpp |  3 ++-
+ src/driver/pictureviewer/crw.cpp  |  8 ++++----
+ src/driver/pictureviewer/jpeg.cpp |  8 ++++----
+ src/gui/sleeptimer.cpp            | 14 +++++++-------
+ src/gui/tmdb.cpp                  |  8 ++++----
+ src/system/helpers.cpp            |  4 ++--
+ src/system/helpers.h              |  4 ++--
+ src/system/mtdutils/include/common.h | 6 +++---
+ src/system/mtdutils/compr_zlib.cpp | 1 +
+ src/system/mtdutils/mkfs.jffs2.cpp | 5 +++--
+ src/system/mtdutils/compr.cpp | 4 ++--
+ src/system/mtdutils/rbtree.h  | 2 +-
+ src/system/ytcache.cpp             | 4 ++--
+ 13 files changed, 38 insertions(+), 35 deletions(-)
+
+diff --git a/src/driver/audiodec/ffmpegdec.cpp b/src/driver/audiodec/ffmpegdec.cpp
+index a4eb905..eb1fd9b 100644
+--- a/src/driver/audiodec/ffmpegdec.cpp
++++ b/src/driver/audiodec/ffmpegdec.cpp
+@@ -475,7 +476,7 @@ bool CFfmpegDec::SetMetaData(FILE *_in, CAudioMetaData* m, bool save_cover)
+ 			if (save_cover && (avc->streams[i]->disposition & AV_DISPOSITION_ATTACHED_PIC)) {
+ 				mkdir(COVERDIR, 0755);
+ 				std::string cover(COVERDIR);
+-				cover += "/" + to_string(cover_count++) + ".jpg";
++				cover += "/" + std::to_string(cover_count++) + ".jpg";
+ 				FILE *f = fopen(cover.c_str(), "wb");
+ 				if (f) {
+ 					AVPacket *pkt = &avc->streams[i]->attached_pic;
+diff --git a/src/driver/pictureviewer/crw.cpp b/src/driver/pictureviewer/crw.cpp
+index 83a0c05..34781e7 100644
+--- a/src/driver/pictureviewer/crw.cpp
++++ b/src/driver/pictureviewer/crw.cpp
+@@ -8,7 +8,7 @@
+ #include <sys/stat.h>
+ #include <fcntl.h>
+ #include <unistd.h>
+-
++#include <cmath>
+ #include <setjmp.h>
+ #include "pictureviewer.h"
+ 
+@@ -193,11 +193,11 @@ int fh_crw_load(const char *filename,unsigned char **buffer,int* xp,int* /*yp*/)
+ 	ciptr->out_color_space=JCS_RGB;
+ 	if(x==(int)ciptr->image_width)
+ 		ciptr->scale_denom=1;
+-	else if(abs(x*2 - ciptr->image_width) < 2)
++	else if(std::abs(x*2 - ciptr->image_width) < 2)
+ 		ciptr->scale_denom=2;
+-	else if(abs(x*4 - ciptr->image_width) < 4)
++	else if(std::abs(x*4 - ciptr->image_width) < 4)
+ 		ciptr->scale_denom=4;
+-	else if(abs(x*8 - ciptr->image_width) < 8)
++	else if(std::abs(x*8 - ciptr->image_width) < 8)
+ 		ciptr->scale_denom=8;
+ 	else
+ 		ciptr->scale_denom=1;
+diff --git a/src/driver/pictureviewer/jpeg.cpp b/src/driver/pictureviewer/jpeg.cpp
+index 3d3898f..9ecca8b 100644
+--- a/src/driver/pictureviewer/jpeg.cpp
++++ b/src/driver/pictureviewer/jpeg.cpp
+@@ -17,7 +17,7 @@
+ #include <arpa/inet.h>
+ #include <sys/types.h>
+ #include <sys/socket.h>
+-	
++#include <cmath>	
+ #include <setjmp.h>
+ 
+ #include <global.h>
+@@ -94,11 +94,11 @@ int fh_jpeg_load(const char *filename,unsigned char **buffer,int* x,int* y)
+ 	ciptr->dct_method=JDCT_FASTEST;
+ 	if(*x==(int)ciptr->image_width)
+ 		ciptr->scale_denom=1;
+-	else if(abs(*x*2 - ciptr->image_width) < 2)
++	else if(std::abs(*x*2 - ciptr->image_width) < 2)
+ 		ciptr->scale_denom=2;
+-	else if(abs(*x*4 - ciptr->image_width) < 4)
++	else if(std::abs(*x*4 - ciptr->image_width) < 4)
+ 		ciptr->scale_denom=4;
+-	else if(abs(*x*8 - ciptr->image_width) < 8)
++	else if(std::abs(*x*8 - ciptr->image_width) < 8)
+ 		ciptr->scale_denom=8;
+ 	else
+ 		ciptr->scale_denom=1;
+diff --git a/src/gui/sleeptimer.cpp b/src/gui/sleeptimer.cpp
+index 28000e5..7980f24 100644
+--- a/src/gui/sleeptimer.cpp
++++ b/src/gui/sleeptimer.cpp
+@@ -62,13 +62,13 @@ int CSleepTimerWidget::exec(CMenuTarget* parent, const std::string &/*actionKey*
+ 		parent->hide();
+ 
+ 	if(permanent) {
+-		value = to_string(g_settings.shutdown_min);
++		value = std::to_string(g_settings.shutdown_min);
+ 		if (value.length() < 3)
+ 			value.insert(0, 3 - value.length(), '0');
+ 		inbox = new CStringInput(LOCALE_SLEEPTIMERBOX_TITLE2, &value, 3, LOCALE_SLEEPTIMERBOX_HINT1, LOCALE_SLEEPTIMERBOX_HINT3, "0123456789 ");
+ 	} else {
+ 		shutdown_min = g_Timerd->getSleepTimerRemaining();  // remaining shutdown time?
+-		value = to_string(shutdown_min);
++		value = std::to_string(shutdown_min);
+ 		if (g_settings.sleeptimer_min == 0) {
+ 			CSectionsdClient::CurrentNextInfo info_CurrentNext;
+ 			g_InfoViewer->getEPG(g_RemoteControl->current_channel_id, info_CurrentNext);
+@@ -77,11 +77,11 @@ int CSleepTimerWidget::exec(CMenuTarget* parent, const std::string &/*actionKey*
+ 				int current_epg_zeit_dauer_rest = (info_CurrentNext.current_zeit.dauer+150 - (jetzt - info_CurrentNext.current_zeit.startzeit ))/60 ;
+ 				if(shutdown_min == 0 && current_epg_zeit_dauer_rest > 0 && current_epg_zeit_dauer_rest < 1000)
+ 				{
+-					value = to_string(current_epg_zeit_dauer_rest);
++					value = std::to_string(current_epg_zeit_dauer_rest);
+ 				}
+ 			}
+ 		} else {
+-			value = to_string(g_settings.sleeptimer_min);
++			value = std::to_string(g_settings.sleeptimer_min);
+ 		}
+ 		if (value.length() < 3)
+ 			value.insert(0, 3 - value.length(), '0');
+@@ -128,10 +128,10 @@ int CSleepTimerWidget::exec(CMenuTarget* parent, const std::string &/*actionKey*
+ std::string &CSleepTimerWidget::getValue(void)
+ {
+ 	if (permanent) {
+-		valueStringTmp = (g_settings.shutdown_min > 0) ? to_string(g_settings.shutdown_min) + " " + g_Locale->getText(LOCALE_UNIT_SHORT_MINUTE) : "";
++		valueStringTmp = (g_settings.shutdown_min > 0) ? std::to_string(g_settings.shutdown_min) + " " + g_Locale->getText(LOCALE_UNIT_SHORT_MINUTE) : "";
+ 	} else {
+ 		int remaining = g_Timerd->getSleepTimerRemaining();
+-		valueStringTmp = (remaining > 0) ? to_string(remaining) + " " + g_Locale->getText(LOCALE_UNIT_SHORT_MINUTE) : "";
++		valueStringTmp = (remaining > 0) ? std::to_string(remaining) + " " + g_Locale->getText(LOCALE_UNIT_SHORT_MINUTE) : "";
+ 	}
+ 	return valueStringTmp;
+ }
+diff --git a/src/gui/tmdb.cpp b/src/gui/tmdb.cpp
+index f295d2d..7f12049 100644
+--- a/src/gui/tmdb.cpp
++++ b/src/gui/tmdb.cpp
+@@ -230,7 +230,7 @@ bool cTmdb::GetMovieDetails(std::string lang)
+ 		minfo.id = elements[0].get("id",-1).asInt();
+ 		minfo.media_type = elements[0].get("media_type","").asString();
+ 		if (minfo.id > -1) {
+-			url = "http://api.themoviedb.org/3/"+minfo.media_type+"/"+to_string(minfo.id)+"?api_key="+key+"&language="+lang+"&append_to_response=credits";
++			url = "http://api.themoviedb.org/3/"+minfo.media_type+"/"+std::to_string(minfo.id)+"?api_key="+key+"&language="+lang+"&append_to_response=credits";
+ 			answer.clear();
+ 			if (!getUrl(url, answer))
+ 				return false;
+@@ -289,19 +289,19 @@ std::string cTmdb::CreateEPGText()
+ {
+ 	std::string epgtext;
+ 	epgtext += "\n";
+-	epgtext += "Vote: "+minfo.vote_average.substr(0,3)+"/10 Votecount: "+to_string(minfo.vote_count)+"\n";
++	epgtext += "Vote: "+minfo.vote_average.substr(0,3)+"/10 Votecount: "+std::to_string(minfo.vote_count)+"\n";
+ 	epgtext += "\n";
+ 	epgtext += minfo.overview+"\n";
+ 	epgtext += "\n";
+ 	if (minfo.media_type == "tv")
+ 		epgtext += (std::string)g_Locale->getText(LOCALE_EPGVIEWER_LENGTH)+": "+minfo.runtimes+"\n";
+ 	else
+-		epgtext += (std::string)g_Locale->getText(LOCALE_EPGVIEWER_LENGTH)+": "+to_string(minfo.runtime)+"\n";
++		epgtext += (std::string)g_Locale->getText(LOCALE_EPGVIEWER_LENGTH)+": "+std::to_string(minfo.runtime)+"\n";
+ 	epgtext += (std::string)g_Locale->getText(LOCALE_EPGVIEWER_GENRE)+": "+minfo.genres+"\n";
+ 	epgtext += (std::string)g_Locale->getText(LOCALE_EPGEXTENDED_ORIGINAL_TITLE) +" : "+ minfo.original_title+"\n";
+ 	epgtext += (std::string)g_Locale->getText(LOCALE_EPGEXTENDED_YEAR_OF_PRODUCTION)+" : "+ minfo.release_date.substr(0,4) +"\n";
+ 	if (minfo.media_type == "tv")
+-		epgtext += "Seasons/Episodes: "+to_string(minfo.seasons)+"/"+to_string(minfo.episodes)+"\n";
++		epgtext += "Seasons/Episodes: "+std::to_string(minfo.seasons)+"/"+std::to_string(minfo.episodes)+"\n";
+ 	if (!minfo.cast.empty())
+ 		epgtext += (std::string)g_Locale->getText(LOCALE_EPGEXTENDED_ACTORS)+":\n"+ minfo.cast+"\n";
+ 	return epgtext;
+diff --git a/src/system/helpers.cpp b/src/system/helpers.cpp
+index 70dd118..9179e1f 100644
+--- a/src/system/helpers.cpp
++++ b/src/system/helpers.cpp
+@@ -884,7 +884,7 @@ std::vector<std::string> split(const std::string &s, char delim)
+ 	return vec;
+ }
+ 
+-std::string to_string(int i)
++/*std::string to_string(int i)
+ {
+ 	std::stringstream s;
+ 	s << i;
+@@ -924,7 +924,7 @@ std::string to_string(unsigned long long i)
+ 	std::stringstream s;
+ 	s << i;
+ 	return s.str();
+-}
++}*/
+ 
+ std::string getJFFS2MountPoint(int mtdPos)
+ {
+diff --git a/src/system/helpers.h b/src/system/helpers.h
+index 486d1e8..4dc2aeb 100644
+--- a/src/system/helpers.h
++++ b/src/system/helpers.h
+@@ -97,13 +97,13 @@ class CFileHelpers
+ 
+ uint32_t GetWidth4FB_HW_ACC(const uint32_t _x, const uint32_t _w, const bool max=true);
+ 
+-std::string to_string(int);
++/*std::string to_string(int);
+ std::string to_string(unsigned int);
+ std::string to_string(long);
+ std::string to_string(unsigned long);
+ std::string to_string(long long);
+ std::string to_string(unsigned long long);
+-
++*/
+ inline int atoi(std::string &s) { return atoi(s.c_str()); }
+ inline int atoi(const std::string &s) { return atoi(s.c_str()); }
+ inline int access(std::string &s, int mode) { return access(s.c_str(), mode); }
+diff --git a/src/system/mtdutils/include/common.h b/src/system/mtdutils/include/common.h
+index d70f49b..7dcc6ea 100644
+--- a/src/system/mtdutils/include/common.h
++++ b/src/system/mtdutils/include/common.h
+@@ -38,12 +38,12 @@ extern "C" {
+ #endif
+ 
+ #ifndef MIN	/* some C lib headers define this for us */
+-#define MIN(a, b) ((a) < (b) ? (a) : (b))
++//#define MIN(a, b) ((a) < (b) ? (a) : (b))
+ #endif
+ #ifndef MAX
+-#define MAX(a, b) ((a) > (b) ? (a) : (b))
++//#define MAX(a, b) ((a) > (b) ? (a) : (b))
+ #endif
+-#define min(a, b) MIN(a, b) /* glue for linux kernel source */
++//#define min(a, b) MIN(a, b) /* glue for linux kernel source */
+ #define ARRAY_SIZE(a) (sizeof(a) / sizeof((a)[0]))
+ 
+ #ifndef O_CLOEXEC
+diff --git a/src/system/mtdutils/compr_zlib.cpp b/src/system/mtdutils/compr_zlib.cpp
+index bd9a0bd..d0fcdd0 100644
+--- a/src/system/mtdutils/compr_zlib.cpp
++++ b/src/system/mtdutils/compr_zlib.cpp
+@@ -43,6 +43,7 @@
+ #include <linux/jffs2.h>
+ #include "common.h"
+ #include "compr.h"
++#include "algorithm"
+ 
+ /* Plan: call deflate() with avail_in == *sourcelen,
+    avail_out = *dstlen - 12 and flush == Z_FINISH.
+@@ -77,7 +77,7 @@ static int jffs2_zlib_compress(unsigned char *data_in, unsigned char *cpage_out,
+ 
+ 	while (strm.total_out < *dstlen - STREAM_END_SPACE && strm.total_in < *sourcelen) {
+ 		strm.avail_out = *dstlen - (strm.total_out + STREAM_END_SPACE);
+-		strm.avail_in = min((unsigned)(*sourcelen-strm.total_in), strm.avail_out);
++		strm.avail_in = std::min((unsigned)(*sourcelen-strm.total_in), strm.avail_out);
+ 		ret = deflate(&strm, Z_PARTIAL_FLUSH);
+ 		if (ret != Z_OK) {
+ 			deflateEnd(&strm);
+diff --git a/src/system/mtdutils/mkfs.jffs2.cpp b/src/system/mtdutils/mkfs.jffs2.cpp
+index 762e44f..26098d3 100644
+--- a/src/system/mtdutils/mkfs.jffs2.cpp
++++ b/src/system/mtdutils/mkfs.jffs2.cpp
+@@ -65,6 +65,7 @@
+ #include <byteswap.h>
+ #include <crc32.h>
+ #include <inttypes.h>
++#include <algorithm>
+ 
+ #include <string>
+ 
+@@ -755,7 +756,7 @@ void CMkfsJFFS2::pad_block_if_less_than(int req)
+ void CMkfsJFFS2::padblock(void)
+ {
+ 	while (out_ofs % erase_block_size) {
+-		full_write(out_fd, ffbuf, min(sizeof(ffbuf),
++		full_write(out_fd, ffbuf, std::min(sizeof(ffbuf),
+ 					      (size_t)(erase_block_size - (out_ofs % erase_block_size))));
+ 	}
+ }
+@@ -868,7 +869,7 @@ void CMkfsJFFS2::create_target_filesystem(struct filesystem_entry *root)
+ 			}
+ 		} else {
+ 			while (out_ofs < pad_fs_size) {
+-				full_write(out_fd, ffbuf, min(sizeof(ffbuf), (size_t)(pad_fs_size - out_ofs)));
++				full_write(out_fd, ffbuf, std::min(sizeof(ffbuf), (size_t)(pad_fs_size - out_ofs)));
+ 			}
+ 
+ 		}
+diff --git a/src/system/mtdutils/compr.cpp b/src/system/mtdutils/compr.cpp
+index 898d550..b607160 100644
+--- a/src/system/mtdutils/compr.cpp
++++ b/src/system/mtdutils/compr.cpp
+@@ -61,9 +61,9 @@ static inline void list_del(struct list_head *entry)
+ 	((type *)((char *)(ptr)-(unsigned long)(&((type *)0)->member)))
+ 
+ #define list_for_each_entry(pos, head, member)                          \
+-	for (pos = list_entry((head)->next, typeof(*pos), member);      \
++	for (pos = list_entry((head)->next, __typeof__(*pos), member);      \
+ 			&pos->member != (head);                                    \
+-			pos = list_entry(pos->member.next, typeof(*pos), member))
++			pos = list_entry(pos->member.next, __typeof__(*pos), member))
+ 
+ 
+ /* Available compressors are on this_ list */
+diff --git a/src/system/mtdutils/rbtree.h b/src/system/mtdutils/rbtree.h
+index 0c5345b..2e49d18 100644
+--- a/src/system/mtdutils/rbtree.h
++++ b/src/system/mtdutils/rbtree.h
+@@ -137,7 +137,7 @@ static inline void rb_set_color(struct rb_node *rb, int color)
+ #endif
+ 
+ #define container_of(ptr, type, member) ({                      \
+-        const typeof( ((type *)0)->member ) *__mptr = (ptr);    \
++        const __typeof__( ((type *)0)->member ) *__mptr = (ptr);    \
+         (type *)( (char *)__mptr - offsetof(type,member) );})
+ 
+ #define	rb_entry(ptr, type, member) container_of(ptr, type, member)
+diff --git a/src/system/ytcache.cpp b/src/system/ytcache.cpp
+index 64dcb66..a5c8f28 100644
+--- a/src/system/ytcache.cpp
++++ b/src/system/ytcache.cpp
+@@ -66,7 +66,7 @@ std::string cYTCache::getName(MI_MOVIE_INFO *mi, std::string ext)
+ {
+ 	switch (mi->source) {
+ 		case MI_MOVIE_INFO::YT:
+-			return g_settings.downloadcache_dir + "/" + mi->ytid + "-" + to_string(mi->ytitag) + "." + ext;
++			return g_settings.downloadcache_dir + "/" + mi->ytid + "-" + std::to_string(mi->ytitag) + "." + ext;
+ 		case MI_MOVIE_INFO::NK:
+ 			return g_settings.downloadcache_dir + "/nk-" + mi->ytid + "." + ext;
+ 		default:
+@@ -76,7 +76,7 @@ std::string cYTCache::getName(MI_MOVIE_INFO *mi, std::string ext)
+ 
+ bool cYTCache::getNameIfExists(std::string &fname, const std::string &id, int itag, std::string ext)
+ {
+-	std::string f = g_settings.downloadcache_dir + "/" + id + "-" + to_string(itag) + "." + ext;
++	std::string f = g_settings.downloadcache_dir + "/" + id + "-" + std::to_string(itag) + "." + ext;
+ 	if (access(f, R_OK))
+ 		return false;
+ 	fname = f;
+-- 
+2.1.4
+

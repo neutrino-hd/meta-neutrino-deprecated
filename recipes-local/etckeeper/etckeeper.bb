@@ -5,10 +5,8 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/GPL-2.0;md5=80
 RDEPENDS_${PN} += "git findutils util-linux-mountpoint perl-module-file-glob"
 
 SRC_URI = "git://github.com/joeyh/etckeeper.git;branch=master \
-	   file://etckeeper.service \
+	   file://update-etc.service \
 	   file://create-etc.service \
-	   file://etckeeper-autocommit.service \
-	   file://etckeeper-autocommit.timer \
 	   file://etckeeper.sh \
 	   file://etckeeper.conf \
 	   file://create_etc.sh \
@@ -26,7 +24,7 @@ PR = "1"
 
 S = "${WORKDIR}/git"
 
-SYSTEMD_SERVICE_${PN} = "etckeeper.service"
+SYSTEMD_SERVICE_${PN} = "update-etc.service"
 
 inherit autotools-brokensep systemd
 
@@ -46,15 +44,14 @@ do_install_append () {
 	install -m 755 ${WORKDIR}/update_etc.sh ${D}/etc/etckeeper/update_etc.sh
 	install -m 755 ${WORKDIR}/create_etc.sh ${D}/etc/etckeeper/create_etc.sh
 	install -m 644 ${WORKDIR}/create-etc.service ${D}${systemd_unitdir}/system/create-etc.service
-	install -m 644 ${WORKDIR}/etckeeper.service ${D}${systemd_unitdir}/system/etckeeper.service
-	install -m 644 ${WORKDIR}/etckeeper-autocommit.service ${D}${systemd_unitdir}/system/etckeeper-autocommit.service
-	install -m 644 ${WORKDIR}/etckeeper-autocommit.timer ${D}${systemd_unitdir}/system/etckeeper-autocommit.timer
+	install -m 644 ${WORKDIR}/update-etc.service ${D}${systemd_unitdir}/system/update-etc.service
+	ln -s /usr/lib/systemd/system/etckeeper.service ${D}${systemd_unitdir}/system/timers.target.wants/etckeeper.service
 	ln -s /lib/systemd/system/create-etc.service ${D}${systemd_unitdir}/system/timers.target.wants/create-etc.service
-	ln -s /lib/systemd/system/etckeeper-autocommit.service ${D}${systemd_unitdir}/system/timers.target.wants/etckeeper-autocommit.service
-	rm ${D}/etc/etckeeper/pre-commit.d/README
+#	rm ${D}/etc/etckeeper/pre-commit.d/README
 }
 
 FILES_${PN}_append += "/lib/systemd \
 		       /usr/share/bash-completion \
+		       /usr/lib/ \
 "
 
