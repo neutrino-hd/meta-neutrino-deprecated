@@ -1,0 +1,22 @@
+From 1b675795b921bd02dcde05ba3b26e95c0d94be32 Mon Sep 17 00:00:00 2001
+From: Alexey Neyman <stilor@att.net>
+Date: Sun, 13 Mar 2016 11:23:25 +0200
+Subject: [PATCH] provide _obstack_free to unbreak build with native gdb 
+
+Signed-off-by: flk <f_l_k@t-online.de>
+---
+diff -ur uClibc-ng-1.0.12.orig/libc/misc/gnu/obstack.c uClibc-ng-1.0.12/libc/misc/gnu/obstack.c
+--- uClibc-ng-1.0.12.orig/libc/misc/gnu/obstack.c	2016-03-13 15:08:44.408962824 -0700
++++ uClibc-ng-1.0.12/libc/misc/gnu/obstack.c	2016-03-13 15:13:30.129322998 -0700
+@@ -385,7 +385,7 @@
+     abort ();
+ }
+ 
+-# if 0
++# if 1
+ /* Older versions of libc used a function _obstack_free intended to be
+    called by non-GCC compilers.  */
+ strong_alias (obstack_free, _obstack_free)
+-- 
+2.1.4
+
