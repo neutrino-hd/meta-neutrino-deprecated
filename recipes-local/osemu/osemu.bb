@@ -1,5 +1,5 @@
-SUMMARY = "OSemu: emu for oscam"
-HOMEPAGE = "https://github.com/joeusercz/OSEmu.git"
+SUMMARY = "OSEmu: emu for oscam/doscam"
+HOMEPAGE = "https://github.com/oscam-emu/OSEmu.git"
 LICENSE = "GPL-3.0"
 PRIORITY = "optional"
 LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/GPL-3.0;md5=c79ff39f19dfec6d293b95dea7b07891"
@@ -11,10 +11,10 @@ DEPENDS = ""
 
 SRCREV = "${AUTOREV}"
 PV = "${SRCPV}"
-PR = "r2"
+PR = "r3"
 
 SRC_URI = " \
-	git://github.com/joeusercz/OSEmu.git \
+	git://github.com/oscam-emu/OSEmu.git \
 	file://0002-OSEmu.c-search-keyfile-in-etc-neutrino-config.patch \
 "
 
