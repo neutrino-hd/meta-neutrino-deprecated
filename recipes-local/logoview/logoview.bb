@@ -9,7 +9,6 @@ SRC_URI = "git://github.com/coolstreamtech/cst-public-plugins-logoview.git;proto
 "
 
 DEPENDS = "libjpeg-turbo"
-
 SRCREV ?= "${AUTOREV}"
 PV = "${SRCPV}"
 PR = "1"
@@ -41,3 +40,6 @@ FILES_${PN} = "/etc/init.d \
 
 SRC_URI[md5sum] = "17e6a3996de2942629dce65db1a701c5"
 SRC_URI[sha256sum] = "fbe10d46f61d769f7d92a296102e4e2bd3ee16130f11c5b10a1aae590ea1f5ca"
+
+
+INSANE_SKIP_${PN}_append += "ldflags already-stripped file-rdeps"

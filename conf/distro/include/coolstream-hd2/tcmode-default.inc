@@ -28,7 +28,7 @@ BINUVERSION ?= "2.2%"
 GDBVERSION ?= "7.%"
 GLIBCVERSION ?= "2.%"
 UCLIBCVERSION ?= "1.0.12+git%"
-LINUXLIBCVERSION ?= "4.1"
+#LINUXLIBCVERSION ?= "4.1"
 
 PREFERRED_VERSION_gcc ?= "${GCCVERSION}"
 PREFERRED_VERSION_gcc-cross-${TARGET_ARCH} ?= "${GCCVERSION}"
@@ -68,7 +68,7 @@ PREFERRED_VERSION_uclibc                   ?= "${UCLIBCVERSION}"
 PREFERRED_VERSION_uclibc-initial           ?= "${UCLIBCVERSION}"
 # don't use version earlier than 1.4 for gzip-native, as it's necessary for
 # some packages using an archive format incompatible with earlier gzip
-PREFERRED_VERSION_gzip-native ?= "1.6"
+#PREFERRED_VERSION_gzip-native ?= "1.6"
 
 # Setup suitable toolchain flags
 #require conf/distro/include/as-needed.inc

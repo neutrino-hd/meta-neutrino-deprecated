@@ -7,7 +7,7 @@ LINUXLIBCVERSION ?= "${KV}"
 
 PREFERRED_VERSION_luaposix = "31"
 # Force the python versions in one place
-PYTHON_BASEVERSION ?= "2.7"
+PYTHON_BASEVERSION ?= "2.%"
 PREFERRED_VERSION_python ?= "2.%"
 PREFERRED_VERSION_python-native ?= "2.%"
 

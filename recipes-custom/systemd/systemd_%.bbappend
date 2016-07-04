@@ -1,7 +1,6 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
 SRC_URI_append += "file://0001-build_fix.patch \
-		   file://0002-fix-freeze-when-unplugging-without_unmount.patch \
 		   file://00-create-volatile.conf \
 		   file://cs_drivers_kronos.conf \
 		   file://cs_drivers_apollo.conf \

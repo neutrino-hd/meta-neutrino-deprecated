@@ -1,4 +1,4 @@
-DEPENDS = "zlib"
+DEPENDS = "zlib virtual/libiconv"
 
 EXTRA_OEMAKE += "NO_GETTEXT=1 \
 		 NO_PERL=1 \

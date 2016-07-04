@@ -5,70 +5,7 @@ Subject: [PATCH] build_fix
 
 Signed-off-by: flk <f_l_k@t-online.de>
 ---
- src/basic/btrfs-util.c    | 12 ++++++------
- src/basic/parse-util.c    |  5 ++---
- src/bootchart/bootchart.c | 12 ++++++------
- src/bootchart/store.c     |  2 +-
- src/shared/conf-parser.c  |  2 +-
- 5 files changed, 16 insertions(+), 17 deletions(-)
 
-diff --git a/src/basic/btrfs-util.c b/src/basic/btrfs-util.c
-index 359d85f..8286b39 100644
---- a/src/basic/btrfs-util.c
-+++ b/src/basic/btrfs-util.c
-@@ -858,7 +858,7 @@ int btrfs_qgroup_set_limit_fd(int fd, uint64_t qgroupid, uint64_t referenced_max
-                 if (ioctl(fd, BTRFS_IOC_QGROUP_LIMIT, &args) < 0) {
- 
-                         if (errno == EBUSY && c < 10) {
--                                (void) btrfs_quota_scan_wait(fd);
-+//                                (void) btrfs_quota_scan_wait(fd);
-                                 continue;
-                         }
- 
-@@ -1043,7 +1043,7 @@ static int qgroup_create_or_destroy(int fd, bool b, uint64_t qgroupid) {
-                                 return -ENOPROTOOPT;
- 
-                         if (errno == EBUSY && c < 10) {
--                                (void) btrfs_quota_scan_wait(fd);
-+//                                (void) btrfs_quota_scan_wait(fd);
-                                 continue;
-                         }
- 
-@@ -1116,14 +1116,14 @@ int btrfs_quota_scan_start(int fd) {
-         return 0;
- }
- 
--int btrfs_quota_scan_wait(int fd) {
-+/*int btrfs_quota_scan_wait(int fd) {
-         assert(fd >= 0);
- 
-         if (ioctl(fd, BTRFS_IOC_QUOTA_RESCAN_WAIT) < 0)
-                 return -errno;
- 
-         return 0;
--}
-+}*/
- 
- int btrfs_quota_scan_ongoing(int fd) {
-         struct btrfs_ioctl_quota_rescan_args args = {};
-@@ -1155,7 +1155,7 @@ static int qgroup_assign_or_unassign(int fd, bool b, uint64_t child, uint64_t pa
-                 r = ioctl(fd, BTRFS_IOC_QGROUP_ASSIGN, &args);
-                 if (r < 0) {
-                         if (errno == EBUSY && c < 10) {
--                                (void) btrfs_quota_scan_wait(fd);
-+//                                (void) btrfs_quota_scan_wait(fd);
-                                 continue;
-                         }
- 
-@@ -1415,7 +1415,7 @@ int btrfs_qgroup_copy_limits(int fd, uint64_t old_qgroupid, uint64_t new_qgroupi
-                         for (c = 0;; c++) {
-                                 if (ioctl(fd, BTRFS_IOC_QGROUP_LIMIT, &qargs) < 0) {
-                                         if (errno == EBUSY && c < 10) {
--                                                (void) btrfs_quota_scan_wait(fd);
-+//                                                (void) btrfs_quota_scan_wait(fd);
-                                                 continue;
-                                         }
-                                         return -errno;
 diff --git a/src/basic/parse-util.c b/src/basic/parse-util.c
 index a3cb81b..fca743d 100644
 --- a/src/basic/parse-util.c
@@ -99,67 +36,6 @@ index a3cb81b..fca743d 100644
  
  int parse_fractional_part_u(const char **p, size_t digits, unsigned *res) {
          size_t i;
-diff --git a/src/bootchart/bootchart.c b/src/bootchart/bootchart.c
-index 77d158f..686fc0a 100644
---- a/src/bootchart/bootchart.c
-+++ b/src/bootchart/bootchart.c
-@@ -99,15 +99,15 @@ static void parse_conf(void) {
-         char *init = NULL, *output = NULL;
-         const ConfigTableItem items[] = {
-                 { "Bootchart", "Samples",          config_parse_int,    0, &arg_samples_len },
--                { "Bootchart", "Frequency",        config_parse_double, 0, &arg_hz          },
-+//                { "Bootchart", "Frequency",        config_parse_double, 0, &arg_hz          },
-                 { "Bootchart", "Relative",         config_parse_bool,   0, &arg_relative    },
-                 { "Bootchart", "Filter",           config_parse_bool,   0, &arg_filter      },
-                 { "Bootchart", "Output",           config_parse_path,   0, &output          },
-                 { "Bootchart", "Init",             config_parse_path,   0, &init            },
-                 { "Bootchart", "PlotMemoryUsage",  config_parse_bool,   0, &arg_pss         },
-                 { "Bootchart", "PlotEntropyGraph", config_parse_bool,   0, &arg_entropy     },
--                { "Bootchart", "ScaleX",           config_parse_double, 0, &arg_scale_x     },
--                { "Bootchart", "ScaleY",           config_parse_double, 0, &arg_scale_y     },
-+//                { "Bootchart", "ScaleX",           config_parse_double, 0, &arg_scale_x     },
-+//                { "Bootchart", "ScaleY",           config_parse_double, 0, &arg_scale_y     },
-                 { "Bootchart", "ControlGroup",     config_parse_bool,   0, &arg_show_cgroup },
-                 { "Bootchart", "PerCPU",           config_parse_bool,   0, &arg_percpu      },
-                 { NULL, NULL, NULL, 0, NULL }
-@@ -185,7 +185,7 @@ static int parse_argv(int argc, char *argv[]) {
-                         arg_relative = true;
-                         break;
-                 case 'f':
--                        r = safe_atod(optarg, &arg_hz);
-+//                        r = safe_atod(optarg, &arg_hz);
-                         if (r < 0)
-                                 log_warning_errno(r, "failed to parse --freq/-f argument '%s': %m",
-                                                   optarg);
-@@ -217,13 +217,13 @@ static int parse_argv(int argc, char *argv[]) {
-                         arg_pss = true;
-                         break;
-                 case 'x':
--                        r = safe_atod(optarg, &arg_scale_x);
-+//                        r = safe_atod(optarg, &arg_scale_x);
-                         if (r < 0)
-                                 log_warning_errno(r, "failed to parse --scale-x/-x argument '%s': %m",
-                                                   optarg);
-                         break;
-                 case 'y':
--                        r = safe_atod(optarg, &arg_scale_y);
-+//                        r = safe_atod(optarg, &arg_scale_y);
-                         if (r < 0)
-                                 log_warning_errno(r, "failed to parse --scale-y/-y argument '%s': %m",
-                                                   optarg);
-diff --git a/src/bootchart/store.c b/src/bootchart/store.c
-index 42cb804..e4173d2 100644
---- a/src/bootchart/store.c
-+++ b/src/bootchart/store.c
-@@ -288,7 +288,7 @@ schedstat_next:
-                         if (!sscanf(m, "%*s %*s %s", t))
-                                 continue;
- 
--                        r = safe_atod(t, &ps->starttime);
-+//                        r = safe_atod(t, &ps->starttime);
-                         if (r < 0)
-                                 continue;
- 
 diff --git a/src/shared/conf-parser.c b/src/shared/conf-parser.c
 index e7fe9ac..e9dcd0e 100644
 --- a/src/shared/conf-parser.c
@@ -236,6 +112,30 @@ index 7d8677e..fe39fc3 100644
          assert_se(r == -EINVAL);
  
          errno = 0;
+diff --git a/Makefile.am b/Makefile.am
+index 305099a..c74948b 100644
+--- a/Makefile.am
++++ b/Makefile.am
+@@ -4894,15 +4903,15 @@ EXTRA_DIST += \
+ 	src/timesync/timesyncd.conf.in
+ 
+ # ------------------------------------------------------------------------------
+-test_nss_SOURCES = \
+-	src/test/test-nss.c
++#test_nss_SOURCES = \
++#	src/test/test-nss.c
+ 
+ test_nss_LDADD = \
+ 	libsystemd-internal.la \
+ 	-ldl
+ 
+-manual_tests += \
+-	test-nss
++#manual_tests += \
++#	test-nss
+ 
+ # ------------------------------------------------------------------------------
+ if HAVE_MYHOSTNAME
 -- 
 2.1.4
 

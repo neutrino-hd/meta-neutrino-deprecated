@@ -33,3 +33,6 @@ do_configure_prepend() {
 		--host \	
 }
 
+do_install_append() {
+	rm -r ${D}/share
+}
