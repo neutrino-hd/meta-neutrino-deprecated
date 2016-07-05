@@ -38,7 +38,7 @@ PAMLIB = "${@bb.utils.contains('DISTRO_FEATURES', 'pam', '-L${STAGING_BASELIBDIR
 NOPAM_SRC ="${@bb.utils.contains('PACKAGECONFIG', 'tcp-wrappers', 'file://nopam-with-tcp_wrappers.patch', 'file://nopam.patch', d)}"
 SRC_URI += "${@bb.utils.contains('DISTRO_FEATURES', 'pam', '', '${NOPAM_SRC}', d)}"
 
-inherit update-rc.d useradd
+inherit update-rc.d useradd systemd
 
 CONFFILES_${PN} = "${sysconfdir}/vsftpd.conf"
 LDFLAGS_append =" -lcrypt -lcap"
@@ -78,9 +78,10 @@ do_install() {
         sed -i "s:ftpusers:vsftpd.ftpusers:" ${D}${sysconfdir}/pam.d/vsftpd
     fi
     if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
-        install -d ${D}${sysconfdir}/tmpfiles.d
+        install -d ${D}${sysconfdir}/tmpfiles.d ${D}/lib/systemd/system
         echo "d /var/run/vsftpd/empty 0755 root root -" \
         > ${D}${sysconfdir}/tmpfiles.d/${BPN}.conf
+	install -m 644 ${WORKDIR}/vsftpd.service ${D}/lib/systemd/system/ 
     fi
 }
 
@@ -93,7 +94,7 @@ USERADD_PARAM_${PN} = "--system --home-dir /var/lib/ftp --no-create-home -g ftp 
                        --shell /bin/false ftp"
 GROUPADD_PARAM_${PN} = "-r ftp"
 
-SYSTEMD_SERVICE_${PN} = "vsftpd.service"
+SYSTEMD_SERVICE_${PN} = "${BPN}.service"
 
 pkg_postinst_${PN}() {
     if [ -z "$D" ]; then

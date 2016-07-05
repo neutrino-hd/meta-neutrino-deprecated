@@ -3,7 +3,9 @@ Description=Vsftpd ftp daemon
 After=network.target
 
 [Service]
-ExecStart=@SBINDIR@/vsftpd
+Type=forking
+ExecStart=/usr/sbin/vsftpd
 
 [Install]
 WantedBy=multi-user.target
+
