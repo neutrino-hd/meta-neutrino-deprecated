@@ -3,8 +3,8 @@ Description=Vsftpd ftp daemon
 After=network.target
 
 [Service]
-Type=forking
-ExecStart=/usr/sbin/vsftpd /etc/tmpfiles.d/vsftpd.conf
+Type=simple
+ExecStart=/usr/sbin/vsftpd /etc/vsftpd.conf
 
 [Install]
 WantedBy=multi-user.target
