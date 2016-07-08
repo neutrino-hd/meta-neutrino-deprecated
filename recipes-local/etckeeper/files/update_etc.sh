@@ -13,15 +13,17 @@ if [ -e $GIT_EXIST ];then
         if [ "$(cd $GIT__URL && git log -1 --pretty=format:"%cd")" == "$(cd /etc && git log -1 --pretty=format:"%cd")" ];then
                 exit
         fi
+	dt -t"writing back /etc remote"
 	cd /etc && etckeeper init
 	git remote add origin $GIT__URL
 	git fetch -a
 	git reset --hard origin/master
 	rm /etc/ssh/ssh_host*
-	echo Reboot...
+	dt -t"...done"
 	sync
 	sleep 2
-	reboot -f
+	dt -t"rebooting"
+	systemctl reboot
 fi
 
 

@@ -1,10 +1,11 @@
 [Unit]
 Description=write back etckeeper remote
-After=update-kernel.service
- 
+Before=neutrino.service
+
 [Service]
 Type=oneshot
-ExecStart=/etc/etckeeper/update_etc.sh
+RemainAfterExit=true
+ExecStart=/bin/sh /etc/etckeeper/update_etc.sh
  
 [Install]
 WantedBy=multi-user.target

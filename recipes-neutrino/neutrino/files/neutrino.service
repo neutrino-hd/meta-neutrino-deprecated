@@ -1,6 +1,6 @@
 [Unit]
 Description=Neutrino HD
-After=update-kernel.service etckeeper.service
+After=update-kernel.service update-etc.service
 
 [Service]
 WorkingDirectory=/tmp

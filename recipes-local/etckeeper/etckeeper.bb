@@ -7,7 +7,6 @@ RDEPENDS_${PN} += "git findutils util-linux-mountpoint perl-module-file-glob"
 SRC_URI = "git://github.com/joeyh/etckeeper.git;branch=master \
 	   file://update-etc.service \
 	   file://create-etc.service \
-	   file://etckeeper.sh \
 	   file://etckeeper.conf \
 	   file://create_etc.sh \
 	   file://update_etc.sh \
@@ -24,7 +23,7 @@ PR = "1"
 
 S = "${WORKDIR}/git"
 
-SYSTEMD_SERVICE_${PN} = "update-etc.service"
+SYSTEMD_SERVICE_${PN} = "update-etc.service create-etc.service"
 
 inherit autotools-brokensep systemd
 
@@ -39,15 +38,12 @@ do_configure_prepend () {
 	
 do_install_append () {
 	install -d ${D}${systemd_unitdir}/system/timers.target.wants
-	install -m 755 ${WORKDIR}/etckeeper.sh ${D}/etc/etckeeper/etckeeper.sh
 	install -m 644 ${WORKDIR}/etckeeper.conf ${D}/etc/etckeeper
 	install -m 755 ${WORKDIR}/update_etc.sh ${D}/etc/etckeeper/update_etc.sh
 	install -m 755 ${WORKDIR}/create_etc.sh ${D}/etc/etckeeper/create_etc.sh
 	install -m 644 ${WORKDIR}/create-etc.service ${D}${systemd_unitdir}/system/create-etc.service
 	install -m 644 ${WORKDIR}/update-etc.service ${D}${systemd_unitdir}/system/update-etc.service
-	ln -s /usr/lib/systemd/system/etckeeper.service ${D}${systemd_unitdir}/system/timers.target.wants/etckeeper.service
-	ln -s /lib/systemd/system/create-etc.service ${D}${systemd_unitdir}/system/timers.target.wants/create-etc.service
-#	rm ${D}/etc/etckeeper/pre-commit.d/README
+	ln -s /usr/lib/systemd/system/etckeeper.timer ${D}${systemd_unitdir}/system/timers.target.wants/etckeeper.timer
 }
 
 FILES_${PN}_append += "/lib/systemd \
