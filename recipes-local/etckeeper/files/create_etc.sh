@@ -21,7 +21,6 @@ elif mountpoint -q $DEST;then
 	cd /etc && git remote add -f origin $GIT__URL
 	git commit -m "initial commit"
 	git push origin master
-	dt -t"...done"
 else
         echo "no mounted media found"
 fi
