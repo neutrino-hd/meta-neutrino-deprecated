@@ -3,10 +3,10 @@ Description=Neutrino HD
 After=update-kernel.service etckeeper.service
 
 [Service]
-Type=simple
-ExecStart=/usr/bin/neutrino
-ExecStop=killall /usr/bin/neutrino
-Restart=on-abort
+WorkingDirectory=/tmp
+ExecStart=/bin/sh /usr/bin/neutrino.sh
+ExecStop=killall /usr/bin/neutrino.sh
 
 [Install]
 WantedBy=multi-user.target
+
