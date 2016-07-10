@@ -5,33 +5,34 @@ SRC_URI += " \
 	file://neutrino-busybox.cfg \
 	file://telnetd.busybox \
 	file://hostname.script \
-	file://inetd.conf \
+	file://telnet.service \
+"
+inherit systemd
+
+SYSTEMD_SERVICE_${PN} = "telnet.service"
+
+PACKAGES_prepend += "${PN}-telnetd \
 "
 
-PACKAGES_prepend += "${PN}-inetd \
-		     ${PN}-telnetd \
-"
-
-FILES_${PN}-inetd = " \
-	/etc/init.d/inetd.busybox \
-	/etc/inetd.conf \
-"
 FILES_${PN}-telnetd = " \
-	/etc/init.d/telnetd.busybox \
+	/etc/telnetd.busybox \
+	/lib/systemd \
 "
 
-RRECOMMENDS_${PN} += "${PN}-inetd ${PN}-telnetd"
+RRECOMMENDS_${PN} += "${PN}-telnetd"
 
-INITSCRIPT_PACKAGES += "${PN}-inetd ${PN}-telnetd"
+INITSCRIPT_PACKAGES += "${PN}-telnetd"
 
-INITSCRIPT_NAME_${PN}-inetd = "inetd.busybox"
 INITSCRIPT_NAME_${PN}-telnetd = "telnetd.busybox"
-INITSCRIPT_PARAMS_${PN}-inetd = "defaults"
 INITSCRIPT_PARAMS_${PN}-telnetd = "defaults"
 
 do_install_append() {
+	install -d ${D}/lib/systemd/system/multi-user.target.wants
+	install -m 0755 ${WORKDIR}/telnetd.busybox ${D}${sysconfdir}/telnetd.busybox
+	install -m 0644 ${WORKDIR}/telnet.service ${D}/lib/systemd/system/telnet.service
+	ln -s ../telnet.service ${D}/lib/systemd/system/multi-user.target.wants/telnet.service
 	if grep "CONFIG_TELNETD=y" ${B}/.config; then
-		install -m 0755 ${WORKDIR}/telnetd.busybox ${D}${sysconfdir}/init.d/telnetd.${BPN}
+		install -m 0755 ${WORKDIR}/telnetd.busybox ${D}${sysconfdir}/telnetd.${BPN}
 	fi
 	if grep "CONFIG_UDHCPC=y" ${B}/.config; then
 		# the directory was created already before in do_install()

@@ -1,6 +1,0 @@
-#!/bin/sh
-#
-# Logoview
-#
-
-/usr/bin/logoview --background -t 4 -c --logo=/usr/share/tuxbox/neutrino/icons/start.jpg

@@ -1,6 +1,7 @@
 #!/bin/sh
 #
 # start/stop telnet daemon server.
+export TERM=xterm
 
 if ! [ -x /usr/sbin/telnetd ]; then
 	exit 0

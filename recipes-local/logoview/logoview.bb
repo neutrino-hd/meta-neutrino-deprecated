@@ -5,7 +5,7 @@ PRIORITY = "optional"
 LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
 
 SRC_URI = "git://github.com/coolstreamtech/cst-public-plugins-logoview.git;protocol=http \
-	   file://logoview \
+	   file://logoview.service \
 "
 
 DEPENDS = "libjpeg-turbo"
@@ -15,26 +15,20 @@ PR = "1"
 
 S = "${WORKDIR}/git"
 
-INITSCRIPT_NAME = "logoview"
+inherit systemd
 
-inherit update-rc.d
+SYSTEMD_SERVICE_${PN} = "logoview.service"
 
 do_compile() { 
 }
 
-do_install_coolstream-hd1() {
-	install -d ${D}/${bindir} ${D}${sysconfdir}/init.d
-	install -m 0755 ${S}/bin/logoview.nevis ${D}${bindir}/logoview
-	install -m 755 ${WORKDIR}/logoview ${D}${sysconfdir}/init.d/logoview
-}
-
-do_install_coolstream-hd2() {
-	install -d ${D}/${bindir} ${D}${sysconfdir}/init.d
+do_install() {
+	install -d ${D}/${bindir} ${D}/lib/systemd/system/
 	install -m 0755 ${S}/bin/logoview.apollo ${D}${bindir}/logoview
-	install -m 755 ${WORKDIR}/logoview ${D}${sysconfdir}/init.d/logoview
+	install -m 755 ${WORKDIR}/logoview.service ${D}/lib/systemd/system/logoview.service
 }
 
-FILES_${PN} = "/etc/init.d \
+FILES_${PN} = "/lib/systemd \
 	       /usr/bin \
 "
 

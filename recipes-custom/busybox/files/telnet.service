@@ -1,0 +1,14 @@
+[Unit]
+Description=Telnet daemon
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/bin/sh /etc/telnetd.busybox start
+ExecStop=/bin/sh /etc/telnetd.busybox stop
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
+
+
