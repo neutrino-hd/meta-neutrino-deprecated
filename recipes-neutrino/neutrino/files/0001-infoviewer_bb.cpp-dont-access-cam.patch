@@ -1,0 +1,40 @@
+From 4e3f52fc8a6be1520ef89c39906447dd4c7fb244 Mon Sep 17 00:00:00 2001
+From: flk <f_l_k@t-online.de>
+Date: Sun, 10 Jul 2016 15:42:03 +0200
+Subject: [PATCH] fix2
+
+Signed-off-by: flk <f_l_k@t-online.de>
+---
+ src/gui/infoviewer_bb.cpp | 16 ----------------
+ 1 file changed, 16 deletions(-)
+
+diff --git a/src/gui/infoviewer_bb.cpp b/src/gui/infoviewer_bb.cpp
+index 936e0ef..40d42f3 100644
+--- a/src/gui/infoviewer_bb.cpp
++++ b/src/gui/infoviewer_bb.cpp
+@@ -104,22 +104,6 @@ void CInfoViewerBB::Init()
+ 	fta			= true;
+ 	minX			= 0;
+ 
+-	//NI init
+-	DecEndx = 0;
+-	decode = UNKNOWN;
+-	camCI = false;
+-	int CiSlots = cCA::GetInstance()->GetNumberCISlots();
+-	int acc = 0;
+-	while (acc < CiSlots && acc < 2) {
+-		if (cCA::GetInstance()->ModulePresent(CA_SLOT_TYPE_CI, acc)) {
+-			printf("CI: CAM found in Slot %i\n", acc);
+-			camCI = true;
+-		}
+-		else
+-			printf("CI: CAM not found\n");
+-		acc++;
+-	}
+-
+ 	for (int i = 0; i < CInfoViewerBB::BUTTON_MAX; i++) {
+ 		tmp_bbButtonInfoText[i] = "";
+ 		bbButtonInfo[i].x   = -1;
+-- 
+2.1.4
+
