@@ -31,7 +31,7 @@ DEPENDS += " \
 	virtual/libiconv \
 "
 
-RCONFLICTS_${PN} = "neutrino-hd"
+RCONFLICTS_${PN} = "neutrino-hd neutrino-ni"
 
 SRCREV = "${AUTOREV}"
 PV = "${SRCPV}"

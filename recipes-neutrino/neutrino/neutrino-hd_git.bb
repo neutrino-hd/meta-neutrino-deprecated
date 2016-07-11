@@ -28,7 +28,7 @@ DEPENDS += " \
 	virtual/libiconv \
 "
 
-RCONFLICTS_${PN} = "neutrino-mp"
+RCONFLICTS_${PN} = "neutrino-mp neutrino-ni"
 
 SRCREV ?= "${AUTOREV}"
 PV = "${SRCPV}"
