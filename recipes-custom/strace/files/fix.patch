@@ -1,0 +1,11 @@
+--- a/btrfs.c	2016-07-10 14:08:35.263065305 +0200
++++ b/btrfs.c	2016-07-10 14:07:07.860137013 +0200
+@@ -503,7 +503,7 @@ MPERS_PRINTER_DECL(int, btrfs_ioctl,
+ 	case BTRFS_IOC_TRANS_END:
+ 	case BTRFS_IOC_SYNC:
+ 	case BTRFS_IOC_SCRUB_CANCEL:
+-	case BTRFS_IOC_QUOTA_RESCAN_WAIT:
++//	case BTRFS_IOC_QUOTA_RESCAN_WAIT:
+ 	/*
+ 	 * The codes for these ioctls are based on each accepting a
+ 	 * vol_args but none of them actually consume an argument.
