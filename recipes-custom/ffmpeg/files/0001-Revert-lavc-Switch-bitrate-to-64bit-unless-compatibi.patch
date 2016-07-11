@@ -333,7 +333,7 @@ index e9a3639..c1e946a 100644
             av_get_pix_fmt_name(pix_fmt),
             fbdev->framerate_q.num, fbdev->framerate_q.den,
 -           (int64_t)st->codecpar->bit_rate);
-+           st->codec->bit_rate);
++           st->codecpar->bit_rate);
      return 0;
  
  fail:
@@ -348,7 +348,7 @@ index 5115585..7acbdb3 100644
 -        avio_printf(pb, "<%s systemBitrate=\"%"PRId64"\">\n", type,
 -                    (int64_t)track->par->bit_rate);
 +        avio_printf(pb, "<%s systemBitrate=\"%d\">\n", type,
-+                    track->enc->bit_rate);
++                    track->par->bit_rate);
          param_write_int(pb, "systemBitrate", track->par->bit_rate);
          param_write_int(pb, "trackID", track_id);
          if (track->par->codec_type == AVMEDIA_TYPE_VIDEO) {
