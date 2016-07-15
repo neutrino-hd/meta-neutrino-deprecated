@@ -9,7 +9,7 @@ SRCREV = "${AUTOREV}"
 SRC_URI = "\
 	git://github.com/clark15b/xupnpd.git;branch=master \
 	file://0002-ui_restart-fix-xupnpd-install-path.patch \
-	file://xupnpd.init \
+	file://xupnpd.service \
 	file://xupnpd-dont-bind-daemon-to-specific-ip-address.patch \
 	file://xupnpd_cst.diff \
 	file://xupnpd-fix-memleak-on-coolstream-boxes.patch \
@@ -19,10 +19,9 @@ PV = "${SRCPV}"
 PR = "1"
 S = "${WORKDIR}/git/src"
 
-inherit base update-rc.d
+inherit base systemd
 
-INITSCRIPT_NAME = "xupnpd"
-INITSCRIPT_PARAMS = "defaults"
+SYSTEMD_SERVICE_${PN} = "xupnpd.service"
 
 # this is very ugly, but the xupnpd makefile is utter crap :-(
 SRC = "main.cpp soap.cpp mem.cpp mcast.cpp luaxlib.cpp luaxcore.cpp luajson.cpp luajson_parser.cpp"
@@ -34,11 +33,14 @@ do_compile () {
 
 
 do_install () {
-	install -d -m 0644 ${D}/usr/share/xupnpd/config ${D}/usr/share/xupnpd/playlists
-	install -D -m 0755 ${WORKDIR}/xupnpd.init ${D}${sysconfdir}/init.d/xupnpd
+	install -d -m 0644 ${D}/usr/share/xupnpd/config ${D}/usr/share/xupnpd/playlists ${D}${systemd_unitdir}/system/multi-user.target.wants/
+	install -m 644 ${WORKDIR}/xupnpd.service ${D}${systemd_unitdir}/system/xupnpd.service
+	ln -sf ${systemd_unitdir}/system/xupnpd.service ${D}${systemd_unitdir}/system/multi-user.target.wants/xupnpd.service
 	install -D -m 0755 ${S}/xupnpd ${D}${bindir}/xupnpd
 	cp -r ${S}/profiles	${D}/usr/share/xupnpd/
 	cp -r ${S}/ui		${D}/usr/share/xupnpd/
 	cp -r ${S}/www		${D}/usr/share/xupnpd/
 	cp ${S}/*.lua		${D}/usr/share/xupnpd/
 }
+
+FILES_${PN} += "/lib/systemd/system/multi-user.target.wants/xupnpd.service"

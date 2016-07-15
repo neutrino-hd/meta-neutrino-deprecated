@@ -1,0 +1,14 @@
+[Unit]
+Description=minidlna server
+After=network.target udpxy.service
+
+[Service]
+Type=forking
+ExecStart=/usr/bin/xupnpd
+ProtectSystem=full
+ProtectHome=on
+PrivateDevices=on
+NoNewPrivileges=on
+
+[Install]
+WantedBy=multi-user.target
