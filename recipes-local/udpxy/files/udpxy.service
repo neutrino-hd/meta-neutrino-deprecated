@@ -3,8 +3,9 @@ Description=UDP multicast to TCP (HTTP) relay proxy
 After=network.target
 
 [Service]
-Type=simple
+Type=oneshot
 ExecStart=/usr/bin/udpxy -T -S -p 4022 -B 256kb
+RemainAfterExit=true
 
 [Install]
 WantedBy=multi-user.target

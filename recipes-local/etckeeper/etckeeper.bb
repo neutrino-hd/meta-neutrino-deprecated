@@ -37,13 +37,13 @@ do_configure_prepend () {
 }
 	
 do_install_append () {
-	install -d ${D}${systemd_unitdir}/system/timers.target.wants
+	install -d ${D}${systemd_unitdir}/system ${D}${sysconfdir}/systemd/system/timers.target.wants
 	install -m 644 ${WORKDIR}/etckeeper.conf ${D}/etc/etckeeper
 	install -m 755 ${WORKDIR}/update_etc.sh ${D}/etc/etckeeper/update_etc.sh
 	install -m 755 ${WORKDIR}/create_etc.sh ${D}/etc/etckeeper/create_etc.sh
-	install -m 644 ${WORKDIR}/create-etc.service ${D}${systemd_unitdir}/system/create-etc.service
-	install -m 644 ${WORKDIR}/update-etc.service ${D}${systemd_unitdir}/system/update-etc.service
-	ln -s /usr/lib/systemd/system/etckeeper.timer ${D}${systemd_unitdir}/system/timers.target.wants/etckeeper.timer
+	install -m 644 ${WORKDIR}/create-etc.service ${D}${sysconfdir}/systemd/system/create-etc.service
+	install -m 644 ${WORKDIR}/update-etc.service ${D}${sysconfdir}/systemd/system/update-etc.service
+	ln -s /usr/lib/systemd/system/etckeeper.timer ${D}${sysconfdir}/systemd/system/timers.target.wants/etckeeper.timer
 }
 
 FILES_${PN}_append += "/lib/systemd \

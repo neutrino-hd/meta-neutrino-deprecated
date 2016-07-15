@@ -32,13 +32,11 @@ do_configure_prepend() {
 }
 
 do_install_append() {
-	install -d ${D}${sysconfdir} ${D}${systemd_unitdir}/system/multi-user.target.wants/
+	install -d ${D}${sysconfdir} ${D}${systemd_unitdir}/system ${D}${sysconfdir}/systemd/system/multi-user.target.wants/
 	install -m 644 ${WORKDIR}/minidlna-${DISTRO}.conf ${D}${sysconfdir}/minidlna.conf
 	install -m 644 ${WORKDIR}/minidlna.service ${D}${systemd_unitdir}/system/minidlna.service
-	ln -sf ${systemd_unitdir}/system/minidlna.service ${D}${systemd_unitdir}/system/multi-user.target.wants/minidlna.service
+	ln -sf ${systemd_unitdir}/system/minidlna.service ${D}${sysconfdir}/systemd/system/multi-user.target.wants/minidlna.service
 }
-
-FILES_${PN} += "/lib/systemd/system/multi-user.target.wants/minidlna.service"
 
 pkg_preinst_${PN} () {
 	if [ -f /etc/minidlna.conf ];then

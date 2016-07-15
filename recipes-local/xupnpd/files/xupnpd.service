@@ -1,9 +1,11 @@
+
 [Unit]
-Description=minidlna server
-After=network.target udpxy.service
+Description=xupnpd server
+After=network.target
 
 [Service]
 Type=forking
+PIDFile=/var/run/xupnpd.pid
 ExecStart=/usr/bin/xupnpd
 ProtectSystem=full
 ProtectHome=on
