@@ -1,0 +1,26 @@
+From 43d5773ac0a9016c6c03adbd58af8496127d9ded Mon Sep 17 00:00:00 2001
+From: flk <f_l_k@t-online.de>
+Date: Fri, 22 Jul 2016 11:27:50 +0200
+Subject: [PATCH] increase max_summary_size
+
+Signed-off-by: flk <f_l_k@t-online.de>
+---
+ summary.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/summary.h b/summary.h
+index e9d95a5..0915df3 100644
+--- a/summary.h
++++ b/summary.h
+@@ -11,7 +11,7 @@
+ 
+ #ifndef JFFS2_SUMMARY_H
+ #define JFFS2_SUMMARY_H
+-
++#define MAX_SUMMARY_SIZE 131072
+ #include <linux/jffs2.h>
+ 
+ #define DIRTY_SPACE(x) do { typeof(x) _x = (x); \
+-- 
+2.1.4
+

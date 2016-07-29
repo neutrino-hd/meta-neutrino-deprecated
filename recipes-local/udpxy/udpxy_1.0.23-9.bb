@@ -25,7 +25,6 @@ do_compile () {
 
 do_install(){
 	install -d ${D}/${bindir} ${D}${systemd_unitdir}/system/ ${D}${sysconfdir}/systemd/system/multi-user.target.wants/
-	install -m 755 -D ${WORKDIR}/${PN}.init ${D}${sysconfdir}/init.d/${PN}
 	install -m 644 -D ${WORKDIR}/${PN}.default ${D}${sysconfdir}/default/${PN}
 	install -m 755 ${WORKDIR}/build/udpxy ${D}/${bindir}/
 	install -m 755 ${WORKDIR}/build/udpxrec ${D}/${bindir}/

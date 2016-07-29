@@ -23,7 +23,7 @@ RDEPENDS_packagegroup-custom-recommended ?= "\
     htop \
     inotify-tools \
     libevent \
-    logrotate \
+    libwinbind \
     mc \
     mc-fish \
     mc-helpers \
@@ -42,7 +42,6 @@ RDEPENDS_packagegroup-custom-recommended ?= "\
     parted \
     rpcbind \
     samba \
-    sysklogd \
     tmux \
     wpa-supplicant \
 "

@@ -92,7 +92,6 @@ do_install_prepend () {
 	install -m 755 ${WORKDIR}/custom-poweroff.init ${D}${sysconfdir}/init.d/custom-poweroff
 	install -m 755 ${WORKDIR}/pre-wlan0.sh ${D}${sysconfdir}/network/
 	install -m 755 ${WORKDIR}/post-wlan0.sh ${D}${sysconfdir}/network/
-	install -m 644 ${WORKDIR}/interfaces ${D}${sysconfdir}/network/
 	install -m 644 ${WORKDIR}/timezone.xml ${D}${sysconfdir}/timezone.xml
 	install -d ${D}${localstatedir}/cache
 	install -d ${D}${localstatedir}/tuxbox

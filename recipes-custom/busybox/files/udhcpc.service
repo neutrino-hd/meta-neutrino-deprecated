@@ -1,0 +1,13 @@
+[Unit]
+Description=Connection service (udhcpc)
+Before=opkg-configure.service
+
+
+[Service]
+ExecStart=/bin/sh -c "udhcpc -R -b && ifup -a"
+RemainAfterExit=yes
+
+[Install]
+WantedBy=network.target
+
+

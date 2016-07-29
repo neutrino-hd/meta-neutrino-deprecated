@@ -42,9 +42,8 @@ SRC_URI = "${SAMBA_MIRROR}/stable/samba-${PV}.tar.gz \
            file://0006-avoid-using-colon-in-the-checking-msg.patch \
            file://0007-waf-Fix-parsing-of-cross-answers-file-in-case-answer.patch \
 	   file://smb.conf \
-	   file://init.samba \
-	   file://init.winbind \
-	   file://volatiles.03_samba \
+	   file://smb.service \
+	   file://add_smbusr.sh \
           "
 
 SRC_URI[md5sum] = "232016d7581a1ba11e991ec2674553c4"
@@ -112,19 +111,18 @@ do_install_append() {
             > ${D}${sysconfdir}/tmpfiles.d/99-${BPN}.conf
     fi
 
-    install -d ${D}${sysconfdir}/samba ${D}${sysconfdir}/init.d/
+    install -d ${D}${sysconfdir}/samba
     echo "127.0.0.1 localhost" > ${D}${sysconfdir}/samba/lmhosts
     install -m644 ${WORKDIR}/smb.conf ${D}${sysconfdir}/samba/smb.conf
-    install -m755 ${WORKDIR}/init.samba ${D}${sysconfdir}/init.d/samba
-    install -m755 ${WORKDIR}/init.winbind ${D}${sysconfdir}/init.d/winbind
-    install -D -m 644 ${WORKDIR}/volatiles.03_samba ${D}${sysconfdir}/default/volatiles/volatiles.03_samba
-    update-rc.d -r ${D} samba defaults 60
-    update-rc.d -r ${D} winbind start 60 2 3 4 5 .
     install -d ${D}${libdir}/tmpfiles.d
     install -m644 packaging/systemd/samba.conf.tmp ${D}${libdir}/tmpfiles.d/samba.conf
-
-    install -d ${D}${sysconfdir}/sysconfig/
+    install -m755 ${WORKDIR}/add_smbusr.sh ${D}${sysconfdir}/samba/add_smbusr.sh
+    install -d ${D}${sysconfdir}/sysconfig/ ${D}${sysconfdir}/systemd/system/multi-user.target.wants
     install -m644 packaging/systemd/samba.sysconfig ${D}${sysconfdir}/sysconfig/samba
+    install -m644 ${WORKDIR}/smb.service ${D}/lib/systemd/system/smb.service
+    ln -s /lib/systemd/system/smb.service ${D}${sysconfdir}/systemd/system/multi-user.target.wants/smb.service
+    ln -s /lib/systemd/system/nmb.service ${D}${sysconfdir}/systemd/system/multi-user.target.wants/nmb.service
+    ln -s /lib/systemd/system/winbind.service ${D}${sysconfdir}/systemd/system/multi-user.target.wants/winbind.service
 }
 
 PACKAGES += "${PN}-python ${PN}-python-dbg ${PN}-pidl libwinbind libwinbind-dbg libwinbind-krb5-locator"

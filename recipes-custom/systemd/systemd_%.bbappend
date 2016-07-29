@@ -5,11 +5,14 @@ SRC_URI_append += "file://0001-build_fix.patch \
 		   file://cs_drivers_kronos.conf \
 		   file://cs_drivers_apollo.conf \
 	  	   file://framebuffer.conf \
-		   file://ifup.service \
 "
 
 PACKAGECONFIG_append += ""
-PACKAGECONFIG_remove_libc-uclibc = "localed resolved"
+PACKAGECONFIG_remove_libc-uclibc = " resolved hibernate localed "
+ 
+inherit autotools-brokensep
+
+CFLAGS_append += "-DHAVE_NSS_H=0 -DSD_BOOT_LOG_TPM=0"
 
 do_install_append() {
 	install -d ${D}/${sysconfdir}/modprobe.d
@@ -19,8 +22,6 @@ do_install_append() {
 		install -m 644 ${WORKDIR}/cs_drivers_apollo.conf ${D}${sysconfdir}/modules-load.d/cs_drivers.conf	
 	fi
 	install -m 644 ${WORKDIR}/framebuffer.conf ${D}${sysconfdir}/modprobe.d/
-	install -m 644 ${WORKDIR}/ifup.service  ${D}/lib/systemd/system/ifup.service
-	ln -s /lib/systemd/system/ifup.service ${D}/etc/systemd/system/multi-user.target.wants/ifup.service
 	sed -i "s|slave|shared|" ${D}/lib/systemd/system/systemd-udevd.service
 	rm ${D}/etc/resolv.conf && touch ${D}/etc/resolv.conf
 }
@@ -30,3 +31,7 @@ do_install_append() {
 FILES_${PN}_append += "\
 	/etc \
 "
+
+pkg_postinst_udev-hwdb () {
+		udevadm hwdb --update
+}

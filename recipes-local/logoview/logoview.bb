@@ -25,7 +25,7 @@ do_compile() {
 do_install() {
 	install -d ${D}/${bindir} ${D}/lib/systemd/system/
 	install -m 0755 ${S}/bin/logoview.apollo ${D}${bindir}/logoview
-	install -m 755 ${WORKDIR}/logoview.service ${D}/lib/systemd/system/logoview.service
+	install -m 644 ${WORKDIR}/logoview.service ${D}/lib/systemd/system/logoview.service
 }
 
 FILES_${PN} = "/lib/systemd \

@@ -48,10 +48,4 @@ do_install_append () {
  	if [ ${CLEAN_ENV} = "yes" ];then
 		touch ${D}${localstatedir}/update/.erase_env 
 	fi
-	ln -s ./librt.so.1 ${D}${base_libdir}/librt.so.0
-	ln -s ./libc.so.1 ${D}${base_libdir}/libc.so.0
-	ln -s ./libpthread.so.1 ${D}${base_libdir}/libpthread.so.0
-	ln -s ./libcrypt.so.1 ${D}${base_libdir}/libcrypt.so.0
-	ln -s ./libdl.so.1 ${D}${base_libdir}/libdl.so.0
-	ln -s ./libm.so.1 ${D}${base_libdir}/libm.so.0
 }

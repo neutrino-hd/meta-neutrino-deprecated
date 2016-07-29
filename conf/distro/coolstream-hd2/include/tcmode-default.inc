@@ -27,7 +27,7 @@ SDKGCCVERSION ?= "${GCCVERSION}"
 BINUVERSION ?= "2.2%"
 GDBVERSION ?= "7.%"
 GLIBCVERSION ?= "2.%"
-UCLIBCVERSION ?= "1.0.12+git%"
+UCLIBCVERSION ?= "1.0.16+git%"
 #LINUXLIBCVERSION ?= "4.1"
 
 PREFERRED_VERSION_gcc ?= "${GCCVERSION}"
@@ -71,5 +71,5 @@ PREFERRED_VERSION_uclibc-initial           ?= "${UCLIBCVERSION}"
 #PREFERRED_VERSION_gzip-native ?= "1.6"
 
 # Setup suitable toolchain flags
-#require conf/distro/include/as-needed.inc
+#require conf/distro/coolstream-hd2/include/as-needed.inc
 

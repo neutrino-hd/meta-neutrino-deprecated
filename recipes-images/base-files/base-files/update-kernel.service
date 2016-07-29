@@ -1,7 +1,6 @@
 
 [Unit]
 Description=update Kernel
-Before=systemd-modules-load
 DefaultDependencies=false
 
 [Service]

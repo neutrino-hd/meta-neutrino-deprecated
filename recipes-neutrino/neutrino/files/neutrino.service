@@ -5,7 +5,6 @@ After=update-kernel.service update-etc.service logoview.service
 [Service]
 WorkingDirectory=/tmp
 ExecStart=/bin/sh /usr/bin/neutrino.sh
-ExecStop=killall /usr/bin/neutrino.sh
 
 [Install]
 WantedBy=multi-user.target

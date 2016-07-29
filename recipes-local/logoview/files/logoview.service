@@ -5,7 +5,7 @@ Before=neutrino.service
 
 [Service]
 Type=oneshot
-ExecStart=/bin/sh -c "/usr/bin/logoview --background -t 7 -c --logo=/usr/share/tuxbox/neutrino/icons/start.jpg"
+ExecStart=/bin/sh -c "/usr/bin/logoview --background -t 5 -c --logo=/usr/share/tuxbox/neutrino/icons/start.jpg"
 RemainAfterExit=yes
 
 [Install]

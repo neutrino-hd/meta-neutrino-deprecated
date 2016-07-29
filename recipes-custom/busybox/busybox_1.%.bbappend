@@ -1,18 +1,21 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 DEPENDS += "libpam"
 
-SRC_URI += " \
+SRC_URI_append += " \
 	file://neutrino-busybox.cfg \
 	file://telnetd.busybox \
 	file://hostname.script \
 	file://telnet.service \
+	file://udhcpc.service \
 "
+
 inherit systemd
 
+SYSTEMD_SERVICE_${PN}-syslog = ""
 SYSTEMD_SERVICE_${PN} = "telnet.service"
+SYSTEMD_SERVICE_${PN}-udhcpd = "udhcpc.service"
 
-PACKAGES_prepend += "${PN}-telnetd \
-"
+FILES_${PN}-syslog_remove = "${sysconfdir}/init.d/syslog* ${sysconfdir}/syslog-startup.conf* ${sysconfdir}/syslog.conf* ${systemd_unitdir}/system/syslog.service ${sysconfdir}/default/busybox-syslog"
 
 FILES_${PN}-telnetd = " \
 	/etc/telnetd.busybox \
@@ -22,15 +25,18 @@ FILES_${PN}-telnetd = " \
 RRECOMMENDS_${PN} += "${PN}-telnetd"
 
 INITSCRIPT_PACKAGES += "${PN}-telnetd"
-
 INITSCRIPT_NAME_${PN}-telnetd = "telnetd.busybox"
 INITSCRIPT_PARAMS_${PN}-telnetd = "defaults"
+
+PACKAGES_append += "${PN}-telnetd"
 
 do_install_append() {
 	install -d ${D}/lib/systemd/system/multi-user.target.wants
 	install -m 0755 ${WORKDIR}/telnetd.busybox ${D}${sysconfdir}/telnetd.busybox
 	install -m 0644 ${WORKDIR}/telnet.service ${D}/lib/systemd/system/telnet.service
+	install -m 0644 ${WORKDIR}/udhcpc.service ${D}/lib/systemd/system/udhcpc.service
 	ln -s ../telnet.service ${D}/lib/systemd/system/multi-user.target.wants/telnet.service
+	ln -s ../udhcpc.service ${D}/lib/systemd/system/multi-user.target.wants/udhcpc.service
 	if grep "CONFIG_TELNETD=y" ${B}/.config; then
 		install -m 0755 ${WORKDIR}/telnetd.busybox ${D}${sysconfdir}/telnetd.${BPN}
 	fi
@@ -40,6 +46,9 @@ do_install_append() {
 	fi
 }
 
+ALTERNATIVE_${PN}-syslog = ""
+ALTERNATIVE_LINK_NAME[syslog-conf] = ""
+
 pkg_prerm_${PN}-telnetd () {
 #!/bin/sh
 # do not stop telnetd on update, or uninstall is impossible
@@ -47,15 +56,3 @@ pkg_prerm_${PN}-telnetd () {
 exit 0
 }
 
-pkg_postinst_${PN}-telnetd() {
-#!/bin/sh
-if test "x$D" != "x"; then
-	OPT="-r $D"
-fi
-if type update-rc.d >/dev/null 2>/dev/null; then
-	update-rc.d $OPT telnetd.busybox defaults
-	# "restart" as done by "update-rc.d -s" is deadly for existing connections
-	test "x$D" = "x" && /etc/init.d/telnetd.busybox start
-fi
-exit
-}
