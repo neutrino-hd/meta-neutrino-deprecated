@@ -24,6 +24,10 @@ SRC_URI[sha256sum] = "4cceeed1f9ddfeeffe5e4027fad696ea732af4dd90c28b2cfe9a3bb317
 
 inherit autotools 
 
+EXTRA_OEMAKE = " \
+    CC='${CC} -Wl,--hash-style=gnu -Os -Wl,-rpath-link,${STAGING_DIR_HOST}/usr/lib' \
+"
+
 do_configure() {
 	ln -s ${S}/* ${WORKDIR}/build/
 }

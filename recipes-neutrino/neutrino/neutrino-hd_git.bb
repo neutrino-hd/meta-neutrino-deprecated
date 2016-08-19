@@ -64,6 +64,7 @@ SRC_URI = "git://coolstreamtech.de/cst-public-gui-neutrino.git;branch=cst-next \
 "
 
 SRC_URI_append_libc-glibc = "file://0006-Makefile.am-we-don-t-need-liconv-for-glibc.patch \
+			     file://0014-fix-build-with-old-libs-glibc.patch \
 "
 
 S = "${WORKDIR}/git"

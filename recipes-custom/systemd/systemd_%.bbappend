@@ -1,10 +1,12 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
-SRC_URI_append += "file://0001-build_fix.patch \
-		   file://00-create-volatile.conf \
+SRC_URI_append += "file://00-create-volatile.conf \
 		   file://cs_drivers_kronos.conf \
 		   file://cs_drivers_apollo.conf \
 	  	   file://framebuffer.conf \
+"
+
+SRC_URI_append_libc-uclibc += "file://0001-build_fix.patch \
 "
 
 PACKAGECONFIG_append += ""

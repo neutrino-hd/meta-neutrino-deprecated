@@ -13,7 +13,7 @@ PREFERRED_PROVIDER_virtual/libiconv ?= "libiconv"
 PREFERRED_PROVIDER_virtual/libintl ?= "gettext"
 PREFERRED_PROVIDER_virtual/nativesdk-libintl ?= "nativesdk-glibc"
 PREFERRED_PROVIDER_virtual/nativesdk-libiconv ?= "nativesdk-glibc"
-
+PREFERRED_PROVIDER_glibc-locale ?= "uclibc"
 USE_NLS ?= "no"
 
 CXXFLAGS += "-fvisibility-inlines-hidden"

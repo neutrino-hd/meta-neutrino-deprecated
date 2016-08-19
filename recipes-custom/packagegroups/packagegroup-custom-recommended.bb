@@ -45,5 +45,5 @@ RDEPENDS_packagegroup-custom-recommended ?= "\
     tmux \
     wpa-supplicant \
 "
-    
 
+RDEPENDS_packagegroup-custom-recommended_append_libc-glibc += "kbd-locale-de"

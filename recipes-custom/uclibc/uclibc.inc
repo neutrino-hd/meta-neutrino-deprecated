@@ -16,6 +16,8 @@ file://${S}/test/regex/testregex.c;beginline=1;endline=31;md5=234efb227d0a40677f
 
 require uclibc-config.inc
 
+
+RPROVIDES_${PN}_append += "glibc-locale"
 PATH_prepend = "${STAGING_BINDIR_TOOLCHAIN}.${STAGINGCC}:"
 TOOLCHAIN_OPTIONS = " --sysroot=${STAGING_DIR_TCBOOTSTRAP}"
 

@@ -20,7 +20,7 @@ S = "${WORKDIR}/git"
 inherit autotools-brokensep
 
 EXTRA_OEMAKE = " \
-    CC='${CC}' LD='${LD} ${STAGING_LIBDIR}' \
+    CC='${CC} -Wl,--hash-style=gnu -Os -Wl,-rpath-link,${STAGING_DIR_HOST}/usr/lib' \
     SYS=posix INC=-I=/usr/include DESTDIR=${D} \
     prefix=${prefix} libdir=${libdir} incdir=${includedir}/librtmp bindir=${bindir} mandir=${mandir}"
 

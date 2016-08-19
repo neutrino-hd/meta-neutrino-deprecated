@@ -31,12 +31,12 @@ INITSCRIPT_PARAMS_${PN}-telnetd = "defaults"
 PACKAGES_append += "${PN}-telnetd"
 
 do_install_append() {
-	install -d ${D}/lib/systemd/system/multi-user.target.wants
+	install -d ${D}/lib/systemd/system/multi-user.target.wants ${D}/etc/systemd/system/multi-user.target.wants
 	install -m 0755 ${WORKDIR}/telnetd.busybox ${D}${sysconfdir}/telnetd.busybox
 	install -m 0644 ${WORKDIR}/telnet.service ${D}/lib/systemd/system/telnet.service
-	install -m 0644 ${WORKDIR}/udhcpc.service ${D}/lib/systemd/system/udhcpc.service
+	install -m 0644 ${WORKDIR}/udhcpc.service ${D}/etc/systemd/system/udhcpc.service
 	ln -s ../telnet.service ${D}/lib/systemd/system/multi-user.target.wants/telnet.service
-	ln -s ../udhcpc.service ${D}/lib/systemd/system/multi-user.target.wants/udhcpc.service
+	ln -s ../udhcpc.service ${D}/etc/systemd/system/multi-user.target.wants/udhcpc.service
 	if grep "CONFIG_TELNETD=y" ${B}/.config; then
 		install -m 0755 ${WORKDIR}/telnetd.busybox ${D}${sysconfdir}/telnetd.${BPN}
 	fi

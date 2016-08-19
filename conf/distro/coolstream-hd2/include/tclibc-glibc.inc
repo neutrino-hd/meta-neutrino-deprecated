@@ -1,7 +1,7 @@
 #
 # glibc specific configuration
 #
-
+IMAGE_INSTALL_append += "glibc-utils"
 LIBCEXTENSION = "${@['', '-gnu'][(d.getVar('ABIEXTENSION', True) or '') != '']}"
 
 # Add glibc overrides to the overrides for glibc.
