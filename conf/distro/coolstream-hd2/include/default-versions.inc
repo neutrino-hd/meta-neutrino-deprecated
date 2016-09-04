@@ -20,3 +20,4 @@ PREFERRED_VERSION_db-native = "${@incompatible_license_contains('AGPL-3.0', '5.%
 PREFERRED_VERSION_opkg = "0.3%"
 PREFERRED_VERSION_opkg_native = "0.3%"
 PREFERRED_VERSION_busybox = "1.24.1"
+

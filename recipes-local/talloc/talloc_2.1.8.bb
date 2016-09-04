@@ -7,8 +7,9 @@ SRC_URI = "http://samba.org/ftp/${BPN}/${BPN}-${PV}.tar.gz"
 LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/LGPL-3.0;md5=bfccfe952269fff2b407dd11f2f3083b \
                     file://${COREBASE}/meta/files/common-licenses/GPL-3.0;md5=c79ff39f19dfec6d293b95dea7b07891"
 
-SRC_URI[md5sum] = "5dffb86414218a91864ed4453ba9be07"
-SRC_URI[sha256sum] = "3e29ce6c3ba3c4f7c2d57ce8cf0fbc24c86618c519f2b2fb6a459025488b6174"
+SRC_URI[md5sum] = "6fb70af4174330e4cc139ea63b07c9e9"
+SRC_URI[sha256sum] = "22d14911164d4de67ff76b5269fa5250d01f78c955bc77e28615350996877130"
+
 DEPENDS += "attr libcap"
 
 inherit waf-samba
@@ -29,18 +30,18 @@ FILES_${PN}-dev = ""
 FILES_${PN}-dbg = ""
 
 FILES_libtalloc = "${libdir}/libtalloc.so.2 \
-                   ${libdir}/libtalloc.so.2.1.1"
+                   ${libdir}/libtalloc.so.2.1.8"
 FILES_libtalloc-dbg = "/usr/src/debug/ \
-                   ${libdir}/.debug/libtalloc.so.2.1.1"
+                   ${libdir}/.debug/libtalloc.so.2.1.8"
 FILES_libtalloc-dev = "${includedir}/ \
                    ${libdir}/libtalloc.so \
                    ${libdir}/pkgconfig/"
 
 FILES_pytalloc = "${libdir}/python${PYTHON_BASEVERSION}/site-packages/* \
                   ${libdir}/libpytalloc-util.so.2 \
-                  ${libdir}/libpytalloc-util.so.2.1.1 \
+                  ${libdir}/libpytalloc-util.so.2.1.8 \
                  "
 FILES_pytalloc-dbg = "${libdir}/python${PYTHON_BASEVERSION}/site-packages/.debug \
-                      ${libdir}/.debug/libpytalloc-util.so.2.1.1"
+                      ${libdir}/.debug/libpytalloc-util.so.2.1.8"
 FILES_pytalloc-dev = "${libdir}/libpytalloc-util.so"
 RDEPENDS_pytalloc = "python"

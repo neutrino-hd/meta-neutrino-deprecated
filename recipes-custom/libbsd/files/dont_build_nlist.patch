@@ -1,0 +1,10 @@
+--- a/src/Makefile.am	2016-03-27 12:21:36.000000000 +0200
++++ b/src/Makefile.am	2016-09-04 11:11:45.673956212 +0200
+@@ -89,7 +89,6 @@ libbsd_la_SOURCES = \
+ 	local-elf.h \
+ 	local-link.h \
+ 	merge.c \
+-	nlist.c \
+ 	pidfile.c \
+ 	progname.c \
+ 	radixsort.c \

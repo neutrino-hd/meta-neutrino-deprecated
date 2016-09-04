@@ -13,5 +13,6 @@ ASNEEDED_pn-dialer = ""
 ASNEEDED_pn-pulseaudio = ""
 ASNEEDED_pn-rpm = ""
 ASNEEDED_pn-oscam = "-lrt"
+ASNEEDED_pn-cups = "-lrt"
 
 TARGET_LDFLAGS += "${ASNEEDED}"

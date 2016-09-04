@@ -1,0 +1,11 @@
+--- a/lib/tevent/wscript	2016-07-28 09:19:54.000000000 +0200
++++ b/lib/tevent/wscript	2016-09-04 10:58:58.689906538 +0200
+@@ -1,7 +1,7 @@
+ #!/usr/bin/env python
+ 
+ APPNAME = 'tevent'
+-VERSION = '0.9.29'
++VERSION = '0.9.26'
+ 
+ blddir = 'bin'
+ 

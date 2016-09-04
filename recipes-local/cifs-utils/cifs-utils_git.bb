@@ -4,9 +4,10 @@ HOMEPAGE = "http://wiki.samba.org/index.php/LinuxCIFS_utils"
 LICENSE = "GPLv3 & LGPLv3"
 LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
 DEPENDS = "samba"
+PV = "6.5"
 PR = "r1"
 
-SRCREV = "${AUTOREV}"
+SRCREV = "7edaddd4d91cdb06a55f25fd66c609c4c43168f8"
 SRC_URI = "git://git.samba.org/cifs-utils.git;branch=master"
 
 S = "${WORKDIR}/git"
