@@ -1256,9 +1256,9 @@ diff --git a/libavformat/flvdec.c b/libavformat/flvdec.c
 index 07f7b68..afe7e51 100644
 --- a/libavformat/flvdec.c
 +++ b/libavformat/flvdec.c
-@@ -335,6 +335,12 @@ static int amf_get_string(AVIOContext *i
-         return -1;
-     }
+@@ -342,6 +342,12 @@ static int amf_get_string(AVIOContext *i
+     return length;
+ }
  
 +int flv_amf_get_string(AVIOContext *ioc, char *buffer, int buffsize)
 +{
@@ -1266,9 +1266,10 @@ index 07f7b68..afe7e51 100644
 +}
 +
 +
-     avio_read(ioc, buffer, length);
- 
-     buffer[length] = '\0';
+ static int parse_keyframes_index(AVFormatContext *s, AVIOContext *ioc, int64_t max_pos)
+ {
+     FLVContext *flv       = s->priv_data;
+
 diff --git a/libavformat/flvtag.c b/libavformat/flvtag.c
 new file mode 100644
 index 0000000..a611ea0
