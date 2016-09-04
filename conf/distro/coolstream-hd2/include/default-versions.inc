@@ -3,7 +3,7 @@
 #
 # currently usable kernel version, use the same for headers
 KV = "3.10.93"
-LINUXLIBCVERSION ?= "${KV}"
+LINUXLIBCVERSION ?= "4.4"
 
 PREFERRED_VERSION_luaposix = "31"
 # Force the python versions in one place
