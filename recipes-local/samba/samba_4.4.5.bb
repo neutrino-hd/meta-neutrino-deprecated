@@ -31,7 +31,7 @@ inherit systemd waf-samba cpan-base perlnative update-rc.d
 # remove default added RDEPENDS on perl
 RDEPENDS_${PN}_remove = "perl"
 
-DEPENDS += "readline virtual/libiconv zlib popt talloc libtdb libtevent libldb krb5 libbsd libaio"
+DEPENDS += "readline virtual/libiconv zlib popt talloc libtdb libtevent libldb krb5 libbsd libaio libarchive"
 
 SYSVINITTYPE_linuxstdbase = "lsb"
 SYSVINITTYPE = "sysv"
@@ -275,6 +275,7 @@ FILES_winbind = "${sbindir}/winbindd \
                  ${bindir}/ntlm_auth \
                  ${sysconfdir}/init.d/winbind \
                  ${systemd_unitdir}/system/winbind.service \
+		 ${libdir}/security/pam_winbind.so \
 "
 
 FILES_libnss-winbind = "${libdir}/libnss_*${SOLIBS} \
