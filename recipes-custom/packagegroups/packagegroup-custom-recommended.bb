@@ -22,7 +22,6 @@ RDEPENDS_packagegroup-custom-recommended ?= "\
     htop \
     inotify-tools \
     libevent \
-    libwinbind \
     mc \
     mc-fish \
     mc-helpers \
