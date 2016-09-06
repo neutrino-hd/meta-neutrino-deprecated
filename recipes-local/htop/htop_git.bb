@@ -1,5 +1,5 @@
 DESCRIPTION = "htop process monitor"
-HOMEPAGE = "http://htop.sf.net"
+HOMEPAGE = "http://hisham.hm/htop/"
 SECTION = "console/utils"
 LICENSE = "GPLv2"
 
