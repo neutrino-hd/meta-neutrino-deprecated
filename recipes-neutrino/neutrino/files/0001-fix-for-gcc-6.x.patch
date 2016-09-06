@@ -8,6 +8,7 @@ Signed-off-by: flk <f_l_k@t-online.de>
  src/driver/audiodec/ffmpegdec.cpp    |  4 ++++
  src/driver/pictureviewer/crw.cpp     | 18 +++++++++++++++---
  src/driver/pictureviewer/jpeg.cpp    | 20 ++++++++++++++++----
+ src/gui/moviebrowser/mb_functions.h  | 6 +++++-
  src/gui/sleeptimer.cpp               | 36 ++++++++++++++++++++++++++++++------
  src/gui/tmdb.cpp                     | 18 +++++++++++++++++-
  src/system/helpers.cpp               |  2 ++
@@ -18,7 +19,7 @@ Signed-off-by: flk <f_l_k@t-online.de>
  src/system/mtdutils/mkfs.jffs2.cpp   | 14 +++++++++++++-
  src/system/mtdutils/rbtree.h         |  6 ++++++
  src/system/ytcache.cpp               |  8 ++++++++
- 13 files changed, 130 insertions(+), 17 deletions(-)
+ 14 files changed, 135 insertions(+), 18 deletions(-)
 
 diff --git a/src/driver/audiodec/ffmpegdec.cpp b/src/driver/audiodec/ffmpegdec.cpp
 index a4eb905..d399735 100644
@@ -433,6 +434,22 @@ index 64dcb66..bd82d16 100644
  	if (access(f, R_OK))
  		return false;
  	fname = f;
+diff --git a/src/gui/moviebrowser/mb_functions.h b/src/gui/moviebrowser/mb_functions.h
+index 4b0002d..a76c0c9 100644
+--- a/src/gui/moviebrowser/mb_functions.h
++++ b/src/gui/moviebrowser/mb_functions.h
+@@ -13,7 +13,11 @@ void strReplace(std::string& orig, const char* fstr, const std::string &rstr);
+ 
+ static std::string rateFormat(int i)
+ {
++#if __cplusplus < 201103
+ 	return to_string(i/10) + "," + to_string(i%10);
++#else
++	return std::to_string(i/10) + "," + std::to_string(i%10);
++#endif
+ }
+ 
+ bool sortDirection = 0;
 -- 
 2.1.4
 
