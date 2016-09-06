@@ -5,7 +5,7 @@ SECTION = "libs"
 LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://${WORKDIR}/COPYING.GPL;md5=751419260aa954499f7abaabaa882bbe"
 
-inherit autotools pkgconfig systemd
+inherit autotools pkgconfig systemd gettext
 
 SYSTEMD_SERVICE_${PN} = "neutrino.service"
 
@@ -72,8 +72,6 @@ S = "${WORKDIR}/git"
 include neutrino-hd.inc
 
 do_configure_prepend() {
-	INSTALL="`which install` -p"
-	export INSTALL
 	ln -sf ${WORKDIR}/build/src/gui/version.h ${S}/src/gui/
 	sed -i "s|XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX|${YT_DEV_KEY}|" ${S}/src/neutrino.cpp
 	sed -i "s|XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX|${TMDB_DEV_KEY}|" ${S}/src/neutrino.cpp
@@ -87,7 +85,6 @@ do_compile () {
 
 
 do_install_prepend () {
-# change number to force rebuild "3"
 	install -d ${D}/${sysconfdir}/init.d ${D}${sysconfdir}/network ${D}/lib/systemd/system/
 	install -m 644 ${WORKDIR}/neutrino.service ${D}/lib/systemd/system/neutrino.service
 	install -m 755 ${WORKDIR}/custom-poweroff.init ${D}${sysconfdir}/init.d/custom-poweroff
@@ -104,8 +101,8 @@ do_install_prepend () {
 	echo "creator=${CREATOR}"             >> ${D}/.version 
 	echo "imagename=Neutrino-HD"             >> ${D}/.version 
 	echo "homepage=${HOMEPAGE}"              >> ${D}/.version 
-	HASH=$(cd ${S} && echo `git rev-parse --abbrev-ref HEAD` `git describe --always --tags --dirty`)
-	if [ ! -z ${RELEASE_TEXT_LOCATION_HOST} ];then 
+	if [ ! -z ${RELEASE_TEXT_LOCATION_HOST} ];then
+		HASH=$(cd ${S} && echo `git rev-parse --abbrev-ref HEAD` `git describe --always --tags --dirty`)
 		echo "${IMAGE_LOCATION} ${RELEASE_STATE}${DISTRO_VERSION_NUMBER_MAJOR}${DISTRO_VERSION_NUMBER_MINOR}"0"`date +%Y%m%d%H%M` MD5 ${HASH} ${DISTRO_VERSION}" > ${RELEASE_TEXT_LOCATION_HOST}
 	fi
 }
