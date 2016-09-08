@@ -3,7 +3,7 @@ HOMEPAGE = "http://ldb.samba.org"
 SECTION = "libs"
 LICENSE = "LGPL-3.0"
 
-DEPENDS += "libtdb talloc libtevent popt openldap"
+DEPENDS += "libtdb talloc libtevent popt openldap libbsd"
 RDEPENDS_${PN} += "libtevent popt libtalloc openldap"
 RDEPENDS_pyldb += "python libtdb libtalloc"
 
