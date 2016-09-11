@@ -34,6 +34,7 @@ RDEPENDS_packagegroup-custom-recommended ?= "\
     nfs-utils-client \
     ntfs-3g \
     ntfsprogs \
+    ntpdate \
     ni-logos \
     openssh \
     openssl \
