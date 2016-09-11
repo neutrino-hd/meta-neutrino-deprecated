@@ -27,10 +27,11 @@ do_install_append() {
 
 FILES_${PN} = "${bindir}/ntpd ${sbindir}/ntpd ${sysconfdir}/ntp.conf ${sysconfdir}/init.d/ntpd"
 FILES_ntpdate = "${bindir}/ntpdate ${sbindir}/ntpdate ${sysconfdir}/network/if-up.d/ntpdate"
-FILES_ntp-utils = "${bindir} ${sbindir} ${libdir}/ntp ${datadir}/ntp"
+FILES_ntp-utils = "${bindir} ${sbindir} ${libdir}/ntp ${datadir}/ntp /usr/libexec"
 
 RDEPENDS_${PN}-utils = "perl libevent bash perl-module-lib perl-module-version perl-module-socket perl-module-getopt-long"
 RDEPENDS_${PN} = "${PN}-tickadj libcap perl"
+RDEPENDS_${PN}-bin = "perl"
 
 pkg_postinst_ntpdate() {
 if test "x$D" != "x"; then
