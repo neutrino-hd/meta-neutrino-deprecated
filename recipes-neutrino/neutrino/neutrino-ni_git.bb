@@ -34,7 +34,7 @@ SRCREV ?= "${AUTOREV}"
 PV = "${SRCPV}"
 PR = "6"
 
-SRC_URI = "git://bitbucket.org/neutrino-images/ni-neutrino-hd.git;branch=ni/cst-next;protocol=http \
+SRC_URI = "git://bitbucket.org/neutrino-images/ni-neutrino-hd.git;branch=ni/tuxbox;protocol=http \
 	   file://neutrino.service \
 	   file://neutrino.sh \
 	   file://timezone.xml \
