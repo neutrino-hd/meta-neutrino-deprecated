@@ -53,7 +53,6 @@ SRC_URI = "git://bitbucket.org/neutrino-images/ni-neutrino-hd.git;branch=ni/tuxb
 	   file://0013-disable-network_services-menu.patch;apply=no \
 	   file://0016-dont-install-undotum.ttf-to-shrink-size.patch;apply=no \
 	   file://0017-sectionsd-remove-ifdef-unneeded-for-uclibc-ng.patch \
-	   file://0018-use-AV_CODEC_ID_H264-for-ffmpeg-3.0-compatibiliy.patch \
 	   file://opkg/0001-opkg_manager-remove-reboot-and-restart-trigger-files.patch \
 	   file://opkg/0003-opkg-0.3.x-uses-opkg-instead-of-opkg-cl-as-binary-na.patch \
 	   file://icons.tar.gz \
