@@ -1,0 +1,34 @@
+Author: Knicko <knicko@knicko-EP35-DS4>
+Date:   Tue Oct 25 21:15:53 2016 +0200
+
+    Revert "helpers: 201103L have to_string"
+    
+    This reverts commit 80f7d0a299b2e8f3172b5161fc4b007daa03faf1.
+
+diff --git a/src/system/helpers.cpp b/src/system/helpers.cpp
+index b751745..380f2f8 100644
+--- a/src/system/helpers.cpp
++++ b/src/system/helpers.cpp
+@@ -1254,7 +1254,7 @@ std::vector<std::string> split(const std::string &s, char delim)
+        return vec;
+ }
+ 
+-#if __cplusplus < 201103L
++#if __cplusplus <= 201103L
+ std::string to_string(int i)
+ {
+        std::stringstream s;
+diff --git a/src/system/helpers.h b/src/system/helpers.h
+index 373d82d..a18f495 100644
+--- a/src/system/helpers.h
++++ b/src/system/helpers.h
+@@ -119,7 +119,7 @@ class CFileHelpers
+ 
+ uint32_t GetWidth4FB_HW_ACC(const uint32_t _x, const uint32_t _w, const bool max=true);
+ 
+-#if __cplusplus < 201103L
++#if __cplusplus <= 201103L
+ std::string to_string(int);
+ std::string to_string(unsigned int);
+ std::string to_string(long);
+
