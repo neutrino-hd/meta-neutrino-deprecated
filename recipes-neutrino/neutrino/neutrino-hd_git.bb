@@ -1,6 +1,6 @@
 SUMMARY = "Neutrino HD"
 DESCRIPTION = "CST Neutrino HD for Coolstream Settop Boxes."
-HOMEPAGE = "http://git.coolstreamtech.de"
+HOMEPAGE = "https://github.com/tuxbox-neutrino"
 SECTION = "libs"
 LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://${WORKDIR}/COPYING.GPL;md5=751419260aa954499f7abaabaa882bbe"
@@ -32,7 +32,7 @@ SRCREV ?= "${AUTOREV}"
 PV = "${SRCPV}"
 PR = "6"
 
-SRC_URI = "git://coolstreamtech.de/cst-public-gui-neutrino.git;branch=cst-next \
+SRC_URI = "git://github.com/tuxbox-neutrino/gui-neutrino.git;branch=master;protocol=http \
 	   file://neutrino.init \
 	   file://timezone.xml \
 	   file://custom-poweroff.init \
