@@ -1,6 +1,6 @@
 SUMMARY = "Neutrino HD"
 DESCRIPTION = "CST Neutrino HD for Coolstream Settop Boxes."
-HOMEPAGE = "http://git.coolstreamtech.de"
+HOMEPAGE = "https://github.com/tuxbox-neutrino"
 SECTION = "libs"
 LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://${WORKDIR}/COPYING.GPL;md5=751419260aa954499f7abaabaa882bbe"
@@ -34,7 +34,7 @@ SRCREV ?= "${AUTOREV}"
 PV = "${SRCPV}"
 PR = "6"
 
-SRC_URI = "git://github.com/coolstreamtech/cst-public-gui-neutrino.git;branch=cst-next \
+SRC_URI = "git://github.com/tuxbox-neutrino/gui-neutrino.git;branch=master;protocol=http \
 	   file://neutrino.service \
 	   file://neutrino.sh \
 	   file://timezone.xml \
@@ -44,8 +44,9 @@ SRC_URI = "git://github.com/coolstreamtech/cst-public-gui-neutrino.git;branch=cs
 	   file://mount.mdev \
 	   file://interfaces \
 	   file://COPYING.GPL \
+	   file://0001-revert-helpers-have-to-string.patch \
+	   file://0001-revert-system-helpers-for-gcc6-build.patch \
 	   file://0001-fix-for-gcc-6.x.patch \
-	   file://0001-configure_fix.patch \
 	   file://0007-imageinfo.cpp-change-version-output.patch \
 	   file://0008-rcsim.c-fix-eventdev-for-yocto.patch \
 	   file://0009-src-nhttpd-tuxboxapi-controlapi.cpp-fix-eventdev-for.patch \
