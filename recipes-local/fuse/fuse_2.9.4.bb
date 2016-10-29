@@ -19,7 +19,7 @@ SRC_URI[sha256sum] = "6be9c0bff6af8c677414935f31699ea5a7f8f5f791cfa5205be02ea186
 
 inherit autotools pkgconfig
 
-DEPENDS = "gettext-native"
+DEPENDS = "gettext-native virtual/libiconv"
 
 PACKAGES =+ "fuse-utils-dbg fuse-utils libulockmgr libulockmgr-dev libulockmgr-dbg"
 

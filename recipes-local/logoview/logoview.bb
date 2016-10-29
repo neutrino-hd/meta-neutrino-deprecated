@@ -4,7 +4,7 @@ LICENSE = "GPL-2.0"
 PRIORITY = "optional"
 LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
 
-SRC_URI = "git://coolstreamtech.de/cst-public-plugins-logoview.git \
+SRC_URI = "git://github.com/tuxbox-neutrino/plugin-logoview.git \
 	   file://logoview \
 "
 

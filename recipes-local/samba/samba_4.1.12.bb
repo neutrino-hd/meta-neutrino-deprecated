@@ -170,4 +170,6 @@ FILES_${PN}-python-dbg = "${libdir}/python${PYTHON_BASEVERSION}/site-packages/.d
                           ${libdir}/python${PYTHON_BASEVERSION}/site-packages/samba/dcerpc/.debug/* \
                          "
 
-FILES_${PN}-pidl = "${datadir}/perl5/*"
+FILES_${PN}-pidl = "${datadir}/perl5/ \
+                    ${libdir}/perl \
+"

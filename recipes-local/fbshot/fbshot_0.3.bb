@@ -11,7 +11,7 @@ PR = "r5.1"
 
 
 SRC_URI = " \
-	http://www.sfires.net/stuff/fbshot/fbshot-0.3.tar.gz \
+	http://distro.ibiblio.org/amigolinux/download/Utils/fbshot/fbshot-0.3.tar.gz \
         file://oe-makefile-fix.patch \
         file://fbshot-0.3-32bit_cs_fb.diff \
         file://fbshot-0.3-32bit_td_fb.diff \
