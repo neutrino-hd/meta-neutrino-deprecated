@@ -45,8 +45,6 @@ SRC_URI = "git://bitbucket.org/neutrino-images/ni-neutrino-hd.git;branch=ni/tuxb
 	   file://interfaces \
 	   file://COPYING.GPL \
 	   file://0001-infoviewer_bb.cpp-dont-access-cam.patch \
-	   file://0001-revert-helpers-have-to-string.patch \
-	   file://0001-revert-system-helpers-for-gcc6-build.patch \
 	   file://0001-fix-for-gcc-6.x.patch \
 	   file://0008-rcsim.c-fix-eventdev-for-yocto.patch \
 	   file://0009-src-nhttpd-tuxboxapi-controlapi.cpp-fix-eventdev-for.patch \
