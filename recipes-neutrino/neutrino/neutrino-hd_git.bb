@@ -1,6 +1,6 @@
 SUMMARY = "Neutrino HD"
 DESCRIPTION = "CST Neutrino HD for Coolstream Settop Boxes."
-HOMEPAGE = "http://git.coolstreamtech.de"
+HOMEPAGE = "https://github.com/tuxbox-neutrino"
 SECTION = "libs"
 LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://${WORKDIR}/COPYING.GPL;md5=751419260aa954499f7abaabaa882bbe"
@@ -40,7 +40,6 @@ SRC_URI = "git://github.com/tuxbox-neutrino/gui-neutrino.git;protocol=http;branc
 	   file://post-wlan0.sh \
 	   file://mount.mdev \
 	   file://COPYING.GPL \
-	   file://0001-configure_fix.patch \
 	   file://0007-imageinfo.cpp-change-version-output.patch \
 	   file://0008-rcsim.c-fix-eventdev-for-yocto.patch \
 	   file://0009-src-nhttpd-tuxboxapi-controlapi.cpp-fix-eventdev-for.patch \
@@ -49,7 +48,6 @@ SRC_URI = "git://github.com/tuxbox-neutrino/gui-neutrino.git;protocol=http;branc
 	   file://0013-disable-network_services-menu.patch \
 	   file://0016-dont-install-undotum.ttf-to-shrink-size.patch \
 	   file://0017-sectionsd-remove-ifdef-unneeded-for-uclibc-ng.patch \
-	   file://0018-use-AV_CODEC_ID_H264-for-ffmpeg-3.0-compatibiliy.patch \
 	   file://opkg/0001-opkg_manager-remove-reboot-and-restart-trigger-files.patch \
 	   file://opkg/0003-opkg-0.3.x-uses-opkg-instead-of-opkg-cl-as-binary-na.patch \
 	   file://icons.tar.gz \
