@@ -32,7 +32,7 @@ SRCREV ?= "${AUTOREV}"
 PV = "${SRCPV}"
 PR = "6"
 
-SRC_URI = "git://coolstreamtech.de/cst-public-gui-neutrino.git;branch=cst-next \
+SRC_URI = "git://github.com/tuxbox-neutrino/gui-neutrino.git;protocol=http;branch=master \
 	   file://neutrino.init \
 	   file://timezone.xml \
 	   file://custom-poweroff.init \

@@ -31,7 +31,6 @@ copy_image_hd1() {
 			mv ${DEPLOY_DIR_IMAGE}/flashimage/coolstream/system.img ${DEPLOY_DIR_IMAGE}/flashimage/coolstream/flashimage.img
 			fi
 	else rm -rf ${DEPLOY_DIR_IMAGE}/flashimage/coolstream/*
-	touch ${DEPLOY_DIR_IMAGE}/flashimage/coolstream/"please select IMAGETYPE ?= \"tiny\" in local.conf"
 	fi
 }
 

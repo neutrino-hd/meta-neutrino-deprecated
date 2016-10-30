@@ -26,8 +26,6 @@ RDEPENDS_packagegroup-custom-utils = "\
     grep \
     hdparm \
     makedevs \
-    man \
-    man-pages \
     mktemp \
     mtd-utils \
     pax \

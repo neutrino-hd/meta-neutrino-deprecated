@@ -1,26 +1,25 @@
-From 33adb668fd9ed000faee2f72917974179333ff13 Mon Sep 17 00:00:00 2001
-From: MarkusVolk <f_l_k@t-online.de>
-Date: Sun, 26 Jul 2015 11:45:54 +0200
-Subject: [PATCH 6779/6779] nhttpd: adjust some paths
+From 74ccbe23005bb3fc37e4401a01b57aeeb4a3e53a Mon Sep 17 00:00:00 2001
+From: Markus Volk <flk@s19091543.onlinehome-server.info>
+Date: Thu, 6 Oct 2016 20:06:10 +0200
+Subject: [PATCH] fix
 
-Signed-off-by: MarkusVolk <f_l_k@t-online.de>
+
+Signed-off-by: Markus Volk <flk@s19091543.onlinehome-server.info>
 ---
- src/nhttpd/doc/Changelog.txt                    |  2 +-
- src/nhttpd/web/extentions/boxinfo/install.sh    |  2 +-
- src/nhttpd/web/extentions/boxinfo/uninstall.sh  |  2 +-
- src/nhttpd/web/extentions/hddtools/install.sh   |  2 +-
- src/nhttpd/web/extentions/hddtools/uninstall.sh |  2 +-
- src/nhttpd/web/languages/Czech                  |  2 +-
- src/nhttpd/web/languages/Deutsch                |  2 +-
- src/nhttpd/web/languages/English                |  2 +-
- src/nhttpd/web/languages/Polski                 |  2 +-
- src/nhttpd/web/languages/Portuguese             |  6 +++---
- src/nhttpd/web/languages/Slovak                 |  2 +-
- src/nhttpd/web/scripts/Y_Live.sh                |  4 ++--
- src/nhttpd/web/scripts/Y_Tools.sh               | 12 ++++++------
- src/nhttpd/web/scripts/_Y_Globals.sh            |  2 +-
- src/nhttpd/web/scripts/api.sh                   |  2 +-
- 15 files changed, 23 insertions(+), 23 deletions(-)
+ src/nhttpd/doc/Changelog.txt                    |    2 +-
+ src/nhttpd/web/extentions/boxinfo/install.sh    |    2 +-
+ src/nhttpd/web/extentions/boxinfo/uninstall.sh  |    2 +-
+ src/nhttpd/web/extentions/hddtools/install.sh   |    2 +-
+ src/nhttpd/web/extentions/hddtools/uninstall.sh |    2 +-
+ src/nhttpd/web/languages/Czech                  |    2 +-
+ src/nhttpd/web/languages/Deutsch                |    2 +-
+ src/nhttpd/web/languages/English                |    2 +-
+ src/nhttpd/web/languages/Polski                 |    2 +-
+ src/nhttpd/web/languages/Portuguese             |    6 +++---
+ src/nhttpd/web/languages/Slovak                 |    2 +-
+ src/nhttpd/web/scripts/_Y_Globals.sh            |    2 +-
+ src/nhttpd/web/scripts/api.sh                   |    2 +-
+ 13 files changed, 15 insertions(+), 15 deletions(-)
 
 diff --git a/src/nhttpd/doc/Changelog.txt b/src/nhttpd/doc/Changelog.txt
 index f06bd2b..e80b1a8 100644
@@ -36,57 +35,57 @@ index f06bd2b..e80b1a8 100644
  5-Enhancement	JG200000507	Live: MiniEPG only on demand					R2.0.1
  
 diff --git a/src/nhttpd/web/extentions/boxinfo/install.sh b/src/nhttpd/web/extentions/boxinfo/install.sh
-index 2ce6a4f..f9d218f 100755
+index 7719d2f..395f2ae 100755
 --- a/src/nhttpd/web/extentions/boxinfo/install.sh
 +++ b/src/nhttpd/web/extentions/boxinfo/install.sh
 @@ -16,7 +16,7 @@ yI_Version="$Revision: 1.3 $"
  # -----------------------------------------------------------
  # Dirs
  # -----------------------------------------------------------
--y_path_usrbin="/var/bin"
-+y_path_usrbin="/usr/bin"
- y_path_config="/var/tuxbox/config"
+-y_path_varbin="/var/bin"
++y_path_varbin="/usr/bin"
+ y_path_config="%(CONFIGDIR)"
  y_path_tmp="/tmp"
- y_ywebover_dir="/var/httpd"
+ y_ywebover_dir="%(PUBLIC_HTTPDDIR)"
 diff --git a/src/nhttpd/web/extentions/boxinfo/uninstall.sh b/src/nhttpd/web/extentions/boxinfo/uninstall.sh
-index ec83bbc..3287849 100755
+index e4024ba..dbe2426 100755
 --- a/src/nhttpd/web/extentions/boxinfo/uninstall.sh
 +++ b/src/nhttpd/web/extentions/boxinfo/uninstall.sh
 @@ -16,7 +16,7 @@ yI_Version="$Revision: 1.4 $"
  # -----------------------------------------------------------
  # Dirs
  # -----------------------------------------------------------
--y_path_usrbin="/var/bin"
-+y_path_usrbin="/usr/bin"
- y_path_config="/var/tuxbox/config"
+-y_path_varbin="/var/bin"
++y_path_varbin="/usr/bin"
+ y_path_config="%(CONFIGDIR)"
  y_path_tmp="/tmp"
- y_ywebover_dir="/var/httpd"
+ y_ywebover_dir="%(PUBLIC_HTTPDDIR)"
 diff --git a/src/nhttpd/web/extentions/hddtools/install.sh b/src/nhttpd/web/extentions/hddtools/install.sh
-index 2ce6a4f..f9d218f 100755
+index 7719d2f..395f2ae 100755
 --- a/src/nhttpd/web/extentions/hddtools/install.sh
 +++ b/src/nhttpd/web/extentions/hddtools/install.sh
 @@ -16,7 +16,7 @@ yI_Version="$Revision: 1.3 $"
  # -----------------------------------------------------------
  # Dirs
  # -----------------------------------------------------------
--y_path_usrbin="/var/bin"
-+y_path_usrbin="/usr/bin"
- y_path_config="/var/tuxbox/config"
+-y_path_varbin="/var/bin"
++y_path_varbin="/usr/bin"
+ y_path_config="%(CONFIGDIR)"
  y_path_tmp="/tmp"
- y_ywebover_dir="/var/httpd"
+ y_ywebover_dir="%(PUBLIC_HTTPDDIR)"
 diff --git a/src/nhttpd/web/extentions/hddtools/uninstall.sh b/src/nhttpd/web/extentions/hddtools/uninstall.sh
-index ec83bbc..3287849 100755
+index e4024ba..dbe2426 100755
 --- a/src/nhttpd/web/extentions/hddtools/uninstall.sh
 +++ b/src/nhttpd/web/extentions/hddtools/uninstall.sh
 @@ -16,7 +16,7 @@ yI_Version="$Revision: 1.4 $"
  # -----------------------------------------------------------
  # Dirs
  # -----------------------------------------------------------
--y_path_usrbin="/var/bin"
-+y_path_usrbin="/usr/bin"
- y_path_config="/var/tuxbox/config"
+-y_path_varbin="/var/bin"
++y_path_varbin="/usr/bin"
+ y_path_config="%(CONFIGDIR)"
  y_path_tmp="/tmp"
- y_ywebover_dir="/var/httpd"
+ y_ywebover_dir="%(PUBLIC_HTTPDDIR)"
 diff --git a/src/nhttpd/web/languages/Czech b/src/nhttpd/web/languages/Czech
 index 8eace70..bf6e5dc 100644
 --- a/src/nhttpd/web/languages/Czech
@@ -101,10 +100,10 @@ index 8eace70..bf6e5dc 100644
  bc.menue.screenshot_desc=vytvoří obrázek z osd a/nebo TV bez mřižky
  
 diff --git a/src/nhttpd/web/languages/Deutsch b/src/nhttpd/web/languages/Deutsch
-index 5355382..6540ccb 100644
+index e726ac5..14bb5c5 100644
 --- a/src/nhttpd/web/languages/Deutsch
 +++ b/src/nhttpd/web/languages/Deutsch
-@@ -89,7 +89,7 @@ bc.menue.remote_desc=Fernbedinung
+@@ -106,7 +106,7 @@ bc.menue.remote_desc=Fernbedienung
  bc.menue.remote=Fernbedienung
  bc.menue.lcd_screenshot_desc=LCD Screenshot erstellen
  bc.menue.lcd_screenshot=LCD Screenshot
@@ -114,10 +113,10 @@ index 5355382..6540ccb 100644
  bc.menue.screenshot_desc=Screenshot des OSDs und/oder des TV-Bildes erstellen
  
 diff --git a/src/nhttpd/web/languages/English b/src/nhttpd/web/languages/English
-index 5d8d454..4b1e70b 100644
+index 8ee0e17..069ab32 100644
 --- a/src/nhttpd/web/languages/English
 +++ b/src/nhttpd/web/languages/English
-@@ -91,7 +91,7 @@ bc.menue.remote_desc=Web-based Remote Control
+@@ -108,7 +108,7 @@ bc.menue.remote_desc=Web-based Remote Control
  bc.menue.remote=Remote
  bc.menue.lcd_screenshot_desc=make lcd screenshot
  bc.menue.lcd_screenshot=LCD Screenshot
@@ -175,83 +174,32 @@ index 440ce4e..ea30fd5 100644
  bc.menue.screenshot=Zosnímanie TV obrazovky
  bc.menue.screenshot_desc=vytvorí obrázok z osd a/alebo TV bez mierky
  
-diff --git a/src/nhttpd/web/scripts/Y_Live.sh b/src/nhttpd/web/scripts/Y_Live.sh
-index e10efdc..8485681 100755
---- a/src/nhttpd/web/scripts/Y_Live.sh
-+++ b/src/nhttpd/web/scripts/Y_Live.sh
-@@ -95,9 +95,9 @@ case "$1" in
- 			killall streamts
- 			killall streampes
- 			killall udpstreamts
--			if [ -e /var/bin/udpstreamts ]
-+			if [ -e /usr/bin/udpstreamts ]
- 			then
--				/var/bin/udpstreamts $* &
-+				/usr/bin/udpstreamts $* &
- 			else
- 				udpstreamts $* &
- 			fi
-diff --git a/src/nhttpd/web/scripts/Y_Tools.sh b/src/nhttpd/web/scripts/Y_Tools.sh
-index dffc7a5..20b54f3 100755
---- a/src/nhttpd/web/scripts/Y_Tools.sh
-+++ b/src/nhttpd/web/scripts/Y_Tools.sh
-@@ -471,8 +471,8 @@ wol()
- # -----------------------------------------------------------
- do_lcshot()
- {
--	if [ -e "/var/bin/lcshot" ]; then
--		/var/bin/lcshot $*
-+	if [ -e "/usr/bin/lcshot" ]; then
-+		/usr/bin/lcshot $*
- 	else
- 		/bin/lcshot $*
- 	fi
-@@ -485,15 +485,15 @@ do_fbshot()
- {
- 	if [ "$1" = "fb" ]; then
- 		shift 1
--		if [ -e "/var/bin/fbshot" ]; then
--			/var/bin/fbshot $*
-+		if [ -e "/usr/bin/fbshot" ]; then
-+			/usr/bin/fbshot $*
- 		else
- 			fbshot $*
- 		fi
- 	else
- 		shift 1
--		if [ -e "/var/bin/dboxshot" ]; then
--			/var/bin/dboxshot $*
-+		if [ -e "/usr/bin/dboxshot" ]; then
-+			/usr/bin/dboxshot $*
- 		else
- 			dboxshot $*
- 		fi
 diff --git a/src/nhttpd/web/scripts/_Y_Globals.sh b/src/nhttpd/web/scripts/_Y_Globals.sh
-index ed3206e..2de7eb5 100755
+index db9fa04..020ef9a 100755
 --- a/src/nhttpd/web/scripts/_Y_Globals.sh
 +++ b/src/nhttpd/web/scripts/_Y_Globals.sh
-@@ -16,7 +16,7 @@ boxtype="coolstream"
- #y_path_httpd="/share/tuxbox/neutrino/httpd-y"
+@@ -17,7 +17,7 @@ boxtype="coolstream"
  y_path_httpd=".."
  y_path_scripts="$y_path_httpd/scripts"
--y_path_usrbin="/var/bin"
-+y_path_usrbin="/usr/bin"
- y_path_config="/var/tuxbox/config"
+ y_path_bin="/bin"
+-y_path_varbin="/var/bin"
++y_path_varbin="/usr/bin"
+ y_path_sbin="/sbin"
+ y_path_config="%(CONFIGDIR)"
  y_path_tmp="/tmp"
- y_path_zapit="/var/tuxbox/config/zapit"
 diff --git a/src/nhttpd/web/scripts/api.sh b/src/nhttpd/web/scripts/api.sh
-index dfe9b83..6c7bcf1 100755
+index 126907f..33636a4 100755
 --- a/src/nhttpd/web/scripts/api.sh
 +++ b/src/nhttpd/web/scripts/api.sh
-@@ -10,7 +10,7 @@ API_VERSION_MINOR="0"
- API_VERSION_TEXT="$API_VERSION_MAJOR.$API_VERSION_MINOR"
+@@ -12,7 +12,7 @@ API_VERSION_TEXT="$API_VERSION_MAJOR.$API_VERSION_MINOR"
  path_httpd=".."
  path_scripts="$path_httpd/scripts"
--path_usrbin="/var/bin"
-+path_usrbin="/usr/bin"
+ path_bin="/bin"
+-path_varbin="/var/bin"
++path_varbin="/usr/bin"
  path_sbin="/sbin"
- path_config="/var/tuxbox/config"
+ path_config="%(CONFIGDIR)"
  path_tmp="/tmp"
 -- 
-2.1.4
+1.7.10.4
 

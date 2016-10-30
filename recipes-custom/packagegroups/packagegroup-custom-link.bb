@@ -10,41 +10,28 @@ LICENSE = "MIT"
 inherit packagegroup
 
 PACKAGES = "\
-    packagegroup-custom-recommended \
+    packagegroup-custom-link \
     "
 
 
-RDEPENDS_packagegroup-custom-recommended ?= "\
+RDEPENDS_packagegroup-custom-link ?= "\
     autofs \
-    cifs-utils \
     dosfstools \
     etckeeper \
     exfat-utils \
-    htop \
-    inotify-tools \
     libevent \
     logrotate \
-    mc \
-    mc-fish \
-    mc-helpers \
-    mc-helpers-perl \
-    mc-helpers-python \
     minidlna \
     nano \
     neutrino-plugin-logo \
     nfs-utils \
     nfs-utils-client \
     ntfs-3g \
-    ntfsprogs \
-    ni-logos \
     openssh \
     openssl \
     parted \
     rpcbind \
-    samba \
     sysklogd \
-    tmux \
-    wpa-supplicant \
 "
     
 

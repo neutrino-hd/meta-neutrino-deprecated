@@ -6,7 +6,7 @@ HOMEPAGE = "http://www.ng-return.com/wbb2/index.php?page=Thread&postID=334856#po
 
 S = "${WORKDIR}"
 
-PR = "r1"
+PR = "r2"
 
 SRC_URI = "file://logo-addon.sh \
 	   file://logo-addon_hint.png \
