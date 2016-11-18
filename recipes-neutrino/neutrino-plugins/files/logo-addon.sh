@@ -2,11 +2,11 @@
 
 ###############################################################################
 #
-# Senderlogo-Updater 0.05 fred_feuerstein [NI-Team]
+# Senderlogo-Updater 0.15 fred_feuerstein [NI-Team]
 #
 # Ziel:
 # Mit dem Updater werden die neuen und/oder geänderten Senderlogos seit dem
-# letzten NI Image Release (aktuell NI 3.1) ins Image geholt.
+# letzten NI Image Release (aktuell NI 3.2) ins Image geholt.
 # Diese werden automatisch in das Logo-Verzeichnis:
 # /share/tuxbox/neutrino/icons/logo kopiert bzw. vorhandene aktualisiert.
 # Dazu ist eine Internetverbindung erforderlich.
@@ -14,9 +14,12 @@
 # Thread: Kleines Logopaket (Ergaenzung zum X.xx NI Image)
 # Dort ist auch zusätzlich bei Bedarf ein Radio-Senderlogo-Paket zu finden.
 #
-# Achtung: der Senderlogo-Updater ist nur für SAT !
+# 
 #
 # Changelog:
+# 0.15 = Anpassungen an Update-Skript
+# 0.14 = Anpassungen an Update-Skript
+# 0.13 = Anpassungen an Update-Skript
 # 0.05 = Download-URL und Dateiname angepasst (NG -> NI)
 # 0.04 = Marginale Ausgabe-Änderungen
 # 0.03 = kleine Änderungen
@@ -28,6 +31,7 @@
 
 archive="ni_zusatzlogos.zip"
 workdir=${archive%%.*}
+echo $archive >> /tmp/logo.txt
 
 cleanup() {
 	rm -rf /tmp/$workdir /tmp/$archive
@@ -44,7 +48,7 @@ if [ -e $archive ]; then
 	unzip /tmp/$archive >/dev/null
 
 	if [ -e info.txt ]; then
-		msgbox msg=/tmp/$workdir/info.txt title="Info zum Logo-Addon" >/dev/null
+		msgbox msg=/tmp/$workdir/info.txt title="Info zum Logo-Updater" >/dev/null
 	fi
 
 	test -e updates && chmod 755 updates && ./updates
