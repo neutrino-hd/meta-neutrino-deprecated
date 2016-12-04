@@ -2,7 +2,7 @@
 
 ###############################################################################
 #
-# Senderlogo-Updater 0.15 fred_feuerstein [NI-Team]
+# Senderlogo-Updater 0.16 fred_feuerstein [NI-Team]
 #
 # Ziel:
 # Mit dem Updater werden die neuen und/oder geänderten Senderlogos seit dem
@@ -17,6 +17,7 @@
 # 
 #
 # Changelog:
+# 0.16 = Logo-Updater kann nun auch vor dem Start wieder beendet werden
 # 0.15 = Anpassungen an Update-Skript
 # 0.14 = Anpassungen an Update-Skript
 # 0.13 = Anpassungen an Update-Skript
@@ -33,6 +34,8 @@ archive="ni_zusatzlogos.zip"
 workdir=${archive%%.*}
 echo $archive >> /tmp/logo.txt
 
+vinfo="0.16"
+
 cleanup() {
 	rm -rf /tmp/$workdir /tmp/$archive
 }
@@ -48,12 +51,31 @@ if [ -e $archive ]; then
 	unzip /tmp/$archive >/dev/null
 
 	if [ -e info.txt ]; then
-		msgbox msg=/tmp/$workdir/info.txt title="Info zum Logo-Updater" >/dev/null
+	
+	
+	
+	
+		msgbox msg=/tmp/$workdir/info.txt title="Info zum Logo-Updater "$vinfo select="OK,CANCEL" default=1 >/dev/null
+    auswahl=$?
+		case $auswahl	in
+		1)
+      #Logo-Updater ausfuehren
+			test -e updates && chmod 755 updates && ./updates
+    	echo "- Logo-Updater erfolgreich beendet."
+			;;
+		2)
+	    #Abbruch
+      echo "- Logo-Updater beendet"
+			;;
+		*)
+			#break
+			echo "- Logo-Updater beendet"
+			;;
+		esac
+
+
 	fi
 
-	test -e updates && chmod 755 updates && ./updates
-
-	echo "- Logo-Updater erfolgreich beendet."
 else
 	echo "- Fehler beim Download von $archive"
 fi
