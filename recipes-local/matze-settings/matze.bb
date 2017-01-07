@@ -1,11 +1,11 @@
-DESCRIPTION = "Matze Settings A+H 05.11.2016,Danke Matze"
+DESCRIPTION = "Matze Settings A+H 30.12.2016,Danke Matze"
 LICENSE = "proprietary"
 LIC_FILES_CHKSUM = "file://license;md5=17a6b3d5436a55985b200c725761907a"
 HOMEPAGE = "http://matzesetting.brinkster.net/"
 
 S = "${WORKDIR}"
 
-PR = "r6"
+PR = "r7"
 
 SRC_URI = " \
         file://ubouquets.xml \
