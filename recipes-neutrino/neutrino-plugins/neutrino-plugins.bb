@@ -3,7 +3,7 @@ LICENSE = "GPLv2+"
 LIC_FILES_CHKSUM = "file://tuxcom/tuxcom.c;beginline=10;endline=24;md5=8cfd78763de33face1d26b11904e84d5"
 DEPENDS = "freetype ffmpeg zlib libxml2 virtual/libiconv openssl"
 SRCREV = "${AUTOREV}"
-PV = "6"
+PV = "8"
 
 SRC_URI = "git://github.com/MarkusVolk/neutrino-hd-plugins.git;branch=master;protocol=git \
 "
