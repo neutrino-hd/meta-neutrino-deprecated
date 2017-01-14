@@ -6,38 +6,24 @@ Subject: [PATCH] fix
 
 Signed-off-by: Markus Volk <flk@s19091543.onlinehome-server.info>
 ---
- src/nhttpd/doc/Changelog.txt                    |    2 +-
- src/nhttpd/web/extentions/boxinfo/install.sh    |    2 +-
- src/nhttpd/web/extentions/boxinfo/uninstall.sh  |    2 +-
- src/nhttpd/web/extentions/hddtools/install.sh   |    2 +-
- src/nhttpd/web/extentions/hddtools/uninstall.sh |    2 +-
- src/nhttpd/web/languages/Czech                  |    2 +-
- src/nhttpd/web/languages/Deutsch                |    2 +-
- src/nhttpd/web/languages/English                |    2 +-
- src/nhttpd/web/languages/Polski                 |    2 +-
- src/nhttpd/web/languages/Portuguese             |    6 +++---
- src/nhttpd/web/languages/Slovak                 |    2 +-
- src/nhttpd/web/scripts/_Y_Globals.sh            |    2 +-
- src/nhttpd/web/scripts/api.sh                   |    2 +-
+ data/y-web/extentions/boxinfo/install.sh    |    2 +-
+ data/y-web/extentions/boxinfo/uninstall.sh  |    2 +-
+ data/y-web/extentions/hddtools/install.sh   |    2 +-
+ data/y-web/extentions/hddtools/uninstall.sh |    2 +-
+ data/y-web/languages/Czech                  |    2 +-
+ data/y-web/languages/Deutsch                |    2 +-
+ data/y-web/languages/English                |    2 +-
+ data/y-web/languages/Polski                 |    2 +-
+ data/y-web/languages/Portuguese             |    6 +++---
+ data/y-web/languages/Slovak                 |    2 +-
+ data/y-web/scripts/_Y_Globals.sh            |    2 +-
+ data/y-web/scripts/api.sh                   |    2 +-
  13 files changed, 15 insertions(+), 15 deletions(-)
 
-diff --git a/src/nhttpd/doc/Changelog.txt b/src/nhttpd/doc/Changelog.txt
-index f06bd2b..e80b1a8 100644
---- a/src/nhttpd/doc/Changelog.txt
-+++ b/src/nhttpd/doc/Changelog.txt
-@@ -37,7 +37,7 @@ Severity	id		Headline							Build
- 5-Enhancement	JG200000514	Settings: Diverse: add EPG-Settings				R2.0.2
- 5-Enhancement	JG200000513	Settings: Diverse: add Virtual zap				R2.0.2
- 
--3-Average	JG200000504	fix: call dboxshot correctly if installed in /var/bin (in Remote OSD)	R2.0.1
-+3-Average	JG200000504	fix: call dboxshot correctly if installed in /usr/bin (in Remote OSD)	R2.0.1
- 3-Average	JG200000506	Live: fixed Problems switching channels in LiveTV/Radio		R2.0.1
- 5-Enhancement	JG200000507	Live: MiniEPG only on demand					R2.0.1
- 
-diff --git a/src/nhttpd/web/extentions/boxinfo/install.sh b/src/nhttpd/web/extentions/boxinfo/install.sh
+diff --git a/data/y-web/extentions/boxinfo/install.sh b/src/nhttpd/web/extentions/boxinfo/install.sh
 index 7719d2f..395f2ae 100755
---- a/src/nhttpd/web/extentions/boxinfo/install.sh
-+++ b/src/nhttpd/web/extentions/boxinfo/install.sh
+--- a/data/y-web/extentions/boxinfo/install.sh
++++ b/data/y-web/extentions/boxinfo/install.sh
 @@ -16,7 +16,7 @@ yI_Version="$Revision: 1.3 $"
  # -----------------------------------------------------------
  # Dirs
@@ -47,10 +33,10 @@ index 7719d2f..395f2ae 100755
  y_path_config="%(CONFIGDIR)"
  y_path_tmp="/tmp"
  y_ywebover_dir="%(PUBLIC_HTTPDDIR)"
-diff --git a/src/nhttpd/web/extentions/boxinfo/uninstall.sh b/src/nhttpd/web/extentions/boxinfo/uninstall.sh
+diff --git a/data/y-web/extentions/boxinfo/uninstall.sh b/src/nhttpd/web/extentions/boxinfo/uninstall.sh
 index e4024ba..dbe2426 100755
---- a/src/nhttpd/web/extentions/boxinfo/uninstall.sh
-+++ b/src/nhttpd/web/extentions/boxinfo/uninstall.sh
+--- a/data/y-web/extentions/boxinfo/uninstall.sh
++++ b/data/y-web/extentions/boxinfo/uninstall.sh
 @@ -16,7 +16,7 @@ yI_Version="$Revision: 1.4 $"
  # -----------------------------------------------------------
  # Dirs
@@ -60,10 +46,10 @@ index e4024ba..dbe2426 100755
  y_path_config="%(CONFIGDIR)"
  y_path_tmp="/tmp"
  y_ywebover_dir="%(PUBLIC_HTTPDDIR)"
-diff --git a/src/nhttpd/web/extentions/hddtools/install.sh b/src/nhttpd/web/extentions/hddtools/install.sh
+diff --git a/data/y-web/extentions/hddtools/install.sh b/src/nhttpd/web/extentions/hddtools/install.sh
 index 7719d2f..395f2ae 100755
---- a/src/nhttpd/web/extentions/hddtools/install.sh
-+++ b/src/nhttpd/web/extentions/hddtools/install.sh
+--- a/data/y-web/extentions/hddtools/install.sh
++++ b/data/y-web/extentions/hddtools/install.sh
 @@ -16,7 +16,7 @@ yI_Version="$Revision: 1.3 $"
  # -----------------------------------------------------------
  # Dirs
@@ -73,10 +59,10 @@ index 7719d2f..395f2ae 100755
  y_path_config="%(CONFIGDIR)"
  y_path_tmp="/tmp"
  y_ywebover_dir="%(PUBLIC_HTTPDDIR)"
-diff --git a/src/nhttpd/web/extentions/hddtools/uninstall.sh b/src/nhttpd/web/extentions/hddtools/uninstall.sh
+diff --git a/data/y-web/extentions/hddtools/uninstall.sh b/src/nhttpd/web/extentions/hddtools/uninstall.sh
 index e4024ba..dbe2426 100755
---- a/src/nhttpd/web/extentions/hddtools/uninstall.sh
-+++ b/src/nhttpd/web/extentions/hddtools/uninstall.sh
+--- a/data/y-web/extentions/hddtools/uninstall.sh
++++ b/data/y-web/extentions/hddtools/uninstall.sh
 @@ -16,7 +16,7 @@ yI_Version="$Revision: 1.4 $"
  # -----------------------------------------------------------
  # Dirs
@@ -86,10 +72,10 @@ index e4024ba..dbe2426 100755
  y_path_config="%(CONFIGDIR)"
  y_path_tmp="/tmp"
  y_ywebover_dir="%(PUBLIC_HTTPDDIR)"
-diff --git a/src/nhttpd/web/languages/Czech b/src/nhttpd/web/languages/Czech
+diff --git a/data/y-web/languages/Czech b/src/nhttpd/web/languages/Czech
 index 8eace70..bf6e5dc 100644
---- a/src/nhttpd/web/languages/Czech
-+++ b/src/nhttpd/web/languages/Czech
+--- a/data/y-web/languages/Czech
++++ b/data/y-web/languages/Czech
 @@ -87,7 +87,7 @@ bc.menue.remote_desc=Webový Dálkový ovladač
  bc.menue.remote=Ovladač
  bc.menue.lcd_screenshot_desc=Vytvoří obrázek OSD zobrazení v mřížce
@@ -99,10 +85,10 @@ index 8eace70..bf6e5dc 100644
  bc.menue.screenshot=Zesnímání TV obrazovky
  bc.menue.screenshot_desc=vytvoří obrázek z osd a/nebo TV bez mřižky
  
-diff --git a/src/nhttpd/web/languages/Deutsch b/src/nhttpd/web/languages/Deutsch
+diff --git a/data/y-web/languages/Deutsch b/src/nhttpd/web/languages/Deutsch
 index e726ac5..14bb5c5 100644
---- a/src/nhttpd/web/languages/Deutsch
-+++ b/src/nhttpd/web/languages/Deutsch
+--- a/data/y-web/languages/Deutsch
++++ b/data/y-web/languages/Deutsch
 @@ -106,7 +106,7 @@ bc.menue.remote_desc=Fernbedienung
  bc.menue.remote=Fernbedienung
  bc.menue.lcd_screenshot_desc=LCD Screenshot erstellen
@@ -112,10 +98,10 @@ index e726ac5..14bb5c5 100644
  bc.menue.screenshot=Screenshot
  bc.menue.screenshot_desc=Screenshot des OSDs und/oder des TV-Bildes erstellen
  
-diff --git a/src/nhttpd/web/languages/English b/src/nhttpd/web/languages/English
+diff --git a/data/y-web/languages/English b/src/nhttpd/web/languages/English
 index 8ee0e17..069ab32 100644
---- a/src/nhttpd/web/languages/English
-+++ b/src/nhttpd/web/languages/English
+--- a/data/y-web/languages/English
++++ b/data/y-web/languages/English
 @@ -108,7 +108,7 @@ bc.menue.remote_desc=Web-based Remote Control
  bc.menue.remote=Remote
  bc.menue.lcd_screenshot_desc=make lcd screenshot
@@ -125,10 +111,10 @@ index 8ee0e17..069ab32 100644
  bc.menue.screenshot=Screenshot
  bc.menue.screenshot_desc=make screenshots from OSD and/or TV
  
-diff --git a/src/nhttpd/web/languages/Polski b/src/nhttpd/web/languages/Polski
+diff --git a/data/y-web/languages/Polski b/src/nhttpd/web/languages/Polski
 index 034d3f5..fd3d10d 100644
---- a/src/nhttpd/web/languages/Polski
-+++ b/src/nhttpd/web/languages/Polski
+--- a/data/y-web/languages/Polski
++++ b/data/y-web/languages/Polski
 @@ -89,7 +89,7 @@ bc.menue.remote_desc=Pilot zdalnego sterowania
  bc.menue.remote=Pilot
  bc.menue.lcd_screenshot_desc=Tworzenie zrzutu ekranu LCD
@@ -138,10 +124,10 @@ index 034d3f5..fd3d10d 100644
  bc.menue.screenshot=Zrzut ekranu
  bc.menue.screenshot_desc=Zrzut ekranu OSD i/lub obrazu telewizyjnego
  
-diff --git a/src/nhttpd/web/languages/Portuguese b/src/nhttpd/web/languages/Portuguese
+diff --git a/data/y-web/languages/Portuguese b/src/nhttpd/web/languages/Portuguese
 index 1dffab3..d69adad 100644
---- a/src/nhttpd/web/languages/Portuguese
-+++ b/src/nhttpd/web/languages/Portuguese
+--- a/data/y-web/languages/Portuguese
++++ b/data/y-web/languages/Portuguese
 @@ -84,15 +84,15 @@ bc.menue.remote_desc=Remote Control baseado em Web
  bc.menue.remote=Remote
  bc.menue.lcd_screenshot_desc=fazer um lcd screenshot
@@ -161,10 +147,10 @@ index 1dffab3..d69adad 100644
  
  bc.menue.decrease_volume=diminuir volume
  bc.menue.increase_volume=aumentar volume
-diff --git a/src/nhttpd/web/languages/Slovak b/src/nhttpd/web/languages/Slovak
+diff --git a/data/y-web/languages/Slovak b/src/nhttpd/web/languages/Slovak
 index 440ce4e..ea30fd5 100644
---- a/src/nhttpd/web/languages/Slovak
-+++ b/src/nhttpd/web/languages/Slovak
+--- a/data/y-web/languages/Slovak
++++ b/data/y-web/languages/Slovak
 @@ -87,7 +87,7 @@ bc.menue.remote_desc=Webovský Diaľkový ovládač
  bc.menue.remote=Ovládač
  bc.menue.lcd_screenshot_desc=vytvorí obrázok OSD zobrazenia v mierke
@@ -174,10 +160,10 @@ index 440ce4e..ea30fd5 100644
  bc.menue.screenshot=Zosnímanie TV obrazovky
  bc.menue.screenshot_desc=vytvorí obrázok z osd a/alebo TV bez mierky
  
-diff --git a/src/nhttpd/web/scripts/_Y_Globals.sh b/src/nhttpd/web/scripts/_Y_Globals.sh
+diff --git a/data/y-web/scripts/_Y_Globals.sh b/src/nhttpd/web/scripts/_Y_Globals.sh
 index db9fa04..020ef9a 100755
---- a/src/nhttpd/web/scripts/_Y_Globals.sh
-+++ b/src/nhttpd/web/scripts/_Y_Globals.sh
+--- a/data/y-web/scripts/_Y_Globals.sh
++++ b/data/y-web/scripts/_Y_Globals.sh
 @@ -17,7 +17,7 @@ boxtype="coolstream"
  y_path_httpd=".."
  y_path_scripts="$y_path_httpd/scripts"
@@ -187,10 +173,10 @@ index db9fa04..020ef9a 100755
  y_path_sbin="/sbin"
  y_path_config="%(CONFIGDIR)"
  y_path_tmp="/tmp"
-diff --git a/src/nhttpd/web/scripts/api.sh b/src/nhttpd/web/scripts/api.sh
+diff --git a/data/y-web/scripts/api.sh b/src/nhttpd/web/scripts/api.sh
 index 126907f..33636a4 100755
---- a/src/nhttpd/web/scripts/api.sh
-+++ b/src/nhttpd/web/scripts/api.sh
+--- a/data/y-web/scripts/api.sh
++++ b/data/y-web/scripts/api.sh
 @@ -12,7 +12,7 @@ API_VERSION_TEXT="$API_VERSION_MAJOR.$API_VERSION_MINOR"
  path_httpd=".."
  path_scripts="$path_httpd/scripts"
