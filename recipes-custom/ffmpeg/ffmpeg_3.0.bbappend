@@ -51,6 +51,7 @@ EXTRA_OECONF_append = " \
 	--enable-parser=vorbis \
 	--disable-demuxers \
 	--enable-demuxer=aac \
+	--enable-libfdk-aac \
 	--enable-demuxer=ac3 \
 	--enable-demuxer=avi \
 	--enable-demuxer=mov \
