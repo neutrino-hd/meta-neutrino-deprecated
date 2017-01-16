@@ -1,6 +1,6 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
-DEPENDS_append += "libroxml rtmpdump openssl virtual/libiconv"
+DEPENDS_append += "libroxml rtmpdump openssl libfdk-aac virtual/libiconv"
 
 SRC_URI_append += " \
 		   file://0001-Revert-lavc-Switch-bitrate-to-64bit-unless-compatibi.patch \
