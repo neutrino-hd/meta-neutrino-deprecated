@@ -65,6 +65,9 @@ SRC_URI_append_libc-glibc = "file://0006-Makefile.am-we-don-t-need-liconv-for-gl
 			     file://0014-fix-build-with-old-libs-glibc.patch \
 "
 
+SRC_URI_append_libc-uclibc = "file://0001-neutrino.cpp-adjust-screen-for-fullhd.patch \
+"
+
 S = "${WORKDIR}/git"
 
 include neutrino-hd.inc
