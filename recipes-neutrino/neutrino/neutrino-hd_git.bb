@@ -55,7 +55,10 @@ SRC_URI = "git://github.com/tuxbox-neutrino/gui-neutrino.git;protocol=http;branc
 	   ${@'' if IMAGETYPE != 'tiny' else 'file://0004-dont-install-unmaintained-locale.patch'} \
 "
 
-SRC_URI_append_libc-glibc = "file://0006-Makefile.am-we-don-t-need-liconv-for-glibc.patch\
+SRC_URI_append_libc-glibc = file://0006-Makefile.am-we-don-t-need-liconv-for-glibc.patch \
+"
+
+SRC_URI_append_libc-uclibc = "file://0001-neutrino.cpp-adjust-screen-for-fullhd.patch \
 "
 
 S = "${WORKDIR}/git"
