@@ -1,0 +1,20 @@
+--- a/include/freetype/config/ftoption.h	2017-01-25 17:35:56.199632605 +0100
++++ b/include/freetype/config/ftoption.h	2017-01-25 17:31:43.063341348 +0100
+@@ -92,7 +92,7 @@
+   /* This is done to allow FreeType clients to run unmodified, forcing     */
+   /* them to display normal gray-level anti-aliased glyphs.                */
+   /*                                                                       */
+-/* #define FT_CONFIG_OPTION_SUBPIXEL_RENDERING */
++#define FT_CONFIG_OPTION_SUBPIXEL_RENDERING
+ 
+ 
+   /*************************************************************************/
+@@ -632,7 +632,7 @@
+   /*                                                                       */
+ /* #define TT_CONFIG_OPTION_SUBPIXEL_HINTING  1         */
+ /* #define TT_CONFIG_OPTION_SUBPIXEL_HINTING  2         */
+-/* #define TT_CONFIG_OPTION_SUBPIXEL_HINTING  ( 1 | 2 ) */
++#define TT_CONFIG_OPTION_SUBPIXEL_HINTING  ( 1 | 2 )
+ 
+ 
+   /*************************************************************************/
