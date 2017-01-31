@@ -1,0 +1,48 @@
+From 0c29a2b94564bc98f54809ed2129514d4a3e15a5 Mon Sep 17 00:00:00 2001
+From: Markus Volk <flk@buildserver>
+Date: Tue, 31 Jan 2017 17:46:07 +0100
+Subject: [PATCH] configure.ac: disable freetype check
+
+Signed-off-by: Markus Volk <flk@buildserver>
+---
+ configure.ac | 24 ++++++++++++------------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
+
+diff --git a/configure.ac b/configure.ac
+index 64e4093..1143b94 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -91,18 +91,18 @@ AM_CONDITIONAL(USE_TREMOR, test "$TREMOR" = "yes")
+ # TUXBOX_APPS_LIB_PKGCONFIG(OPENSSL,openssl)
+ TUXBOX_APPS_LIB_PKGCONFIG(CURL,libcurl)
+ TUXBOX_APPS_LIB_PKGCONFIG(FREETYPE,freetype2)
+-CPPFLAGS+=" $(freetype-config --cflags)"
+-AC_MSG_CHECKING([whether FreeType version is 2.5.0 or higher])
+-	AC_TRY_CPP([
+-		#include <ft2build.h>
+-		#include FT_FREETYPE_H
+-		#if FREETYPE_MAJOR < 2 || (FREETYPE_MAJOR == 2 && FREETYPE_MINOR < 5)
+-		#error Freetype version too low.
+-		#endif
+-		],
+-		[AC_MSG_RESULT(yes)],
+-		[AC_MSG_ERROR([Need FreeType library version 2.5.0 or higher])
+-	])
++#CPPFLAGS+=" $(freetype-config --cflags)"
++#AC_MSG_CHECKING([whether FreeType version is 2.5.0 or higher])
++#	AC_TRY_CPP([
++#		#include <ft2build.h>
++#		#include FT_FREETYPE_H
++#		#if FREETYPE_MAJOR < 2 || (FREETYPE_MAJOR == 2 && FREETYPE_MINOR < 5)
++#		#error Freetype version too low.
++#		#endif
++#		],
++#		[AC_MSG_RESULT(yes)],
++#		[AC_MSG_ERROR([Need FreeType library version 2.5.0 or higher])
++#	])
+ 
+ # fallback to curl-config (which is ugly for cross-compilation)
+ if test -z "$CURL_LIBS" -a -z "$CURL_CFLAGS"; then
+-- 
+2.1.4
+
