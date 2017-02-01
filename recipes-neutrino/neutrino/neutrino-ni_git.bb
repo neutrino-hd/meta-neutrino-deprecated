@@ -44,6 +44,7 @@ SRC_URI = "git://bitbucket.org/neutrino-images/ni-neutrino-hd.git;branch=ni/tuxb
 	   file://mount.mdev \
 	   file://interfaces \
 	   file://COPYING.GPL \
+	   file://0001-configure.ac-disable-freetype-check.patch \
 	   file://0001-infoviewer_bb.cpp-dont-access-cam.patch \
 	   file://0008-rcsim.c-fix-eventdev-for-yocto.patch \
 	   file://0009-src-nhttpd-tuxboxapi-controlapi.cpp-fix-eventdev-for.patch \
