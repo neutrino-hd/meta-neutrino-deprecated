@@ -44,7 +44,6 @@ SRC_URI = "git://github.com/tuxbox-neutrino/gui-neutrino.git;branch=master;proto
 	   file://mount.mdev \
 	   file://interfaces \
 	   file://COPYING.GPL \
-	   file://0001-configure.ac-use-pkg-config-to-check-freetype-versio.patch \
 	   file://0007-imageinfo.cpp-change-version-output.patch \
 	   file://0008-rcsim.c-fix-eventdev-for-yocto.patch \
 	   file://0009-src-nhttpd-tuxboxapi-controlapi.cpp-fix-eventdev-for.patch \
