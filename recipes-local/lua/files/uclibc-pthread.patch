@@ -1,0 +1,17 @@
+--- a/src/Makefile	2017-02-03 11:00:06.154243859 +0100
++++ b/src/Makefile	2017-02-03 10:56:24.272230375 +0100
+@@ -4,12 +4,12 @@
+ # == CHANGE THE SETTINGS BELOW TO SUIT YOUR ENVIRONMENT =======================
+ 
+ # Your platform. See PLATS for possible values.
+-PLAT= none
++PLAT= linux
+ 
+ CC= gcc
+ CFLAGS= -O2 -Wall -DLUA_COMPAT_ALL $(SYSCFLAGS) $(MYCFLAGS)
+ LDFLAGS= $(SYSLDFLAGS) $(MYLDFLAGS)
+-LIBS= -lm $(SYSLIBS) $(MYLIBS)
++LIBS= -lm -lpthread $(SYSLIBS) $(MYLIBS)
+ 
+ AR= ar rcu
+ RANLIB= ranlib

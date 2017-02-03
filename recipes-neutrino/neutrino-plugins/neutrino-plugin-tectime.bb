@@ -3,7 +3,7 @@ LICENSE = "GPL-2.0"
 MAINTAINER = "Jacek Jendrzej"
 LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
 HOMEPAGE = "http://www.dbox2world.net/board293-cst-coolstream/board314-cst-coolstream-development/p177045-google-videos-abspielen/#post177045"
-DEPENDS = "lua5.2"
+DEPENDS = "lua"
 RDEPENDS_${PN} += "lua-curl"
 
 S = "${WORKDIR}"

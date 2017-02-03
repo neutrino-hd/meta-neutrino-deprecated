@@ -4,7 +4,7 @@ HOMEPAGE = "http://xupnpd.org"
 LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://../LICENSE;md5=193ff0a3bc8b0d2cb0d1d881586d3388"
 
-DEPENDS += "lua5.2"
+DEPENDS += "lua"
 SRCREV = "${AUTOREV}"
 SRC_URI = "\
 	git://github.com/clark15b/xupnpd.git;branch=master \

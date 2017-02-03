@@ -20,12 +20,11 @@ S = "${WORKDIR}/git"
 
 DEPENDS = "virtual/libc fuse"
 
-inherit autotools-brokensep
+inherit autotools-brokensep pkgconfig
 
 SRC_URI[md5sum] = "e592130829d0bf61fa5e3cd1c759d329"
 SRC_URI[sha256sum] = "eeacedca1878065dc3886674ae39cd51149c37bd7d6d7e9325c971a1d1acdab3"
 
-CCFLAGS='${CCFLAGS} -std=c99'
 
 do_configure_prepend() {
     autoreconf --install

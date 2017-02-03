@@ -22,7 +22,7 @@ DEPENDS += " \
 	libmad \
 	libpng \
 	libsigc++ \
-	lua5.2 \
+	lua \
 	luaposix \
 	openssl \
 	openthreads \

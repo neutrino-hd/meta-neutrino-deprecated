@@ -5,7 +5,7 @@ MAINTAINER = "Michael Liebmann"
 LICENSE = "GPL-2.0"
 LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
 HOMEPAGE = "https://slknet.de/"
-DEPENDS = "lua5.2"
+DEPENDS = "lua"
 RDEPENDS_${PN} = "lua-json luaposix"
 
 PV = "0.12"

@@ -14,7 +14,7 @@ PACKAGECONFIG_remove_libc-uclibc = " resolved hibernate localed "
  
 inherit autotools-brokensep
 
-CFLAGS_append += "-DHAVE_NSS_H=0 -DSD_BOOT_LOG_TPM=0"
+LDFLAGS_append_libc-uclibc += "-lintl"
 
 do_install_append() {
 	install -d ${D}/${sysconfdir}/modprobe.d

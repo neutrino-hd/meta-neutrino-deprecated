@@ -19,7 +19,6 @@ RDEPENDS_packagegroup-custom-recommended ?= "\
     dosfstools \
     etckeeper \
     exfat-utils \
-    htop \
     inotify-tools \
     libevent \
     mc \

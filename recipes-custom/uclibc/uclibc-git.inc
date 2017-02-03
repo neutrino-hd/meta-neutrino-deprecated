@@ -1,11 +1,10 @@
-SRCREV = "b2d83aba010076b234d6290a91bb824e926e35bb"
+SRCREV = "3b09bf921e994efd50c3c285f7388fbdbce374d1"
 
-PV = "1.0.17"
+PV = "1.0.22"
 
 FILESEXTRAPATHS =. "${FILE_DIRNAME}/uclibc-git:"
 
 SRC_URI = "git://uclibc-ng.org/git/uclibc-ng \
-        file://0001-Disable-lrount_tes-function.patch \
         file://uClibc.machine \
         file://uClibc.distro \
         file://obstack.cfg \

@@ -341,17 +341,15 @@ diff --git a/libavformat/movenc.c b/libavformat/movenc.c
 index 5115585..7acbdb3 100644
 --- a/libavformat/movenc.c
 +++ b/libavformat/movenc.c
-@@ -3545,8 +3545,8 @@ static int mov_write_isml_manifest(AVIOC
-         } else {
-             continue;
+@@ -3634,7 +3634,7 @@
+             manifest_bit_rate = props->max_bitrate;
          }
+ 
 -        avio_printf(pb, "<%s systemBitrate=\"%"PRId64"\">\n", type,
--                    (int64_t)track->par->bit_rate);
 +        avio_printf(pb, "<%s systemBitrate=\"%d\">\n", type,
-+                    track->par->bit_rate);
-         param_write_int(pb, "systemBitrate", track->par->bit_rate);
+                     manifest_bit_rate);
+         param_write_int(pb, "systemBitrate", manifest_bit_rate);
          param_write_int(pb, "trackID", track_id);
-         if (track->par->codec_type == AVMEDIA_TYPE_VIDEO) {
 diff --git a/libavformat/rdt.c b/libavformat/rdt.c
 index c3ac198..046d273 100644
 --- a/libavformat/rdt.c

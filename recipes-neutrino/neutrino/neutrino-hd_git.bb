@@ -20,7 +20,7 @@ DEPENDS += " \
 	libdvbsi++ \
 	jpeg \
 	libsigc++ \
-	lua5.2 \
+	lua \
 	luaposix \
 	openthreads \
 	pugixml \
