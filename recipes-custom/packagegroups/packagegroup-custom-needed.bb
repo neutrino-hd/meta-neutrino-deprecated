@@ -24,6 +24,10 @@ RDEPENDS_packagegroup-custom-needed = "\
 	tzdata-europe \
 	util-linux-blkid \
 	udev-extraconf \
+	uclibc-libcrypt \
+	uclibc-librt \
+	uclibc-libpthread \
+	uclibc-libdl \
 	"
 
 RDEPENDS_packagegroup-custom-needed_append = "${@'opkg' if DISTRO != 'coolstream-hd1_flash' else ''}"
