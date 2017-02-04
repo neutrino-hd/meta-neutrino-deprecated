@@ -20,3 +20,10 @@ RPROVIDES_${PN}-dev += "libc-dev virtual-libc-dev"
 # to satisfy this dependency for the images/tasks
 
 RPROVIDES_${PN} += "libsegfault rtld(GNU_HASH)"
+
+do_install_append() {
+# create links for precompiled binaries
+	for i in librt libcrypt libdl libpthread; do
+	ln -s ./libuClibc-${PV}.so ${D}${base_libdir}/$i.so.0
+	done
+}
