@@ -9,12 +9,13 @@ PR = "r0"
 
 TARGET_CC_ARCH += "${LDFLAGS}"
 
-SRC_URI = "http://github.com/zeux/pugixml/releases/download/v1.7/pugixml-1.7.tar.gz \
+SRC_URI = "http://github.com/zeux/pugixml/releases/download/v${PV}/pugixml-${PV}.tar.gz \
 	   file://001_Makefile.patch \
 "
 
-SRC_URI[md5sum] = "17e6a3996de2942629dce65db1a701c5"
-SRC_URI[sha256sum] = "fbe10d46f61d769f7d92a296102e4e2bd3ee16130f11c5b10a1aae590ea1f5ca"
+SRCSRC_URI[md5sum] = "ffa59ee4853958e243050e6b690b4f2e"
+SRC_URI[sha256sum] = "8ef26a51c670fbe79a71e9af94df4884d5a4b00a2db38a0608a87c14113b2904"
+
 
 S = "${WORKDIR}/${PN}-${PV}"
 
