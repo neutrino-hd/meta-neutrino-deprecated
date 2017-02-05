@@ -7,7 +7,7 @@ DEPENDS += "libtdb talloc libtevent popt openldap libbsd"
 RDEPENDS_${PN} += "libtevent popt libtalloc openldap"
 RDEPENDS_pyldb += "python libtdb libtalloc"
 
-SRC_URI = "http://samba.org/ftp/ldb/ldb-${PV}.tar.gz \
+SRC_URI = "https://samba.org/ftp/ldb/ldb-${PV}.tar.gz \
 	   file://do-not-import-target-module-while-cross-compile.patch \
 	   file://dont_use_latest_tevent.patch \
 "

@@ -7,7 +7,7 @@ DEPENDS += "talloc libcap"
 RDEPENDS_${PN} += "libtalloc"
 RDEPENDS_python-tevent = "python"
 
-SRC_URI = "http://samba.org/ftp/tevent/tevent-${PV}.tar.gz"
+SRC_URI = "https://samba.org/ftp/tevent/tevent-${PV}.tar.gz"
 LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/LGPL-3.0;md5=bfccfe952269fff2b407dd11f2f3083b"
 
 SRC_URI[md5sum] = "22c372f3d936d751271f588ab71f829b"
