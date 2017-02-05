@@ -14,34 +14,26 @@ PACKAGES = "\
     "
 
 
-RDEPENDS_packagegroup-custom-recommended ?= "\
+RDEPENDS_${PN} ?= "\
     autofs \
     dosfstools \
     etckeeper \
     exfat-utils \
     inotify-tools \
     libevent \
-    mc \
-    mc-fish \
-    mc-helpers \
-    mc-helpers-perl \
-    mc-helpers-python \
     minidlna \
-    nano \
     neutrino-plugin-logo \
     nfs-utils \
     nfs-utils-client \
     ntfs-3g \
     ntfsprogs \
     ntpdate \
-    ni-logos \
     openssh \
     openssl \
     parted \
     rpcbind \
-    samba \
-    tmux \
     wpa-supplicant \
 "
+		
+RDEPENDS_${PN}_append_libc_glibc += "kbd-locale-de"
 
-RDEPENDS_packagegroup-custom-recommended_append_libc-glibc += "kbd-locale-de"
