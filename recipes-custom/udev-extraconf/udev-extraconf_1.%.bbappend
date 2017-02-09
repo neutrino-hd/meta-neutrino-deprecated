@@ -17,7 +17,7 @@ do_install_append() {
 	install -D -m 0755 ${WORKDIR}/media-tmpfs.sh ${D}${sysconfdir}/init.d/aa_media-tmpfs.sh
 	install -D -m 0755 ${WORKDIR}/udev-blockdev.sh ${D}${sysconfdir}/init.d/zz_udev-blockdev.sh
 	install -D -m 0755 ${WORKDIR}/mount.sh ${D}${sysconfdir}/udev/scripts/mount.sh
-	if [ ${DISTRO} = "coolstream-hd1" ];then
+	if [ ${USBIMAGE} = "yes" ];then
 		echo "/dev/sda" >> ${D}/${sysconfdir}/udev/mount.blacklist
 	fi
 	# needs to run after S02sysfs.sh and before S03udev -> call it aa_media...

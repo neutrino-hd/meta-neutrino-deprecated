@@ -40,6 +40,7 @@ SRC_URI = "git://github.com/tuxbox-neutrino/gui-neutrino.git;protocol=http;branc
 	   file://post-wlan0.sh \
 	   file://mount.mdev \
 	   file://COPYING.GPL \
+	   file://0001-configure.ac-use-pkg-config-to-check-freetype-versio.patch \
 	   file://0007-imageinfo.cpp-change-version-output.patch \
 	   file://0008-rcsim.c-fix-eventdev-for-yocto.patch \
 	   file://0009-src-nhttpd-tuxboxapi-controlapi.cpp-fix-eventdev-for.patch \
