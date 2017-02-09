@@ -1,1 +1,2 @@
-PACKAGECONFIG = "gpg"
+PACKAGECONFIG = "curl"
+
