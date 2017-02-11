@@ -1,7 +1,7 @@
 #!/bin/sh
 
 echo "### Starting NEUTRINO ###"
-/usr/bin/neutrino > /dev/null 2> /dev/null
+/usr/bin/neutrino
 /bin/sync
 
 if [ -e /tmp/.reboot ] ; then
