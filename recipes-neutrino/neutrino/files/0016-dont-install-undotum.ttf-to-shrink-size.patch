@@ -17,7 +17,7 @@ index 7f822c6..43637ec 100644
  	tuxtxt.ttf \
  	tuxtxt.otb
 -
--if BOXMODEL_APOLLO
+-if BOXMODEL_CS_HD2
 -install_DATA += UnDotum.ttf
 -endif
 -- 
