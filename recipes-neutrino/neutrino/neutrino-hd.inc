@@ -34,11 +34,11 @@ EXTRA_OECONF += "--prefix=/ \
 "
 
 EXTRA_OECONF_append_coolstream-hd1 = " \
-	--with-boxmodel=nevis \
+	--with-boxmodel=hd1 \
 "
 
 EXTRA_OECONF_append_coolstream-hd2 = " \
-	--with-boxmodel=apollo \
+	--with-boxmodel=hd2 \
 "
 
 
