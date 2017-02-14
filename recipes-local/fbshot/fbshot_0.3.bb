@@ -16,6 +16,7 @@ SRC_URI = " \
         file://fbshot-0.3-32bit_cs_fb.diff \
         file://fbshot-0.3-32bit_td_fb.diff \
 	file://fbshot-0.3-libpng16.diff \
+	file://fbshot_cs_hd2.diff \
 "
 
 SRC_URI[md5sum] = "2cc6cc25cdc4cd447a8b0a9662907635"
