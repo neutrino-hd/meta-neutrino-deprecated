@@ -36,6 +36,9 @@ IMAGE_INSTALL += "${@'kernel-modules' if IMAGETYPE != 'tiny' else ''}"
 # put kernel binary into the image
 IMAGE_INSTALL += "${@'' if INCLUDE_KERNEL != 'yes' else 'kernel-image'}"
 
+# dont install into link image
+IMAGE_INSTALL += "${@'samba ni-logos mc mc-fish mc-helpers mc-helpers-perl mc-helpers-python tmux nano' if BOXMODEL != 'link' else ''}"
+
 EXTRAOPKGCONFIG = "neutrino-feed-config"
 
 

@@ -5,9 +5,7 @@ SECTION = "libs"
 LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://${WORKDIR}/COPYING.GPL;md5=751419260aa954499f7abaabaa882bbe"
 
-inherit autotools pkgconfig systemd gettext
-
-SYSTEMD_SERVICE_${PN} = "neutrino.service"
+inherit autotools pkgconfig gettext
 
 DEPENDS += " \
 	curl \
@@ -64,9 +62,6 @@ SRC_URI_append_libc-glibc = "file://0006-Makefile.am-we-don-t-need-liconv-for-gl
 			     file://0014-fix-build-with-old-libs-glibc.patch \
 "
 
-SRC_URI_append_libc-uclibc = "file://0001-neutrino.cpp-adjust-screen-for-fullhd.patch \
-"
-
 S = "${WORKDIR}/git"
 
 include neutrino-hd.inc
@@ -85,8 +80,9 @@ do_compile () {
 
 
 do_install_prepend () {
-	install -d ${D}/${sysconfdir}/init.d ${D}${sysconfdir}/network ${D}/lib/systemd/system/
+	install -d ${D}/${sysconfdir}/init.d ${D}${sysconfdir}/network  ${D}${sysconfdir}/systemd/system/multi-user.target.wants ${D}/lib/systemd/system/
 	install -m 644 ${WORKDIR}/neutrino.service ${D}/lib/systemd/system/neutrino.service
+	ln -s ${libdir}/systemd/system/neutrino.service ${D}${sysconfdir}/systemd/system/multi-user.target.wants/neutrino.service 
 	install -m 755 ${WORKDIR}/custom-poweroff.init ${D}${sysconfdir}/init.d/custom-poweroff
 	install -m 755 ${WORKDIR}/pre-wlan0.sh ${D}${sysconfdir}/network/
 	install -m 755 ${WORKDIR}/post-wlan0.sh ${D}${sysconfdir}/network/

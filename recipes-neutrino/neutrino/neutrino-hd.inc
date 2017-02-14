@@ -27,7 +27,7 @@ EXTRA_OECONF = " \
 	--exec_prefix=/usr \
 	--includedir=${exec_prefix}/include \
 	--with-configdir=${sysconfdir}/neutrino/config \
-	--with-boxmodel=apollo \
+	--with-boxmodel=hd2 \
 "
 
 

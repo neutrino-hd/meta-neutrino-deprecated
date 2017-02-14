@@ -20,10 +20,10 @@ index be8a472..f562c7e 100644
  endif
  endif
  
--if BOXMODEL_APOLLO
+-if BOXMODEL_CS_HD2
 -neutrino_LDADD += -liconv
 -endif
-+#if BOXMODEL_APOLLO
++#if BOXMODEL_CS_HD2
 +#neutrino_LDADD += -liconv
 +#endif
  
