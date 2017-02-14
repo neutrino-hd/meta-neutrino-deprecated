@@ -68,7 +68,7 @@ opkg () {
                 # (|\t*) added for 'whatdepends'
                 /usr/bin/opkg $* | sed -re "s/^(|\t*)[a-z0-9-]*/$BOLD&$NORM/g";
         elif [ $KEEP == "yes" ]; then
-                etckeeper pre-install && /usr/bin/opkg --force-maintainer $* && etckeeper post-install;
+                etckeeper pre-install && /usr/bin/opkg --force-downgrade --force-reinstall $* && etckeeper post-install;
         else /usr/bin/opkg $*;
 	fi
 }
