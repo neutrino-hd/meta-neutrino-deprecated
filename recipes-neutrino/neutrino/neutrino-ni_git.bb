@@ -44,7 +44,6 @@ SRC_URI = "git://bitbucket.org/neutrino-images/ni-neutrino-hd.git;branch=ni/tuxb
 	   file://mount.mdev \
 	   file://interfaces \
 	   file://COPYING.GPL \
-	   file://0001-infoviewer_bb.cpp-dont-access-cam.patch \
 	   file://0008-rcsim.c-fix-eventdev-for-yocto.patch \
 	   file://0009-src-nhttpd-tuxboxapi-controlapi.cpp-fix-eventdev-for.patch \
 	   file://0010-nhttpd-adjust-some-paths.patch \
@@ -58,9 +57,6 @@ SRC_URI = "git://bitbucket.org/neutrino-images/ni-neutrino-hd.git;branch=ni/tuxb
 	   file://var.tar.gz \
 	   ${@'' if IMAGETYPE != 'tiny' else 'file://0004-dont-install-unmaintained-locale.patch \
 					      file://0005-remove-unneeded-mp3.jpg-files.patch'} \
-"
-
-SRC_URI_append_libc-glibc = "file://0006-Makefile.am-we-don-t-need-liconv-for-glibc.patch \
 "
 
 S = "${WORKDIR}/git"

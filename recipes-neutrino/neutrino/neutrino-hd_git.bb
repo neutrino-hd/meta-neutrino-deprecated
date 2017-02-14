@@ -58,10 +58,6 @@ SRC_URI = "git://github.com/tuxbox-neutrino/gui-neutrino.git;branch=master;proto
 					      file://0005-remove-unneeded-mp3.jpg-files.patch'} \
 "
 
-SRC_URI_append_libc-glibc = "file://0006-Makefile.am-we-don-t-need-liconv-for-glibc.patch \
-			     file://0014-fix-build-with-old-libs-glibc.patch \
-"
-
 S = "${WORKDIR}/git"
 
 include neutrino-hd.inc

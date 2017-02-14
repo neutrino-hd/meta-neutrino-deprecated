@@ -50,10 +50,6 @@ SRC_URI = " \
 	file://post-wlan0.sh \
 "
 
-
-SRC_URI_append_libc-glibc = "file://0006-Makefile.am-we-don-t-need-liconv-for-glibc.patch\
-"
-
 S = "${WORKDIR}/git"
 
 INITSCRIPT_PACKAGES   = "${PN}"
