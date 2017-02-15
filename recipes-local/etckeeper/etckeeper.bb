@@ -11,6 +11,7 @@ SRC_URI = "git://github.com/joeyh/etckeeper.git;branch=master \
 	   file://create_etc.sh \
 	   file://update_etc.sh \
 	   file://0001-use-systemwide-gitconfig-to-correct-commiter-name-an.patch \
+	   file://0001-etckeeper-edit-.gitignore.patch \
 "
 
 

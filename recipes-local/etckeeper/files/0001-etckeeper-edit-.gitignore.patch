@@ -1,0 +1,85 @@
+From 8311245c0ca2c9e098603b4d6d9ee4cd501bb90c Mon Sep 17 00:00:00 2001
+From: flk <f_l_k@t-online.de>
+Date: Wed, 15 Feb 2017 09:33:04 +0100
+Subject: [PATCH] etckeeper: edit .gitignore
+
+Signed-off-by: flk <f_l_k@t-online.de>
+---
+ update-ignore.d/01update-ignore | 61 +++++------------------------------------
+ 1 file changed, 7 insertions(+), 54 deletions(-)
+
+diff --git a/update-ignore.d/01update-ignore b/update-ignore.d/01update-ignore
+index 8733a85..1f8ca73 100755
+--- a/update-ignore.d/01update-ignore
++++ b/update-ignore.d/01update-ignore
+@@ -105,60 +105,13 @@ writefile () {
+ 		nl
+ 	fi
+ 	
+-	comment "old versions of files"
+-	ignore "*.old"
+-	# Not currently ignored as admins tend to rely on these files.
+-	#ignore "passwd-"
+-	#ignore "group-"
+-	#ignore "shadow-"
+-	#ignore "gshadow-"
+-	nl
+-
+-	comment "mount(8) records system state here, no need to store these"
+-	ignore blkid.tab
+-	ignore blkid.tab.old
+-	nl
+-	
+-	comment "some other files in /etc that typically do not need to be tracked"
+-	ignore nologin
+-	ignore ld.so.cache
+-	ignore prelink.cache
+-	ignore mtab
+-	ignore mtab.fuselock
+-	ignore .pwd.lock
+-	ignore "*.LOCK"
+-	ignore network/run
+-	ignore adjtime
+-	ignore lvm/cache
+-	ignore lvm/archive
+-	ignore "X11/xdm/authdir/authfiles/*"
+-	ignore ntp.conf.dhcp
+-	ignore .initctl
+-	ignore "webmin/fsdump/*.status"
+-	ignore "webmin/webmin/oscache"
+-	ignore "apparmor.d/cache/*"
+-	ignore "service/*/supervise/*"
+-	ignore "service/*/log/supervise/*"
+-	ignore "sv/*/supervise/*"
+-	ignore "sv/*/log/supervise/*"
+-	ignore "*.elc"
+-	ignore "*.pyc"
+-	ignore "*.pyo"
+-	ignore "init.d/.depend.*"
+-	ignore "openvpn/openvpn-status.log"
+-	ignore "cups/subscriptions.conf"
+-	ignore "cups/subscriptions.conf.O"
+-	ignore "fake-hwclock.data"
+-	ignore "check_mk/logwatch.state"
+-	nl
+-	
+-	comment "editor temp files"
+-	ignore "*~"
+-	ignore ".*.sw?"
+-	ignore ".sw?"
+-	ignore "#*#"
+-	ignore DEADJOE
+-
++	ignore "/*"
++	ignore "!.gitignore"
++	ignore "!neutrino/"
++	ignore "!network/"
++	ignore "!auto.*"
++ 	ignore "!.etckeeper"
++        ignore "!minidlna.conf"
+ 	nl
+ 	comment "end section $managed_by_etckeeper"
+ }
+-- 
+2.7.4
+
