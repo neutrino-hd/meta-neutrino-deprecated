@@ -1,18 +1,18 @@
-From 8311245c0ca2c9e098603b4d6d9ee4cd501bb90c Mon Sep 17 00:00:00 2001
+From f2ae86cdb303d4fe190b77e4277f598d765f4c83 Mon Sep 17 00:00:00 2001
 From: flk <f_l_k@t-online.de>
-Date: Wed, 15 Feb 2017 09:33:04 +0100
-Subject: [PATCH] etckeeper: edit .gitignore
+Date: Wed, 15 Feb 2017 12:27:57 +0100
+Subject: [PATCH] fix
 
 Signed-off-by: flk <f_l_k@t-online.de>
 ---
- update-ignore.d/01update-ignore | 61 +++++------------------------------------
- 1 file changed, 7 insertions(+), 54 deletions(-)
+ update-ignore.d/01update-ignore | 62 ++++++-----------------------------------
+ 1 file changed, 8 insertions(+), 54 deletions(-)
 
 diff --git a/update-ignore.d/01update-ignore b/update-ignore.d/01update-ignore
-index 8733a85..1f8ca73 100755
+index 8733a85..a9ea8b0 100755
 --- a/update-ignore.d/01update-ignore
 +++ b/update-ignore.d/01update-ignore
-@@ -105,60 +105,13 @@ writefile () {
+@@ -105,60 +105,14 @@ writefile () {
  		nl
  	fi
  	
@@ -77,6 +77,7 @@ index 8733a85..1f8ca73 100755
 +	ignore "!auto.*"
 + 	ignore "!.etckeeper"
 +        ignore "!minidlna.conf"
++	ignore "!resolv.conf"
  	nl
  	comment "end section $managed_by_etckeeper"
  }
