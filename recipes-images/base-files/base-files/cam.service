@@ -3,7 +3,7 @@ Description=doscam
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/doscam
+ExecStart=-/usr/bin/doscam
 ExecReload=/bin/kill -HUP $MAINPID
  
 [Install]
