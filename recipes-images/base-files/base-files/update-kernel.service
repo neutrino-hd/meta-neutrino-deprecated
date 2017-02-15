@@ -2,6 +2,7 @@
 [Unit]
 Description=update Kernel
 DefaultDependencies=false
+After=systemd-modules-load.service
 
 [Service]
 Type=oneshot

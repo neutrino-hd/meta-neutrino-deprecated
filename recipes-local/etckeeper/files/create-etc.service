@@ -1,6 +1,7 @@
 [Unit]
 Description=create etc git remote for etckeeper
-After=update-etc.service
+Before=update-etc.service 
+After=update-kernel.service
 
 [Service]
 Type=oneshot

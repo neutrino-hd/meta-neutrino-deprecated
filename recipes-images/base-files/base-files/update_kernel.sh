@@ -12,7 +12,7 @@ if [ -f /var/update/vmlinux.ub.gz ]; then
 	# busybox "cut" counts from 0
 	DEV=`grep -i kernel /proc/mtd | cut -f 0 -s -d :`
 	fi
-	echo Updating kernel on device $DEV .....
+	dt -t"Updating kernel on device $DEV ....."
 	/usr/sbin/flash_eraseall /dev/$DEV && /bin/cat /var/update/vmlinux.ub.gz > /dev/$DEV
 	rm /var/update/vmlinux.ub.gz
 	DO_REBOOT=1
@@ -27,7 +27,7 @@ if [ -f /var/update/u-boot.bin ]; then
 	# busybox "cut" counts from 0
 	DEV=`grep -i u-boot /proc/mtd | cut -f 0 -s -d :`
 	fi
-	echo Updating u-boot on device $DEV .....
+	dt -t"Updating u-boot on device $DEV ....."
 	/usr/sbin/flash_eraseall /dev/$DEV && /bin/cat /var/update/u-boot.bin > /dev/$DEV
 	rm /var/update/u-boot.bin
 	DO_REBOOT=1
@@ -42,7 +42,7 @@ if [ -f /var/update/uldr.bin ]; then
 	# busybox "cut" counts from 0
 	DEV=`grep -i uldr /proc/mtd | cut -f 0 -s -d :`
 	fi
-	echo Updating loader on device $DEV .....
+	dt -t"Updating loader on device $DEV ....."
 	/usr/sbin/flash_eraseall /dev/$DEV && /bin/cat /var/update/uldr.bin > /dev/$DEV
 	rm /var/update/uldr.bin
 	DO_REBOOT=1
@@ -57,7 +57,7 @@ if [ -f /var/update/.erase_env ]; then
 	# busybox "cut" counts from 0
 	DEV=`grep -i env /proc/mtd | cut -f 0 -s -d :`
 	fi
-	echo cleaning env on device $DEV .....
+	dt -t"cleaning env on device $DEV ....."
 	/usr/sbin/flash_eraseall /dev/$DEV
 	rm /var/update/.erase_env
 	DO_REBOOT=1
