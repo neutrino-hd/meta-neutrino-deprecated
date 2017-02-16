@@ -15,15 +15,6 @@ do_install() {
 	# Install initial headers into the cross dir
 	make PREFIX=${D} DEVEL_PREFIX=${prefix}/ RUNTIME_PREFIX=/ \
 		install_headers install_startfiles
-
-        # add links to linux-libc-headers: final uclibc build need this.
-        for t in linux asm asm-generic; do
-                if [ -d ${D}${includedir}/$t ]; then
-                    rm -rf ${D}${includedir}/$t
-                fi
-                ln -sf ${STAGING_DIR_TARGET}${includedir}/$t ${D}${includedir}/
-        done
-
 }
 do_compile() {
 	:
