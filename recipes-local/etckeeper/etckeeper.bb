@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/GPL-2.0;md5=80
 
 RDEPENDS_${PN} += "git findutils cronie ${@'perl-module-file-glob' if DISTRO != 'coolstream-hd1_flash' else ''}"
 
-SRC_URI = "git://github.com/joeyh/etckeeper.git;branch=master \
+SRC_URI = "git://git.joeyh.name/git/etckeeper.git/;branch=master;protocol=https \
 	   file://etckeeper \
 	   file://etckeeper.conf \
 	   file://create_etc.sh \
