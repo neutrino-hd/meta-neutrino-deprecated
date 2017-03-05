@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/GPL-2.0;md5=80
 
 RDEPENDS_${PN} += "git findutils util-linux-mountpoint perl-module-file-glob"
 
-SRC_URI = "git://github.com/joeyh/etckeeper.git;branch=master \
+SRC_URI = "git://git.joeyh.name/git/etckeeper.git/;branch=master;protocol=https \
 	   file://update-etc.service \
 	   file://create-etc.service \
 	   file://etckeeper.conf \
