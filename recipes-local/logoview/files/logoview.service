@@ -1,7 +1,6 @@
 [Unit]
 Description=CST logoview
-After=network.target
-Before=neutrino.service
+After=systemd-modules-load.service
 
 [Service]
 Type=oneshot

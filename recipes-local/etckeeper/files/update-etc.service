@@ -1,6 +1,5 @@
 [Unit]
 Description=write back etckeeper remote
-Before=neutrino.service
 After=create-etc.service
 
 [Service]
