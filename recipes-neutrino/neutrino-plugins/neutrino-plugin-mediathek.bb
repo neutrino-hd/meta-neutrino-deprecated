@@ -15,8 +15,6 @@ SRC_URI = "git://git.tuxcode.de/mediathek-luaV2.git;branch=master;protocol=https
 SRCREV = "${AUTOREV}"
 S = "${WORKDIR}/git"
 
-inherit autotools-brokensep
-
 do_install () {
 	install -d ${D}/var/tuxbox/plugins ${D}/usr/share
 	cp -rf ${S}/share ${D}/usr/
