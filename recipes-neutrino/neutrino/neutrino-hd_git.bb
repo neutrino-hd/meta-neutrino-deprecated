@@ -32,7 +32,7 @@ SRCREV ?= "${AUTOREV}"
 PV = "${SRCPV}"
 PR = "6"
 
-SRC_URI = "git://github.com/tuxbox-neutrino/gui-neutrino.git;branch=master;protocol=http \
+SRC_URI = "git://github.com/tuxbox-neutrino/gui-neutrino.git;branch=pu/fb-setmode;protocol=http \
 	   file://neutrino.service \
 	   file://neutrino.sh \
 	   file://timezone.xml \
