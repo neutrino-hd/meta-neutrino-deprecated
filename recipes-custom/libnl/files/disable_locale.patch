@@ -1,0 +1,51 @@
+--- a/lib/utils.c	2017-03-06 10:41:24.768064097 +0100
++++ b/lib/utils.c	2017-03-06 10:40:58.072618739 +0100
+@@ -124,10 +124,10 @@
+ const char *nl_strerror_l(int err)
+ {
+ 	int errno_save = errno;
+-	locale_t loc = newlocale(LC_MESSAGES_MASK, "", (locale_t)0);
++//	locale_t loc = newlocale(LC_MESSAGES_MASK, "", (locale_t)0);
+ 	const char *buf;
+ 
+-	if (loc == (locale_t)0) {
++/*	if (loc == (locale_t)0) {
+ 		if (errno == ENOENT)
+ 			loc = newlocale(LC_MESSAGES_MASK,
+ 					"POSIX", (locale_t)0);
+@@ -138,7 +138,7 @@
+ 	} else {
+ 		buf = "newlocale() failed";
+ 	}
+-
++*/
+ 	errno = errno_save;
+ 	return buf;
+ }
+--- a/src/lib/utils.c	2017-03-06 10:40:45.308883644 +0100
++++ b/src/lib/utils.c	2017-03-06 10:40:18.109447519 +0100
+@@ -74,12 +74,12 @@
+ 
+ 	fprintf(stderr, "Error: ");
+ 
+-	if (fmt) {
++//	if (fmt) {
+ 		va_start(ap, fmt);
+ 		vfprintf(stderr, fmt, ap);
+ 		va_end(ap);
+ 		fprintf(stderr, "\n");
+-	} else {
++/*	} else {
+ 		char *buf;
+ 		locale_t loc = newlocale(LC_MESSAGES_MASK, "", (locale_t)0);
+ 		if (loc == (locale_t)0) {
+@@ -94,7 +94,7 @@
+ 		fprintf(stderr, "%s\n", buf);
+ 		if (loc != (locale_t)0)
+ 			freelocale(loc);
+-	}
++	}*/
+ 
+ 	exit(abs(err));
+ }
+
