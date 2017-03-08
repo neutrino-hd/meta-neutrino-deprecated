@@ -1,14 +1,43 @@
 SUMMARY = "A complete, cross-platform solution to record, convert and stream audio and video."
-HOMEPAGE = "http://ffmpeg.org/"
+DESCRIPTION = "FFmpeg is the leading multimedia framework, able to decode, encode, transcode, \
+               mux, demux, stream, filter and play pretty much anything that humans and machines \
+               have created. It supports the most obscure ancient formats up to the cutting edge."
+HOMEPAGE = "https://www.ffmpeg.org/"
 SECTION = "libs"
-LICENSE = "GPLv2+"
+
+LICENSE = "BSD & GPLv2+ & LGPLv2.1+ & MIT"
+LICENSE_${PN} = "GPLv2+"
+LICENSE_libavcodec = "${@bb.utils.contains('PACKAGECONFIG', 'gpl', 'GPLv2+', 'LGPLv2.1+', d)}"
+LICENSE_libavdevice = "${@bb.utils.contains('PACKAGECONFIG', 'gpl', 'GPLv2+', 'LGPLv2.1+', d)}"
+LICENSE_libavfilter = "${@bb.utils.contains('PACKAGECONFIG', 'gpl', 'GPLv2+', 'LGPLv2.1+', d)}"
+LICENSE_libavformat = "${@bb.utils.contains('PACKAGECONFIG', 'gpl', 'GPLv2+', 'LGPLv2.1+', d)}"
+LICENSE_libavresample = "${@bb.utils.contains('PACKAGECONFIG', 'gpl', 'GPLv2+', 'LGPLv2.1+', d)}"
+LICENSE_libavutil = "${@bb.utils.contains('PACKAGECONFIG', 'gpl', 'GPLv2+', 'LGPLv2.1+', d)}"
+LICENSE_libpostproc = "GPLv2+"
+LICENSE_libswresample = "${@bb.utils.contains('PACKAGECONFIG', 'gpl', 'GPLv2+', 'LGPLv2.1+', d)}"
+LICENSE_libswscale = "${@bb.utils.contains('PACKAGECONFIG', 'gpl', 'GPLv2+', 'LGPLv2.1+', d)}"
 LICENSE_FLAGS = "commercial"
 
+LIC_FILES_CHKSUM = "file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+                    file://COPYING.GPLv3;md5=d32239bcb673463ab874e80d47fae504 \
+                    file://COPYING.LGPLv2.1;md5=bd7a443320af8c812e4c18d1b79df004 \
+                    file://COPYING.LGPLv3;md5=e6a600fd5e1d9cbde2d983680233ad02"
+
+SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
+	   file://0001-Revert-lavc-Switch-bitrate-to-64bit-unless-compatibi.patch \
+	   file://0002-add-HDS-ro_new.patch \
+          "
+SRC_URI[md5sum] = "39fd71024ac76ba35f04397021af5606"
+SRC_URI[sha256sum] = "6e38ff14f080c98b58cf5967573501b8cb586e3a173b591f3807d8f0660daf7a"
+
+# Build fails when thumb is enabled: https://bugzilla.yoctoproject.org/show_bug.cgi?id=7717
 ARM_INSTRUCTION_SET = "arm"
 
-DEPENDS = "zlib libogg libvorbis libtheora yasm-native libroxml rtmpdump openssl"
+# Should be API compatible with libav (which was a fork of ffmpeg)
+# libpostproc was previously packaged from a separate recipe
+PROVIDES = "libav libpostproc"
 
-INC_PR = "r8"
+DEPENDS = "alsa-lib zlib libogg yasm-native libroxml rtmpdump openssl virtual/libiconv"
 
 inherit autotools pkgconfig
 
@@ -29,7 +58,6 @@ PACKAGECONFIG[gsm] = "--enable-libgsm,--disable-libgsm,libgsm"
 PACKAGECONFIG[x264] = "--enable-libx264,--disable-libx264,x264"
 PACKAGECONFIG[vpx] = "--enable-libvpx,--disable-libvpx,libvpx"
 PACKAGECONFIG[mp3lame] = "--enable-libmp3lame,--disable-libmp3lame,lame"
-PACKAGECONFIG[faac] = "--enable-libfaac,--disable-libfaac,faac"
 PACKAGECONFIG[x11] = "--enable-x11grab,--disable-x11grab,virtual/libx11 libxfixes libxext xproto"
 PACKAGECONFIG[rtmpdump] = "--enable-librtmp,--disable-librtmp,rtmpdump"
 PACKAGECONFIG[libroxml] = "--enable-libroxml,--disable-libroxml,libroxml"

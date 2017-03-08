@@ -71,22 +71,22 @@ diff --git a/libavformat/Makefile b/libavformat/Makefile
 index bca9d5b..e8334c0 100644
 --- a/libavformat/Makefile
 +++ b/libavformat/Makefile
-@@ -179,6 +179,7 @@ OBJS-$(CONFIG_H263_DEMUXER)              += h263dec.o rawdec.o
+@@ -199,6 +199,7 @@ OBJS-$(CONFIG_H263_DEMUXER)
  OBJS-$(CONFIG_H263_MUXER)                += rawenc.o
  OBJS-$(CONFIG_H264_DEMUXER)              += h264dec.o rawdec.o
  OBJS-$(CONFIG_H264_MUXER)                += rawenc.o
 +OBJS-$(CONFIG_HDS_DEMUXER)               += hdsdec.o amfmetadata.o f4mmanifest.o f4fbox.o flvtag.o
+ OBJS-$(CONFIG_HASH_MUXER)                += hashenc.o
  OBJS-$(CONFIG_HDS_MUXER)                 += hdsenc.o
  OBJS-$(CONFIG_HEVC_DEMUXER)              += hevcdec.o rawdec.o
- OBJS-$(CONFIG_HEVC_MUXER)                += rawenc.o
 diff --git a/libavformat/allformats.c b/libavformat/allformats.c
 index 0f53d4c..06652e5 100644
 --- a/libavformat/allformats.c
 +++ b/libavformat/allformats.c
-@@ -141,7 +141,7 @@ void av_register_all(void)
-     REGISTER_MUXDEMUX(H261,             h261);
+@@ -145,7 +145,7 @@ void av_register_all(void)
      REGISTER_MUXDEMUX(H263,             h263);
      REGISTER_MUXDEMUX(H264,             h264);
+     REGISTER_MUXER   (HASH,             hash);
 -    REGISTER_MUXER   (HDS,              hds);
 +    REGISTER_MUXDEMUX(HDS,              hds);
      REGISTER_MUXDEMUX(HEVC,             hevc);
@@ -1256,7 +1256,7 @@ diff --git a/libavformat/flvdec.c b/libavformat/flvdec.c
 index 07f7b68..afe7e51 100644
 --- a/libavformat/flvdec.c
 +++ b/libavformat/flvdec.c
-@@ -298,6 +298,11 @@ static int amf_get_string(AVIOContext *ioc, char *buffer, int buffsize)
+@@ -342,6 +342,12 @@ static int amf_get_string(AVIOContext *i
      return length;
  }
  
@@ -1265,9 +1265,11 @@ index 07f7b68..afe7e51 100644
 +    return amf_get_string(ioc, buffer, buffsize);
 +}
 +
- static int parse_keyframes_index(AVFormatContext *s, AVIOContext *ioc,
-                                  AVStream *vstream, int64_t max_pos)
++
+ static int parse_keyframes_index(AVFormatContext *s, AVIOContext *ioc, int64_t max_pos)
  {
+     FLVContext *flv       = s->priv_data;
+
 diff --git a/libavformat/flvtag.c b/libavformat/flvtag.c
 new file mode 100644
 index 0000000..a611ea0
