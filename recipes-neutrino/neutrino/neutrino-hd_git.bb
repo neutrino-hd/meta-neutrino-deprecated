@@ -5,7 +5,7 @@ SECTION = "libs"
 LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://${WORKDIR}/COPYING.GPL;md5=751419260aa954499f7abaabaa882bbe"
 
-inherit autotools pkgconfig update-rc.d
+inherit autotools pkgconfig
 
 DEPENDS += " \
 	curl \
@@ -56,10 +56,6 @@ SRC_URI = "git://github.com/tuxbox-neutrino/gui-neutrino.git;protocol=http;branc
 
 S = "${WORKDIR}/git"
 
-INITSCRIPT_PACKAGES   = "${PN}"
-INITSCRIPT_NAME_${PN} = "neutrino"
-INITSCRIPT_PARAMS_${PN} = "start 99 5 . stop 20 0 1 2 3 4 6 ."
-
 include neutrino-hd.inc
 
 do_configure_prepend() {
@@ -78,7 +74,6 @@ do_compile () {
 
 
 do_install_prepend () {
-# change number to force rebuild "3"
 	install -d ${D}/${sysconfdir}/init.d ${D}${sysconfdir}/network
 	install -m 755 ${WORKDIR}/neutrino.init ${D}${sysconfdir}/init.d/neutrino
 	install -m 755 ${WORKDIR}/custom-poweroff.init ${D}${sysconfdir}/init.d/custom-poweroff
@@ -100,6 +95,9 @@ do_install_prepend () {
 		echo "${IMAGE_LOCATION} ${RELEASE_STATE}${DISTRO_VERSION_NUMBER_MAJOR}${DISTRO_VERSION_NUMBER_MINOR}"0"`date +%Y%m%d%H%M` MD5 ${HASH} ${DISTRO_VERSION}" > ${RELEASE_TEXT_LOCATION_HOST}
 	fi
 	update-rc.d -r ${D} custom-poweroff start 89 0 .
+	update-rc.d -r ${D} neutrino start 99 5 . stop 20 0 1 2 3 4 6 .
+
+
 }
 
 do_install_append() {
