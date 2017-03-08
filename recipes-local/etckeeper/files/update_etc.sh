@@ -11,19 +11,26 @@ if [ -e $GIT_EXIST ];then
 		git config --system http.sslverify false
 	fi
         if [ "$(cd $GIT__URL && git log -1 --pretty=format:"%cd")" == "$(cd /etc && git log -1 --pretty=format:"%cd")" ];then
-                exit
+                break
+        else
+		systemctl stop neutrino.service
+                dt -t"writing back /etc remote"
+                cd /etc && etckeeper init
+                git remote add origin $GIT__URL
+                git fetch -a
+                git reset --hard origin/master
+                rm /etc/ssh/ssh_host*
+                dt -t"...done"
+                sync
+                sleep 2
+                dt -t"rebooting"
+                systemctl reboot
         fi
-	dt -t"writing back /etc remote"
-	cd /etc && etckeeper init
-	git remote add origin $GIT__URL
-	git fetch -a
-	git reset --hard origin/master
-	rm /etc/ssh/ssh_host*
-	dt -t"...done"
-	sync
-	sleep 2
-	dt -t"rebooting"
-	systemctl reboot
+else
+        dt -t"no remote found"
 fi
+
+
+
 
 

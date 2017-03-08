@@ -1,6 +1,7 @@
 [Unit]
 Description=create etc git remote for etckeeper
-After=update-kernel.service
+Requires=neutrino.service
+After=neutrino.service
 
 [Service]
 Type=oneshot
@@ -8,4 +9,4 @@ RemainAfterExit=true
 ExecStart=/bin/sh /etc/etckeeper/create_etc.sh
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=basic.target

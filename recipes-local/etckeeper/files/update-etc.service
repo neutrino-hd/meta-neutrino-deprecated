@@ -1,11 +1,10 @@
 [Unit]
 Description=write back etckeeper remote
-After=create-etc.service
+After=update-kernel.service
 
 [Service]
-Type=oneshot
-RemainAfterExit=true
+Type=idle
 ExecStart=/bin/sh /etc/etckeeper/update_etc.sh
  
 [Install]
-WantedBy=multi-user.target
+WantedBy=basic.target
