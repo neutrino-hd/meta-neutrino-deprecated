@@ -12,7 +12,7 @@ PV = "${SRCPV}"
 
 S = "${WORKDIR}/git/plugins/mtv"
 
-SRC_URI = "git://github.com/coolstreamtech/cst-public-plugins-scripts-lua.git \
+SRC_URI = "git://github.com/tuxbox-neutrino/plugin-scripts-lua.git \
 "
 
 do_install () {
