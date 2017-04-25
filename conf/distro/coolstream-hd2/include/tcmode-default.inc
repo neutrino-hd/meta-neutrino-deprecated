@@ -24,11 +24,11 @@ PREFERRED_PROVIDER_virtual/gettext ??= "gettext"
 
 GCCVERSION ?= "6.3%"
 SDKGCCVERSION ?= "${GCCVERSION}"
-BINUVERSION ?= "2.27%"
-GDBVERSION ?= "7.1%"
+BINUVERSION ?= "2.28%"
+GDBVERSION ?= "7.12%"
 GLIBCVERSION ?= "2.25"
 UCLIBCVERSION ?= "1.0%"
-LINUXLIBCVERSION ?= "4.8%"
+LINUXLIBCVERSION ?= "4.10%"
 
 PREFERRED_VERSION_gcc ?= "${GCCVERSION}"
 PREFERRED_VERSION_gcc-cross-${TARGET_ARCH} ?= "${GCCVERSION}"
@@ -71,5 +71,5 @@ PREFERRED_VERSION_uclibc-initial           ?= "${UCLIBCVERSION}"
 PREFERRED_VERSION_gzip-native ?= "1.8"
 
 # Setup suitable toolchain flags
-#require conf/distro/coolstream-hd2/include/as-needed.inc
+#require conf/distro/include/as-needed.inc
 

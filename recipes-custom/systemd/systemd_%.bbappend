@@ -10,6 +10,8 @@ SRC_URI_append += "file://00-create-volatile.conf \
 SRC_URI_append_libc-uclibc += "file://0001-build_fix.patch \
 "
 
+DEPENDS_append += "gettext-native"
+
 PACKAGECONFIG_append += ""
 PACKAGECONFIG_remove_libc-uclibc = " resolved hibernate localed "
  
