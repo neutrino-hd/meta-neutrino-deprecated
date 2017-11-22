@@ -1,26 +1,23 @@
-From ecbc6bb9f130b22fa6ddd7d5061e1f4fd874860f Mon Sep 17 00:00:00 2001
-From: MarkusVolk <f_l_k@t-online.de>
-Date: Sat, 12 Dec 2015 16:47:08 +0100
-Subject: [PATCH 79/79] Makefile: add dummy clean target
+From ef130c8884e85573523129f2d9eb2bf65e1b02ab Mon Sep 17 00:00:00 2001
+From: Markus Volk <f_l_k@t-online.de>
+Date: Sat, 28 Oct 2017 07:39:13 +0200
+Subject: [PATCH] Makefile: add clean target
 
-Signed-off-by: MarkusVolk <f_l_k@t-online.de>
+Signed-off-by: Markus Volk <f_l_k@t-online.de>
 ---
- Makefile | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ Makefile | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/Makefile b/Makefile
-index 802f0ea..7806652 100644
+index 9897810..35bf169 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -7,4 +7,6 @@ sort-locale:
+@@ -7,3 +7,5 @@ sort-locale:
  	for language in $(locale); do \
  		LC_ALL=C sort -u -o $${language} $${language} ; \
  	done
--	
-\ No newline at end of file
-+	
++
 +clean :
-+	# nothing to do, but yocto expects a "make clean" target, because a Makefile exists
 -- 
-2.1.4
+2.13.3
 

@@ -18,7 +18,7 @@ DEPENDS += " \
 	libdvbsi++ \
 	jpeg \
 	libsigc++ \
-	lua5.2 \
+	lua \
 	luaposix \
 	openthreads \
 	pugixml \
@@ -40,15 +40,11 @@ SRC_URI = "git://github.com/tuxbox-neutrino/gui-neutrino.git;protocol=http;branc
 	   file://post-wlan0.sh \
 	   file://mount.mdev \
 	   file://COPYING.GPL \
-	   file://0007-imageinfo.cpp-change-version-output.patch \
 	   file://0008-rcsim.c-fix-eventdev-for-yocto.patch \
 	   file://0009-src-nhttpd-tuxboxapi-controlapi.cpp-fix-eventdev-for.patch \
 	   file://0010-nhttpd-adjust-some-paths.patch \
-	   file://0012-import-proper-working-format-device-function.patch \
-	   file://0013-disable-network_services-menu.patch \
 	   file://0016-dont-install-undotum.ttf-to-shrink-size.patch \
-	   file://opkg/0001-opkg_manager-remove-reboot-and-restart-trigger-files.patch \
-	   file://opkg/0003-opkg-0.3.x-uses-opkg-instead-of-opkg-cl-as-binary-na.patch \
+	   file://workaround_hdd_format.patch \
 	   file://icons.tar.gz \
 	   file://var.tar.gz \
 	   ${@'' if IMAGETYPE != 'tiny' else 'file://0004-dont-install-unmaintained-locale.patch'} \

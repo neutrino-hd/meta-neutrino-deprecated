@@ -2,7 +2,7 @@ DESCRIPTION = "luaposix is a POSIX binding, including curses, for Lua 5.1 and 5.
 LICENSE = "MIT"
 HOMEPAGE = "https://github.com/luaposix/luaposix"
 
-DEPENDS += "lua5.2-native lua5.2 ncurses"
+DEPENDS += "lua-native lua ncurses"
 
 SRC_URI = "https://github.com/luaposix/luaposix/archive/release-v${PV}.tar.gz"
 S = "${WORKDIR}/luaposix-release-v${PV}"

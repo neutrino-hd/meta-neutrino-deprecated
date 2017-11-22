@@ -1,0 +1,26 @@
+From 6bc41982d174d334c318fa40f5c853b945fca1ae Mon Sep 17 00:00:00 2001
+From: Markus Volk <f_l_k@t-online.de>
+Date: Sat, 11 Nov 2017 06:13:55 +0000
+Subject: [PATCH] hdd_menu.cpp:workaround_mounted_media_before_mkfs
+
+Signed-off-by: Markus Volk <f_l_k@t-online.de>
+---
+ src/gui/hdd_menu.cpp | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/src/gui/hdd_menu.cpp b/src/gui/hdd_menu.cpp
+index eb0ebc590..9e6e62661 100644
+--- a/src/gui/hdd_menu.cpp
++++ b/src/gui/hdd_menu.cpp
+@@ -1092,6 +1092,8 @@ int CHDDMenuHandler::formatDevice(std::string dev)
+ #endif
+ 
+ 	progress->showStatusMessageUTF(mkfscmd.c_str());
++	res = umount_all(dev);
++	printf("CHDDMenuHandler::formatDevice: umount res %d\n", res);
+ 	f = popen(mkfscmd.c_str(), "r");
+ 	if (!f) {
+ 		showError(LOCALE_HDD_FORMAT_FAILED);
+-- 
+2.13.3
+

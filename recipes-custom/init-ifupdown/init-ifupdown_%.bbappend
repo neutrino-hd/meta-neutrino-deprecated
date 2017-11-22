@@ -1,3 +1,8 @@
+FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+
+SRC_URI_append += "file://interfaces"
+
+
 pkg_prerm_${PN} () {
 #!/bin/sh
 # do not stop networking on update or download of other packages will fail
@@ -17,3 +22,4 @@ fi
 exit
 # the original code would stop networking, which is a bad thing to do...
 }
+
