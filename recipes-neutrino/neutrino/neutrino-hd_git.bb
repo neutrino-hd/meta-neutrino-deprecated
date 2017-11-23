@@ -80,12 +80,10 @@ do_install_prepend () {
 	install -d ${D}${localstatedir}/tuxbox
 	install -d ${D}/lib/mdev/fs
 	install -m 755 ${WORKDIR}/mount.mdev ${D}/lib/mdev/fs/mount
-	echo "version=${RELEASE_STATE}${DISTRO_VERSION_NUMBER_MAJOR}${DISTRO_VERSION_NUMBER_MINOR}"0"`date +%Y%m%d%H%M`"    > ${D}/.version
-	echo "poky=Yocto Poky ${DISTRO_VERSION} ${DISTRO_VERSION_NUMBER}"	>> ${D}/.version
-	echo "release=${DISTRO_VERSION_NUMBER}" >> ${D}/.version 
 	echo "creator=${CREATOR}"             >> ${D}/.version 
-	echo "imagename=Neutrino-HD"             >> ${D}/.version 
-	echo "homepage=${HOMEPAGE}"              >> ${D}/.version 
+	echo "imagename=yocto ${DISTRO}"             >> ${D}/.version 
+	echo "homepage=${HOMEPAGE}"              >> ${D}/.version
+        echo "version=${DISTRO_VERSION_NUMBER}"   >> ${D}/.version
 	HASH=$(cd ${S} && echo `git rev-parse --abbrev-ref HEAD` `git describe --always --tags --dirty`)
 	if [ ! -z ${RELEASE_TEXT_LOCATION_HOST} ];then 
 		echo "${IMAGE_LOCATION} ${RELEASE_STATE}${DISTRO_VERSION_NUMBER_MAJOR}${DISTRO_VERSION_NUMBER_MINOR}"0"`date +%Y%m%d%H%M` MD5 ${HASH} ${DISTRO_VERSION}" > ${RELEASE_TEXT_LOCATION_HOST}

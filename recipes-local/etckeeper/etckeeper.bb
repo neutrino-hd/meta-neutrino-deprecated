@@ -10,6 +10,7 @@ SRC_URI = "git://git.joeyh.name/git/etckeeper.git/;branch=master;protocol=https 
 	   file://create_etc.sh \
 	   file://update_etc.sh \
 	   file://0001-use-systemwide-gitconfig-to-correct-commiter-name-an.patch \
+	   file://0001-etckeeper-edit-.gitignore.patch \
 "
 
 SRC_URI_append_coolstream-hd1 = "${@'' if DISTRO != 'coolstream-hd1_flash' else 'file://0004-Remove-all-remaining-usage-of-Perl.patch'}"
@@ -51,6 +52,7 @@ do_install_append () {
 	install -m 755 ${WORKDIR}/update_etc.sh ${D}${sysconfdir}/init.d/update_etc.sh
 	install -m 755 ${WORKDIR}/create_etc.sh ${D}${sysconfdir}/init.d/create_etc.sh
 	update-rc.d -r ${D} update_etc.sh start 08 5 .
+	rm -r ${D}/lib
 }
 
 FILES_${PN}_append += "/usr/share/bash-completion"
