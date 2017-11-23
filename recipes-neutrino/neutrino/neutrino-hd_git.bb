@@ -46,7 +46,7 @@ SRC_URI = "git://github.com/tuxbox-neutrino/gui-neutrino.git;protocol=http;branc
 	   file://0016-dont-install-undotum.ttf-to-shrink-size.patch \
 	   file://workaround_hdd_format.patch \
 	   file://icons.tar.gz \
-	   file://var.tar.gz \
+	   file://etc.tar.gz \
 	   ${@'' if IMAGETYPE != 'tiny' else 'file://0004-dont-install-unmaintained-locale.patch'} \
 "
 
@@ -100,9 +100,8 @@ do_install_append() {
 	install -d ${D}/share ${D}/${sysconfdir}/neutrino/bin ${D}/var/tuxbox/plugins/webtv
 	ln -s ${datadir}/tuxbox ${D}/share/
 	ln -s ${datadir}/fonts  ${D}/share/
-	install -m 644 ${WORKDIR}/icons/* ${D}/usr/share/tuxbox/neutrino/icons/
-	install -m 644 ${WORKDIR}/var/tuxbox/config/* ${D}/etc/neutrino/config/
-	install -m 644 ${WORKDIR}/var/tuxbox/plugins/webtv/* ${D}/var/tuxbox/plugins/webtv
+	cp -rf ${WORKDIR}/icons ${D}/usr/share/tuxbox/neutrino/
+	cp -rf ${WORKDIR}/etc ${D}/etc/neutrino/
 	if [ ! -z ${RELEASE_TEXT_LOCATION} ];then
 		echo "${RELEASE_TEXT_LOCATION}" > ${D}/etc/update.urls
 	fi

@@ -25,12 +25,17 @@ EXTRA_OECONF = " \
 	--enable-pugixml \
 	--enable-ffmpegdec \
 	--with-boxtype=coolstream \
-"
-
-EXTRA_OECONF += "--prefix=/ \
-		 --exec_prefix=/usr \
-		 --includedir=${exec_prefix}/include \
-		 --with-configdir=${sysconfdir}/neutrino/config \
+	--prefix=/usr \
+	--exec_prefix=/usr/bin \
+	--includedir=${prefix}/include \
+	--with-configdir=/etc/neutrino/config \
+	--with-plugindir=/etc/neutrino/plugins \
+	--with-webtvdir_var=/etc/neutrino/plugins/webtv \
+	--with-luaplugindir=/etc/neutrino/plugins \
+	--with-plugindir_var=/etc/neutrino/plugins \
+	--with-gamesdir=/etc/neutrino/plugins \
+	--with-webtvdir_var=/etc/neutrino/plugins/webtv \
+	--with-plugindir_var=/etc/neutrino/plugins \
 "
 
 EXTRA_OECONF_append_coolstream-hd1 = " \
