@@ -7,6 +7,9 @@ PR = "r3"
 
 SRC_URI = " \
            git://git.opendreambox.org/git/obi/libdvbsi++.git \
+           file://libdvbsi++-fix-unaligned-access-on-SuperH.patch \
+           file://libdvbsi++-src-time_date_section.cpp-fix-sectionLength-check.patch \
+	   file://libdvbsi++-content_identifier_descriptor.patch \
 "
 
 SRCREV = "${AUTOREV}"
