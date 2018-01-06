@@ -47,7 +47,6 @@ SRC_URI = "git://github.com/tuxbox-neutrino/gui-neutrino.git;protocol=http;branc
 	   file://workaround_hdd_format.patch \
 	   file://icons.tar.gz \
 	   file://etc.tar.gz \
-	   ${@'' if IMAGETYPE != 'tiny' else 'file://0004-dont-install-unmaintained-locale.patch'} \
 "
 
 S = "${WORKDIR}/git"
