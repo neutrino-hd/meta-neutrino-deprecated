@@ -3,21 +3,17 @@ DESCRIPTION = "OpenThreads is a cross platform, object orientated threading libr
 HOMEPAGE = "http://www.openscenegraph.org/"
 SECTION = "libs"
 LICENSE = "LGPL-2.1"
-LIC_FILES_CHKSUM = "file://COPYING.txt;md5=9226151d58bcdf987ed14e7dc8cedcbc \
+LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=2c38926f611bfbd5a3be0f817c8d2dad \
 "
 DEPENDS = ""
 
-SRCREV = "14828"
-PR = "r2"
+SRCREV = "${AUTOREV}"
 
-SRC_URI = "svn://svn.openscenegraph.org/osg/OpenThreads;protocol=http;module=trunk \
-           file://002-omit-policy-cmp0014.patch;pnum=0 \
+SRC_URI = "git://bitbucket.org/neutrino-images/ni-openthreads/src;protocol=https \
 "
 
-S = "${WORKDIR}/trunk"
+S = "${WORKDIR}/git"
 
-SRC_URI[md5sum] = "b9b88fc47d5452a18edcfd8463c0e94e"
-SRC_URI[sha256sum] = "33ee0d1962769875ce18ca2a9aac40dc5cf6b6d2d83688cc00429c7ff1dbf22c"
 
 
 inherit cmake 
