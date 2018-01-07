@@ -22,7 +22,6 @@ RDEPENDS_packagegroup-custom-dev-utils = "\
     make \
     patch \
     strace \
-    valgrind \
     vim \
     "
 
