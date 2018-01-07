@@ -6,7 +6,8 @@ LICENSE = "BSD-3-Clause"
 
 DEPENDS = "enca fontconfig freetype libpng fribidi"
 
-SRC_URI = "http://${PN}.googlecode.com/files/${P}.tar.xz"
+
+SRC_URI = "https://ftp.osuosl.org/pub/blfs/conglomeration/${PN}/${P}.tar.xz"
 
 inherit autotools pkgconfig
 
