@@ -13,7 +13,9 @@ SRC_URI[sha256sum] = "583d0e1c573ace30a9c6afbea0fc52cae9c8c916dbc15c026e485a0dda
 
 INITSCRIPT_NAME = "ntpd"
 
-EXTRA_OECONF += " --with-net-snmp-config=no --without-ntpsnmpd --with-yielding-select=yes"
+EXTRA_OECONF += "   --with-net-snmp-config=no --without-ntpsnmpd --with-yielding-select=yes \
+                    --with-openssl-libdir=${STAGING_LIBDIR} \
+                    --with-openssl-incdir=${STAGING_INCDIR}/openssl"
 
 CONFFILES_${PN} = "${sysconfdir}/ntp.conf"
 
