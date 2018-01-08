@@ -1,0 +1,13 @@
+[Unit]
+Description=ifup network start
+
+[Service]
+Type=oneshot
+ExecStartPre=/bin/udevadm trigger --type=devices
+ExecStart=-/etc/network/pre-wlan0.sh
+ExecStartPost=/sbin/ifup -a
+
+[Install]
+WantedBy=multi-user.target
+
+
