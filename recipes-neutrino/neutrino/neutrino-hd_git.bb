@@ -56,7 +56,7 @@ include neutrino-hd.inc
 do_configure_prepend() {
 	INSTALL="`which install` -p"
 	export INSTALL
-	ln -sf ${WORKDIR}/build/src/gui/version.h ${S}/src/gui/
+	ln -sf ${B}/src/gui/version.h ${S}/src/gui/
 	sed -i "s|XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX|${YT_DEV_KEY}|" ${S}/src/neutrino.cpp
 	sed -i "s|XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX|${TMDB_DEV_KEY}|" ${S}/src/neutrino.cpp
 	sed -i "s|XXXXXXXXXXXXXXXX|${SHOUTCAST_DEV_KEY}|" ${S}/src/neutrino.cpp
