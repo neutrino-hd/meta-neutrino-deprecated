@@ -39,7 +39,7 @@ ARM_INSTRUCTION_SET = "arm"
 
 PROVIDES = "libav libpostproc"
 
-DEPENDS = "alsa-lib zlib libogg yasm-native"
+DEPENDS = "alsa-lib zlib libogg yasm-native libroxml"
 
 inherit autotools pkgconfig
 
