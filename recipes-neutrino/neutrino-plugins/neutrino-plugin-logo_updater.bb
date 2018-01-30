@@ -10,6 +10,8 @@ SRCREV = "${AUTOREV}"
 
 PR = "r1"
 
+RDEPENDS_${PN} = "curl"
+
 SRC_URI = "git://bitbucket.org/neutrino-images/ni-logo-stuff;protocol=https \
 	   file://license \
 "
