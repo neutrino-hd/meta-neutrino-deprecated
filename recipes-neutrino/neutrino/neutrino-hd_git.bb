@@ -18,6 +18,7 @@ DEPENDS += " \
 	libdvbsi++ \
 	jpeg \
 	libsigc++ \
+	libroxml \
 	lua \
 	luaposix \
 	openthreads \
@@ -41,9 +42,7 @@ SRC_URI = "git://github.com/tuxbox-neutrino/gui-neutrino.git;protocol=http;branc
 	   file://mount.mdev \
 	   file://COPYING.GPL \
 	   file://0008-rcsim.c-fix-eventdev-for-yocto.patch \
-	   file://0009-src-nhttpd-tuxboxapi-controlapi.cpp-fix-eventdev-for.patch \
 	   file://0010-nhttpd-adjust-some-paths.patch \
-	   file://0016-dont-install-undotum.ttf-to-shrink-size.patch \
 	   file://workaround_hdd_format.patch \
 	   file://icons.tar.gz \
 	   file://etc.tar.gz \
