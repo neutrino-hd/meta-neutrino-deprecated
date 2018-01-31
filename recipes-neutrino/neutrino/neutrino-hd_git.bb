@@ -81,7 +81,7 @@ do_install_prepend () {
 	echo "creator=${CREATOR}"             >> ${D}/.version 
 	echo "imagename=yocto ${DISTRO}"             >> ${D}/.version 
 	echo "homepage=${HOMEPAGE}"              >> ${D}/.version
-        echo "version=${DISTRO_VERSION_NUMBER}"   >> ${D}/.version
+        echo "version=${RELEASE_STATE}${DISTRO_VERSION_NUMBER_MAJOR}${DISTRO_VERSION_NUMBER_MINOR}"0"`date +%Y%m%d%H%M`" >> ${D}/.version
 	HASH=$(cd ${S} && echo `git rev-parse --abbrev-ref HEAD` `git describe --always --tags --dirty`)
 	if [ ! -z ${RELEASE_TEXT_LOCATION_HOST} ];then 
 		echo "${IMAGE_LOCATION} ${RELEASE_STATE}${DISTRO_VERSION_NUMBER_MAJOR}${DISTRO_VERSION_NUMBER_MINOR}"0"`date +%Y%m%d%H%M` MD5 ${HASH} ${DISTRO_VERSION}" > ${RELEASE_TEXT_LOCATION_HOST}
