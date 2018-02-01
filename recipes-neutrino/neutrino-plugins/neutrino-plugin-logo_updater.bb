@@ -2,7 +2,7 @@ DESCRIPTION = "ng Logoupdater"
 LICENSE = "proprietary"
 MAINTAINER = "Fred Feuerstein"
 LIC_FILES_CHKSUM = "file://${WORKDIR}/license;md5=17a6b3d5436a55985b200c725761907a"
-HOMEPAGE = "http://www.ng-return.com/wbb2/index.php?page=Thread&postID=334856#post334856"
+HOMEPAGE = "http://www.neutrino-images.de/board/viewtopic.php?f=40&t=897"
 
 S = "${WORKDIR}/git/logo-addon"
 
