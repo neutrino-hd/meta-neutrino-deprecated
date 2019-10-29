@@ -1,14 +1,25 @@
 DESCRIPTION = "tuxbox plugins, ported to neutrino-hd"
-LICENSE = "GPLv2+"
-LIC_FILES_CHKSUM = "file://tuxcom/tuxcom.c;beginline=10;endline=24;md5=f08c0a8fadd6ea7b914992e4bd4b7685"
+LICENSE = "GPL-2.0"
+LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
 
 
 DEPENDS = "freetype ffmpeg zlib libxml2 virtual/libiconv openssl libpng curl giflib libjpeg-turbo"
 
-SRCREV = "${AUTOREV}"
+SRCREV_autotools = "${AUTOREV}"
+SRCREV_tuxcom = "${AUTOREV}"
+SRCREV_msgbox = "${AUTOREV}"
+SRCREV_input = "${AUTOREV}"
+SRCREV_tuxwetter = "${AUTOREV}"
+SRCREV_shellexec = "${AUTOREV}"
+SRCREV_FORMAT = "autotools"
 PV = "8"
 
-SRC_URI = "git://github.com/neutrino-hd/neutrino-hd-plugins.git;branch=master;protocol=https \
+SRC_URI = "git://github.com/neutrino-hd/neutrino-hd-plugins.git;branch=master;protocol=https;name=autotools \
+	   git://github.com/tuxbox-neutrino/plugin-tuxcom.git;destsuffix=git/tuxcom;branch=master;name=tuxcom \
+	   git://github.com/tuxbox-neutrino/plugin-msgbox.git;destsuffix=git/msgbox;branch=master;name=msgbox \
+	   git://github.com/tuxbox-neutrino/plugin-input.git;destsuffix=git/input;branch=master;name=input \
+	   git://github.com/tuxbox-neutrino/plugin-shellexec.git;destsuffix=git/shellexec;branch=master;name=shellexec \
+	   git://github.com/tuxbox-neutrino/plugin-tuxwetter.git;destsuffix=git/tuxwetter;branch=master;name=tuxwetter \
 "
 
 S = "${WORKDIR}/git"
@@ -21,7 +32,7 @@ inherit autotools pkgconfig
 EXTRA_OECONF += " \
 	--enable-maintainer-mode \
 	--with-target=native \
-	--with-plugindir=/etc/neutrino/plugins \
+	--with-plugindir=/usr/share/tuxbox/neutrino/plugins \
 	--with-boxtype=armbox \
 "
 
@@ -43,10 +54,15 @@ do_install () {
 }			
 
 do_install_append() {
-	rm -f ${D}/etc/neutrino/plugins/*.la
+	rm -f ${D}/usr/share/tuxbox/neutrino/plugins/*.la
 }
 
-FILES_${PN}-dbg += "/etc/neutrino/plugins/.debug"
+FILES_${PN} = "/usr \
+	       /etc \
+"
+
+FILES_${PN}-dbg += "/usr/share/tuxbox/neutrino/plugins/.debug"
 
 SRC_URI[md5sum] = "f04cf2dddc22af9f12685f4d4dda0067"
 SRC_URI[sha256sum] = "f3ad02f2e43afca3da474bfeccd70808ca9651858893eff0b90891067284b0b8"
+
