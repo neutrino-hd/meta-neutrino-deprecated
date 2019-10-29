@@ -41,9 +41,6 @@ SRC_URI = "git://github.com/tuxbox-neutrino/gui-neutrino.git;protocol=http;branc
 	   file://post-wlan0.sh \
 	   file://mount.mdev \
 	   file://COPYING.GPL \
-	   file://0008-rcsim.c-fix-eventdev-for-yocto.patch \
-	   file://0010-nhttpd-adjust-some-paths.patch \
-	   file://workaround_hdd_format.patch \
 	   file://icons.tar.gz \
 	   file://etc.tar.gz \
 "
@@ -56,9 +53,6 @@ do_configure_prepend() {
 	INSTALL="`which install` -p"
 	export INSTALL
 	ln -sf ${B}/src/gui/version.h ${S}/src/gui/
-	sed -i "s|XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX|${YT_DEV_KEY}|" ${S}/src/neutrino.cpp
-	sed -i "s|XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX|${TMDB_DEV_KEY}|" ${S}/src/neutrino.cpp
-	sed -i "s|XXXXXXXXXXXXXXXX|${SHOUTCAST_DEV_KEY}|" ${S}/src/neutrino.cpp
 }
 
 do_compile () {
