@@ -9,7 +9,7 @@ DEPENDS = ""
 
 SRCREV = "${AUTOREV}"
 
-SRC_URI = "git://bitbucket.org/neutrino-images/ni-openthreads/src;protocol=https \
+SRC_URI = "git://github.com/neutrino-images/ni-openthreads.git;protocol=https \
 "
 
 S = "${WORKDIR}/git"
