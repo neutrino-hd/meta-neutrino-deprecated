@@ -7,9 +7,9 @@ S = "${WORKDIR}/git/logos"
 
 SRCREV = "${AUTOREV}"
 
-PR = "r3"
+PR = "r4"
 
-SRC_URI = "git://bitbucket.org/neutrino-images/ni-logo-stuff;protocol=https \
+SRC_URI = "git://github.com/neutrino-images/ni-logo-stuff.git;protocol=https \
 	   file://license \
 "
 do_install() {
