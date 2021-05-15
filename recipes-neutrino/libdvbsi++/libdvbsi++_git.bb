@@ -3,16 +3,14 @@ AUTHOR = "Andreas Oberritter"
 SECTION = "libs/multimedia"
 LICENSE = "LGPLv2.1"
 LIC_FILES_CHKSUM = "file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343"
-PR = "r3"
+
+PR = "r4"
+PV = "0.3.9-${SRCPV}"
+SRCREV = "${AUTOREV}"
 
 SRC_URI = " \
-           git://git.opendreambox.org/git/obi/libdvbsi++.git \
-           file://libdvbsi++-fix-unaligned-access-on-SuperH.patch \
-           file://libdvbsi++-src-time_date_section.cpp-fix-sectionLength-check.patch \
-	   file://libdvbsi++-content_identifier_descriptor.patch \
+	git://git.code.sf.net/p/tuxbox-cvs/libdvbsi++;protocol=https \
 "
-
-SRCREV = "${AUTOREV}"
 
 S = "${WORKDIR}/git"
 
