@@ -11,7 +11,7 @@ SRC_URI = "\
 	file://0002-ui_restart-fix-xupnpd-install-path.patch \
 	file://xupnpd.init \
 	file://xupnpd-dont-bind-daemon-to-specific-ip-address.patch \
-	file://xupnpd_cst.diff \
+	file://0001-src-xupnpd.lua-changes-for-usage-with-coolstream.patch \
 	file://xupnpd-fix-memleak-on-coolstream-boxes.patch \
 "
 

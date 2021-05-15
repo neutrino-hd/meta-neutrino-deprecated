@@ -1,7 +1,19 @@
---- a/xupnpd.lua	2015-07-26 16:45:06.823006000 +0200
-+++ b/xupnpd.lua	2015-07-26 16:51:06.897652086 +0200
-@@ -1,13 +1,13 @@
- cfg={}
+From 218681054380d66c65a1cd1152ad1977d8fde22c Mon Sep 17 00:00:00 2001
+From: Thilo Graf <dbt@novatux.de>
+Date: Sat, 15 May 2021 19:53:25 +0200
+Subject: [PATCH] xupnpd.lua: changes for usage with coolstream
+
+origin patch was : xupnpd_cst.diff
+---
+ xupnpd.lua | 26 ++++++++++++++++----------
+ 1 file changed, 16 insertions(+), 10 deletions(-)
+
+diff --git a/xupnpd.lua b/xupnpd.lua
+index 848d323..c683efc 100644
+--- a/xupnpd.lua
++++ b/xupnpd.lua
+@@ -5,13 +5,13 @@ cfg.ui_auth_file='auth.txt'
+ cfg.ui_session_file='/tmp/xupnpd.session'
  
  -- multicast interface for SSDP exchange, 'eth0', 'br0', 'br-lan' for example
 -cfg.ssdp_interface='lo'
@@ -16,7 +28,7 @@
  
  -- SSDP announcement age
  cfg.ssdp_max_age=1800
-@@ -19,10 +19,10 @@
+@@ -23,10 +23,10 @@ cfg.http_port=4044
  cfg.log_facility='local0'
  
  -- 'cfg.daemon' detach server from terminal
@@ -29,7 +41,7 @@
  
  -- 'cfg.debug' enables SSDP debug output to stdout (if cfg.daemon=false)
  -- 0-off, 1-basic, 2-messages
-@@ -32,7 +32,7 @@
+@@ -36,7 +36,7 @@ cfg.debug=1
  --cfg.udpxy_url='http://192.168.1.1:4022'
  
  -- downstream interface for builtin multicast proxy (comment 'cfg.udpxy_url' for processing 'udp://@...' playlists)
@@ -38,7 +50,7 @@
  
  -- 'cfg.proxy' enables proxy for injection DLNA headers to stream
  -- 0-off, 1-radio, 2-radio/TV
-@@ -51,16 +51,17 @@
+@@ -55,16 +55,17 @@ cfg.dlna_notify=true
  cfg.dlna_subscribe_ttl=1800
  
  -- group by 'group-title'
@@ -59,7 +71,7 @@
  
  -- max url cache size
  cfg.cache_size=8
-@@ -72,12 +73,14 @@
+@@ -76,7 +77,7 @@ cfg.cache_ttl=900
  cfg.default_mime_type='mpeg'
  
  -- feeds update interval (seconds, 0 - disabled)
@@ -67,6 +79,8 @@
 +cfg.feeds_update_interval=3600
  cfg.playlists_update_interval=0
  
+ -- host for UI playlist download
+@@ -85,6 +86,8 @@ cfg.playlists_update_interval=0
  -- playlist (m3u file path or path with alias
  playlist=
  {
@@ -75,22 +89,7 @@
  --    { './playlists/mozhay.m3u', 'Mozhay.tv' },
  --    { './localmedia', 'Local Media Files' }
  --    { './private', 'Private Media Files', '127.0.0.1;192.168.1.1' }  -- only for 127.0.0.1 and 192.168.1.1
-@@ -86,10 +89,10 @@
- -- feeds list (plugin, feed name, feed type)
- feeds=
- {
--    { 'vimeo',          'channel/hd',           'Vimeo HD Channel' },
--    { 'vimeo',          'channel/hdxs',         'Vimeo Xtreme sports' },
--    { 'vimeo',          'channel/mtb',          'Vimeo MTB Channel' },
--    { 'youtube',        'channel/top_rated',    'YouTube Top Rated' },
-+--    { 'vimeo',          'channel/hd',           'Vimeo HD Channel' },
-+--    { 'vimeo',          'channel/hdxs',         'Vimeo Xtreme sports' },
-+--    { 'vimeo',          'channel/mtb',          'Vimeo MTB Channel' },
-+--    { 'youtube',        'channel/top_rated',    'YouTube Top Rated' },
- --    { 'youtube',        'Drift0r',              'Drift0r' },
- --    { 'youtube',        'XboxAhoy',             'XboxAhoy' },
- --    { 'ag',             'videos',               'AG - New' },
-@@ -97,6 +100,9 @@
+@@ -104,6 +107,9 @@ feeds=
  --    { 'gametrailers',   'ps3',                   'GT - PS3' },
  --    { 'giantbomb',      'all',                  'GiantBomb - All' },
  --    { 'dreambox',       'http://192.168.0.1:8001/','Dreambox1' },
@@ -100,12 +99,15 @@
  }
  
  -- log ident, pid file end www root
-@@ -108,7 +114,7 @@
+@@ -115,7 +121,7 @@ cfg.tmp_path='/tmp/'
  cfg.plugin_path='./plugins/'
  cfg.config_path='./config/'
  cfg.playlists_path='./playlists/'
 ---cfg.feeds_path='/tmp/xupnpd-feeds/'
-+cfg.feeds_path='/tmp/xupnpd-feeds/'
+++cfg.feeds_path='/tmp/xupnpd-feeds/'
  cfg.ui_path='./ui/'
  cfg.drive=''                    -- reload playlists only if drive state=active/idle, example: cfg.drive='/dev/sda'
  cfg.profiles='./profiles/'      -- device profiles feature
+-- 
+2.20.1
+
